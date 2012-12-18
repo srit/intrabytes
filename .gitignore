@@ -6,3 +6,7 @@ CHANGELOG.md
 CONTRIBUTING.md
 README.md
 TESTING.md
+fuel/app/config/development/*
+fuel/app/cache/*
+fuel/app/logs/*
+fuel/app/tmp/*
