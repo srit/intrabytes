@@ -1,0 +1,136 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+    font: 12px Helvetica, arial, freesans, clean, sans-serif;
+    line-height: 21px;
+    color: #333333;
+    background-color: #ffffff;
+    margin: 50px;
+}
+
+
+
+body > .navbar {
+    font-size: 12px;
+    color: #333;
+}
+
+.show-grid [class*="span"] {
+    background-color: #EEE;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    min-height: 40px;
+    line-height: 40px;
+
+}
+
+.show-grid {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+select, textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+    display: inline-block;
+    height: 20px;
+    padding: 4px 6px;
+    margin-bottom: 9px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #555;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-warning, .btn-warning:hover, .btn-danger, .btn-danger:hover, .btn-success, .btn-success:hover, .btn-info, .btn-info:hover, .btn-inverse, .btn-inverse:hover {
+    color: white;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.navbar-inverse .navbar-inner {
+    text-shadow: 0 1px 0 white;
+    background-color: #F3F3F3;
+    background-image: -moz-linear-gradient(#F9F9F9, #F3F3F3);
+    background-image: -webkit-linear-gradient(#F9F9F9, #F3F3F3);
+    background-image: linear-gradient(#F9F9F9, #F3F3F3);
+    background-repeat: repeat-x;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a {
+    color: #333;
+}
+
+.navbar-inverse .brand:hover,
+.navbar-inverse .nav > li > a:hover {
+    color: #4183C4;
+}
+
+.navbar-inverse .nav .active > a,
+.navbar-inverse .nav .active > a:hover,
+.navbar-inverse .nav .active > a:focus {
+    color: #4183C4;
+    background-color: #FFFFFF;
+}
+
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle,
+.navbar-inverse .nav li.dropdown.active > .dropdown-toggle,
+.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle {
+    color: #4183C4;
+    background-color: #FFFFFF;
+}
+
+.navbar-inverse .nav li.dropdown > .dropdown-toggle .caret {
+    border-top-color: #333333;
+    border-bottom-color: #333333;
+}
+
+.navbar-inverse .nav li.dropdown.open > .dropdown-toggle .caret,
+.navbar-inverse .nav li.dropdown.active > .dropdown-toggle .caret,
+.navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle .caret {
+    border-top-color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    margin-top: -1px;
+}
+
+.dropdown-menu li > a:hover,
+.dropdown-menu li > a:focus,
+.dropdown-submenu:hover > a {
+    color: #333333;
+    text-decoration: none;
+    background-color: #E3E3E3;
+    background-image: none;
+    filter: none;
+}
+
+.dropdown-menu .active > a,
+.dropdown-menu .active > a:hover {
+    color: #333333;
+    text-decoration: none;
+    background-color: #E3E3E3;
+    background-image: none;
+    filter: none;
+}
