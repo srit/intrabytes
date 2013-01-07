@@ -17,7 +17,7 @@ return array(
 			'persistent' => false,
 		),
 		'identifier'   => '`',
-		'table_prefix' => 'iccrm_',
+		'table_prefix' => 'infoportal_',
 		'charset'      => 'utf8',
 		'enable_cache' => true,
 		'profiling'    => false

@@ -5,5 +5,5 @@
  */
 
 return array(
-    'name' => 'ICCRM'
+    'name' => 'UPMeier Infoportal'
 );

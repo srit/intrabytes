@@ -5,23 +5,25 @@
  */
 namespace Fuel\Migrations;
 
-class Createtables {
+class Createtables
+{
     public function up()
     {
         \DBUtil::create_table('users', array(
-                'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
-                'client_id' => array('constraint' => 11, 'type' => 'int'),
-                'username' => array('constraint' => 50, 'type' => 'varchar'),
-                'password' => array('constraint' => 255, 'type' => 'varchar'),
-                'group' => array('constraint' => 11, 'type' => 'int'),
-                'email' => array('constraint' => 255, 'type' => 'varchar'),
-                'last_login' => array('constraint' => 11, 'type' => 'int'),
-                'login_hash' => array('constraint' => 255, 'type' => 'varchar'),
-                'profile_fields' => array('type' => 'text'),
-                'created_at' => array('type' => 'datetime'),
-                'updated_at' => array('type' => 'datetime'),
+            'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),
+            'client_id' => array('constraint' => 11, 'type' => 'int'),
+            'username' => array('constraint' => 50, 'type' => 'varchar'),
+            'pepper' => array('constraint' => 32, 'type' => 'varchar'),
+            'password' => array('constraint' => 255, 'type' => 'varchar'),
+            'group' => array('constraint' => 11, 'type' => 'int'),
+            'email' => array('constraint' => 255, 'type' => 'varchar'),
+            'last_login' => array('constraint' => 11, 'type' => 'int'),
+            'login_hash' => array('constraint' => 255, 'type' => 'varchar'),
+            'profile_fields' => array('type' => 'text'),
+            'created_at' => array('type' => 'datetime'),
+            'updated_at' => array('type' => 'datetime'),
 
-            ), array('id', 'mandant_id'));
+        ), array('id', 'client_id'));
     }
 
     public function down()

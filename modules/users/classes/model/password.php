@@ -6,6 +6,8 @@
 
 namespace Users;
 
+class Model_PasswordExceptions extends \Fuel\Core\FuelException {}
+
 class Model_Password extends Model_User
 {
 
@@ -87,7 +89,7 @@ class Model_Password extends Model_User
         try {
             $new_password = \Auth::instance()->reset_password($user->username);
         } catch (\SimpleUserUpdateException $e) {
-            throw new \Model_PasswordExceptions(__('Beim aktuallisieren des Benutzers ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. :ex_message', array(':ex_message' => $e->getMessages())));
+            throw new Model_PasswordExceptions(__('Beim aktuallisieren des Benutzers ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. ' . $e->getMessage()));
         }
         static::send_new_password_mail($user, $new_password);
         \Core\Messages::success(__('Ihr neues Passwort, wurde an Ihre hinterlegte E-Mail-Adresse versendet.'));
@@ -116,10 +118,10 @@ STRING;
         try {
             $email->send();
         } catch (\EmailValidationFailedException $e) {
-            throw new \Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: :ex_message', array(':ex_message' => $e->getMessages())));
+            throw new Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: ' . $e->getMessage()));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new \Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: :ex_message', array(':ex_message' => $e->getMessages())));
+            throw new Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: ' . $e->getMessage()));
         }
     }
 
@@ -171,10 +173,10 @@ STRING;
         try {
             $mail->send();
         } catch (\EmailValidationFailedException $e) {
-            throw new \Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: :ex_message', array(':ex_message' => $e->getMessages())));
+            throw new Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: ' . $e->getMessage()));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new \Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: :ex_message', array(':ex_message' => $e->getMessages())));
+            throw new Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: ' . $e->getMessage()));
         }
     }
 

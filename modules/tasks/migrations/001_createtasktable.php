@@ -27,7 +27,7 @@ class Createtasktable {
             'client_id' => array('constraint' => 11, 'type' => 'int'),
             'created_at' => array('type' => 'datetime'),
             'updated_at' => array('type' => 'datetime'),
-        ), array('id', 'mandant_id'));
+        ), array('id', 'client_id'));
 
     }
 
