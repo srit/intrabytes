@@ -1,48 +1,17 @@
 <?php
 
 namespace Core;
-use \Core\Model;
+use \Srit\Model;
 
 
 class Model_Mandant extends Model
 {
     protected static $_properties = array(
         'id',
-        'name' => array(
-            'data_type' => 'varchar',
-            'label' => 'name',
-            'validation' => array(
-                'required',
-                'min_length' => array(2),
-                'max_length' => array(50)
-            ),
-            'form' => array('type' => 'text'),
-            'default' => 'Mandant name'
-        ),
-        'description' => array(
-            'data_type' => 'varchar',
-            'label' => 'description',
-            'validation' => array(
-                'max_length' => array(255)
-            ),
-            'form' => array(
-                'type' => 'text'
-            )
-        ),
-        'created_at' => array(
-            'data_type' => 'int',
-            'label' => 'created at',
-            'form' => array(
-                'type' => false, // this prevents this field from being rendered on a form
-            ),
-        ),
-        'updated_at' => array(
-            'data_type' => 'int',
-            'label' => 'updated at',
-            'form' => array(
-                'type' => false, // this prevents this field from being rendered on a form
-            ),
-        )
+        'name',
+        'description',
+        'created_at',
+        'updated_at'
     );
 
     protected static $_observers = array(

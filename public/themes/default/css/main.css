@@ -1,13 +1,13 @@
 body {
     position: relative;
     padding-top: 50px;
-    font: 12px Helvetica, arial, freesans, clean, sans-serif;
+    font: 11px Helvetica, arial, freesans, clean, sans-serif;
     line-height: 21px;
     color: #333333;
     background-color: #ffffff;
 }
 
-select, textarea,
+label, select, textarea,
 input[type="text"],
 input[type="password"],
 input[type="datetime"],
@@ -23,20 +23,85 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-    display: inline-block;
     height: 20px;
-    padding: 4px 6px;
-    margin-bottom: 9px;
-    font-size: 14px;
-    line-height: 20px;
-    color: #555;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    padding: 1px 6px;
+}
+
+label, select, textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input, .btn {
+    font-size: 11px;
+}
+
+.btn {
+    padding: 1px 12px;
+}
+
+.input-append .add-on {
+    padding-top: 1px;
+    padding-bottom: 1px;
+}
+
+.form-horizontal .control-group {
+    margin-bottom: 5px;
+}
+
+.form-search input, .form-inline input, .form-horizontal input, .form-search textarea, .form-inline textarea, .form-horizontal textarea, .form-search select, .form-inline select, .form-horizontal select, .form-search .help-inline, .form-inline .help-inline, .form-horizontal .help-inline, .form-search .uneditable-input, .form-inline .uneditable-input, .form-horizontal .uneditable-input, .form-search .input-prepend, .form-inline .input-prepend, .form-horizontal .input-prepend, .form-search .input-append, .form-inline .input-append, .form-horizontal .input-append {
+    margin-bottom: 5px;
 }
 
 .alert {
+    padding: 5px 35px 5px 10px;
+    margin-bottom: 10px;
+}
+
+.alert .close {
+    top: 0px;
+}
+
+.navbar .nav > li > a {
+    padding: 10px;
+}
+
+.dropdown-menu {
+    min-width: 100px;
+}
+
+legend {
+    margin-bottom: 0;
+}
+
+.show-grid [class*="span"] {
+    background-color: #eee;
+    text-align: center;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    min-height: 40px;
+    line-height: 40px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+body > .alert {
     width: 1170px;
     margin-right: auto;
     margin-left: auto;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    margin-top: -1px;
 }

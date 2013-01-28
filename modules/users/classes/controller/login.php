@@ -15,7 +15,7 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
         // already logged in?
         if (\Auth::check()) {
             \Core\Messages::error(__('Sie sind bereits eingeloggt'));
-            \Core\Messages::redirect(\Input::post('redirect_to', '/'));
+            \Core\Messages::redirect(\Input::post('redirect_to', \Uri::create(Config::get('routes._root_'))));
         }
 
         parent::before();

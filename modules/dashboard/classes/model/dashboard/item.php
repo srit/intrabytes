@@ -5,7 +5,7 @@
  */
 
 namespace Dashboard;
-use \Core\Model;
+use \Srit\Model;
 
 class Model_Dashboard_Item extends Model {
 
@@ -40,8 +40,6 @@ class Model_Dashboard_Item extends Model {
     public static function find_by_user($id)
     {
         $id = trim($id);
-        $properties = static::$_properties;
-        $p = array_combine($properties, $properties);
         $items = static::query()
             ->related('dashboard_items_user', array('order_by' => array('order')))
             ->related('dashboard_items_user.user', array('where' => array('id' => $id)))

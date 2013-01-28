@@ -17,7 +17,7 @@ return array(
 			'persistent' => false,
 		),
 		'identifier'   => '`',
-		'table_prefix' => 'infoportal_',
+		'table_prefix' => 'intrabytes_',
 		'charset'      => 'utf8',
 		'enable_cache' => true,
 		'profiling'    => false

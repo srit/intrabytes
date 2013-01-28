@@ -204,7 +204,9 @@ return array(
      *
      * Paths MUST end with a directory separator (the DS constant)!
      */
-    'package_paths' => array(),
+    'package_paths' => array(
+        PKGPATH
+    ),
 
 
     /**************************************************************************/
@@ -228,7 +230,7 @@ return array(
             'auth',
             'email',
             'parser',
-            'infoportal'
+            'srit'
         ),
 
         /**

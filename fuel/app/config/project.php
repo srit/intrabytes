@@ -5,5 +5,5 @@
  */
 
 return array(
-    'name' => 'UPMeier Infoportal'
+    'name' => 'IntrAbytes'
 );

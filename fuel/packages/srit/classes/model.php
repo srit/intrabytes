@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Core;
+namespace Srit;
 
 class Model extends \Orm\Model
 {
@@ -17,7 +17,6 @@ class Model extends \Orm\Model
 
     public static function add_relation(array $relation)
     {
-        \Fuel\Core\Debug::dump($relation);
         foreach ($relation as $type => $rel) {
             if (isset(static::$_{$type})) {
                 static::$_{$type} += $rel;

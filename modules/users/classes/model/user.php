@@ -1,7 +1,7 @@
 <?php
 
 namespace Users;
-use Core\Model;
+use \Srit\Model;
 
 class Model_User extends Model
 {

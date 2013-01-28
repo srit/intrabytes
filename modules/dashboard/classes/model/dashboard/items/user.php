@@ -5,7 +5,7 @@
  */
 
 namespace Dashboard;
-use \Core\Model;
+use \Srit\Model;
 
 class Model_Dashboard_Items_User extends Model
 {
