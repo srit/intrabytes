@@ -7,4 +7,5 @@ namespace Core;
  */
 class Controller_Base_Template_Blank extends \Core\Controller_Base_Template {
     public $template = 'templates/blank';
+
 }

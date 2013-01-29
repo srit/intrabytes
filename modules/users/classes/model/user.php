@@ -62,7 +62,7 @@ class Model_User extends Model
         return $user ? : false;
     }
 
-    public static function validate($factory)
+    /*public static function validate($factory)
     {
         $val = \Validation::forge($factory);
         $val->add_field('username', 'Username', 'required|max_length[50]');
@@ -74,7 +74,7 @@ class Model_User extends Model
         $val->add_field('profile_fields', 'Profile Fields', 'required');
 
         return $val;
-    }
+    }*/
 
     public function __toString()
     {

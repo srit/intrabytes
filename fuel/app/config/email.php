@@ -7,8 +7,8 @@ return array(
 
     'system' => array(
         'from'		=> array(
-            'email'		=> false,
-            'name'		=> false,
+            'email'		=> 'sr@alphabytes.de',
+            'name'		=> 'Stefan Riedel - alphaBytes',
         ),
     ),
 
@@ -56,8 +56,8 @@ return array(
          * Default sender details
          */
         'from'		=> array(
-            'email'		=> false,
-            'name'		=> false,
+            'email'		=> 'sr@alphabytes.de',
+            'name'		=> 'Stefan Riedel - alphaBytes',
         ),
 
         /**

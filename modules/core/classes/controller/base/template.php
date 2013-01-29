@@ -25,7 +25,7 @@ class Controller_Base_Template extends \Controller_Hybrid
          * CSRF Token ist falsch, POST Variablen löschen!
          */
         if(false != \Input::post('submit', false) && false == \Security::check_token()) {
-            Messages::error(__('Das Formular konnte leider nicht verarbeitet werden.'));
+            Messages::error(__('validation.form.invalid'));
             foreach($_POST as $key => $value) {
                 unset($_POST[$key]);
             }
@@ -52,6 +52,8 @@ class Controller_Base_Template extends \Controller_Hybrid
                 )
             );
         }
+
+        $this->_define_global_locales();
     }
 
     public function after($response) {
@@ -74,6 +76,19 @@ class Controller_Base_Template extends \Controller_Hybrid
         }
 
         return parent::after($response);
+    }
+
+
+
+    protected function _define_global_locales()
+    {
+        $module = $this->request->module;
+        $controller = $this->request->controller;
+        $action = $this->request->action;
+        $controller = strtolower(substr($controller, strlen($module . '/Controller_')));
+
+        $locale_key = $module . '.' . $controller . '.' . $action . '.title';
+        Theme::instance($this->template)->get_template()->set_global('title', __($locale_key));
     }
 
 }

@@ -11,15 +11,15 @@
     <?php echo \Form::input(
     'username',
     '',
-    array('class' => 'span4', 'placeholder' => __('Nutzername/E-Mail'))
+    array('class' => 'span4', 'placeholder' => __('forgetpassword.username.label'))
 ) ?>
 
 
 
     <?php echo \Form::button(
     'submit',
-    __('Senden'),
+    __('forgetpassword.send.label'),
     array('class' => 'btn btn-block btn-info', 'value' => 'submit')
 ) ?>
 </form>
-<?php echo \Html::anchor(\Uri::create('/users/login'), __('Zurück zum Login')) ?>
+<?php echo \Html::anchor(\Uri::create('/users/login'), __('forgetpassword.back_to_login.label')) ?>

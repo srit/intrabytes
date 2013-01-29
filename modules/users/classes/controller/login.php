@@ -14,7 +14,7 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
     {
         // already logged in?
         if (\Auth::check()) {
-            \Core\Messages::error(__('Sie sind bereits eingeloggt'));
+            \Core\Messages::error(__('messages.allreadyloggedin'));
             \Core\Messages::redirect(\Input::post('redirect_to', \Uri::create(Config::get('routes._root_'))));
         }
 
@@ -24,9 +24,6 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
 
     public function action_index()
     {
-
-        Theme::instance($this->template)->get_template()->set_global('title', __('User Login'));
-
 
         /**
          * @todo refaktorieren nach Model <-- Logik hat hier kaum was verloren.
@@ -39,15 +36,16 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
         if (\Input::post('submit', false)) {
             if (!$fieldset->validation()->run()) {
                 foreach ($fieldset->validation()->error() as $error) {
+
                     \Core\Messages::error($error);
                 }
             } else {
                 $auth = \Auth::instance();
                 if ($auth->login(\Input::param('username'), \Input::param('password'))) {
-                    \Core\Messages::success(__('Sie haben sich erfolgreich eingeloggt.'));
+                    \Core\Messages::success(__('messages.login.success'));
                     \Core\Messages::redirect(\Input::post('redirect_to', '/'));
                 } else {
-                    \Core\Messages::error(__('Nutzername und/oder Passwort falsch.'));
+                    \Core\Messages::error(__('messages.login.failed'));
                 }
             }
         }

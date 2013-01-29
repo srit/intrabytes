@@ -34,13 +34,13 @@ class Model_Client extends Model
             'cascade_delete' => true,
         ));
 
-    public static function validate($factory)
+    /*public static function validate($factory)
     {
         $val = \Validation::forge($factory);
         $val->add_field('name', 'Name', 'required|max_length[50]');
 
         return $val;
-    }
+    }*/
 
     public function __toString()
     {

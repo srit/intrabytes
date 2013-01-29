@@ -14,6 +14,14 @@ class Model extends \Orm\Model
     protected static $_has_one = array();
     protected static $_has_many = array();
 
+    /**
+     * @var \Fuel\Core\Fieldset
+     */
+    protected $_fieldset = null;
+
+    public static function find_all(array $options = array()) {
+        return static::find('all', $options);
+    }
 
     public static function add_relation(array $relation)
     {
@@ -26,6 +34,15 @@ class Model extends \Orm\Model
         if (array_key_exists($class, static::$_relations_cached)) {
             unset(static::$_relations_cached[$class]);
         }
+    }
+
+    public function validate() {
+        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        if($this->_fieldset->validation()->run() == false) {
+            foreach ($this->_fieldset->validation()->error() as $error) {
+                \Core\Messages::error($error);
+            }
+        };
     }
 
 }

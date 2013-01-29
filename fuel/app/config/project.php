@@ -5,5 +5,5 @@
  */
 
 return array(
-    'name' => 'IntrAbytes'
+    'name' => 'IntraBytes'
 );

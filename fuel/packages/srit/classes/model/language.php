@@ -11,9 +11,24 @@ class Model_Language extends Model
 {
     protected static $_properties = array(
         'id',
-        'locale',
-        'language',
-        'plain'
+        'locale' => array(
+            'validation' => array(
+                'required',
+                'min_length' => array(5)
+            )
+        ),
+        'language' => array(
+            'validation' => array(
+                'required',
+                'min_length' => array(2)
+            )
+        ),
+        'plain' => array(
+            'validation' => array(
+                'required',
+                'min_length' => array(3)
+            )
+        )
     );
 
     protected static $_has_many = array(

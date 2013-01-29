@@ -10,16 +10,16 @@
             <?php echo \Form::input(
         'username',
         '',
-        array('class' => 'span4', 'placeholder' => __('Nutzername/E-Mail'))
+        array('class' => 'span4', 'placeholder' => __('login.username.label'))
     ) ?>
 
         <?php echo \Form::password(
         'password',
         '',
-        array('class' => 'span4', 'placeholder' => __('Passwort'))
+        array('class' => 'span4', 'placeholder' => __('login.password.label'))
     ) ?>
-        <?php echo \Form::button('submit', __('Login'), array('class' => 'btn btn-info btn-block', 'value' => 'submit')) ?>
+        <?php echo \Form::button('submit', __('login.loginbutton.label'), array('class' => 'btn btn-info btn-block', 'value' => 'submit')) ?>
 
 
 </form>
-<?php echo \Html::anchor(\Uri::create('/users/password/forget'), __('Passwort vergessen')) ?>
+<?php echo \Html::anchor(\Uri::create('/users/password/forget'), __('login.forgetpassword.label')) ?>

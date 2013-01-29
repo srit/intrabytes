@@ -137,7 +137,7 @@ STRING;
             $user->username
         );
         static::send_prepare_new_password_mail($user, $hash);
-        \Core\Messages::success(__('Weitere Informationen wurden an Ihre hinterlegte E-Mail-Adresse gesendet.'));
+        \Core\Messages::success(__('messages.prepare_new_password.success'));
     }
 
     /**

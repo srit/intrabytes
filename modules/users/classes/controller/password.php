@@ -21,8 +21,6 @@ class Controller_Password extends \Core\Controller_Base_Template_Blank_Public
 
 
         }
-
-        Theme::instance($this->template)->get_template()->set_global('title', __('Passwort vergessen'));
         Theme::instance($this->template)->set_partial('content', 'users/password/forget');
     }
 
@@ -36,7 +34,6 @@ class Controller_Password extends \Core\Controller_Base_Template_Blank_Public
             \Core\Messages::error(__('Sie scheinen einen veralteten Link aufgerufen zu haben.'));
             $hash_true = false;
         }
-        Theme::instance($this->template)->get_template()->set_global('title', __('Bitte vergeben Sie ein neues Passwort'));
 
         if (\Input::post('submit', false)) {
             $validate_new_password = Model_Password::validate_new_password();

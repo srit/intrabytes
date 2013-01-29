@@ -30,8 +30,6 @@ class Controller_Board extends \Core\Controller_Base_User {
             }
         }
 
-
-        Theme::instance($this->template)->get_template()->set_global('title', __('Dashboard'));
         Theme::instance($this->template)->set_partial('content', 'dashboard/board/index')->set('dashboard_items', $data, false);
     }
 }
