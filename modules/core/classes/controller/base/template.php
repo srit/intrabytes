@@ -6,6 +6,8 @@ class Controller_Base_Template extends \Controller_Hybrid
 {
     public $template = 'templates/layout';
 
+    protected $_locale_prefix = null;
+
     /**
      * @var \Theme
      */
@@ -82,13 +84,17 @@ class Controller_Base_Template extends \Controller_Hybrid
 
     protected function _define_global_locales()
     {
-        $module = $this->request->module;
+        /**$module = $this->request->module;
         $controller = $this->request->controller;
         $action = $this->request->action;
         $controller = strtolower(substr($controller, strlen($module . '/Controller_')));
 
-        $locale_key = $module . '.' . $controller . '.' . $action . '.title';
+        $locale_prefix = $this->_locale_prefix = $module . '.' . $controller . '.' . $action;**/
+        $locale_prefix = \Srit\Locale::instance()->getLocalePrefix();
+
+        $locale_key = $locale_prefix . '.title';
         Theme::instance($this->template)->get_template()->set_global('title', __($locale_key));
+        Theme::instance($this->template)->get_template()->set_global('locale_prefix', $locale_prefix);
     }
 
 }

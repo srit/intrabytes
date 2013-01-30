@@ -9,21 +9,11 @@
     <form method="post" accept-charset="utf-8" class="pull-left">
         <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
 
-        <legend><?php echo __('core.settings.language.edit.legend', array(':sprache' => xss_clean($language->plain))) ?></legend>
-        <label class="control-label"
-               for="locale"><?php echo __('core.settings.language.edit.locale.label') ?></label>
+        <?php echo html_legend(extend_locale('legend'), array(':sprache' => xss_clean($language->plain))); ?>
 
-        <input value="<?php echo xss_clean($language->locale) ?>" type="text" id="locale"
-               placeholder="<?php echo __('core.settings.language.edit.locale.label') ?>" name="locale">
-        <label class="control-label"
-               for="language"><?php echo __('core.settings.language.edit.language.label') ?></label>
-        <input value="<?php echo xss_clean($language->language) ?>" type="text" id="language"
-               placeholder="<?php echo __('core.settings.language.edit.language.label') ?>" name="language">
-        <label class="control-label"
-               for="plain"><?php echo __('core.settings.language.edit.plain.label') ?></label>
-
-        <input value="<?php echo xss_clean($language->plain) ?>" type="text" id="plain"
-               placeholder="<?php echo __('core.settings.language.edit.plain.label') ?>" name="plain">
+        <?php echo twitter_html_input_text('locale', xss_clean($language->locale), extend_locale('locale.label')) ?>
+        <?php echo twitter_html_input_text('language', xss_clean($language->language), extend_locale('language.label')) ?>
+        <?php echo twitter_html_input_text('plain', xss_clean($language->plain), extend_locale('plain.label')) ?>
 
         <div class="control-group">
             <div class="controls">

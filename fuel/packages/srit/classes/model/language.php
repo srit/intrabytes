@@ -11,24 +11,9 @@ class Model_Language extends Model
 {
     protected static $_properties = array(
         'id',
-        'locale' => array(
-            'validation' => array(
-                'required',
-                'min_length' => array(5)
-            )
-        ),
-        'language' => array(
-            'validation' => array(
-                'required',
-                'min_length' => array(2)
-            )
-        ),
-        'plain' => array(
-            'validation' => array(
-                'required',
-                'min_length' => array(3)
-            )
-        )
+        'locale',
+        'language',
+        'plain'
     );
 
     protected static $_has_many = array(
@@ -36,4 +21,18 @@ class Model_Language extends Model
             'cascade_save' => true,
             'cascade_delete' => true,
         ));
+
+    public function validate($factory = 'default') {
+        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset->field('locale')->add_rule('required')->add_rule('min_length', 5);
+        $this->_fieldset->field('language')->add_rule('required')->add_rule('min_length', 2);
+        $this->_fieldset->field('plain')->add_rule('required')->add_rule('min_length', 5);
+        if($this->_fieldset->validation()->run() == false) {
+            foreach ($this->_fieldset->validation()->error() as $error) {
+                \Core\Messages::error($error);
+            }
+            return false;
+        }
+        return true;
+    }
 }
