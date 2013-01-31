@@ -22,6 +22,7 @@
             <td><?php echo $lang->plain ?></td>
             <td>
 
+                
                 <?php echo twitter_button_group(array(
                     array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/language/edit/:id', array('id' => $lang->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
                     array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/language/delete/:id', array('id' => $lang->id)), '<i class="icon-remove"></i> ' . __(extend_locale('actions.delete.label')))),
