@@ -22,7 +22,7 @@ class Locale
             $request = \Fuel\Core\Request::forge();
             $module = $request->module;
             $controller = $request->controller;
-            $action = $request->action;
+            $action = (!empty($request->action)) ? $request->action : 'index';
             $controller = strtolower(substr($controller, strlen($module . '/Controller_')));
             $this->_locale_prefix = $module . '.' . $controller . '.' . $action;
         } else {

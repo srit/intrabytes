@@ -5,8 +5,8 @@
  */
 ?>
 
-<div class="span6">
-    <form method="post" accept-charset="utf-8" class="pull-left">
+<div class="span5">
+    <form method="post" accept-charset="utf-8">
         <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
 
         <?php echo html_legend(extend_locale('legend'), array(':sprache' => xss_clean($language->plain))); ?>
@@ -17,10 +17,8 @@
 
         <div class="control-group">
             <div class="controls">
-                <button class="btn" name="save" value="save"
-                        type="submit"><?php echo __('core.settings.language.edit.save.button.label') ?></button>
-                <button class="btn" name="cancel" value="cancel"
-                        type="submit"><?php echo __('core.settings.language.edit.cancel.button.label') ?></button>
+                <?php echo twitter_html_submit_button('save', 'save', extend_locale('save.button.label')) ?>
+                <?php echo twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label')) ?>
             </div>
         </div>
     </form>

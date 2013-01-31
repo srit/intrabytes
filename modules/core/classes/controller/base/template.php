@@ -84,12 +84,6 @@ class Controller_Base_Template extends \Controller_Hybrid
 
     protected function _define_global_locales()
     {
-        /**$module = $this->request->module;
-        $controller = $this->request->controller;
-        $action = $this->request->action;
-        $controller = strtolower(substr($controller, strlen($module . '/Controller_')));
-
-        $locale_prefix = $this->_locale_prefix = $module . '.' . $controller . '.' . $action;**/
         $locale_prefix = \Srit\Locale::instance()->getLocalePrefix();
 
         $locale_key = $locale_prefix . '.title';
