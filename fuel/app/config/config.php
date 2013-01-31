@@ -75,7 +75,7 @@ return array(
     /**
      * Localization & internationalization settings
      */
-    'language' => 'de', // Default language
+    'language' => 'en', // Default language
     'language_fallback' => 'de', // Fallback language when file isn't available for default language
     'locale' => 'de_DE.UTF8', // PHP set_locale() setting, null to not set
 

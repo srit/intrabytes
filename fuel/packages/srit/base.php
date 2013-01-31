@@ -13,6 +13,11 @@
  */
 
 /**
+ * @todo Sprachmigrationen anlegen
+ * @todo Hilfsfunktion form_start und form_end
+ */
+
+/**
  * Wrapper für @used \Fuel\Core\Security::xss_clean
  *
  * @param $value
@@ -202,5 +207,21 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 
     $html .= '</div>';
 
+    return $html;
+}
+
+/**
+ *
+ * erzeugt ein true oder fals icon
+ *
+ * @param bool $value
+ * @return string
+ */
+function boolean_icon($value) {
+    if((bool)$value == true) {
+        $html = html_tag('span', array('class' => 'label label-success'), html_tag('i', array('class' => 'icon-white icon-ok'), ''));
+    } else {
+        $html = html_tag('span', array('class' => 'label label-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
+    }
     return $html;
 }

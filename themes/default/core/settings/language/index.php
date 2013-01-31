@@ -12,17 +12,19 @@
             <th><?php echo __(extend_locale('locale.label')) ?></th>
             <th><?php echo __(extend_locale('language.label')) ?></th>
             <th><?php echo __(extend_locale('plain.label')) ?></th>
+            <th><?php echo __(extend_locale('default.label')) ?></th>
             <th><?php echo __(extend_locale('actions.label')) ?></th>
         </tr>
         <?php foreach ($languages as $lang): ?>
         <tr>
-            <td><?php echo $lang->id ?></td>
-            <td><?php echo $lang->locale ?></td>
-            <td><?php echo $lang->language ?></td>
-            <td><?php echo $lang->plain ?></td>
+            <td><?php echo xss_clean($lang->id) ?></td>
+            <td><?php echo xss_clean($lang->locale) ?></td>
+            <td><?php echo xss_clean($lang->language) ?></td>
+            <td><?php echo xss_clean($lang->plain) ?></td>
+            <td><?php echo boolean_icon(xss_clean($lang->default)) ?></td>
             <td>
 
-                
+
                 <?php echo twitter_button_group(array(
                     array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/language/edit/:id', array('id' => $lang->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
                     array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/language/delete/:id', array('id' => $lang->id)), '<i class="icon-remove"></i> ' . __(extend_locale('actions.delete.label')))),

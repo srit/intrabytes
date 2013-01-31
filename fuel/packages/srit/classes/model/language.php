@@ -13,7 +13,8 @@ class Model_Language extends Model
         'id',
         'locale',
         'language',
-        'plain'
+        'plain',
+        'default'
     );
 
     protected static $_has_many = array(
