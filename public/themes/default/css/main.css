@@ -9,7 +9,7 @@ body {
 
 label{
     padding: 0 3px;
-    height: 10px;
+    height: 20px;
     margin-bottom: 0;
 }
 
@@ -92,18 +92,17 @@ legend {
 }
 
 .show-grid [class*="span"] {
+    margin-left: 0;
     background-color: #eee;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
     min-height: 40px;
-    line-height: 40px;
     padding-left: 3px;
     padding-right: 3px;
 }
 
-body > .alert {
-    width: 1170px;
+.content > .alert {
     margin-right: auto;
     margin-left: auto;
 }
