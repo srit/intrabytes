@@ -16,6 +16,43 @@ class Locale
 
     protected $_locale_prefix = null;
 
+    protected $_locale = null;
+    protected $_language = null;
+    protected $_encoding = null;
+
+    public function setEncoding($encoding = null)
+    {
+        $encoding = (empty($encoding)) ? \Config::get('encoding') : $encoding;
+        $this->_encoding = $encoding;
+    }
+
+    public function getEncoding()
+    {
+        return $this->_encoding;
+    }
+
+    public function setLanguage($language = null)
+    {
+        $language = (empty($language)) ? \Config::get('language') : $language;
+        $this->_language = $language;
+    }
+
+    public function getLanguage()
+    {
+        return $this->_language;
+    }
+
+    public function setLocale($locale = null)
+    {
+        $locale = (empty($locale)) ? \Config::get('locale') : $locale;
+        $this->_locale = $locale;
+    }
+
+    public function getLocale()
+    {
+        return $this->_locale;
+    }
+
     public function setLocalePrefix($locale_prefix = null)
     {
         if (null == $locale_prefix) {
@@ -47,6 +84,9 @@ class Locale
     public function __construct()
     {
         $this->setLocalePrefix();
+        $this->setLanguage();
+        $this->setLocale();
+        $this->setEncoding();
     }
 
 }
