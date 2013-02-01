@@ -115,12 +115,36 @@ function html_hidden($name, $value, array $attr = array()) {
     return html_tag('input', $attr);
 }
 
+
+
 function html_input($name, $value, array $attr = array()) {
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ?: $name;
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ?: $name;
     $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ?: $value;
     $html = html_tag('input', $attr);
     return $html;
+}
+
+function html_checkbox($name, $value, $checked = false, array $attr = array()) {
+
+    $hidden_attr = $attr;
+    $hidden_attr['id'] = $name . '_hidden';
+
+    if($checked == true) {
+        $attr['checked'] = 'checked';
+    }
+    $attr['type'] = 'checkbox';
+    /**
+     * Wenn das Feld nicht gesetzt ist, default auf 0
+     */
+    $html = html_hidden($name, 0, $hidden_attr);
+    $html .= html_input($name, $value, $attr);
+    return $html;
+}
+
+function twitter_html_input_checkbox($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), $checked = false, array $attr = array()) {
+    $label_attr['class'] = 'control-label';
+    return html_label($label_attr, $name, html_checkbox($name, $value, $checked, $attr) . ' ' . __($placeholder_locale, $placeholder_locale_params));
 }
 
 /**
