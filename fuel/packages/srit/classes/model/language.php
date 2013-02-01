@@ -43,4 +43,33 @@ class Model_Language extends Model
         ));
     }
 
+    /**
+     * @param null $cascade
+     * @param bool $use_transaction
+     * @return bool|void
+     */
+    public function save($cascade = null, $use_transaction = false) {
+
+        $old_default = null;
+
+        if($this->default == 1) {
+            /**
+             * Es soll nur eine Default Sprache geben.
+             */
+            $old_default = static::find('first', array('where' => array(
+                'default' => 1
+            )));
+        }
+
+        try {
+            parent::save($cascade, $use_transaction);
+            if($old_default != null) {
+                $old_default->set('default', 0);
+                $old_default->save();
+            }
+        } catch(\Exception $e) {
+            throw $e;
+        }
+    }
+
 }
