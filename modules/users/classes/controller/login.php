@@ -15,7 +15,7 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
         // already logged in?
         if (\Auth::check()) {
             \Core\Messages::error(__('messages.allreadyloggedin'));
-            \Core\Messages::redirect(\Input::post('redirect_to', \Uri::create(Config::get('routes._root_'))));
+            \Core\Messages::redirect(\Input::post('redirect_to', \Uri::create(\Config::get('routes._root_'))));
         }
 
         parent::before();
@@ -50,6 +50,8 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
             }
         }
 
-        Theme::instance($this->template)->set_partial('content', 'users/login/index')->set('fieldset', $fieldset, false);
+        $username = \Input::post('username', false);
+
+        Theme::instance($this->template)->set_partial('content', 'users/login/index')->set('fieldset', $fieldset, false)->set('username', $username);
     }
 }

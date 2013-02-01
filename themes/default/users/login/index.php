@@ -6,20 +6,11 @@
 ?>
 <form action="<?php echo \Uri::create('/users/login') ?>" method="post" accept-charset="utf-8" id="login"
       class="form-horizontal">
-    <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
-            <?php echo \Form::input(
-        'username',
-        '',
-        array('class' => 'span4', 'placeholder' => __('login.username.label'))
-    ) ?>
 
-        <?php echo \Form::password(
-        'password',
-        '',
-        array('class' => 'span4', 'placeholder' => __('login.password.label'))
-    ) ?>
-        <?php echo \Form::button('submit', __('login.loginbutton.label'), array('class' => 'btn btn-info btn-block', 'value' => 'submit')) ?>
-
+    <?php echo security_field(); ?>
+    <?php echo twitter_html_input_text_wo_label('username', xss_clean($username), extend_locale('username.label'), array(), array('class' => 'span4')) ?>
+    <?php echo twitter_html_input_password_wo_label('password', '', extend_locale('password.label'), array(), array('class' => 'span4')) ?>
+    <?php echo twitter_html_submit_button('submit', 'submit', extend_locale('login.button.label'), array(), array('class' => 'btn-info btn-block')) ?>
 
 </form>
-<?php echo \Html::anchor(\Uri::create('/users/password/forget'), __('login.forgetpassword.label')) ?>
+<?php echo html_anchor(\Uri::create('/users/password/forget'), extend_locale('forgetpassword.label')) ?>
