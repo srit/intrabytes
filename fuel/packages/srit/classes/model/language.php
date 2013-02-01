@@ -36,4 +36,11 @@ class Model_Language extends Model
         }
         return true;
     }
+
+    public static function find_all(array $options = array()) {
+        return parent::find_all(array(
+            'related' => array('locales')
+        ));
+    }
+
 }

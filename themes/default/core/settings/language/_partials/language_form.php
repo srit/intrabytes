@@ -7,7 +7,7 @@
 
 <div class="span5">
     <form method="post" accept-charset="utf-8">
-        <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
+        <?php echo security_field(); ?>
 
         <?php echo html_legend(extend_locale('legend'), array(':sprache' => xss_clean($language->plain))); ?>
 

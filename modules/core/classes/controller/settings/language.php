@@ -23,7 +23,9 @@ class Controller_Settings_Language extends \Core\Controller_Base_User {
 
             $language->set(\Fuel\Core\Input::post());
             if($language->validate()) {
-
+                $language->save();
+                Messages::instance()->success(__(extend_locale('save.language.success')));
+                Messages::redirect(\Fuel\Core\Uri::create('/core/settings/language'));
             }
 
         }
