@@ -102,6 +102,19 @@ function html_input_text_wo_label($name, $value, array $attr = array()) {
     return html_input($name, $value, $attr);
 }
 
+function html_input_password_wo_label($name, $value, array $attr = array()) {
+    $attr['type'] = 'password';
+    return html_input($name, $value, $attr);
+}
+
+function html_hidden($name, $value, array $attr = array()) {
+    $attr['type'] = 'hidden';
+    $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ?: $name;
+    $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ?: $name;
+    $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ?: $value;
+    return html_tag('input', $attr);
+}
+
 function html_input($name, $value, array $attr = array()) {
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ?: $name;
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ?: $name;
@@ -121,8 +134,13 @@ function html_input($name, $value, array $attr = array()) {
  */
 function html_input_text($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
     $html = html_label($label_attr, $name, $label_locale);
-    $attr['type'] = 'text';
     $html .= html_input_text_wo_label($name, $value, $attr);
+    return $html;
+}
+
+function html_input_password($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
+    $html = html_label($label_attr, $name, $label_locale);
+    $html .= html_input_password_wo_label($name, $value, $attr);
     return $html;
 }
 
@@ -147,6 +165,11 @@ function twitter_html_input_text_wo_label($name, $value, $placeholder_locale, ar
     return html_input_text_wo_label($name, $value, $attr);
 }
 
+function twitter_html_input_password_wo_label($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), array $attr = array()) {
+    $attr['placeholder'] = __($placeholder_locale, $placeholder_locale_params);
+    return html_input_password_wo_label($name, $value, $attr);
+}
+
 /**
  * @param string $name
  * @param string $value
@@ -160,6 +183,12 @@ function twitter_html_input_text($name, $value, $label_locale, array $label_loca
     $label_attr['class'] = 'control-label';
     $attr['placeholder'] = __($label_locale, $label_locale_params);
     return html_input_text($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
+}
+
+function twitter_html_input_password($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
+    $label_attr['class'] = 'control-label';
+    $attr['placeholder'] = __($label_locale, $label_locale_params);
+    return html_input_password($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
 }
 
 /**
@@ -182,6 +211,10 @@ function twitter_html_submit_button($name, $value, $locale, array $locale_params
  */
 function html_button($value, array $attr = array()) {
     return html_tag('button', $attr, $value);
+}
+
+function security_field() {
+    return html_hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());
 }
 
 /**
@@ -224,4 +257,26 @@ function boolean_icon($value) {
         $html = html_tag('span', array('class' => 'label label-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
     }
     return $html;
+}
+
+
+function html_anchor($href, $value = null, $attr = array(), $secure = null) {
+    if ( ! preg_match('#^(\w+://|javascript:|\#)# i', $href))
+    {
+        $urlparts = explode('?', $href, 2);
+        $href = \Uri::create($urlparts[0], array(), isset($urlparts[1])?$urlparts[1]:array(), $secure);
+    }
+    elseif ( ! preg_match('#^(javascript:|\#)# i', $href) and  is_bool($secure))
+    {
+        $href = http_build_url($href, array('scheme' => $secure ? 'https' : 'http'));
+    }
+
+    // Create and display a URL hyperlink
+    is_null($value) and $value = $href;
+
+    $value = __($value);
+
+    $attr['href'] = $href;
+
+    return html_tag('a', $attr, $value);
 }
