@@ -14,7 +14,11 @@ class Model_Language extends Model
         'locale',
         'language',
         'plain',
-        'default'
+        'default',
+        'currency',
+        'thousand_separator',
+        'dec_point',
+        'date_format'
     );
 
     protected static $_has_many = array(
@@ -41,6 +45,12 @@ class Model_Language extends Model
         return parent::find_all(array(
             'related' => array('locales')
         ));
+    }
+
+    public static function find_by_language_key($language_key) {
+        return parent::find('first', array('where' => array(
+            'language' => $language_key
+        )));
     }
 
     /**

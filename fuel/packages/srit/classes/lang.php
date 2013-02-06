@@ -8,7 +8,7 @@ namespace Srit;
 
 class Lang extends \Fuel\Core\Lang {
 
-    public static function load_all($language = null, $locale = null) {
+    public static function init($language = null, $locale = null) {
 
         /**
          * static::$lines[$language][$group]
@@ -30,6 +30,8 @@ class Lang extends \Fuel\Core\Lang {
                 //static::$lines[$language][$locale->group.'.'.$locale->key] = $locale->value;
             }
         }
+
+        //\Zend_Locale::setDefault(Locale::instance()->getLocale());
 
     }
 

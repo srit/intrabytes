@@ -1,6 +1,5 @@
 body {
     position: relative;
-    padding-top: 50px;
     font: 11px Helvetica, arial, freesans, clean, sans-serif;
     line-height: 21px;
     color: #333333;
@@ -133,4 +132,8 @@ form {
 
 .btn-group > .btn, .btn-group > .dropdown-menu {
     font-size: 11px;
+}
+
+#content {
+    margin-top: 50px;
 }
