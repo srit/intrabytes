@@ -17,6 +17,23 @@
  * @todo Hilfsfunktion form_start und form_end
  */
 
+function concat($separator = ' ') {
+    $args = func_get_args();
+    $num_args = func_num_args();
+    if($num_args > 1) {
+        $string = '';
+        foreach($args as $num => $value) {
+            if($num == 0) {
+                continue;
+            }
+            if(!empty($value)) {
+                $string .= $value . $separator;
+            }
+        }
+    }
+    return $string;
+}
+
 /**
  * Wrapper für @used \Fuel\Core\Security::xss_clean
  *
@@ -197,8 +214,9 @@ function html_submit_button($name, $value, $locale, array $locale_params = array
     return html_button(__($locale, $locale_params), $attr);
 }
 
-function twitter_html_input_text_wo_label($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), array $attr = array()) {
-    $attr['placeholder'] = __($placeholder_locale, $placeholder_locale_params);
+function twitter_html_input_text_wo_label($name, $value, $placeholder_locale = null, array $placeholder_locale_params = array(), array $attr = array()) {
+    $attr['placeholder'] = empty($placeholder_locale) ? __(extend_locale($name . '.label'), $placeholder_locale_params) : __($placeholder_locale, $placeholder_locale_params);
+    //$attr['placeholder'] = __($placeholder_locale, $placeholder_locale_params);
     return html_input_text_wo_label($name, $value, $attr);
 }
 

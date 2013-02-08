@@ -9,6 +9,8 @@ Autoloader::add_classes(array(
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
+    'Srit\\Model_Postalcode' => __DIR__ . '/classes/model/postalcode.php',
+    'Srit\\Model_Country' => __DIR__ . '/classes/model/country.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
     'Srit\\Locale' => __DIR__ . '/classes/locale.php',
