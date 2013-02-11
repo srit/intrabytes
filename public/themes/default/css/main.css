@@ -17,3 +17,11 @@
 #content {
     margin-top: 50px;
 }
+
+[class^="icon-"], [class*=" icon-"] {
+    margin-top: -1px;
+    margin-right: 2px;
+}
+.btn-mini [class^="icon-"], .btn-mini [class*=" icon-"] {
+    margin-top: -2px;
+}

@@ -294,7 +294,11 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 
     $list_elements = '';
     foreach($list as $li) {
-        $list_elements .= html_tag('li', $li['attr'], $li['value']);
+        if(isset($li['is_divider']) && $li['is_divider'] == true) {
+            $list_elements .= html_tag('li', array('class' => 'divider'));
+        } else {
+            $list_elements .= html_tag('li', $li['attr'], $li['value']);
+        }
     }
 
     $html .= html_tag('ul', array('class' => 'dropdown-menu'), $list_elements);
