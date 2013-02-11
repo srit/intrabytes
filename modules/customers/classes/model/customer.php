@@ -16,12 +16,12 @@ class Model_Customer extends Model {
         'company_name',
         'firstname',
         'lastname',
-        'salutation',
         'phone',
         'fax',
         'street',
         'housenumber',
-        'postalcode_id'
+        'postalcode_id',
+        'salutation_id'
     );
 
     protected static $_has_many = array(
@@ -32,9 +32,8 @@ class Model_Customer extends Model {
     );
 
     protected static $_belongs_to = array(
-        'postalcode' => array(
-            'model_to' => 'Srit\Model_Postalcode'
-        )
+        'postalcode',
+        'salutation'
     );
 
 
@@ -59,14 +58,16 @@ class Model_Customer extends Model {
                             'related' => array(
                                 'country'
                             )
-                        )
+                        ),
+                        'salutation'
                     )
                 ),
                 'postalcode' => array(
                     'related' => array(
                         'country'
                     )
-                )
+                ),
+                'salutation'
             )
         );
         $options = array_merge_recursive($options, $model_options);
@@ -92,6 +93,24 @@ class Model_Customer extends Model {
             return false;
         }
         return true;
+    }
+    
+    /**
+     * @param null $cascade
+     * @param bool $use_transaction
+     * @return bool|void
+     */
+    public function save($cascade = null, $use_transaction = false) {
+
+        if($this->postalcode && !($this->postalcode instanceof \Srit\Model_Postalcode)) {
+            $postalcode = Model_Postalcode::find_by_postalcode($this->postalcode);
+            if($postalcode == false) {
+                $postalcode = Model_Postalcode::forge(array('postalcode' => $this->postalcode, 'city' => $this->city, 'country_id' => $this->country_id));
+                $postalcode->save();
+            }
+            $this->postalcode = $postalcode;
+        }
+        return parent::save();
     }
 
 }

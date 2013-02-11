@@ -112,6 +112,13 @@ class Model implements \ArrayAccess, \Iterator
 		'many_many'     => 'Orm\\ManyMany',
 	);
 
+        /**
+         * 
+         * @param type $data
+         * @param type $new
+         * @param type $view
+         * @return Model
+         */
 	public static function forge($data = array(), $new = true, $view = null)
 	{
 		return new static($data, $new, $view);

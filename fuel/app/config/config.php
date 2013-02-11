@@ -245,7 +245,8 @@ return array(
             array('core'),
             array('users'),
             array('dashboard'),
-            array('tasks')
+            array('tasks'),
+            array('customers')
         ),
 
         /**

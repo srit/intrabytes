@@ -16,7 +16,7 @@ class Model_Customer_Contact_Person extends Model {
         'email',
         'lastname',
         'firstname',
-        'salutation',
+        'salutation_id',
         'phone',
         'fax',
         'street',
@@ -29,8 +29,7 @@ class Model_Customer_Contact_Person extends Model {
 
     protected static $_belongs_to = array(
         'customer',
-        'postalcode' => array(
-            'model_to' => 'Srit\Model_Postalcode'
-        )
+        'postalcode',
+        'salutation'
     );
 }

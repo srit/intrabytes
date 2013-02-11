@@ -22,7 +22,7 @@
                 <address>
                     <?php echo html_anchor(\Uri::create('/customers/show/:id', array('id' => $customer->id)), '<strong>' . xss_clean($customer->company_name) . '</strong>') ?><br>
                     <?php if (!empty($customer->firstname) && !empty($customer->lastname)): ?>
-                    <?php echo concat(' ', xss_clean($customer->salutation), xss_clean($customer->firstname), xss_clean($customer->lastname)) ?>
+                    <?php echo concat(' ', xss_clean($customer->salutation->salutation), xss_clean($customer->firstname), xss_clean($customer->lastname)) ?>
                     <br>
                     <?php endif; ?>
                     <?php echo concat(' ', xss_clean($customer->street), xss_clean($customer->housenumber)) ?><br>
