@@ -10,7 +10,9 @@ use\Srit\Model;
 class Model_Salutation extends Model {
     protected static $_properties = array(
         'id',
-        'salutation'
+        'salutation' => array(
+            'localized' => true,
+        )
     );
     
     protected static $_has_many = array(

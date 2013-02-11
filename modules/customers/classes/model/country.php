@@ -10,7 +10,9 @@ class Model_Country extends Model {
     protected static $_properties = array(
         'id',
         'iso_code',
-        'name',
+        'name' => array(
+            'localized' => true
+        ),
         'language_id'
     );
 

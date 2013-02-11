@@ -21,11 +21,7 @@ class Controller_Edit extends \Core\Controller_Base_User {
         $this->customer = Model_Customer::find_for_edit($this->id);
         $this->salutations = Model_Salutation::find_all_for_html_select();
         $this->countries = Model_Country::find_all_for_html_select();
-        
-        $this->country_id = (isset($this->customer->postalcode)) ? $this->customer->postalcode->country_id : 0;
-        $this->postalcode_text = (isset($this->customer->postalcode)) ? $this->customer->postalcode->postalcode : '';
-        $this->city_text = (isset($this->customer->postalcode)) ? $this->customer->postalcode->city : '';
-        
+
         if(\Input::post('save', false)) {
             $this->customer->set(\Input::post());
             if($this->customer->validate()) {
@@ -34,10 +30,14 @@ class Controller_Edit extends \Core\Controller_Base_User {
                 Messages::redirect(\Fuel\Core\Uri::create('/customers/list'));
             }
             
-            $this->country_id = (isset($this->customer->postalcode) && isset($this->customer->postalcode->country_id)) ? $this->customer->postalcode->country_id : 0; 
+            $this->country_id = (isset($this->customer->country_id)) ? $this->customer->country_id : 0;
             $this->postalcode_text = (isset($this->customer->postalcode_text)) ? $this->customer->postalcode_text : '';
             $this->city_text = (isset($this->customer->city_text)) ? $this->customer->city_text : '';
             
+        } else {
+            $this->country_id = (isset($this->customer->postalcode)) ? $this->customer->postalcode->country_id : 0;
+            $this->postalcode_text = (isset($this->customer->postalcode)) ? $this->customer->postalcode->postalcode : '';
+            $this->city_text = (isset($this->customer->postalcode)) ? $this->customer->postalcode->city : '';
         }
         
         Theme::instance($this->template)->set_partial('content', 'customers/edit/index')
