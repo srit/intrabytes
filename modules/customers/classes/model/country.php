@@ -19,7 +19,9 @@ class Model_Country extends Model {
     );
 
     protected static $_belongs_to = array(
-        'language'
+        'language' => array(
+            'model_to' => '\Srit\Model_Language'
+        )
     );
     
     public static function find_all_for_html_select(array $options = array()) {

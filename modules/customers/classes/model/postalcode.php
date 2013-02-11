@@ -18,9 +18,18 @@ class Model_Postalcode extends Model {
         'country'
     );
     
-    public static function find_by_postalcode($postalcode, array $options = array()) {
-        $options = array_merge_recursive($options, array('where' => array('postalcode' => $postalcode)));
+    public static function find_by_postalcode($postalcode, $country_id, array $options = array()) {
+        $options = array_merge_recursive($options, array('where' => array('postalcode' => $postalcode, 'country_id' => $country_id)));
         $item = static::find('first', $options);
         return $item ? : false;
+    }
+    
+    public static function find_like_postalcode($postalcode, $country_id, array $options = array()) {
+        $options = array_merge_recursive($options, array('where' => array(
+            array('postalcode', 'LIKE', $postalcode . '%'),
+            array('country_id', $country_id)
+            )));
+        $items = static::find_all($options);
+        return $items ? : false;
     }
 }

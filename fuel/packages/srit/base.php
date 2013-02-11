@@ -30,6 +30,8 @@ function concat($separator = ' ') {
                 $string .= $value . $separator;
             }
         }
+        $lng_separator = strlen($separator);
+        $string = substr($string, 0, -$lng_separator);
     }
     return $string;
 }
@@ -353,6 +355,7 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
     $attr['multiple'] = $multiselect;
     $options_html = '';
     foreach($options as $key => $opt) {
+        $opt = __($opt);
         $opt_attr = array();
         $opt_attr['selected'] = $key == $value;
         $opt_attr['value'] = $key;

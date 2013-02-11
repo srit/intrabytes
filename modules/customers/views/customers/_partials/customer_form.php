@@ -5,7 +5,7 @@
  */
 ?>
 <div class="span10">
-    <form method="post" accept-charset="utf-8">
+    <form method="post" accept-charset="utf-8" id="customer">
         <?php echo security_field(); ?>
         <?php echo html_legend(extend_locale('legend')); ?>
         <div class="control-group">
@@ -15,7 +15,7 @@
         </div>
         <div class="control-group">
             <div class="controls controls-row">
-            <?php echo twitter_html_select('salutation_id', $this->salutations, xss_clean($customer->salutation_id), extend_locale('salutation.label')) ?>
+                <?php echo twitter_html_select('salutation_id', $salutations, xss_clean($customer->salutation_id), extend_locale('salutation.label')) ?>
             </div>
         </div>
         <div class="control-group">
@@ -37,14 +37,15 @@
         </div>
         <div class="control-group">
             <div class="controls controls-row">
-                
-                <?php //echo twitter_html_input_text_wo_label('postalcode', xss_clean($customer->postalcode->postalcode), null, array(), array('class' => 'span1')) ?>
-                <?php //echo twitter_html_input_text_wo_label('city', xss_clean($customer->postalcode->city), null, array(), array('class' => 'span1')) ?>
+
+                <?php echo twitter_html_input_text_wo_label('postalcode_text', xss_clean($postalcode_text), null, array(), array('class' => 'span1', 'autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Fuel\Core\Uri::create('/customers/postalcodes/rest/search'))) ?>
+                <?php echo twitter_html_input_text_wo_label('city_text', xss_clean($city_text), null, array(), array('class' => 'span1')) ?>
+                <?php echo html_hidden('postalcode_id', '') ?>
             </div>
         </div>
         <div class="control-group">
             <div class="controls controls-row">
-            <?php echo twitter_html_select('country_id', $this->countries, xss_clean($customer->postalcode->country_id), extend_locale('country.label')) ?>
+                <?php echo twitter_html_select('country_id', $countries, xss_clean($country_id), extend_locale('country.label')) ?>
             </div>
         </div>
         <div class="control-group">
@@ -60,3 +61,31 @@
         <?php echo twitter_submit_group() ?>
     </form>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-provide="typeahead"]').typeahead({
+            source: function (query, process) {
+                var link = $(this)[0].$element[0].dataset.link;
+                var country_id = $('#country_id option:selected').val();
+                return $.getJSON(link, { query: query, country_id:country_id }, function (data) {
+                    return process(data.options);
+                });
+            },
+            updater: function (item, process) {
+                var map = item.split(" - ");
+                var link = '<?php echo \Fuel\Core\Uri::create('/customers/postalcodes/rest/fetch') ?>';
+                var country_id = $('#country_id option:selected').val();
+                $.getJSON(link, { postalcode: map[0], country_id:country_id }, function (data) {
+                    var postalcode_id_field = $('#postalcode_id');
+                    var postalcode_text_field = $('#postalcode_text');
+                    var city_text_field = $('#city_text');
+                    postalcode_id_field.val(data.id);
+                    city_text_field.val(data.city);
+                    postalcode_text_field.val(data.postalcode);
+                });
+            }
+        });
+    });
+
+</script>

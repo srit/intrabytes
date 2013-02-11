@@ -28,7 +28,9 @@ class Model_Customer_Contact_Person extends Model {
     );
 
     protected static $_belongs_to = array(
-        'customer',
+        'customer' => array(
+            'model_to' => '\Customers\Model_Customer'
+        ),
         'postalcode',
         'salutation'
     );

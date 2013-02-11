@@ -15,4 +15,6 @@
         $('.topbar').dropdown();
     });
 </script>
+<?php echo \Security::js_fetch_token() ?>
+<?php echo \Security::js_set_token() ?>
 </head>
