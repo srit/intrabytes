@@ -18,6 +18,10 @@
                     <li>
                         <?php echo \Html::anchor(\Uri::create(Config::get('routes._root_')), '<i class="icon-white icon-home"></i> ' . __('nav.dashboard.label')) ?>
                     </li>
+                    <li>
+                        <?php echo \Html::anchor(\Uri::create('/customers/list'), '<i class="icon-white icon-list"></i> ' . __('nav.customers.label')) ?>
+                    </li>
+
                 </ul>
                 <ul class="nav pull-right">
                     <li class="dropdown">

@@ -13,3 +13,4 @@ fuel/app/tmp/*
 fuel/packages/*/config/development/*
 !.gitkeep
 /modules/staff
+/nbproject/private/

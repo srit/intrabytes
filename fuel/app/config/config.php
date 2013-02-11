@@ -108,7 +108,7 @@ return array(
      * Security settings
      */
     'security' => array(
-        'csrf_autoload' => true,
+        'csrf_autoload' => false,
         'csrf_token_key' => '65c4da4eb1618256e38148f5fbb4853985e1246a',
         'csrf_expiration' => 0,
         'uri_filter' => array('htmlentities'),
@@ -245,7 +245,8 @@ return array(
             array('core'),
             array('users'),
             array('dashboard'),
-            array('tasks')
+            array('tasks'),
+            array('customers')
         ),
 
         /**

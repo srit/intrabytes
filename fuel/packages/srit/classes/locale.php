@@ -18,7 +18,27 @@ class Locale
 
     protected $_locale = null;
     protected $_language = null;
+    /**
+     * @var Model_Language
+     */
+    protected $_language_model = null;
     protected $_encoding = null;
+
+    /**
+     * @param \Srit\Model_Language $language_model
+     */
+    public function loadLanguageModel($language)
+    {
+        $this->_language_model = Model_Language::find_by_language_key($language);
+    }
+
+    /**
+     * @return \Srit\Model_Language
+     */
+    public function getLanguageModel()
+    {
+        return $this->_language_model;
+    }
 
     public function setEncoding($encoding = null)
     {
@@ -87,6 +107,7 @@ class Locale
         $this->setLanguage();
         $this->setLocale();
         $this->setEncoding();
+        $this->loadLanguageModel($this->_language);
     }
 
 }

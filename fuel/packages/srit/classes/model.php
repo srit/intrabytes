@@ -45,4 +45,15 @@ class Model extends \Orm\Model
         };
     }
 
+    public function & __get($property)
+    {
+        $properties = static::properties();
+        if(isset($properties[$property]) && isset($properties[$property]['localized']) && $properties[$property]['localized'] == true ) {
+            $value = __($this->get($property));
+        } else {
+            $value = $this->get($property);
+        }
+        return $value;
+    }
+
 }

@@ -12,9 +12,10 @@ Autoloader::add_classes(array(
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
     'Srit\\Locale' => __DIR__ . '/classes/locale.php',
-    'Srit\\Validation_Error' => __DIR__ . '/classes/validation/error.php'
+    'Srit\\L10n' => __DIR__ . '/classes/l10n.php',
+    'Srit\\Validation_Error' => __DIR__ . '/classes/validation/error.php',
 ));
 
 require_once 'base.php';
 
-\Srit\Lang::load_all();
+\Srit\Lang::init();
