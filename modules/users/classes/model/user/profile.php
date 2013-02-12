@@ -7,7 +7,7 @@
 namespace Users;
 use \Srit\Model;
 
-class Model_Profile extends Model
+class Model_User_Profile extends Model
 {
     protected static $_properties = array(
         'id',

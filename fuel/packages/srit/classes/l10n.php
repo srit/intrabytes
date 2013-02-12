@@ -84,6 +84,19 @@ class L10n
         return $dateFormatter->format($time);
     }
 
+    public function format_datetime($value) {
+
+        $time = strtotime($value);
+
+        $dateFormatter = \IntlDateFormatter::create(
+            Locale::instance()->getLocale(),
+            \IntlDateFormatter::MEDIUM,
+            \IntlDateFormatter::MEDIUM
+        );
+
+        return $dateFormatter->format($time);
+    }
+
     public function format_decimal($value, $decimals = 2) {
         return $this->_format_numbers($value, $decimals, \NumberFormatter::DECIMAL);
     }
