@@ -33,8 +33,9 @@
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-white icon-user"></i> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><?php echo \Html::anchor(\Uri::create('/users/settings/dashboard'), '<i class="icon-dashboard"></i> ' . __('usernav.dashboard.config.label')) ?></li>
-                            <li><?php echo \Html::anchor(\Uri::create('/users/logout'), '<i class="icon-off"></i> ' . __('usernav.logout.label')) ?></li>
+                            <li><?php echo \Html::anchor(\Uri::create('/users/settings/dashboard'), __('usernav.dashboard.config.label')) ?></li>
+                            <li><?php echo \Html::anchor(\Uri::create('/users/settings/pubkeys/list'), __('usernav.pubkeys.config.label')) ?></li>
+                            <li><?php echo \Html::anchor(\Uri::create('/users/logout'), __('usernav.logout.label')) ?></li>
                         </ul>
                         </a></li>
                     <li><?php echo \Html::anchor(\Uri::create('/users/logout'), '<i class="icon-white icon-off"></i> ' . __('nav.logout.label', array(':name' => $user))) ?></li>

@@ -27,10 +27,14 @@ class Model_User extends Model
     );
 
     protected static $_has_one = array(
-        'profile' => array(
+        'user_profile' => array(
             'cascade_save' => true,
             'cascade_delete' => true,
         )
+    );
+
+    protected static $_has_many = array(
+        'user_public_keys'
     );
 
     protected static $_observers = array(
@@ -44,7 +48,7 @@ class Model_User extends Model
         ),
     );
 
-    public static function get_user($username_or_email)
+    /**public static function get_user($username_or_email)
     {
         $username_or_email = trim($username_or_email);
         $properties = static::$_properties;
@@ -60,6 +64,17 @@ class Model_User extends Model
             ->get_one();
 
         return $user ? : false;
+    }  **/
+
+    public static function get_user($username_or_email) {
+        $username_or_email = trim($username_or_email);
+        $options = array(
+            'where' => array(
+                array('username' => $username_or_email),
+                'or' => array(array('email' => $username_or_email))),
+            'related' => array('client','user_profile','user_public_keys')
+        );
+        return static::find('first', $options);
     }
 
     /*public static function validate($factory)
@@ -78,10 +93,9 @@ class Model_User extends Model
 
     public function __toString()
     {
-        if(!empty($this->profile->firstname) && !empty($this->profile->lastname)) {
-            $ret = $this->profile->firstname . ' ' . $this->profile->lastname;
-        } else {
-            $ret = $this->username;
+        $ret = $this->username;
+        if(isset($this->user_profile)) {
+            $ret = $this->user_profile->firstname . ' ' . $this->user_profile->lastname;
         }
         return $ret;
     }

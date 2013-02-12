@@ -14,3 +14,5 @@ fuel/packages/*/config/development/*
 !.gitkeep
 /modules/staff
 /nbproject/private/
+fuel/app/config/staging
+fuel/app/config/test

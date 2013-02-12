@@ -12,7 +12,7 @@
     <table class="table table-striped table-condensed">
         <tr>
             <th><?php echo __(extend_locale('address.label')) ?></th>
-            <th><?php echo __(extend_locale('contact.persons.label')) ?></th>
+            <th><?php echo __(extend_locale('references.label')) ?></th>
             <th><?php echo __(extend_locale('actions.label')) ?></th>
         </tr>
 
@@ -31,12 +31,18 @@
                     <?php echo xss_clean($customer->postalcode->country->name) ?>
                 </address>
             </td>
-            <td><?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contact_persons)))) ?></td>
+            <td>
+                <?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contact_persons)))) ?><br>
+                <?php echo html_anchor(\Uri::create('/customers/projects'), __(extend_locale('count.projects.label'), array(':amount' => count($customer->customer_projects)))) ?>
+            </td>
             <td>
                 <?php echo twitter_button_group(array(
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/show/:id', array('id' => $customer->id)), '<i class="icon-list"></i> ' . __(extend_locale('actions.show.label')))),
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/edit/:id', array('id' => $customer->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/delete/:id', array('id' => $customer->id)), '<i class="icon-remove"></i> ' . __(extend_locale('actions.delete.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/delete/:id', array('id' => $customer->id)), '<i class="icon-trash"></i> ' . __(extend_locale('actions.delete.label')))),
+                array('is_divider' => true),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/add'), __(extend_locale('actions.add.project.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/contact_persons/add'), __(extend_locale('actions.add.contact_persons.label')))),
             ), extend_locale('actions.label'), array()); ?>
             </td>
         </tr>

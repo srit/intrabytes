@@ -45,6 +45,28 @@ class Model extends \Orm\Model
         };
     }
 
+    public function formatted($property)
+    {
+        $value = parent::get($property);
+        $properties = static::properties();
+
+        if (!empty($value) && isset($properties[$property]['type'])) {
+            switch ($properties[$property]['type']) {
+                case 'currency':
+                    $value = L10n::instance()->format_currency($value);
+                    break;
+                case 'date':
+                    $value = L10n::instance()->format_date($value);
+                    break;
+                case 'datetime':
+                    $value = L10n::instance()->format_datetime($value);
+                    break;
+            }
+        }
+
+        return $value;
+    }
+
     public function & __get($property)
     {
         $properties = static::properties();

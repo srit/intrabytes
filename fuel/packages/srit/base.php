@@ -133,6 +133,14 @@ function html_input_text_wo_label($name, $value, array $attr = array()) {
     return html_input($name, $value, $attr);
 }
 
+function html_input_textarea_wo_label($name, $value, array $attr = array()) {
+    $attr['name'] = $name;
+    $attr['id'] = (!isset($attr['id'])) ? $name : $attr['id'];
+    $attr['rows'] = 5;
+    $attr['cols'] = 100;
+    return html_tag('textarea', $attr, $value);
+}
+
 function html_input_password_wo_label($name, $value, array $attr = array()) {
     $attr['type'] = 'password';
     return html_input($name, $value, $attr);
@@ -194,6 +202,13 @@ function html_input_text($name, $value, $label_locale, array $label_locale_param
     return $html;
 }
 
+function html_input_textarea($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
+    $label_locale = (!empty($label_locale)) ? $label_locale : __(extend_locale($name.'.label', $label_locale_params));
+    $html = html_label($label_attr, $name, $label_locale);
+    $html .= html_input_textarea_wo_label($name, $value, $attr);
+    return $html;
+}
+
 function html_input_password($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
     $html = html_label($label_attr, $name, $label_locale);
     $html .= html_input_password_wo_label($name, $value, $attr);
@@ -246,6 +261,12 @@ function twitter_html_input_text($name, $value, $label_locale = null, array $lab
     return html_input_text($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
 }
 
+function twitter_html_input_textarea($name, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
+    $label_attr['class'] = 'control-label';
+    $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    return html_input_textarea($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
+}
+
 function twitter_html_input_password($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array()) {
     $label_attr['class'] = 'control-label';
     $attr['placeholder'] = __($label_locale, $label_locale_params);
@@ -294,7 +315,11 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 
     $list_elements = '';
     foreach($list as $li) {
-        $list_elements .= html_tag('li', $li['attr'], $li['value']);
+        if(isset($li['is_divider']) && $li['is_divider'] == true) {
+            $list_elements .= html_tag('li', array('class' => 'divider'));
+        } else {
+            $list_elements .= html_tag('li', $li['attr'], $li['value']);
+        }
     }
 
     $html .= html_tag('ul', array('class' => 'dropdown-menu'), $list_elements);

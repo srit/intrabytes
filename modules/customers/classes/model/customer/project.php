@@ -1,23 +1,23 @@
 <?php
 /**
- * @created 02.11.12 - 12:13
+ * @created 06.02.13 - 15:48
  * @author stefanriedel
  */
 
-namespace Users;
+namespace Customers;
 use \Srit\Model;
 
-class Model_Profile extends Model
-{
+class Model_Customer_Project extends Model {
     protected static $_properties = array(
         'id',
-        'user_id',
-        'firstname',
-        'lastname',
-        'birthday',
-        'gender',
+        'name',
+        'customer_id',
         'created_at',
-        'updated_at',
+        'updated_at'
+    );
+
+    protected static $_belongs_to = array(
+        'customer'
     );
 
     protected static $_observers = array(
@@ -29,9 +29,5 @@ class Model_Profile extends Model
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
-    );
-
-    protected static $_belongs_to = array(
-        'user'
     );
 }

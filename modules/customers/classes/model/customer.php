@@ -28,7 +28,8 @@ class Model_Customer extends Model {
         'customer_contact_persons' => array(
             'model_to' => '\Customers\Model_Customer_Contact_Person',
             'cascade_delete' => true,
-        )
+        ),
+        'customer_projects',
     );
 
     protected static $_belongs_to = array(
@@ -70,6 +71,7 @@ class Model_Customer extends Model {
                         'salutation'
                     )
                 ),
+                'customer_projects',
                 'postalcode' => array(
                     'related' => array(
                         'country'

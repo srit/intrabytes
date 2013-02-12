@@ -58,7 +58,7 @@ class Database_PDO_Connection extends \Database_Connection
 			'username'   => null,
 			'password'   => null,
 			'persistent' => false,
-			'compress'	 => true,
+			'compress'   => false,
 		));
 
 		// Clear the connection parameters for security
@@ -315,7 +315,18 @@ class Database_PDO_Connection extends \Database_Connection
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
 
-		return $this->_connection->quote($value);
+		$result = $this->_connection->quote($value);
+		// poor-mans workaround for the fact that not all drivers implement quote()
+		if (empty($result))
+		{
+			$result = "'".str_replace("'", "''", $value)."'";
+		}
+		return $result;
+	}
+
+	public function error_info()
+	{
+		return $this->_connection->errorInfo();
 	}
 
 	public function in_transaction()
