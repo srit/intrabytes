@@ -5,6 +5,4 @@
  */
 
 return array(
-    'core/settings/language/edit/:id' => 'core/settings/language/edit/$1',
-    'core/settings/language' => 'core/settings/language'
 );

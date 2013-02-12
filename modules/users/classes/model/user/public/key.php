@@ -34,4 +34,16 @@ class Model_User_Public_Key extends Model {
             'mysql_timestamp' => true,
         ),
     );
+
+    public static function find_for_edit($id, $user_id, array $options = array()) {
+        $model_options = array(
+            'where' => array(
+                'id' => (int)$id,
+                'user_id' => (int)$user_id
+            )
+        );
+        $options = array_merge_recursive($options, $model_options);
+        return static::find('first', $options);
+    }
+
 }

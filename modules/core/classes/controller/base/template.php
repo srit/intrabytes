@@ -2,7 +2,7 @@
 
 namespace Core;
 
-class Controller_Base_Template extends \Controller_Hybrid
+class Controller_Base_Template extends \Controller_Template
 {
     public $template = 'templates/layout';
 
@@ -32,12 +32,6 @@ class Controller_Base_Template extends \Controller_Hybrid
                 unset($_POST[$key]);
             }
         }
-
-        logger(
-            \Fuel::L_DEBUG,
-            'Session: ' . \Session::instance()->key() . ' - Module: ' . $this->request->module . ' - Controller: ' . $this->request->controller . ' - Action: ' . $this->request->action . '',
-            __METHOD__
-        );
 
 
         Theme::instance($this->template)->set_template($this->template)->set_global('theme', Theme::instance($this->template), false);

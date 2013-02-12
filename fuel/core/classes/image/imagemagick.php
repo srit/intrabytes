@@ -1,15 +1,13 @@
 <?php
-
 /**
  * Part of the Fuel framework.
  *
- * Image manipulation class.
- *
- * @package		Fuel
- * @version		1.0
- * @license		MIT License
- * @copyright	2010 - 2011 Fuel Development Team
- * @link		http://fuelphp.com
+ * @package    Fuel
+ * @version    1.5
+ * @author     Fuel Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2013 Fuel Development Team
+ * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
@@ -22,9 +20,9 @@ class Image_Imagemagick extends \Image_Driver
 	protected $size_cache = null;
 	protected $im_path = null;
 
-	public function load($filename, $return_data = false)
+	public function load($filename, $return_data = false, $force_extension = false)
 	{
-		extract(parent::load($filename));
+		extract(parent::load($filename, $return_data, $force_extension));
 
 		$this->clear_sizes();
 		if (empty($this->image_temp))
@@ -83,6 +81,28 @@ class Image_Imagemagick extends \Image_Driver
 		$this->exec('convert', $image." -background none -virtual-pixel background +distort ScaleRotateTranslate ".$degrees." +repage ".$image);
 
 		$this->clear_sizes();
+	}
+
+	protected function _flip($direction)
+	{
+		switch ($direction)
+		{
+			case 'vertical':
+			$arg = '-flip';
+			break;
+
+			case 'horizontal':
+			$arg = '-flop';
+			break;
+
+			case 'both':
+			$arg = '-flip -flop';
+			break;
+
+			default: return false;
+		}
+		$image = '"'.$this->image_temp.'"';
+		$this->exec('convert', $image.' '.$arg.' '.$image);
 	}
 
 	protected function _watermark($filename, $position, $padding = 5)

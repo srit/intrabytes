@@ -6,7 +6,7 @@
 ?>
 <div class="span12">
     <div class="control-group">
-        <?php echo html_anchor(\Uri::create('users/settings/pubkeys/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
+        <?php echo html_anchor(\Uri::create('/users/settings/pubkeys/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
     <?php if (!empty($user_public_keys)): ?>
     <table class="table table-striped table-condensed">
@@ -21,7 +21,14 @@
             <td><?php echo xss_clean($pub_key->name) ?></td>
             <td><?php echo substr(xss_clean($pub_key->value), 0, 50) . '...' ?></td>
             <td><?php echo format_from_object('created_at', $pub_key) ?></td>
-            <td><?php echo xss_clean($pub_key->name) ?></td>
+            <td>
+
+                <?php echo twitter_button_group(array(
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/edit/id/:id', array('id' => $pub_key->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/delete/id/:id', array('id' => $pub_key->id)), '<i class="icon-trash"></i> ' . __(extend_locale('actions.delete.label')))),
+            ), extend_locale('actions.label'), array()); ?>
+
+            </td>
         </tr>
         <?php endforeach; ?>
     </table>
