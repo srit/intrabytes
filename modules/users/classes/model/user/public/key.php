@@ -46,4 +46,27 @@ class Model_User_Public_Key extends Model {
         return static::find('first', $options);
     }
 
+    public function validate() {
+        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
+        $this->_fieldset->field('value')->add_rule('required');
+        if($this->_fieldset->validation()->run() == false) {
+            foreach ($this->_fieldset->validation()->error() as $error) {
+                \Core\Messages::error($error);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param null $cascade
+     * @param bool $use_transaction
+     * @return bool
+     * @todo Observer_User
+     */
+    public function save($cascade = null, $use_transaction = false) {
+        $this->user_id = \Auth::get_user()->id;
+        return parent::save($cascade, $use_transaction);
+    }
 }

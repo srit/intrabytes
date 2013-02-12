@@ -91,7 +91,7 @@ class L10n
         $dateFormatter = \IntlDateFormatter::create(
             Locale::instance()->getLocale(),
             \IntlDateFormatter::MEDIUM,
-            \IntlDateFormatter::MEDIUM
+            \IntlDateFormatter::SHORT
         );
 
         return $dateFormatter->format($time);
