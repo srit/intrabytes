@@ -1,17 +1,23 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 11. Feb 2013 um 16:24
+-- Erstellungszeit: 12. Feb 2013 um 06:48
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -205,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=91 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=93 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -215,8 +221,8 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (1, 'logout.label', 'nav', 'Logout :name', 1),
 (2, 'dashboard.label', 'nav', 'Dashboard', 1),
 (3, 'settings.label', 'nav', 'Einstellungen', 1),
-(4, 'dashboard.config.label', 'usernav', 'Dashboard konfigurieren', 1),
-(5, 'logout.label', 'usernav', 'Logout', 1),
+(4, 'dashboard.config.label', 'usernav', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
+(5, 'logout.label', 'usernav', '<i class="icon-off"></i> Logout', 1),
 (6, 'login.index.title', 'users', 'Login', 1),
 (7, 'password.forget.title', 'users', 'Passwort vergessen', 1),
 (8, 'username.label', 'login', 'Nutzername/E-Mail', 1),
@@ -301,7 +307,9 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (87, 'countries.name.austria.label', 'model', 'Österreich', 1),
 (88, 'list.index.count.projects.label', 'customers', 'Projekte (:amount)', 1),
 (89, 'list.index.actions.add.project.label', 'customers', '<i class="icon-plus"></i> Projekt hinzufügen', 1),
-(90, 'list.index.actions.add.contact_persons.label', 'customers', '<i class="icon-plus"></i> Ansprechpartner hinzufügen', 1);
+(90, 'list.index.actions.add.contact_persons.label', 'customers', '<i class="icon-plus"></i> Ansprechpartner hinzufügen', 1),
+(91, 'pubkeys.config.label', 'usernav', '<i class="icon-fire"></i> Public-Keys', 1),
+(92, 'settings_pubkeys_list.index.add.button.label', 'users', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', 1);
 
 -- --------------------------------------------------------
 
@@ -26324,31 +26332,6 @@ INSERT INTO `intrabytes_postalcodes` (`id`, `postalcode`, `city`, `country_id`) 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `intrabytes_profiles`
---
-
-CREATE TABLE IF NOT EXISTS `intrabytes_profiles` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `firstname` varchar(50) NOT NULL,
-  `lastname` varchar(50) NOT NULL,
-  `birthday` date DEFAULT NULL,
-  `gender` varchar(1) DEFAULT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  PRIMARY KEY (`id`,`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Daten für Tabelle `intrabytes_profiles`
---
-
-INSERT INTO `intrabytes_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-02-05 11:19:47');
-
--- --------------------------------------------------------
-
---
 -- Tabellenstruktur für Tabelle `intrabytes_salutations`
 --
 
@@ -26432,7 +26415,32 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360570477, '0432e1e62435d648a543276d5dfa773b23ee22d2', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360608651, 'a3d8ccb7b15a1ea8c69c256413d55c5046b8bdaf', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_user_profiles`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `birthday` date DEFAULT NULL,
+  `gender` varchar(1) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`,`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_user_profiles`
+--
+
+INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
+(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-02-05 11:19:47');
 
 -- --------------------------------------------------------
 
@@ -26448,4 +26456,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_user_public_keys`
+--
+
+INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
+(1, 1, 'MacBookPro', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgdexLHN4AOd31hcBv5U9eekaav6jSBcS/u0Haz/EoNP9CJZuLOw1ODm+gXdK0+uN4ZOy0hWS0uHSnTPBbBSBOf/xsjtutonQCl5SIxjCEqKUTvcLsRj8XLq/SSO2C3OkwYb7ta0LeKOkQ9SuL1kXPFeqj9O34JLFm2phrSKeoVydzt5Ug0wfu03Ui4Q7yv6KSdagPoOO1UicY6GEyjcdsylreZEF7sDoU8zYa4Pi1+0+rLHZLnU44CaAU6EMhVap8NkYmkThoe9a8gBpfqJwnnaApR2xcNe9V9SPR2mMbHABA2bg1YDeFBvy7oSCvJNClIYRVSRRMrpvIHc57JEZh stefanriedel@Stefans-MacBook-Pro.local', '2013-02-11 19:25:18', '2013-02-11 19:25:18');
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
