@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Feb 2013 um 14:01
+-- Erstellungszeit: 12. Feb 2013 um 16:41
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -86,7 +86,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
-(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627');
+(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627'),
+(3, '2013-02-12 15:19:33', '2013-02-12 15:19:33', 'info@expeedo.de', 'expeedo', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '2');
 
 -- --------------------------------------------------------
 
@@ -211,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=135 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -327,7 +328,31 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (107, 'settings_pubkeys_add.index.name.label', 'users', 'Name', 1),
 (108, 'settings_pubkeys_add.index.value.label', 'users', 'Public Key', 1),
 (109, 'settings_pubkeys_add.index.save.button.label', 'users', 'Speichern', 1),
-(110, 'settings_pubkeys_add.index.cancel.button.label', 'users', 'Abbrechen', 1);
+(110, 'settings_pubkeys_add.index.cancel.button.label', 'users', 'Abbrechen', 1),
+(111, 'edit.index.legend', 'customers', 'Kontaktdaten', 1),
+(112, 'edit.index.company_name.label', 'customers', 'Firmen Name', 1),
+(113, 'edit.index.salutation.label', 'customers', 'Anrede', 1),
+(114, 'edit.index.firstname.label', 'customers', 'Vorname', 1),
+(115, 'edit.index.street.label', 'customers', 'Straße', 1),
+(116, 'edit.index.country.label', 'customers', 'Land', 1),
+(117, 'edit.index.phone.label', 'customers', 'Telefonnummer', 1),
+(118, 'edit.index.fax.label', 'customers', 'Fax', 1),
+(119, 'edit.index.lastname.label', 'customers', 'Nachname', 1),
+(120, 'edit.index.housenumber.label', 'customers', 'Hausnummer', 1),
+(121, 'edit.index.city_text.label', 'customers', 'Ort', 1),
+(122, 'edit.index.postalcode_text.label', 'customers', 'Postleitzahl', 1),
+(123, 'add.index.legend', 'customers', 'Kontaktdaten', 1),
+(124, 'add.index.company_name.label', 'customers', 'Firmenname', 1),
+(125, 'add.index.phone.label', 'customers', 'Telefon', 1),
+(126, 'add.index.fax.label', 'customers', 'Fax', 1),
+(127, 'add.index.salutation.label', 'customers', 'Anrede', 1),
+(128, 'add.index.firstname.label', 'customers', 'Vorname', 1),
+(129, 'add.index.lastname.label', 'customers', 'Nachname', 1),
+(130, 'add.index.street.label', 'customers', 'Straße', 1),
+(131, 'add.index.housenumber.label', 'customers', 'Hausnummer', 1),
+(132, 'add.index.postalcode_text.label', 'customers', 'Postleitzahl', 1),
+(133, 'add.index.city_text.label', 'customers', 'Ort', 1),
+(134, 'add.index.country.label', 'customers', 'Land', 1);
 
 -- --------------------------------------------------------
 
