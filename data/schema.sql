@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Feb 2013 um 06:48
+-- Erstellungszeit: 12. Feb 2013 um 14:01
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=93 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=111 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -308,8 +308,26 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (88, 'list.index.count.projects.label', 'customers', 'Projekte (:amount)', 1),
 (89, 'list.index.actions.add.project.label', 'customers', '<i class="icon-plus"></i> Projekt hinzufügen', 1),
 (90, 'list.index.actions.add.contact_persons.label', 'customers', '<i class="icon-plus"></i> Ansprechpartner hinzufügen', 1),
-(91, 'pubkeys.config.label', 'usernav', '<i class="icon-fire"></i> Public-Keys', 1),
-(92, 'settings_pubkeys_list.index.add.button.label', 'users', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', 1);
+(91, 'pubkeys.config.label', 'usernav', '<i class="icon-fire"></i> Public Key Verwaltung', 1),
+(92, 'settings_pubkeys_list.index.add.button.label', 'users', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', 1),
+(93, 'settings_pubkeys_list.index.title', 'users', 'Public Key Verwaltung', 1),
+(94, 'settings_pubkeys_list.index.name.label', 'users', 'Name', 1),
+(95, 'settings_pubkeys_list.index.value.label', 'users', 'Public Key', 1),
+(96, 'settings_pubkeys_list.index.created_at.label', 'users', 'Erstellt', 1),
+(97, 'settings_pubkeys_list.index.actions.label', 'users', 'Aktionen', 1),
+(98, 'settings_pubkeys_list.index.actions.edit.label', 'users', 'Bearbeiten', 1),
+(99, 'settings_pubkeys_list.index.actions.delete.label', 'users', 'Löschen', 1),
+(100, 'expected.parameters.notexists', 'exception', 'Es fehlen erforderliche Parameter.', 1),
+(101, 'settings_pubkeys_edit.index.title', 'users', 'Public Key bearbeiten', 1),
+(102, 'settings_pubkeys_edit.index.name.label', 'users', 'Name', 1),
+(103, 'settings_pubkeys_edit.index.value.label', 'users', 'Public Key', 1),
+(104, 'settings_pubkeys_edit.index.save.button.label', 'users', 'Speichern', 1),
+(105, 'settings_pubkeys_edit.index.cancel.button.label', 'users', 'Abbrechen', 1),
+(106, 'settings_pubkeys_add.index.title', 'users', 'Public Key anlegen', 1),
+(107, 'settings_pubkeys_add.index.name.label', 'users', 'Name', 1),
+(108, 'settings_pubkeys_add.index.value.label', 'users', 'Public Key', 1),
+(109, 'settings_pubkeys_add.index.save.button.label', 'users', 'Speichern', 1),
+(110, 'settings_pubkeys_add.index.cancel.button.label', 'users', 'Abbrechen', 1);
 
 -- --------------------------------------------------------
 
@@ -26415,7 +26433,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360608651, 'a3d8ccb7b15a1ea8c69c256413d55c5046b8bdaf', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360660187, 'a5784affeed6b173d0e647263276366070f9c339', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -26456,14 +26474,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_user_public_keys`
 --
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
-(1, 1, 'MacBookPro', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgdexLHN4AOd31hcBv5U9eekaav6jSBcS/u0Haz/EoNP9CJZuLOw1ODm+gXdK0+uN4ZOy0hWS0uHSnTPBbBSBOf/xsjtutonQCl5SIxjCEqKUTvcLsRj8XLq/SSO2C3OkwYb7ta0LeKOkQ9SuL1kXPFeqj9O34JLFm2phrSKeoVydzt5Ug0wfu03Ui4Q7yv6KSdagPoOO1UicY6GEyjcdsylreZEF7sDoU8zYa4Pi1+0+rLHZLnU44CaAU6EMhVap8NkYmkThoe9a8gBpfqJwnnaApR2xcNe9V9SPR2mMbHABA2bg1YDeFBvy7oSCvJNClIYRVSRRMrpvIHc57JEZh stefanriedel@Stefans-MacBook-Pro.local', '2013-02-11 19:25:18', '2013-02-11 19:25:18');
+(1, 1, 'MacBookPro', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgdexLHN4AOd31hcBv5U9eekaav6jSBcS/u0Haz/EoNP9CJZuLOw1ODm+gXdK0+uN4ZOy0hWS0uHSnTPBbBSBOf/xsjtutonQCl5SIxjCEqKUTvcLsRj8XLq/SSO2C3OkwYb7ta0LeKOkQ9SuL1kXPFeqj9O34JLFm2phrSKeoVydzt5Ug0wfu03Ui4Q7yv6KSdagPoOO1UicY6GEyjcdsylreZEF7sDoU8zYa4Pi1+0+rLHZLnU44CaAU6EMhVap8NkYmkThoe9a8gBpfqJwnnaApR2xcNe9V9SPR2mMbHABA2bg1YDeFBvy7oSCvJNClIYRVSRRMrpvIHc57JEZh stefanriedel@Stefans-MacBook-Pro.local', '2013-02-11 19:25:18', '2013-02-11 19:25:18'),
+(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-12 12:52:49');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
