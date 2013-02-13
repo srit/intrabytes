@@ -12,8 +12,12 @@ class Model_Customer_Project extends Model {
         'id',
         'name',
         'customer_id',
-        'created_at',
-        'updated_at'
+        'created_at' => array(
+            'type' => 'datetime'
+        ),
+        'updated_at' => array(
+            'type' => 'datetime'
+        )
     );
 
     protected static $_belongs_to = array(
@@ -30,4 +34,14 @@ class Model_Customer_Project extends Model {
             'mysql_timestamp' => true,
         ),
     );
+    
+    public static function find($id = null, array $options = array()) {
+        $tmp_options = array(
+            'related' => array(
+                'customer'
+            )
+        );
+        $options = array_merge_recursive($tmp_options, $options);
+        return parent::find($id, $options);
+    }
 }

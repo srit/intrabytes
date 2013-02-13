@@ -33,7 +33,7 @@
             </td>
             <td>
                 <?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contact_persons)))) ?><br>
-                <?php echo html_anchor(\Uri::create('/customers/projects'), __(extend_locale('count.projects.label'), array(':amount' => count($customer->customer_projects)))) ?>
+                <?php echo html_anchor(\Uri::create('/customers/projects/list/:id', array('id' => $customer->id)), __(extend_locale('count.projects.label'), array(':amount' => count($customer->customer_projects)))) ?>
             </td>
             <td>
                 <?php echo twitter_button_group(array(
