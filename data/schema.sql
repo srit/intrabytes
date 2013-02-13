@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Feb 2013 um 16:41
+-- Erstellungszeit: 13. Feb 2013 um 07:07
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
 --
 
 INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `customer_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(1, 'Sonatex Hauptshop', 1, '2013-02-12 20:52:08', '2013-02-12 20:52:08');
 
 -- --------------------------------------------------------
 
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=135 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -352,7 +352,11 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (131, 'add.index.housenumber.label', 'customers', 'Hausnummer', 1),
 (132, 'add.index.postalcode_text.label', 'customers', 'Postleitzahl', 1),
 (133, 'add.index.city_text.label', 'customers', 'Ort', 1),
-(134, 'add.index.country.label', 'customers', 'Land', 1);
+(134, 'add.index.country.label', 'customers', 'Land', 1),
+(135, 'projects_list.index.name.label', 'customers', 'Name', 1),
+(136, 'projects_list.index.created_at.label', 'customers', 'Erstellt', 1),
+(137, 'projects_list.index.actions.label', 'customers', 'Aktionen', 1),
+(138, 'projects_list.index.title', 'customers', 'Projekt', 1);
 
 -- --------------------------------------------------------
 
@@ -26458,7 +26462,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360660187, 'a5784affeed6b173d0e647263276366070f9c339', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360696722, '22f7c542140787558772d93f63da90a1f046a976', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
