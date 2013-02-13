@@ -22,8 +22,8 @@
                     <td><?php echo format_from_object('created_at', $project)?></td>
                     <td>
                         <?php echo twitter_button_group(array(
-                        array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/edit/:id', array('id' => $project->id)), __(extend_locale('actions.edit.label')))),
-                        array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/delete/:id', array('id' => $project->id)), __(extend_locale('actions.delete.label')))),
+                        array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/edit/:customer_id/:id', array('customer_id' => $project->customer_id, 'id' => $project->id)), __(extend_locale('actions.edit.label')))),
+                        array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/delete/:customer_id/:id', array('customer_id' => $project->customer_id, 'id' => $project->id)), __(extend_locale('actions.delete.label')))),
                         ), extend_locale('actions.label'), array()); ?>
                     </td>
                 </tr>

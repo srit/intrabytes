@@ -1,13 +1,16 @@
 <?php
+
 /**
  * @created 06.02.13 - 15:48
  * @author stefanriedel
  */
 
 namespace Customers;
+
 use \Srit\Model;
 
 class Model_Customer_Project extends Model {
+
     protected static $_properties = array(
         'id',
         'name',
@@ -19,11 +22,9 @@ class Model_Customer_Project extends Model {
             'type' => 'datetime'
         )
     );
-
     protected static $_belongs_to = array(
         'customer'
     );
-
     protected static $_observers = array(
         'Orm\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
@@ -34,7 +35,7 @@ class Model_Customer_Project extends Model {
             'mysql_timestamp' => true,
         ),
     );
-    
+
     public static function find($id = null, array $options = array()) {
         $tmp_options = array(
             'related' => array(
@@ -44,4 +45,31 @@ class Model_Customer_Project extends Model {
         $options = array_merge_recursive($tmp_options, $options);
         return parent::find($id, $options);
     }
+
+    public static function find_by_customer_id_and_id($customer_id, $id, array $options = array()) {
+        $tmp_options = array(
+            'where' => array(
+                'customer_id' => (int) $customer_id,
+                'id' => (int) $id
+            )
+        );
+        $options = array_merge_recursive($options, $tmp_options);
+        return static::find('first', $options);
+    }
+    
+    public function validate() {
+        /**
+         * @todo Telefonnummern Validierung
+         */
+        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
+        if($this->_fieldset->validation()->run() == false) {
+            foreach ($this->_fieldset->validation()->error() as $error) {
+                \Core\Messages::error($error);
+            }
+            return false;
+        }
+        return true;
+    }
+
 }
