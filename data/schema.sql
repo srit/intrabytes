@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 13. Feb 2013 um 07:07
+-- Erstellungszeit: 14. Feb 2013 um 13:09
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
 --
 
 INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `customer_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', 1, '2013-02-12 20:52:08', '2013-02-12 20:52:08');
+(1, 'Sonatex Hauptshop2', 1, '2013-02-12 20:52:08', '2013-02-13 16:27:17');
 
 -- --------------------------------------------------------
 
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=139 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=147 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -356,7 +356,15 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (135, 'projects_list.index.name.label', 'customers', 'Name', 1),
 (136, 'projects_list.index.created_at.label', 'customers', 'Erstellt', 1),
 (137, 'projects_list.index.actions.label', 'customers', 'Aktionen', 1),
-(138, 'projects_list.index.title', 'customers', 'Projekt', 1);
+(138, 'projects_list.index.title', 'customers', 'Projekt', 1),
+(139, 'projects_list.index.add.button.label', 'customers', '<i class="icon-white icon-plus"></i> Projekt hinzufügen', 1),
+(140, 'projects_list.index.actions.edit.label', 'customers', '<i class="icon-edit"></i> Bearbeiten', 1),
+(141, 'projects_list.index.actions.delete.label', 'customers', '<i class="icon-trash"></i> Löschen', 1),
+(142, 'projects_edit.index.title', 'customers', 'Projekt bearbeiten', 1),
+(143, 'projects_edit.index.legend', 'customers', 'Projektdaten', 1),
+(144, 'projects_edit.index.name.label', 'customers', 'Projektname', 1),
+(145, 'projects_edit.index.save.button.label', 'customers', 'Speichern', 1),
+(146, 'projects_edit.index.cancel.button.label', 'customers', 'Abbrechen', 1);
 
 -- --------------------------------------------------------
 
@@ -26462,7 +26470,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360696722, '22f7c542140787558772d93f63da90a1f046a976', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360843013, '4bd1a10ff61c3a45284974aabddf6d02ee16966e', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
