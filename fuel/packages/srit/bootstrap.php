@@ -14,6 +14,7 @@ Autoloader::add_classes(array(
     'Srit\\Locale' => __DIR__ . '/classes/locale.php',
     'Srit\\L10n' => __DIR__ . '/classes/l10n.php',
     'Srit\\Validation_Error' => __DIR__ . '/classes/validation/error.php',
+    'Srit\\Inflector' => __DIR__ . '/classes/inflector.php',
 ));
 
 require_once 'base.php';

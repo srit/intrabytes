@@ -35,7 +35,7 @@ class Model_User_Public_Key extends Model {
         ),
     );
 
-    public static function find_for_edit($id, $user_id, array $options = array()) {
+    /*public static function find_for_edit($id, array $options = array()) {
         $model_options = array(
             'where' => array(
                 'id' => (int)$id,
@@ -44,7 +44,7 @@ class Model_User_Public_Key extends Model {
         );
         $options = array_merge_recursive($options, $model_options);
         return static::find('first', $options);
-    }
+    }*/
 
     public function validate() {
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());

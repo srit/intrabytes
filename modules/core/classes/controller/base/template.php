@@ -4,6 +4,9 @@ namespace Core;
 
 class Controller_Base_Template extends \Controller_Template
 {
+    
+    protected $_crud_objects = array();
+    
     public $template = 'templates/layout';
 
     protected $_locale_prefix = null;
@@ -22,7 +25,7 @@ class Controller_Base_Template extends \Controller_Template
         if(\Input::is_ajax()) {
             return parent::before();
         }
-
+        
         /**
          * CSRF Token ist falsch, POST Variablen löschen!
          */
@@ -50,6 +53,7 @@ class Controller_Base_Template extends \Controller_Template
         }
 
         $this->_define_global_locales();
+        $this->_init_crud_objects();
     }
 
     public function after($response) {
@@ -74,11 +78,42 @@ class Controller_Base_Template extends \Controller_Template
         return parent::after($response);
     }
 
-
-
     protected function _define_global_locales()
     {
         Theme::instance($this->template)->get_template()->set_global('title', __(extend_locale('title')));
+    }
+    
+    protected function _init_crud_objects() {
+        if(!empty($this->_crud_objects)) {
+            foreach($this->_crud_objects as $crud) {
+                $explode_crud = explode(':', $crud);
+                /**
+                 * wenn ein namspace mit angegeben wurde,
+                 * versuchen diesen aufzulösen
+                 */
+                if(count($explode_crud) > 1) {
+                    
+                } else {
+                    list($model) = $explode_crud;
+                    $model = \Inflector::camelize($model);
+                    $model = \Inflector::underscore($model);
+                    $model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+                    
+                    /**
+                     * aktuellen Namspace ermitteln
+                     */
+                    $reflector = new \ReflectionClass(get_called_class());
+                    $namespace = $reflector->getNamespaceName();
+                    $model_object_name = $namespace .'\\' . $model_object_name;
+                    
+                }
+                
+                $params = \Fuel\Core\Request::forge()->named_params;
+                $params = empty($params) ? \Fuel\Core\Request::forge()->method_params : $params;
+                
+                forward_static_call_array(array($model_object_name, 'find_for_edit'), $params);
+            }
+        }
     }
 
 }

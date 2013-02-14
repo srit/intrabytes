@@ -77,5 +77,9 @@ class Model extends \Orm\Model
         }
         return $value;
     }
+    
+    public static function find_for_edit($id = null, array $options = array()) {
+        
+    }
 
 }

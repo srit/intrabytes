@@ -9,7 +9,7 @@ namespace Customers;
 use \Core\Messages;
 use \Core\Theme;
 
-class Controller_Projects_List extends \Core\Controller_Base_User {
+class Controller_Projects_List extends Controller_Projects {
 
     public function action_index() {
         $customer_id = $this->params('customer_id');
