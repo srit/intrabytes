@@ -6,11 +6,10 @@
 
 namespace Customers;
 
-use \Core\Messages;
-use \Core\Theme;
-
 class Controller_Projects extends \Core\Controller_Base_User {
 
-    protected $_crud_objects = array('customer_project');
+    protected $_crud_objects = array(
+        'customer_project'
+    );
     
 }

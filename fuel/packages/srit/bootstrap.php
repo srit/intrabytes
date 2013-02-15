@@ -15,8 +15,12 @@ Autoloader::add_classes(array(
     'Srit\\L10n' => __DIR__ . '/classes/l10n.php',
     'Srit\\Validation_Error' => __DIR__ . '/classes/validation/error.php',
     'Srit\\Inflector' => __DIR__ . '/classes/inflector.php',
+    'Srit\\Debug' => __DIR__ . '/classes/debug.php',
+    'Srit\\Controller_Template' => __DIR__ . '/classes/controller/template.php',
+    'ChromePhp' => __DIR__ . '/classes/vendor/chromephp.php'
 ));
 
 require_once 'base.php';
 
-\Srit\Lang::init();
+\Lang::init();
+\Config::load('logger', true);
