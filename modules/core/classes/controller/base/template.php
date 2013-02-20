@@ -4,10 +4,16 @@ namespace Core;
 
 use Monolog\Logger;
 use Monolog\Handler\ChromePHPHandler;
+use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\RotatingFileHandler;
 
-class Controller_Base_Template extends \Controller_Template {
+class Controller_Base_Template extends \Controller_Template
+{
 
     protected $_crud_objects = array();
+
+    protected $_crud_action = null;
+
     public $template = 'templates/layout';
     protected $_locale_prefix = null;
 
@@ -24,14 +30,14 @@ class Controller_Base_Template extends \Controller_Template {
      */
     protected $_logger = null;
 
-    public function before() {
+    public function before()
+    {
 
         if (\Input::is_ajax()) {
             return parent::before();
         }
 
-        $this->_logger = new Logger('controller');
-        $this->_logger->pushHandler(new ChromePHPHandler(\Config::get('logger.level')));
+        $this->_init_logger();
 
         /**
          * CSRF Token ist falsch, POST Variablen löschen!
@@ -53,9 +59,9 @@ class Controller_Base_Template extends \Controller_Template {
              * @todo dynamischer machen das aktuell aktivierte theme sollte unterstützt werden können
              */
             Theme::instance($this->template)->add_paths(
-                    array(
-                        ROOT . 'modules' . DS . $this->request->module . DS
-                    )
+                array(
+                    ROOT . 'modules' . DS . $this->request->module . DS
+                )
             );
         }
 
@@ -64,7 +70,8 @@ class Controller_Base_Template extends \Controller_Template {
         $this->_log_controller_data();
     }
 
-    public function after($response) {
+    public function after($response)
+    {
         if (!\Input::is_ajax()) {
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
@@ -83,40 +90,58 @@ class Controller_Base_Template extends \Controller_Template {
         return parent::after($response);
     }
 
-    protected function _define_global_locales() {
+    protected function _define_global_locales()
+    {
         Theme::instance($this->template)->get_template()->set_global('title', __(extend_locale('title')));
     }
 
-    protected function _init_crud_objects() {
+    protected function _init_crud_objects()
+    {
 
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
         $expl_controller = explode('_', $this->request->controller);
         $last_controller_part = strtolower(array_pop($expl_controller));
-        
-        $this->_logger->debug($last_controller_part);
-        
-        if (!empty($this->_crud_objects) && 
-                (in_array($this->request->action, $crud_options['crud_actions']) || 
+
+        if (!empty($this->_crud_objects) &&
+            (in_array($this->request->action, $crud_options['crud_actions']) ||
                 in_array($last_controller_part, $crud_options['crud_actions'])
-                )) {
-            
-            
-            
-            foreach ($this->_crud_objects as $crud) {
-                $explode_crud = explode(':', $crud);
+            )
+        ) {
+
+            $this->_crud_action = (in_array($this->request->action, $crud_options['crud_actions'])) ? $this->reques->action : $last_controller_part;
+            $this->_logger->debug('Crud Action:', array($this->_crud_action));
+
+            foreach ($this->_crud_objects as $key => $crud) {
+
+                $this->_logger->debug('Crud Array', array($key, $crud));
+
+                if (!is_string($key)) {
+                    $this->_crud_objects[$crud] = array();
+                    $crud_object = $crud;
+                } else {
+                    $crud_object = $key;
+                    if (!is_array($crud)) {
+                        $this->_crud_objects[$key] = array();
+                    }
+                }
+
+                $explode_crud = explode(':', $crud_object);
+
+                $this->_logger->debug('Explode Crud', $explode_crud);
+
                 /**
                  * wenn ein namspace mit angegeben wurde,
                  * versuchen diesen aufzulösen
                  */
                 if (count($explode_crud) > 1) {
-                    
+
                 } else {
                     list($model) = $explode_crud;
                     $model = \Inflector::camelize($model);
                     $model = \Inflector::underscore($model);
                     $model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
-
+                    $this->_logger->debug('Model Objekt Name:', array($model_object_name));
                     /**
                      * aktuellen Namspace ermitteln
                      */
@@ -125,21 +150,46 @@ class Controller_Base_Template extends \Controller_Template {
                     $model_object_name = $namespace . '\\' . $model_object_name;
                 }
 
-                $params = \Fuel\Core\Request::forge()->named_params;
-                $params = empty($params) ? \Fuel\Core\Request::forge()->method_params : $params;
+                $named_params = \Fuel\Core\Request::forge()->named_params;
+                //$params = empty($params) ? \Fuel\Core\Request::forge()->method_params : $params;
 
-                forward_static_call_array(array($model_object_name, 'find_for_edit'), $params);
+
+                $this->_logger->debug('Primärschlüssel: ', array($model_object_name::primary_key()));
+                $this->_logger->debug('Named Parameter', $named_params);
+
+                $options = array('where' => $named_params);
+                $this->_logger->debug('Options:', $options);
+
+
+                if ($this->_crud_action == 'list') {
+                    //list ist im moment die einzige action, welche ein find_all machen sollte
+                    $data = $model_object_name::find('all', $options);
+                } else {
+                    $data = $model_object_name::find('first', $options);
+                }
+
+                $this->_crud_objects[$crud_object]['data'] = $data;
             }
         }
     }
 
-    private function _log_controller_data() {        
+    private function _init_logger()
+    {
+        $log_level = \Config::get('logger.level');
+
+        $this->_logger = new Logger('controller');
+        $this->_logger->pushHandler(new ChromePHPHandler($log_level));
+        $this->_logger->pushHandler(new FirePHPHandler($log_level));
+    }
+
+    private function _log_controller_data()
+    {
         $reflector = new \ReflectionClass(get_called_class());
         $namespace = $reflector->getNamespaceName();
-        $this->_logger->addDebug('Controller Namespace: ' . $namespace);
-        $this->_logger->addDebug('Module: ' . $this->request->module);
-        $this->_logger->addDebug('Controller: ' . $this->request->controller);
-        $this->_logger->addDebug('Action: ' . $this->request->action);
+        $this->_logger->addDebug('Controller Namespace: ', array($namespace));
+        $this->_logger->addDebug('Module: ', array($this->request->module));
+        $this->_logger->addDebug('Controller: ', array($this->request->controller));
+        $this->_logger->addDebug('Action: ', array($this->request->action));
     }
 
 }

@@ -21,8 +21,8 @@ class Controller_Projects_Edit extends Controller_Projects {
         }
         
         
-        $this->project = Model_Customer_Project::find_by_customer_id_and_id($customer_id,$project_id);
-        
+        //$this->project = Model_Customer_Project::find_by_customer_id_and_id($customer_id,$project_id);
+        $this->project = Model_Customer_Project::forge();
         /**
          * @todo Refaktorieren
          */

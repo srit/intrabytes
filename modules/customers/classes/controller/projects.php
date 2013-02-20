@@ -9,7 +9,7 @@ namespace Customers;
 class Controller_Projects extends \Core\Controller_Base_User {
 
     protected $_crud_objects = array(
-        'customer_project'
+        'customer_project' => array()
     );
     
 }

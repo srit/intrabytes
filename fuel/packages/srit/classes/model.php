@@ -6,8 +6,18 @@
 
 namespace Srit;
 
+use \Monolog\Logger;
+use \Monolog\Handler\ChromePHPHandler;
+use \Monolog\Handler\FirePHPHandler;
+use \Monolog\Handler\RotatingFileHandler;
+
 class Model extends \Orm\Model
 {
+
+    /**
+     * @var Logger
+     */
+    protected static $_logger = null;
 
     protected static $_many_many = array();
     protected static $_belongs_to = array();
@@ -18,6 +28,10 @@ class Model extends \Orm\Model
      * @var \Fuel\Core\Fieldset
      */
     protected $_fieldset = null;
+
+    public static function _init() {
+        static::_init_logger();
+    }
 
     public static function find_all(array $options = array()) {
         return static::find('all', $options);
@@ -80,6 +94,15 @@ class Model extends \Orm\Model
     
     public static function find_for_edit($params = null, array $options = array()) {
         
+    }
+
+    protected static function _init_logger() {
+        $log_level = \Config::get('logger.level');
+
+        static::$_logger = new Logger('model');
+
+        static::$_logger->pushHandler(new ChromePHPHandler($log_level));
+        static::$_logger->pushHandler(new FirePHPHandler($log_level));
     }
 
 }

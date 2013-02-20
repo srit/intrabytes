@@ -230,6 +230,7 @@ return array(
             'auth',
             'email',
             'parser',
+            'log',
             'srit'
         ),
 

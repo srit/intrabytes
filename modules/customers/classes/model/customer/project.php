@@ -11,6 +11,8 @@ use \Srit\Model;
 
 class Model_Customer_Project extends Model {
 
+    protected static $_primary_key = array('id', 'customer_id');
+
     protected static $_properties = array(
         'id',
         'name',
@@ -37,6 +39,9 @@ class Model_Customer_Project extends Model {
     );
 
     public static function find($id = null, array $options = array()) {
+
+        static::$_logger->debug('Find Function Args', array($id, $options));
+
         $tmp_options = array(
             'related' => array(
                 'customer'
