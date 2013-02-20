@@ -102,9 +102,10 @@ class Controller_Base_Template extends \Controller_Template
         $crud_options = \Config::get('crud.default');
         $expl_controller = explode('_', $this->request->controller);
         $last_controller_part = strtolower(array_pop($expl_controller));
+        $action = $this->request->action;
 
         if (!empty($this->_crud_objects) &&
-            (in_array($this->request->action, $crud_options['crud_actions']) ||
+            (in_array($action, $crud_options['crud_actions']) ||
                 in_array($last_controller_part, $crud_options['crud_actions'])
             )
         ) {
@@ -170,6 +171,19 @@ class Controller_Base_Template extends \Controller_Template
 
                 $this->_crud_objects[$crud_object]['data'] = $data;
             }
+
+            /**
+             * Fürs Template
+             */
+            $expl_controller = explode('_', $this->request->controller);
+            unset($expl_controller[0]);
+            $template_path = $namespace . '/';
+            $template_path .= implode('/', $expl_controller);
+            $template_path .= '/' . $action;
+            $template_path = strtolower($template_path);
+            Theme::instance($this->template)->set_partial('content', $template_path)->set('crud_objects', $this->_crud_objects);
+            $this->_logger->debug("Template Pfad", array($template_path));
+
         }
     }
 
