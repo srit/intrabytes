@@ -24,6 +24,8 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_crud_action = null;
 
+    protected $_crud_redirect_uri = null;
+
     protected $_named_params = array();
 
     protected $_model_object_name = null;
@@ -118,7 +120,11 @@ class Controller_Base_Template extends \Controller_Template
         $crud_options = \Config::get('crud.default');
         $this->_prepare_controller_vars();
 
-        if (!empty($this->_crud_objects) && in_array($this->_crud_action, $crud_options['crud_actions'])) {
+        if (\Input::post('cancel', false)) {
+            Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+        }
+
+        if (in_array($this->_crud_action, $crud_options['crud_actions'])) {
 
             foreach ($this->_crud_objects as $key => $crud) {
 
@@ -174,9 +180,6 @@ class Controller_Base_Template extends \Controller_Template
                     $data = $model_object_name::find('first', $options);
                 }
 
-                /**
-                 * @todo refaktorieren
-                 */
                 if (\Input::post('save', false)) {
                     /**
                      * edit oder add
@@ -185,11 +188,8 @@ class Controller_Base_Template extends \Controller_Template
                     if ($data->validate()) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('edit.customer.success')));
-                        $redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
-                        $named_params_for_uri = implode('/', $this->_named_params);
-                        $redirect_uri .= '/' . $named_params_for_uri;
-                        $this->_logger->debug('Redirect URI', array($redirect_uri));
-                        Messages::redirect(\Uri::create($redirect_uri));
+
+                        Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                     }
                 }
 
@@ -211,12 +211,12 @@ class Controller_Base_Template extends \Controller_Template
         $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
         $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
         $this->_controller_action = $this->request->action;
+        $this->_named_params = \Request::forge()->named_params;
 
         $expl_controller_without_controller_prefix = explode('_', $this->_controller_without_controller_prefix);
         $this->_last_controller_part = array_pop($expl_controller_without_controller_prefix);
 
         $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
-
         $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
 
         /**
@@ -224,15 +224,16 @@ class Controller_Base_Template extends \Controller_Template
          */
         Theme::instance($this->template)->set_partial('content', $this->_controller_path);
 
-        $this->_named_params = \Request::forge()->named_params;
+
         if (!empty($this->_named_params)) {
             foreach ($this->_named_params as $name => $value) {
                 Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
 
+        $this->_crud_redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path) . '/' . implode('/', $this->_named_params);
 
-        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_last_controller_part, $this->_crud_action, $this->_controller_path, $this->_named_params));
+        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_last_controller_part, $this->_crud_action, $this->_controller_path, $this->_named_params, $this->_crud_redirect_uri));
     }
 
     private function _init_logger()
