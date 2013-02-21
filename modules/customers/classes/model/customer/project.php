@@ -11,8 +11,6 @@ use \Srit\Model;
 
 class Model_Customer_Project extends Model {
 
-    protected static $_primary_key = array('id', 'customer_id');
-
     protected static $_properties = array(
         'id',
         'name',

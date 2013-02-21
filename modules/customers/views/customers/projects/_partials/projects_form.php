@@ -3,8 +3,12 @@
  * @created 13.02.2013
  * @author stefanriedel
  */
+
+$project = $crud_objects['customer_project']['data'];
+
 ?>
 <form method="post" accept-charset="utf-8" id="customer">
+    <?php echo html_hidden('customer_id', xss_clean($project->customer_id)) ?>
     <div class="span12">
         <?php echo security_field(); ?>
         <?php echo html_legend(extend_locale('legend')); ?>

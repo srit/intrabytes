@@ -7,7 +7,7 @@
 
 <div class="span12">
     <div class="control-group">
-        <?php echo html_anchor(\Uri::create('/customers/projects/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
+        <?php echo html_anchor(\Uri::create('/customers/projects/add/:customer_id', array('customer_id' => $customer_id)), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
     <?php if (!empty($crud_objects['customer_project']['data'])): ?>
         <table class="table table-striped table-condensed">

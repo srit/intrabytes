@@ -10,9 +10,23 @@ use Monolog\Handler\RotatingFileHandler;
 class Controller_Base_Template extends \Controller_Template
 {
 
+    protected $_controller_namespace = '';
+
+    protected $_controller_without_controller_prefix = '';
+
+    protected $_controller_action = '';
+
+    protected $_last_controller_part = '';
+
+    protected $_controller_path = '/';
+
     protected $_crud_objects = array();
 
     protected $_crud_action = null;
+
+    protected $_named_params = array();
+
+    protected $_model_object_name = null;
 
     public $template = 'templates/layout';
     protected $_locale_prefix = null;
@@ -66,7 +80,9 @@ class Controller_Base_Template extends \Controller_Template
         }
 
         $this->_define_global_locales();
-        $this->_init_crud_objects();
+        if (!empty($this->_crud_objects)) {
+            $this->_init_crud_objects();
+        }
         $this->_log_controller_data();
     }
 
@@ -100,18 +116,9 @@ class Controller_Base_Template extends \Controller_Template
 
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
-        $expl_controller = explode('_', $this->request->controller);
-        $last_controller_part = strtolower(array_pop($expl_controller));
-        $action = $this->request->action;
+        $this->_prepare_controller_vars();
 
-        if (!empty($this->_crud_objects) &&
-            (in_array($action, $crud_options['crud_actions']) ||
-                in_array($last_controller_part, $crud_options['crud_actions'])
-            )
-        ) {
-
-            $this->_crud_action = (in_array($this->request->action, $crud_options['crud_actions'])) ? $this->reques->action : $last_controller_part;
-            $this->_logger->debug('Crud Action:', array($this->_crud_action));
+        if (!empty($this->_crud_objects) && in_array($this->_crud_action, $crud_options['crud_actions'])) {
 
             foreach ($this->_crud_objects as $key => $crud) {
 
@@ -128,7 +135,6 @@ class Controller_Base_Template extends \Controller_Template
                 }
 
                 $explode_crud = explode(':', $crud_object);
-
                 $this->_logger->debug('Explode Crud', $explode_crud);
 
                 /**
@@ -141,7 +147,7 @@ class Controller_Base_Template extends \Controller_Template
                     list($model) = $explode_crud;
                     $model = \Inflector::camelize($model);
                     $model = \Inflector::underscore($model);
-                    $model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+                    $this->_model_object_name = $model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
                     $this->_logger->debug('Model Objekt Name:', array($model_object_name));
                     /**
                      * aktuellen Namspace ermitteln
@@ -151,44 +157,91 @@ class Controller_Base_Template extends \Controller_Template
                     $model_object_name = $namespace . '\\' . $model_object_name;
                 }
 
-                $named_params = \Fuel\Core\Request::forge()->named_params;
-                //$params = empty($params) ? \Fuel\Core\Request::forge()->method_params : $params;
-
-
-                $this->_logger->debug('Primärschlüssel: ', array($model_object_name::primary_key()));
-                $this->_logger->debug('Named Parameter', $named_params);
-
-                $options = array('where' => $named_params);
+                $options = array('where' => $this->_named_params);
                 $this->_logger->debug('Options:', $options);
 
+                /**
+                 * @todo Cancel Button wurde betätigt
+                 */
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
                     $data = $model_object_name::find('all', $options);
+
+                } elseif ($this->_crud_action == 'add') {
+                    $data = $model_object_name::forge($this->_named_params);
                 } else {
                     $data = $model_object_name::find('first', $options);
                 }
 
+                /**
+                 * @todo refaktorieren
+                 */
+                if (\Input::post('save', false)) {
+                    /**
+                     * edit oder add
+                     */
+                    $data->set(\Input::post());
+                    if ($data->validate()) {
+                        $data->save();
+                        Messages::instance()->success(__(extend_locale('edit.customer.success')));
+                        $redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
+                        $named_params_for_uri = implode('/', $this->_named_params);
+                        $redirect_uri .= '/' . $named_params_for_uri;
+                        $this->_logger->debug('Redirect URI', array($redirect_uri));
+                        Messages::redirect(\Uri::create($redirect_uri));
+                    }
+                }
+
                 $this->_crud_objects[$crud_object]['data'] = $data;
             }
-
-            /**
-             * Fürs Template
-             */
-            $expl_controller = explode('_', $this->request->controller);
-            unset($expl_controller[0]);
-            $template_path = $namespace . '/';
-            $template_path .= implode('/', $expl_controller);
-            $template_path .= '/' . $action;
-            $template_path = strtolower($template_path);
-            Theme::instance($this->template)->set_partial('content', $template_path)->set('crud_objects', $this->_crud_objects);
-            $this->_logger->debug("Template Pfad", array($template_path));
+            Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set('crud_objects', $this->_crud_objects);
 
         }
     }
 
+    /**
+     * @todo crud spezifisches auslagern, wir benötige diese Daten in jedem Fall und können sicher auch anhand der Controller_Action das benötigte Template setzen
+     */
+    protected function _prepare_controller_vars()
+    {
+        \Config::load('crud', true);
+        $crud_options = \Config::get('crud.default');
+
+        $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
+        $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
+        $this->_controller_action = $this->request->action;
+
+        $expl_controller_without_controller_prefix = explode('_', $this->_controller_without_controller_prefix);
+        $this->_last_controller_part = array_pop($expl_controller_without_controller_prefix);
+
+        $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
+
+        $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
+
+        /**
+         * @todo evtl. auslagern
+         */
+        Theme::instance($this->template)->set_partial('content', $this->_controller_path);
+
+        $this->_named_params = \Request::forge()->named_params;
+        if (!empty($this->_named_params)) {
+            foreach ($this->_named_params as $name => $value) {
+                Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set($name, $value);
+            }
+        }
+
+
+        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_last_controller_part, $this->_crud_action, $this->_controller_path, $this->_named_params));
+    }
+
     private function _init_logger()
     {
+
+        /**
+         * @todo Logger Class erstellen (forge)
+         */
+
         $log_level = \Config::get('logger.level');
 
         $this->_logger = new Logger('controller');

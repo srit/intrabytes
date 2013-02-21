@@ -9,8 +9,8 @@ namespace Customers;
 use \Core\Messages;
 use \Core\Theme;
 
-class Controller_Projects_List extends Controller_Projects {
-
+class Controller_Projects_Add extends Controller_Projects {
+    
     public function action_index() {
 
     }
