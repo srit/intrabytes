@@ -153,14 +153,8 @@ class Controller_Base_Template extends \Controller_Template
                     list($model) = $explode_crud;
                     $model = \Inflector::camelize($model);
                     $model = \Inflector::underscore($model);
-                    $this->_model_object_name = $model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
-                    $this->_logger->debug('Model Objekt Name:', array($model_object_name));
-                    /**
-                     * aktuellen Namspace ermitteln
-                     */
-                    $reflector = new \ReflectionClass(get_called_class());
-                    $namespace = $reflector->getNamespaceName();
-                    $model_object_name = $namespace . '\\' . $model_object_name;
+                    $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+                    $this->_model_object_name = $this->_controller_namespace . '\\' . $this->_model_object_name;
                 }
 
                 $options = array('where' => $this->_named_params);
