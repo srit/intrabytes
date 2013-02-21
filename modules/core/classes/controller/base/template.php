@@ -193,6 +193,13 @@ class Controller_Base_Template extends \Controller_Template
                     }
                 }
 
+                if (\Input::post('delete', false)) {
+                    $data->delete();
+                    Messages::instance()->success(__(extend_locale('delete.customer.success')));
+
+                    Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+                }
+
                 $this->_crud_objects[$crud_object]['data'] = $data;
             }
             Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set('crud_objects', $this->_crud_objects);
