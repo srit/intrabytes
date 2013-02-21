@@ -166,12 +166,11 @@ class Controller_Base_Template extends \Controller_Template
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
-                    $data = $model_object_name::find('all', $options);
-
+                    $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
                 } elseif ($this->_crud_action == 'add') {
-                    $data = $model_object_name::forge($this->_named_params);
+                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($this->_named_params));
                 } else {
-                    $data = $model_object_name::find('first', $options);
+                    $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
                 }
 
                 if (\Input::post('save', false)) {
