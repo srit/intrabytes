@@ -248,6 +248,10 @@ function twitter_submit_group() {
     return html_tag('div', array('class' => 'control-group'), html_tag('div', array('class' => 'controls'), twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' . twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
 }
 
+function twitter_delete_group() {
+    return html_tag('div', array('class' => 'control-group'), html_tag('div', array('class' => 'controls'), twitter_html_submit_button('delete', 'delete', extend_locale('delete.button.label'), array(), array('class' => 'btn-danger')) . ' ' . twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
+}
+
 /**
  * @param string $name
  * @param string $value
