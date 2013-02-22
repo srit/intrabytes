@@ -41,7 +41,7 @@
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/edit/:id', array('id' => $customer->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/delete/:id', array('id' => $customer->id)), '<i class="icon-trash"></i> ' . __(extend_locale('actions.delete.label')))),
                 array('is_divider' => true),
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/add'), __(extend_locale('actions.add.project.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/projects/add/:customer_id', array('customer_id' => $customer->id)), __(extend_locale('actions.add.project.label')))),
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/customers/contact_persons/add'), __(extend_locale('actions.add.contact_persons.label')))),
             ), extend_locale('actions.label'), array()); ?>
             </td>

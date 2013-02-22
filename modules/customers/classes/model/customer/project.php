@@ -11,8 +11,6 @@ use \Srit\Model;
 
 class Model_Customer_Project extends Model {
 
-    const REDMINE_URL = 'redmine.alphadev.de';
-
     protected static $_properties = array(
         'id',
         'name',

@@ -20,7 +20,7 @@ class Controller_Base_User extends Controller_Base_Template_Public {
          */
         if(!\Auth::check()) {
             Messages::error('Access denied. Please login first');
-            \Response::redirect('/users/login');
+            Messages::redirect('/users/login');
         }
         $this->_user = \Auth::instance()->get_user();
         parent::before();

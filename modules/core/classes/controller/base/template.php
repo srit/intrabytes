@@ -81,7 +81,8 @@ class Controller_Base_Template extends \Controller_Template
             );
         }
 
-        $this->_define_global_locales();
+        $this->_init_controller_vars();
+        $this->_init_global_locales();
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
         }
@@ -108,7 +109,7 @@ class Controller_Base_Template extends \Controller_Template
         return parent::after($response);
     }
 
-    protected function _define_global_locales()
+    protected function _init_global_locales()
     {
         Theme::instance($this->template)->get_template()->set_global('title', __(extend_locale('title')));
     }
@@ -118,7 +119,7 @@ class Controller_Base_Template extends \Controller_Template
 
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
-        $this->_prepare_controller_vars();
+        $this->_init_crud_vars();
 
         if (\Input::post('cancel', false)) {
             Messages::redirect(\Uri::create($this->_crud_redirect_uri));
@@ -180,7 +181,7 @@ class Controller_Base_Template extends \Controller_Template
                     $data->set(\Input::post());
                     if ($data->validate()) {
                         $data->save();
-                        Messages::instance()->success(__(extend_locale('edit.customer.success')));
+                        Messages::instance()->success(__(extend_locale('success')));
 
                         Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                     }
@@ -188,7 +189,7 @@ class Controller_Base_Template extends \Controller_Template
 
                 if (\Input::post('delete', false)) {
                     $data->delete();
-                    Messages::instance()->success(__(extend_locale('delete.customer.success')));
+                    Messages::instance()->success(__(extend_locale('success')));
 
                     Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                 }
@@ -200,40 +201,46 @@ class Controller_Base_Template extends \Controller_Template
         }
     }
 
-    /**
-     * @todo crud spezifisches auslagern, wir benötige diese Daten in jedem Fall und können sicher auch anhand der Controller_Action das benötigte Template setzen
-     */
-    protected function _prepare_controller_vars()
-    {
+    protected function _init_crud_vars() {
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
 
+        $expl_controller_without_controller_prefix = explode('_', $this->_controller_without_controller_prefix);
+        $this->_last_controller_part = array_pop($expl_controller_without_controller_prefix);
+        $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
+        $this->_crud_redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path) . '/' . implode('/', $this->_named_params);
+
+        Theme::instance($this->template)->get_partial('content', $this->_controller_path)
+            ->set('last_controller_part', $this->_last_controller_part)
+            ->set('crud_action', $this->_crud_action);
+
+        $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_redirect_uri));
+    }
+
+    /**
+     * @todo crud spezifisches auslagern, wir benötige diese Daten in jedem Fall und können sicher auch anhand der Controller_Action das benötigte Template setzen
+     */
+    protected function _init_controller_vars()
+    {
         $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
         $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
         $this->_controller_action = $this->request->action;
-        $this->_named_params = \Request::forge()->named_params;
-
-        $expl_controller_without_controller_prefix = explode('_', $this->_controller_without_controller_prefix);
-        $this->_last_controller_part = array_pop($expl_controller_without_controller_prefix);
-
-        $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
         $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
-
-        /**
-         * @todo evtl. auslagern
-         */
-        Theme::instance($this->template)->set_partial('content', $this->_controller_path);
-
-
+        $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
+        \Srit\Locale::instance()->setLocalePrefix($this->_locale_prefix);
+        $this->_named_params = \Request::forge()->named_params;
+        Theme::instance($this->template)->set_partial('content', $this->_controller_path)
+            ->set('controller_namespace', $this->_controller_namespace)
+            ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
+            ->set('controller_action', $this->_controller_action)
+            ->set('controller_path', $this->_controller_path)
+            ->set('locale_prefix', $this->_locale_prefix);
         if (!empty($this->_named_params)) {
             foreach ($this->_named_params as $name => $value) {
                 Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
-
-        $this->_crud_redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path) . '/' . implode('/', $this->_named_params);
-
-        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_last_controller_part, $this->_crud_action, $this->_controller_path, $this->_named_params, $this->_crud_redirect_uri));
+        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
     }
 
     private function _init_logger()
