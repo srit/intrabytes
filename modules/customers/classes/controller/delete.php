@@ -9,9 +9,10 @@ namespace Customers;
 use \Core\Messages;
 use \Core\Theme;
 
-class Controller_List extends Controller_Customers {
-
+class Controller_Delete extends Controller_Customers {
+    
     public function action_index() {
+
     }
 
 }

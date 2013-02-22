@@ -17,7 +17,7 @@ class Model_Salutation extends Model {
     
     protected static $_has_many = array(
         'customers',
-        'customers_contact_persons',
+        'customer_projects',
     );
     
     public static function find_all_for_html_select(array $options = array()) {

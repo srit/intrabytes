@@ -3,6 +3,7 @@
  * @created 05.02.13 - 13:02
  * @author stefanriedel
  */
+$customer = $crud_objects['customer']['data'];
 ?>
 
 <form method="post" accept-charset="utf-8" id="customer">

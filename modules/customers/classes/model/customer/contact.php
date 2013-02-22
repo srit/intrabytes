@@ -7,9 +7,9 @@
 namespace Customers;
 use \Srit\Model;
 
-class Model_Customer_Contact_Person extends Model {
+class Model_Customer_Contact extends Model {
 
-    protected static $_table_name = 'customer_contact_persons';
+    //protected static $_table_name = 'customer_contact_persons';
 
     protected static $_properties = array(
         'id',
@@ -28,9 +28,6 @@ class Model_Customer_Contact_Person extends Model {
     );
 
     protected static $_belongs_to = array(
-        'customer' => array(
-            'model_to' => '\Customers\Model_Customer'
-        ),
         'postalcode',
         'salutation'
     );

@@ -25,11 +25,12 @@ class Model_Customer extends Model {
     );
 
     protected static $_has_many = array(
-        'customer_contact_persons' => array(
-            'model_to' => '\Customers\Model_Customer_Contact_Person',
+        'customer_contacts' => array(
             'cascade_delete' => true,
         ),
-        'customer_projects',
+        'customer_projects' => array(
+            'cascade_delete' => true
+        ),
     );
 
     protected static $_belongs_to = array(
@@ -50,18 +51,13 @@ class Model_Customer extends Model {
         ),
     );
 
-    public static function find_for_edit($id = null, array $options = array()) {
-        $model_options = array(
+    public static function find($id = null, array $options = array()) {
 
-        );
-        $options = array_merge_recursive($options, $model_options);
-        return parent::find($id, $options);
-    }
+        static::$_logger->debug('Find Function Args', array($id, $options));
 
-    public static function find_all_for_list(array $options = array()) {
-        $model_options = array(
+        $tmp_options = array(
             'related' => array(
-                'customer_contact_persons' => array(
+                'customer_contacts' => array(
                     'related' => array(
                         'postalcode' => array(
                             'related' => array(
@@ -81,8 +77,16 @@ class Model_Customer extends Model {
             ),
             'order_by' => array('id' => 'DESC')
         );
+        $options = array_merge_recursive($tmp_options, $options);
+        return parent::find($id, $options);
+    }
+
+    public static function find_for_edit($id = null, array $options = array()) {
+        $model_options = array(
+
+        );
         $options = array_merge_recursive($options, $model_options);
-        return static::find_all($options);
+        return parent::find($id, $options);
     }
 
     public function validate() {
@@ -131,6 +135,9 @@ class Model_Customer extends Model {
             }
             $this->postalcode = $postalcode;
         }**/
+
+        static::$_logger->debug('Func get Args save', func_get_args());
+
         return parent::save($cascade, $use_transaction);
     }
 

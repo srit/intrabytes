@@ -8,7 +8,7 @@
     <div class="control-group">
         <?php echo html_anchor(\Uri::create('/customers/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
-    <?php if (!empty($customers)): ?>
+    <?php if (!empty($crud_objects['customer']['data'])): ?>
     <table class="table table-striped table-condensed">
         <tr>
             <th><?php echo __(extend_locale('address.label')) ?></th>
@@ -16,7 +16,7 @@
             <th><?php echo __(extend_locale('actions.label')) ?></th>
         </tr>
 
-        <?php foreach ($customers as $customer): ?>
+        <?php foreach ($crud_objects['customer']['data'] as $customer): ?>
         <tr>
             <td>
                 <address>
@@ -32,7 +32,7 @@
                 </address>
             </td>
             <td>
-                <?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contact_persons)))) ?><br>
+                <?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contacts)))) ?><br>
                 <?php echo html_anchor(\Uri::create('/customers/projects/list/:id', array('id' => $customer->id)), __(extend_locale('count.projects.label'), array(':amount' => count($customer->customer_projects)))) ?>
             </td>
             <td>
@@ -49,6 +49,6 @@
         <?php endforeach; ?>
     </table>
     <?php else: ?>
-    <?php echo error_text(extend_locale('nodata')) ?>
+    <?php echo error_text(__(extend_locale('nodata'))) ?>
     <?php endif; ?>
 </div>

@@ -35,6 +35,6 @@
             <?php endforeach; ?>
         </table>
     <?php else: ?>
-        <?php echo error_text(extend_locale('nodata')) ?>
+        <?php echo error_text(__(extend_locale('nodata'))) ?>
     <?php endif; ?>
 </div>
