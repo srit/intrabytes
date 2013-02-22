@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 14. Feb 2013 um 13:09
+-- Erstellungszeit: 22. Feb 2013 um 16:13
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -87,15 +87,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
 (2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627'),
-(3, '2013-02-12 15:19:33', '2013-02-12 15:19:33', 'info@expeedo.de', 'expeedo', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '2');
+(3, '2013-02-12 15:19:33', '2013-02-22 14:03:41', 'info@expeedo.de', 'expeedo21', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '7797');
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `intrabytes_customer_contact_persons`
+-- Tabellenstruktur für Tabelle `intrabytes_customer_contacts`
 --
 
-CREATE TABLE IF NOT EXISTS `intrabytes_customer_contact_persons` (
+CREATE TABLE IF NOT EXISTS `intrabytes_customer_contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `lastname` varchar(100) NOT NULL,
@@ -113,10 +113,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_contact_persons` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Daten für Tabelle `intrabytes_customer_contact_persons`
+-- Daten für Tabelle `intrabytes_customer_contacts`
 --
 
-INSERT INTO `intrabytes_customer_contact_persons` (`id`, `email`, `lastname`, `firstname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`, `customer_id`, `created_at`, `updated_at`) VALUES
+INSERT INTO `intrabytes_customer_contacts` (`id`, `email`, `lastname`, `firstname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`, `customer_id`, `created_at`, `updated_at`) VALUES
 (1, 'sr@alphabytes.de', 'Riedel', 'Stefan', NULL, '0123456', NULL, NULL, NULL, NULL, 1, '2013-02-07 09:00:53', '2013-02-07 09:00:53'),
 (2, 'cb@alphabytes.de', 'Beer', 'Christian', NULL, '0789', NULL, NULL, NULL, NULL, 1, '2013-02-07 09:00:53', '2013-02-07 09:00:53');
 
@@ -129,18 +129,22 @@ INSERT INTO `intrabytes_customer_contact_persons` (`id`, `email`, `lastname`, `f
 CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `redmine_project_label` varchar(50) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_projects`
 --
 
-INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `customer_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop2', 1, '2013-02-12 20:52:08', '2013-02-13 16:27:17');
+INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `url`, `redmine_project_label`, `customer_id`, `created_at`, `updated_at`) VALUES
+(1, 'Sonatex Hauptshop', 'www.sonatex.de', 'www-sonatex-de', 1, '2013-02-12 20:52:08', '2013-02-22 12:52:18'),
+(6, 'Guru', '', '', 3, '2013-02-21 12:32:30', '2013-02-21 12:32:30'),
+(7, 'Add Projekt', NULL, NULL, 0, '2013-02-22 09:55:44', '2013-02-22 09:55:44');
 
 -- --------------------------------------------------------
 
@@ -212,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=147 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=190 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -257,7 +261,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (36, 'settings.language.edit.language.label', 'core', 'Sprache', 1),
 (37, 'settings.language.edit.plain.label', 'core', 'Text', 1),
 (38, 'settings.language.edit.save.button.label', 'core', 'Speichern', 1),
-(39, 'settings.language.edit.cancel.button.label', 'core', 'Abbrechen', 1),
+(39, 'settings.language.edit.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (40, 'settings_language.index.default.label', 'core', 'Standardsprache', 1),
 (41, 'book.index.title', 'cash', 'Kassenbuch Übersicht', 1),
 (42, 'book.index.date.label', 'cash', 'Datum', 1),
@@ -295,12 +299,12 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (74, 'edit.index.title', 'customers', 'Kontakt bearbeiten', 1),
 (75, 'delete.index.title', 'customers', 'Kontakt löschen', 1),
 (76, 'edit.index.email.label', 'customers', 'E-Mail Adresse', 1),
-(77, 'edit.index.save.button.label', 'customers', 'Speichern', 1),
-(78, 'edit.index.cancel.button.label', 'customers', 'Abbrechen', 1),
+(77, 'edit.index.save.button.label', 'customers', '<i class="icon-white icon-ok"></i> Kontakt speichern', 1),
+(78, 'edit.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (79, 'add.index.title', 'customers', 'Kontakt hinzufügen', 1),
 (80, 'add.index.email.label', 'customers', 'E-Mail Adresse', 1),
-(81, 'add.index.save.button.label', 'customers', 'Speichern', 1),
-(82, 'add.index.cancel.button.label', 'customers', 'Abbrechen', 1),
+(81, 'add.index.save.button.label', 'customers', '<i class="icon-white icon-ok"></i> Kontakt anlegen', 1),
+(82, 'add.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (83, 'salutation.salutation.mister.label', 'model', 'Herr', 1),
 (84, 'salutation.salutation.miss.label', 'model', 'Frau', 1),
 (85, 'countries.name.germany.label', 'model', 'Deutschland', 1),
@@ -323,12 +327,12 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (102, 'settings_pubkeys_edit.index.name.label', 'users', 'Name', 1),
 (103, 'settings_pubkeys_edit.index.value.label', 'users', 'Public Key', 1),
 (104, 'settings_pubkeys_edit.index.save.button.label', 'users', 'Speichern', 1),
-(105, 'settings_pubkeys_edit.index.cancel.button.label', 'users', 'Abbrechen', 1),
+(105, 'settings_pubkeys_edit.index.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (106, 'settings_pubkeys_add.index.title', 'users', 'Public Key anlegen', 1),
 (107, 'settings_pubkeys_add.index.name.label', 'users', 'Name', 1),
 (108, 'settings_pubkeys_add.index.value.label', 'users', 'Public Key', 1),
 (109, 'settings_pubkeys_add.index.save.button.label', 'users', 'Speichern', 1),
-(110, 'settings_pubkeys_add.index.cancel.button.label', 'users', 'Abbrechen', 1),
+(110, 'settings_pubkeys_add.index.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (111, 'edit.index.legend', 'customers', 'Kontaktdaten', 1),
 (112, 'edit.index.company_name.label', 'customers', 'Firmen Name', 1),
 (113, 'edit.index.salutation.label', 'customers', 'Anrede', 1),
@@ -364,7 +368,48 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (143, 'projects_edit.index.legend', 'customers', 'Projektdaten', 1),
 (144, 'projects_edit.index.name.label', 'customers', 'Projektname', 1),
 (145, 'projects_edit.index.save.button.label', 'customers', 'Speichern', 1),
-(146, 'projects_edit.index.cancel.button.label', 'customers', 'Abbrechen', 1);
+(146, 'projects_edit.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(147, 'password.forget.username.label', 'users', 'Nutzername/E-Mail', 1),
+(148, 'password.forget.send.label', 'users', 'Senden', 1),
+(149, 'password.forget.back_to_login.label', 'users', '<i class="icon-arrow-left"></i> Zurück zum Login', 1),
+(150, 'edit.index.edit.customer.success', 'customers', 'Kontakt wurde bearbeitet.', 1),
+(151, 'projects.list.index.title', 'customers', 'Projektübersicht', 1),
+(152, 'projects.list.index.add.button.label', 'customers', '<i class="icon-white icon-plus"></i> Projekt hinzufügen', 1),
+(153, 'projects.list.index.name.label', 'customers', 'Projektname', 1),
+(154, 'projects.list.index.actions.label', 'customers', 'Aktionen', 1),
+(155, 'projects.list.index.url.label', 'customers', 'Projekt URL', 1),
+(156, 'projects.list.index.created_at.label', 'customers', 'Erstellt', 1),
+(157, 'projects.list.index.redmine_project_label.label', 'customers', 'Redmine Projekt Kennung', 1),
+(158, 'projects.list.index.actions.edit.label', 'customers', '<i class="icon-edit"></i> Bearbeiten', 1),
+(159, 'projects.list.index.actions.delete.label', 'customers', '<i class="icon-trash"></i> Löschen', 1),
+(160, 'projects.delete.index.title', 'customers', 'Projekt löschen', 1),
+(161, 'projects.delete.index.legend', 'customers', 'Bist du sicher, das du das Projekt löschen möchtest?', 1),
+(162, 'projects.delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, das Projekt löschen', 1),
+(163, 'projects.delete.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(164, 'projects.edit.index.title', 'customers', 'Projekt bearbeiten', 1),
+(165, 'projects.edit.index.legend', 'customers', 'Projektdaten', 1),
+(166, 'projects.edit.index.name.label', 'customers', 'Projektname', 1),
+(167, 'projects.edit.index.save.button.label', 'customers', '<i class="icon-white icon-ok"></i> Projekt Speichern', 1),
+(168, 'projects.edit.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(170, 'projects.edit.index.success', 'customers', 'Projekt gespeichert', 1),
+(171, 'projects.delete.index.success', 'customers', 'Projekt gelöscht', 1),
+(172, 'projects.add.index.title', 'customers', 'Projekt hinzufügen', 1),
+(173, 'projects.add.index.legend', 'customers', 'Projektdaten', 1),
+(174, 'projects.add.index.name.label', 'customers', 'Projektname', 1),
+(175, 'projects.add.index.save.button.label', 'customers', '<i class="icon-white icon-ok"></i> Projekt anlegen', 1),
+(176, 'projects.add.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(178, 'projects.edit.index.url.label', 'customers', 'Projekt URL', 1),
+(179, 'projects.edit.index.redmine_project_label.label', 'customers', 'Redmine Kennung', 1),
+(180, 'projects.add.index.url.label', 'customers', 'Projekt URL', 1),
+(181, 'projects.add.index.redmine_project_label.label', 'customers', 'Redmine Kennung', 1),
+(182, 'projects.list.index.actions.show.label', 'customers', '<i class="icon-list"></i> Anzeigen', 1),
+(183, 'projects.show.index.title', 'customers', 'Projektdetails', 1),
+(184, 'projects.add.index.success', 'customers', 'Projekt angelegt', 1),
+(185, 'projects.list.index.nodata', 'customers', 'Noch keine Projekte vorhanden', 1),
+(186, 'delete.index.legend', 'customers', 'Kontakt löschen', 1),
+(187, 'delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kunden löschen', 1),
+(188, 'delete.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(189, '404.index.title', 'core', 'Seite nicht gefunden.', 1);
 
 -- --------------------------------------------------------
 
@@ -26470,7 +26515,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1360843013, '4bd1a10ff61c3a45284974aabddf6d02ee16966e', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361526688, '9148d781f2d5233a05f663d92a0ad766f85ecafd', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
