@@ -19,6 +19,16 @@ $project = $crud_objects['customer_project']['data'];
                 <?php echo twitter_html_input_text('name', xss_clean($project->name), null, array(), array(), array('tabindex' => 1)) ?>
             </div>
         </div>
+        <div class="control-group">
+            <div class="controls">
+                <?php echo twitter_html_input_text('url', xss_clean($project->url), null, array(), array(), array('tabindex' => 2)) ?>
+            </div>
+        </div>
+        <div class="control-group">
+            <div class="controls">
+                <?php echo twitter_html_input_text('redmine_project_label', xss_clean($project->redmine_project_label), null, array(), array(), array('tabindex' => 3)) ?>
+            </div>
+        </div>
     </div>
     <div class="span12">
         <?php echo twitter_submit_group() ?>

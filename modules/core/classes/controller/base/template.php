@@ -196,7 +196,8 @@ class Controller_Base_Template extends \Controller_Template
 
                 $this->_crud_objects[$crud_object]['data'] = $data;
             }
-            Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set('crud_objects', $this->_crud_objects);
+            $this->_get_content_template()
+                ->set('crud_objects', $this->_crud_objects);
 
         }
     }
@@ -210,7 +211,7 @@ class Controller_Base_Template extends \Controller_Template
         $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
         $this->_crud_redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path) . '/' . implode('/', $this->_named_params);
 
-        Theme::instance($this->template)->get_partial('content', $this->_controller_path)
+        $this->_get_content_template()
             ->set('last_controller_part', $this->_last_controller_part)
             ->set('crud_action', $this->_crud_action);
 
@@ -241,6 +242,17 @@ class Controller_Base_Template extends \Controller_Template
             }
         }
         $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
+    }
+
+    /**
+     * @return \Fuel\Core\View
+     * @throws \Exception
+     */
+    protected function _get_content_template() {
+        if(empty($this->_controller_path)) {
+            throw new \Exception(__(extend_locale('exception.controller_path_undefined')));
+        }
+        return Theme::instance($this->template)->get_partial('content', $this->_controller_path);
     }
 
     private function _init_logger()
