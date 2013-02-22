@@ -72,8 +72,11 @@ class PhpQuickProfiler {
 			"largest" => 0,
 		);
 
-		foreach($files as $key => $file) {
-			$size = filesize($file);
+        foreach($files as $key => $file) {
+            $site = 0;
+            if(is_file($file)) {
+                $size = filesize($file);
+            }
 			$fileList[] = array(
 					'name' => $file,
 					'size' => $this->getReadableFileSize($size)
