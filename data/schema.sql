@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 24. Feb 2013 um 20:34
+-- Erstellungszeit: 25. Feb 2013 um 10:57
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=226 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=248 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -446,7 +446,29 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (222, 'add.index.validation.email.valid_email.error', 'customers', 'Keine korrekte E-Mail Adresse angegeben', 1),
 (223, 'settings.redmines.label', 'nav', 'Redmine Installationen', 1),
 (224, 'add.index.redmine[api_key].label', 'redmines', 'API Schlüssel', 1),
-(225, 'list.index.title', 'redmines', 'Redmine Installationen', 1);
+(225, 'list.index.title', 'redmines', 'Redmine Installationen', 1),
+(226, 'delete.index.title', 'redmines', 'Redmine Installation löschen', 1),
+(227, 'delete.index.legend', 'redmines', 'Redmine Installation wirklich löschen?', 1),
+(228, 'delete.index.delete.button.label', 'redmines', '<i class="icon-white icon-thumbs-up"></i> Ja, die Redmine Installation löschen', 1),
+(229, 'delete.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(230, 'delete.index.success', 'redmines', 'Redmine Installation gelöscht', 1),
+(231, 'list.index.add.button.label', 'redmines', '<i class="icon-white icon-plus"></i> Redmine Installation hinzufügen', 1),
+(232, 'list.index.name.label', 'redmines', 'Bezeichnung', 1),
+(233, 'list.index.url.label', 'redmines', 'URL', 1),
+(234, 'list.index.api_key.label', 'redmines', 'API Schlüssel', 1),
+(235, 'list.index.actions.label', 'redmines', 'Aktionen', 1),
+(236, 'list.index.actions.show.label', 'redmines', '<i class="icon-list"></i> Anzeigen', 1),
+(237, 'list.index.actions.edit.label', 'redmines', '<i class="icon-edit"></i> Bearbeiten', 1),
+(238, 'list.index.actions.delete.label', 'redmines', '<i class="icon-trash"></i> Löschen', 1),
+(239, 'edit.index.title', 'redmines', 'Redmine Installation bearbeiten', 1),
+(240, 'edit.index.legend', 'redmines', 'Redmine Daten', 1),
+(241, 'edit.index.redmine[name].label', 'redmines', 'Bezeichnung', 1),
+(242, 'edit.index.redmine[url].label', 'redmines', 'URL (inkl. http(s)://)', 1),
+(243, 'edit.index.redmine[api_key].label', 'redmines', 'API Schlüssel', 1),
+(244, 'edit.index.save.button.label', 'redmines', '<i class="icon-white icon-ok"></i> Redmine Installation bearbeiten', 1),
+(245, 'edit.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(246, 'edit.index.success', 'redmines', 'Redmine Installation bearbeitet', 1),
+(247, 'edit.index.validation.api_key.connection_succeeded.error', 'redmines', 'Der API Key ist falsch', 1);
 
 -- --------------------------------------------------------
 
@@ -26476,22 +26498,18 @@ CREATE TABLE IF NOT EXISTS `intrabytes_redmines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   `url` varchar(255) NOT NULL,
-  `api_key` varchar(20) NOT NULL,
+  `api_key` varchar(42) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Daten für Tabelle `intrabytes_redmines`
 --
 
 INSERT INTO `intrabytes_redmines` (`id`, `name`, `url`, `api_key`, `created_at`, `updated_at`) VALUES
-(4, 'sadasd', 'asdasd', '', '2013-02-24 14:06:53', '2013-02-24 14:06:53'),
-(5, 'dasdsad', 'sadasd', '', '2013-02-24 14:08:38', '2013-02-24 14:08:38'),
-(6, 'dasdas', 'dasdasd', '', '2013-02-24 14:11:14', '2013-02-24 14:11:14'),
-(7, 'asdasd', 'http://www.google.de', '', '2013-02-24 14:13:06', '2013-02-24 14:13:06'),
-(8, 'Alphabytes', 'http://redmine.alphadev.de', 'c36dsvwIR69Aos5xy7Vl', '2013-02-24 20:18:59', '2013-02-24 20:18:59');
+(10, 'Alphabytes', 'http://redmine.alphadev.de', 'a6112ee85240a9be87c66d5cc804f479d2e454fb', '2013-02-25 09:32:29', '2013-02-25 09:55:17');
 
 -- --------------------------------------------------------
 
@@ -26579,7 +26597,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361711304, '9695aeb31e3a3c9212acfe07e5e28301e6692667', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361776824, 'a476cde7c314a6ec7e78543ecc933c2ef1e13c37', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
