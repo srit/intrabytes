@@ -46,17 +46,11 @@ class Model_User_Public_Key extends Model {
         return static::find('first', $options);
     }*/
 
-    public function validate() {
+    public function validate($input = array()) {
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('value')->add_rule('required');
-        if($this->_fieldset->validation()->run() == false) {
-            foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error($error);
-            }
-            return false;
-        }
-        return true;
+        return parent::validate($input);
     }
 
     /**

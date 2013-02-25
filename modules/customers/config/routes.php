@@ -5,6 +5,7 @@
  */
 
 return array(
+    'customers/list/(:any)' => 'customers/list',
     'customers/projects/list/(:customer_id)/(:any)' => 'customers/projects/list/index/$1',
     'customers/projects/list/(:customer_id)' => 'customers/projects/list/index/$1',
     'customers/projects/add/(:customer_id)' => 'customers/projects/add/index/$1',

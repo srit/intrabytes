@@ -17,6 +17,8 @@ Autoloader::add_classes(array(
     'Srit\\Inflector' => __DIR__ . '/classes/inflector.php',
     'Srit\\Debug' => __DIR__ . '/classes/debug.php',
     'Srit\\Controller_Template' => __DIR__ . '/classes/controller/template.php',
+    'Srit\\Validation' => __DIR__ . '/classes/validation.php',
+    'Srit\\Error' => __DIR__ . '/classes/error.php',
     'ChromePhp' => __DIR__ . '/classes/vendor/chromephp.php'
 ));
 

@@ -89,7 +89,7 @@ class Model_Customer extends Model {
         return parent::find($id, $options);
     }
 
-    public function validate() {
+    public function validate($input = array()) {
         /**
          * @todo Telefonnummern Validierung
          */
@@ -101,13 +101,9 @@ class Model_Customer extends Model {
         $this->_fieldset->field('phone')->add_rule('required');
         $this->_fieldset->field('street')->add_rule('required');
         $this->_fieldset->field('housenumber')->add_rule('required');
-        if($this->_fieldset->validation()->run() == false) {
-            foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error($error);
-            }
-            return false;
-        }
-        return true;
+        $this->_fieldset->add('postalcode_text')->add_rule('required');
+        $this->_fieldset->add('city_text')->add_rule('required');
+        return parent::validate($input);
     }
     
     /**

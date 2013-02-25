@@ -8,8 +8,8 @@ $project = $crud_objects['customer_project']['data'];
 
 ?>
 <form method="post" accept-charset="utf-8" id="customer">
-    <?php echo html_hidden('customer_id', xss_clean($project->customer_id)) ?>
-    <div class="span12">
+    <div class="span11">
+        <?php echo html_hidden('customer_id', xss_clean($project->customer_id)) ?>
         <?php echo security_field(); ?>
         <?php echo html_legend(extend_locale('legend')); ?>
     </div>
@@ -30,7 +30,7 @@ $project = $crud_objects['customer_project']['data'];
             </div>
         </div>
     </div>
-    <div class="span12">
+    <div class="span11">
         <?php echo twitter_submit_group() ?>
     </div>
 </form>

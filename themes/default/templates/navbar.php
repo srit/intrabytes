@@ -28,6 +28,7 @@
                         <?php echo \Html::anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
                         <ul class="dropdown-menu">
                             <li><?php echo \Html::anchor(\Uri::create('/core/settings/language'), '<i class="icon-list-alt"></i> ' . __('nav.settings.language.label')) ?></li>
+                            <li><?php echo \Html::anchor(\Uri::create('/redmines/add'), '<i class="icon-list-alt"></i> ' . __('nav.settings.redmines.label')) ?></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">

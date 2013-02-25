@@ -124,6 +124,12 @@ function html_label(array $label_attr, $for, $label_locale, array $label_locale_
 {
     $label_attr['for'] = (isset($attr['for']) && !empty($label_attr['for'])) ? : $for;
     $label_attr['id'] = (isset($attr['id']) && !empty($label_attr['id'])) ? $label_attr['id'] : 'label_' . $for;
+
+    if(preg_match('/\[.*\]/', $label_attr['id'])) {
+        $label_attr['for'] = str_replace(array('[', ']'), array('_', ''), $label_attr['for']);
+        $label_attr['id'] = str_replace(array('[', ']'), array('_', ''), $label_attr['id']);
+    }
+
     $html = html_tag('label', $label_attr, __($label_locale, $label_locale_attr));
     return $html;
 }
@@ -158,6 +164,12 @@ function html_hidden($name, $value, array $attr = array()) {
 
 function html_input($name, $value, array $attr = array()) {
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ?: $name;
+
+
+    if(preg_match('/\[.*\]/', $attr['id'])) {
+        $attr['id'] = str_replace(array('[', ']'), array('_', ''), $attr['id']);
+    }
+
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ?: $name;
     $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ?: $value;
     $html = html_tag('input', $attr);
@@ -386,6 +398,13 @@ function html_select($name, array $options, $value, $label_locale, array $label_
 function html_select_wo_label($name, array $options, $value = null, $multiselect = false, array $attr = array()) {
 
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ?: $name;
+
+
+    if(preg_match('/\[.*\]/', $attr['id'])) {
+        $attr['id'] = str_replace(array('[', ']'), array('_', ''), $attr['id']);
+    }
+
+
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ?: $name;
     $attr['multiple'] = $multiselect;
     $options_html = '';

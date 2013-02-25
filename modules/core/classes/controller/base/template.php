@@ -178,8 +178,10 @@ class Controller_Base_Template extends \Controller_Template
                     /**
                      * edit oder add
                      */
-                    $data->set(\Input::post());
-                    if ($data->validate()) {
+
+                    $form_data = \Input::post();
+                    $data->set($form_data[$crud_object]);
+                    if ($data->validate($form_data[$crud_object])) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
 
