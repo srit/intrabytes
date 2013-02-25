@@ -33,11 +33,24 @@ class Model_Redmine extends Model {
          */
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('name')->add_rule('required');
-        $this->_fieldset->field('url')->add_rule('required')->add_rule('is_url');
+        $this->_fieldset->field('url')->add_rule('required')->add_rule('valid_url');
         /**
          * @todo prüfen ob api key funktioniert
          */
-        $this->_fieldset->field('api_key')->add_rule('required');
+        $this->_fieldset->field('api_key')->add_rule('required')->add_rule('connection_succeeded', $this->_fieldset);
         return parent::validate($input);
+    }
+
+    public static function _validation_connection_succeeded($api_key, \Fuel\Core\Fieldset $fieldset) {
+        $url = $fieldset->input('url');
+        if(empty($url)) {
+            return false;
+        }
+        $redmine_api = new \Redmine\Client($url, $api_key);
+        $user = $redmine_api->api('user')->listing();
+        if(empty($user)) {
+            return false;
+        }
+        return true;
     }
 }

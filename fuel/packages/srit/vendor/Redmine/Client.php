@@ -229,7 +229,7 @@ class Client
             return $this->port;
         }
         $tmp = parse_url($urlPath);
-
+        $tmp['scheme'] = (isset($tmp['schema'])) ? $tmp['schema'] : 'http';
         if (isset($tmp['port'])) {
             $this->setPort($tmp['port']);
 
@@ -252,8 +252,12 @@ class Client
         $this->getPort($this->url.$path);
 
         $curl = curl_init();
+
+
+
         if (isset($this->apikey)) {
-            curl_setopt($curl, CURLOPT_USERPWD, $this->apikey.':'.rand(100000, 199999) );
+            $key = $this->apikey.':'.rand(100000, 199999);
+            curl_setopt($curl, CURLOPT_USERPWD, $key );
             curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         }
         curl_setopt($curl, CURLOPT_URL, $this->url.$path);
@@ -266,6 +270,7 @@ class Client
         }
 
         $tmp = parse_url($this->url.$path);
+
         if ('xml' === substr($tmp['path'], -3)) {
             curl_setopt($curl, CURLOPT_HTTPHEADER, array(
                 'Content-Type: text/xml',
