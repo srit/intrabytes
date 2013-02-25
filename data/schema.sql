@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 22. Feb 2013 um 16:13
+-- Erstellungszeit: 24. Feb 2013 um 20:34
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -87,7 +87,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
 (2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627'),
-(3, '2013-02-12 15:19:33', '2013-02-22 14:03:41', 'info@expeedo.de', 'expeedo21', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '7797');
+(3, '2013-02-12 15:19:33', '2013-02-22 14:03:41', 'info@expeedo.de', 'expeedo21', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '7797'),
+(8, '2013-02-24 20:09:00', '2013-02-24 20:09:00', 'sr@web.de', 'Hans Hans', 'Hans', 'Hans', 1, '0381', '', 'Hans Straße', '10', '25911');
 
 -- --------------------------------------------------------
 
@@ -216,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=190 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=226 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -282,7 +283,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (57, 'book.index.carryout.label', 'cash', 'Übertrag', 1),
 (58, 'book.index.sum.label', 'cash', 'Summenübertrag', 1),
 (59, 'list.index.nodata', 'projects', '<p>Keine Projekte vorhanden</p>', 1),
-(60, 'list.index.count.contacts.label', 'customers', 'Anzahl Kontakte :amount', 1),
+(60, 'list.index.count.contacts.label', 'customers', 'Ansprechpartner (:amount)', 1),
 (61, 'list.index.title', 'customers', 'Kontaktübersicht', 1),
 (62, 'list.index.add.button.label', 'customers', '<i class="icon-white icon-plus"></i> Kontakt hinzufügen ', 1),
 (63, 'list.index.address.label', 'customers', 'Adresse', 1),
@@ -308,7 +309,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (83, 'salutation.salutation.mister.label', 'model', 'Herr', 1),
 (84, 'salutation.salutation.miss.label', 'model', 'Frau', 1),
 (85, 'countries.name.germany.label', 'model', 'Deutschland', 1),
-(86, 'countries.name.switzerland.label', 'model', 'SChweiz', 1),
+(86, 'countries.name.switzerland.label', 'model', 'Schweiz', 1),
 (87, 'countries.name.austria.label', 'model', 'Österreich', 1),
 (88, 'list.index.count.projects.label', 'customers', 'Projekte (:amount)', 1),
 (89, 'list.index.actions.add.project.label', 'customers', '<i class="icon-plus"></i> Projekt hinzufügen', 1),
@@ -407,9 +408,45 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (184, 'projects.add.index.success', 'customers', 'Projekt angelegt', 1),
 (185, 'projects.list.index.nodata', 'customers', 'Noch keine Projekte vorhanden', 1),
 (186, 'delete.index.legend', 'customers', 'Kontakt löschen', 1),
-(187, 'delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kunden löschen', 1),
+(187, 'delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kontakt löschen', 1),
 (188, 'delete.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
-(189, '404.index.title', 'core', 'Seite nicht gefunden.', 1);
+(189, '404.index.title', 'core', 'Seite nicht gefunden.', 1),
+(190, 'delete.index.success', 'customers', 'Kontakt gelöscht', 1),
+(191, 'add.index.success', 'customers', 'Kontakt angelegt', 1),
+(192, 'add.index.title', 'redmines', 'Redmine Installation hinzufügen', 1),
+(193, 'add.index.legend', 'redmines', 'Redmine Daten', 1),
+(194, 'add.index.success', 'redmines', 'Redmine Installation hinzugefügt', 1),
+(195, 'add.index.redmine[name].label', 'redmines', 'Bezeichnung', 1),
+(196, 'add.index.redmine[url].label', 'redmines', 'URL (inkl. http(s)://)', 1),
+(197, 'add.index.save.button.label', 'redmines', '<i class="icon-white icon-ok"></i> Redmine Installation anlegen', 1),
+(198, 'add.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(199, 'add.index.validation.name.required.error', 'redmines', 'Bezeichnung bitte ausfüllen', 1),
+(200, 'add.index.validation.url.required.error', 'redmines', 'URL bitte ausfüllen', 1),
+(201, 'add.index.validation.url.is_url.error', 'redmines', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1),
+(202, 'add.index.validation.email.required.error', 'customers', 'E-Mail-Adresse erforderlich', 1),
+(203, 'add.index.validation.company_name.required.error', 'customers', 'Firmenname erforderlich', 1),
+(204, 'add.index.validation.firstname.required.error', 'customers', 'Vorname erforderlich', 1),
+(205, 'add.index.validation.lastname.required.error', 'customers', 'Nachname erforderlich', 1),
+(206, 'add.index.validation.phone.required.error', 'customers', 'Telefonnummer erforderlich', 1),
+(207, 'add.index.validation.street.required.error', 'customers', 'Straße erforderlich', 1),
+(208, 'add.index.validation.housenumber.required.error', 'customers', 'Hausnummer erforderlich', 1),
+(209, 'add.index.validation.postalcode_text.required.error', 'customers', 'Postleitzahl erforderlich', 1),
+(210, 'add.index.validation.city_text.required.error', 'customers', 'Stadt erforderlich', 1),
+(211, 'add.index.customer[company_name].label', 'customers', 'Firmenname', 1),
+(212, 'add.index.customer[phone].label', 'customers', 'Telefonnummer', 1),
+(213, 'add.index.customer[fax].label', 'customers', 'Faxnummer', 1),
+(214, 'add.index.customer[firstname].label', 'customers', 'Vorname', 1),
+(215, 'add.index.customer[lastname].label', 'customers', 'Nachname', 1),
+(216, 'add.index.customer[street].label', 'customers', 'Straße', 1),
+(217, 'add.index.customer[street].label', 'customers', 'Straße', 1),
+(218, 'add.index.customer[housenumber].label', 'customers', 'Hausnummer', 1),
+(219, 'add.index.customer[postalcode_text].label', 'customers', 'PLZ', 1),
+(220, 'add.index.customer[city_text].label', 'customers', 'Stadt', 1),
+(221, 'add.index.customer[email].label', 'customers', 'E-Mail-Adresse', 1),
+(222, 'add.index.validation.email.valid_email.error', 'customers', 'Keine korrekte E-Mail Adresse angegeben', 1),
+(223, 'settings.redmines.label', 'nav', 'Redmine Installationen', 1),
+(224, 'add.index.redmine[api_key].label', 'redmines', 'API Schlüssel', 1),
+(225, 'list.index.title', 'redmines', 'Redmine Installationen', 1);
 
 -- --------------------------------------------------------
 
@@ -26432,6 +26469,33 @@ INSERT INTO `intrabytes_postalcodes` (`id`, `postalcode`, `city`, `country_id`) 
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `intrabytes_redmines`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_redmines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `api_key` varchar(20) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Daten für Tabelle `intrabytes_redmines`
+--
+
+INSERT INTO `intrabytes_redmines` (`id`, `name`, `url`, `api_key`, `created_at`, `updated_at`) VALUES
+(4, 'sadasd', 'asdasd', '', '2013-02-24 14:06:53', '2013-02-24 14:06:53'),
+(5, 'dasdsad', 'sadasd', '', '2013-02-24 14:08:38', '2013-02-24 14:08:38'),
+(6, 'dasdas', 'dasdasd', '', '2013-02-24 14:11:14', '2013-02-24 14:11:14'),
+(7, 'asdasd', 'http://www.google.de', '', '2013-02-24 14:13:06', '2013-02-24 14:13:06'),
+(8, 'Alphabytes', 'http://redmine.alphadev.de', 'c36dsvwIR69Aos5xy7Vl', '2013-02-24 20:18:59', '2013-02-24 20:18:59');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `intrabytes_salutations`
 --
 
@@ -26515,7 +26579,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361526688, '9148d781f2d5233a05f663d92a0ad766f85ecafd', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361711304, '9695aeb31e3a3c9212acfe07e5e28301e6692667', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
