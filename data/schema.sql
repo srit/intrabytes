@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Feb 2013 um 10:57
+-- Erstellungszeit: 26. Feb 2013 um 05:36
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -133,19 +133,19 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `url` varchar(255) DEFAULT NULL,
   `redmine_project_label` varchar(50) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
+  `redmine_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_projects`
 --
 
-INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `url`, `redmine_project_label`, `customer_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', 'www.sonatex.de', 'www-sonatex-de', 1, '2013-02-12 20:52:08', '2013-02-22 12:52:18'),
-(6, 'Guru', '', '', 3, '2013-02-21 12:32:30', '2013-02-21 12:32:30'),
-(7, 'Add Projekt', NULL, NULL, 0, '2013-02-22 09:55:44', '2013-02-22 09:55:44');
+INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
+(1, 'Sonatex Hauptshop', 'http://www.sonatex.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-02-25 19:05:14'),
+(10, 'Sonatex Easyshop', 'http://easyshop.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-02-25 19:05:00');
 
 -- --------------------------------------------------------
 
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=248 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=250 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -468,7 +468,9 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (244, 'edit.index.save.button.label', 'redmines', '<i class="icon-white icon-ok"></i> Redmine Installation bearbeiten', 1),
 (245, 'edit.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
 (246, 'edit.index.success', 'redmines', 'Redmine Installation bearbeitet', 1),
-(247, 'edit.index.validation.api_key.connection_succeeded.error', 'redmines', 'Der API Key ist falsch', 1);
+(247, 'edit.index.validation.api_key.connection_succeeded.error', 'redmines', 'Der API Key ist falsch', 1),
+(248, 'projects.list.index.redmine_project_url.label', 'customers', '<i class="icon-share"></i> Zum Redmine Projekt', 1),
+(249, 'projects.add.index.validation.url.valid_url.error', 'customers', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1);
 
 -- --------------------------------------------------------
 
@@ -26597,7 +26599,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361776824, 'a476cde7c314a6ec7e78543ecc933c2ef1e13c37', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361815579, '0827b60edfead6846f2c9ccd8febdeed15d3224d', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
