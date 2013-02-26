@@ -419,7 +419,9 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
 
 }
 
-function twitter_html_select($name, array $options, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array()) {
+function twitter_html_select($name, array $options, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array()) {
     $label_attr['class'] = (!empty($label_attr['class'])) ? $label_attr['class'] . ' control-label' : 'control-label';
+    $label_locale = (!empty($label_locale)) ? $label_locale : __(extend_locale($name.'.label', $label_locale_params));
+    $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
     return html_select($name, $options, $value, $label_locale, $label_locale_params, $label_attr, $multiselect, $attr);
 }

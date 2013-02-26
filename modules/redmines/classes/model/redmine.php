@@ -27,6 +27,12 @@ class Model_Redmine extends Model {
         ),
     );
 
+    public static function find_all_for_html_select(array $options = array()) {
+        $items = static::find_all($options);
+        $ret_items = \Fuel\Core\Arr::assoc_to_keyval($items, 'id', 'name');
+        return $ret_items;
+    }
+
     public function validate($input = array()) {
         /**
          * @todo Telefonnummern Validierung

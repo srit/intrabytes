@@ -17,6 +17,7 @@ class Model_Customer_Project extends Model {
         'url',
         'redmine_project_label',
         'customer_id',
+        'redmine_id',
         'created_at' => array(
             'type' => 'datetime'
         ),
@@ -25,7 +26,10 @@ class Model_Customer_Project extends Model {
         )
     );
     protected static $_belongs_to = array(
-        'customer'
+        'customer',
+        'redmine' => array(
+            'model_to' => 'Redmines\\Model_Redmine'
+        )
     );
     protected static $_observers = array(
         'Orm\Observer_CreatedAt' => array(
@@ -38,13 +42,18 @@ class Model_Customer_Project extends Model {
         ),
     );
 
+    public function redmine_project_url() {
+        return $this->redmine->url . '/projects/' . $this->redmine_project_label;
+    }
+
     public static function find($id = null, array $options = array()) {
 
         static::$_logger->debug('Find Function Args', array($id, $options));
 
         $tmp_options = array(
             'related' => array(
-                'customer'
+                'customer',
+                'redmine'
             )
         );
         $options = array_merge_recursive($tmp_options, $options);
@@ -68,6 +77,7 @@ class Model_Customer_Project extends Model {
          */
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
+        $this->_fieldset->field('url')->add_rule('valid_url');
         return parent::validate($input);
     }
 

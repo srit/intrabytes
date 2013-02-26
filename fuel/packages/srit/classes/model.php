@@ -29,6 +29,14 @@ class Model extends \Orm\Model
      */
     protected $_fieldset = null;
 
+    public static function find($id = null, array $options = array()) {
+        if(!isset($options['order'])) {
+            $options['order_by'] = array('id' => 'DESC');
+        }
+        static::$_logger->debug('Find Function Args MODEL:', array($id, $options));
+        return parent::find($id, $options);
+    }
+
     public static function _init() {
         static::_init_logger();
     }

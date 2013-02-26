@@ -180,11 +180,15 @@ class Controller_Base_Template extends \Controller_Template
                      */
 
                     $form_data = \Input::post();
-                    $data->set($form_data[$crud_object]);
-                    if ($data->validate($form_data[$crud_object])) {
+                    /**
+                     * für mehrfach formulare auf einer seite brauchen wir die kennung
+                     * dabei heißen die formularfelder zum beispiel customer[name], customer[street] etc.
+                     */
+                    $new_data = (isset($form_data[$crud_object]) && is_array($form_data[$crud_object])) ? $form_data[$crud_object] : $form_data;
+                    $data->set($new_data);
+                    if ($data->validate($new_data)) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
-
                         Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                     }
                 }
@@ -192,7 +196,6 @@ class Controller_Base_Template extends \Controller_Template
                 if (\Input::post('delete', false)) {
                     $data->delete();
                     Messages::instance()->success(__(extend_locale('success')));
-
                     Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                 }
 

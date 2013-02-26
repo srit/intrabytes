@@ -25,6 +25,11 @@ $project = $crud_objects['customer_project']['data'];
             </div>
         </div>
         <div class="control-group">
+            <div class="controls controls-row">
+                <?php echo twitter_html_select('redmine_id', $redmines, xss_clean($project->redmine_id)) ?>
+            </div>
+        </div>
+        <div class="control-group">
             <div class="controls">
                 <?php echo twitter_html_input_text('redmine_project_label', xss_clean($project->redmine_project_label), null, array(), array(), array('tabindex' => 3)) ?>
             </div>

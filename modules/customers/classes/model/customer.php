@@ -67,7 +67,11 @@ class Model_Customer extends Model {
                         'salutation'
                     )
                 ),
-                'customer_projects',
+                'customer_projects' => array(
+                    'related' => array(
+                        'redmine'
+                    )
+                ),
                 'postalcode' => array(
                     'related' => array(
                         'country'

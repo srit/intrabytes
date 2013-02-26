@@ -247,7 +247,8 @@ return array(
             array('users'),
             array('dashboard'),
             array('tasks'),
-            array('customers')
+            array('customers'),
+            array('redmines')
         ),
 
         /**
