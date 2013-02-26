@@ -67,7 +67,7 @@ class Model_Language extends Model
 
         try {
             parent::save($cascade, $use_transaction);
-            if($old_default != null) {
+            if($old_default != null && $old_default->id != $this->id) {
                 $old_default->set('default', 0);
                 $old_default->save();
             }
@@ -75,5 +75,4 @@ class Model_Language extends Model
             throw $e;
         }
     }
-
 }

@@ -5,4 +5,5 @@
  */
 
 return array(
+    'core/settings/languages' => 'core/settings/languages/list'
 );

@@ -7,7 +7,7 @@ $customer = $crud_objects['customer']['data'];
 ?>
 
 <form method="post" accept-charset="utf-8" id="customer">
-    <div class="span12">
+    <div class="span11">
         <?php echo security_field(); ?>
         <?php echo html_legend(extend_locale('legend')); ?>
     </div>
@@ -93,7 +93,7 @@ $customer = $crud_objects['customer']['data'];
         </div>
 
     </div>
-    <div class="span12">
+    <div class="span11">
         <?php echo twitter_submit_group() ?>
     </div>
 </form>

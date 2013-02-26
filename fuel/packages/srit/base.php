@@ -195,6 +195,7 @@ function html_checkbox($name, $value, $checked = false, array $attr = array()) {
 
 function twitter_html_input_checkbox($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), $checked = false, array $attr = array()) {
     $label_attr['class'] = 'control-label';
+    $placeholder_locale = (!empty($placeholder_locale)) ? $placeholder_locale : __(extend_locale($name.'.label', $placeholder_locale_params));
     return html_label($label_attr, $name, html_checkbox($name, $value, $checked, $attr) . ' ' . __($placeholder_locale, $placeholder_locale_params));
 }
 

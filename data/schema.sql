@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 26. Feb 2013 um 05:36
+-- Erstellungszeit: 26. Feb 2013 um 09:07
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_languages` (
   `dec_point` varchar(1) NOT NULL,
   `date_format` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_languages`
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=250 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=284 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -470,7 +470,41 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (246, 'edit.index.success', 'redmines', 'Redmine Installation bearbeitet', 1),
 (247, 'edit.index.validation.api_key.connection_succeeded.error', 'redmines', 'Der API Key ist falsch', 1),
 (248, 'projects.list.index.redmine_project_url.label', 'customers', '<i class="icon-share"></i> Zum Redmine Projekt', 1),
-(249, 'projects.add.index.validation.url.valid_url.error', 'customers', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1);
+(249, 'projects.add.index.validation.url.valid_url.error', 'customers', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1),
+(250, 'settings.languages.list.title', 'core', 'Sprachübersicht', 1),
+(251, 'settings.languages.list.add.plain.label', 'core', 'Sprache z.B. English', 1),
+(252, 'settings.languages.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Sprache hinzufügen', 1),
+(253, 'settings.languages.list.id.label', 'core', '#', 1),
+(254, 'settings.languages.list.locale.label', 'core', 'Locale', 1),
+(255, 'settings.languages.list.language.label', 'core', 'Sprache', 1),
+(256, 'settings.languages.list.plain.label', 'core', 'Bezeichnung', 1),
+(257, 'settings.languages.list.default.label', 'core', 'Standard', 1),
+(258, 'settings.languages.list.count.locales.label', 'core', 'Übersetzungen', 1),
+(259, 'settings.languages.list.actions.label', 'core', 'Aktionen', 1),
+(260, 'settings.languages.list.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', 1),
+(261, 'settings.languages.list.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', 1),
+(262, 'settings.languages.edit.title', 'core', 'Sprache bearbeiten', 1),
+(263, 'settings.languages.edit.legend', 'core', 'Sprachdaten', 1),
+(264, 'settings.languages.edit.locale.label', 'core', 'Locale', 1),
+(265, 'settings.languages.edit.language.label', 'core', 'Sprache', 1),
+(266, 'settings.languages.edit.plain.label', 'core', 'Bezeichnung', 1),
+(267, 'settings.languages.edit.default.label', 'core', 'Standardsprache', 1),
+(268, 'settings.languages.edit.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Sprache bearbeiten', 1),
+(269, 'settings.languages.edit.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(270, 'settings.languages.edit.success', 'core', 'Sprache bearbeitet', 1),
+(271, 'settings.languages.add.title', 'core', 'Sprache hinzufügen', 1),
+(272, 'settings.languages.add.legend', 'core', 'Sprachdaten', 1),
+(273, 'settings.languages.add.locale.label', 'core', 'Locale', 1),
+(274, 'settings.languages.add.language.label', 'core', 'Sprache', 1),
+(275, 'settings.languages.add.plain.label', 'core', 'Bezeichnung', 1),
+(276, 'settings.languages.add.default.label', 'core', 'Standardsprache', 1),
+(277, 'settings.languages.add.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Sprache speichern', 1),
+(278, 'settings.languages.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(279, 'settings.languages.delete.title', 'core', 'Sprache löschen', 1),
+(280, 'settings.languages.delete.legend', 'core', 'Bist du sicher, das du die Sprache löschen möchtest?', 1),
+(281, 'settings.languages.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Sprache löschen', 1),
+(282, 'settings.languages.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(283, 'settings.languages.delete.success', 'core', 'Sprache gelöscht!', 1);
 
 -- --------------------------------------------------------
 
@@ -26599,7 +26633,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361815579, '0827b60edfead6846f2c9ccd8febdeed15d3224d', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361862582, '350c622d5b207acd7ecee6f358037976f27e49f4', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

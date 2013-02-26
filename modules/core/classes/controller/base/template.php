@@ -147,9 +147,16 @@ class Controller_Base_Template extends \Controller_Template
                 /**
                  * wenn ein namspace mit angegeben wurde,
                  * versuchen diesen aufzulösen
+                 *
+                 * evtl macht es auch sinn zu prüfen, ob das Model mit dem Namespace angegeben wurde
+                 * z.B. Srit\Model_Languages
+                 *
                  */
                 if (count($explode_crud) > 1) {
-
+                    $model = \Inflector::camelize($explode_crud[1]);
+                    $model = \Inflector::underscore($model);
+                    $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+                    $this->_model_object_name = ucfirst($explode_crud[0]) . '\\' . $this->_model_object_name;
                 } else {
                     list($model) = $explode_crud;
                     $model = \Inflector::camelize($model);
