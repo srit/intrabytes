@@ -19,7 +19,7 @@ class Controller_Base_User extends Controller_Base_Template_Public {
          * Nutzer müssen eingeloggt sein um diesen Controller zu nutzen
          */
         if(!\Auth::check()) {
-            Messages::error('Access denied. Please login first');
+            Messages::error(extend_locale('access.denied.label'));
             Messages::redirect('/users/login');
         }
         $this->_user = \Auth::instance()->get_user();
