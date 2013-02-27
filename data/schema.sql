@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 26. Feb 2013 um 09:07
+-- Erstellungszeit: 27. Feb 2013 um 09:41
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=284 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=285 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -504,7 +504,8 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (280, 'settings.languages.delete.legend', 'core', 'Bist du sicher, das du die Sprache löschen möchtest?', 1),
 (281, 'settings.languages.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Sprache löschen', 1),
 (282, 'settings.languages.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
-(283, 'settings.languages.delete.success', 'core', 'Sprache gelöscht!', 1);
+(283, 'settings.languages.delete.success', 'core', 'Sprache gelöscht!', 1),
+(284, 'settings.languages.list.actions.locales.label', 'core', 'Locales anzeigen', 1);
 
 -- --------------------------------------------------------
 
@@ -26633,7 +26634,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361862582, '350c622d5b207acd7ecee6f358037976f27e49f4', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361949022, '478237fdbc15f82ff70c75ab23fb486cb9cf76c4', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
