@@ -26,6 +26,13 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_crud_redirect_uri = null;
 
+    protected $_pagination_config = array();
+
+    /**
+     * @var \Fuel\Core\Pagination
+     */
+    protected $_pagination = array();
+
     protected $_named_params = array();
 
     protected $_model_object_name = null;
@@ -174,6 +181,21 @@ class Controller_Base_Template extends \Controller_Template
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
+
+                    $data_cnt = forward_static_call_array(array($this->_model_object_name, 'count'), array($options));
+
+                    $this->_pagination_config[$crud_object] = array(
+                        'total_items' => $data_cnt,
+                        'per_page' => 10,
+                        'pagination_url' => \Fuel\Core\Uri::create($this->_crud_redirect_uri),
+                        'uri_segment' => 'page'
+                    );
+
+                    $this->_pagination[$crud_object] = \Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
+
+                    $options['limit'] = $this->_pagination[$crud_object]->per_page;
+                    $options['offset'] = $this->_pagination[$crud_object]->offset;
+
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
                 } elseif ($this->_crud_action == 'add') {
                     $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($this->_named_params));
@@ -207,14 +229,17 @@ class Controller_Base_Template extends \Controller_Template
                 }
 
                 $this->_crud_objects[$crud_object]['data'] = $data;
+                $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }
             $this->_get_content_template()
-                ->set('crud_objects', $this->_crud_objects);
+                ->set('crud_objects', $this->_crud_objects, false)
+                ->set('pagination', $this->_pagination, false);
 
         }
     }
 
-    protected function _init_crud_vars() {
+    protected function _init_crud_vars()
+    {
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
 
@@ -260,8 +285,9 @@ class Controller_Base_Template extends \Controller_Template
      * @return \Fuel\Core\View
      * @throws \Exception
      */
-    protected function _get_content_template() {
-        if(empty($this->_controller_path)) {
+    protected function _get_content_template()
+    {
+        if (empty($this->_controller_path)) {
             throw new \Exception(__(extend_locale('exception.controller_path_undefined')));
         }
         return Theme::instance($this->template)->get_partial('content', $this->_controller_path);

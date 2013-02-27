@@ -5,5 +5,8 @@
  */
 
 return array(
-    'core/settings/languages' => 'core/settings/languages/list'
+    'core/settings/languages' => 'core/settings/languages/list',
+    'core/settings/locales/list/(:language_id)' => 'core/settings/locales/list/$1',
+    'core/settings/locales/(:language_id)' => 'core/settings/locales/list/$1',
+
 );
