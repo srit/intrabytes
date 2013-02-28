@@ -361,9 +361,9 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
  */
 function boolean_icon($value) {
     if((bool)$value == true) {
-        $html = html_tag('span', array('class' => 'label label-success'), html_tag('i', array('class' => 'icon-white icon-ok'), ''));
+        $html = html_tag('span', array('class' => 'badge badge-success'), html_tag('i', array('class' => 'icon-white icon-ok'), ''));
     } else {
-        $html = html_tag('span', array('class' => 'label label-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
+        $html = html_tag('span', array('class' => 'badge badge-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
     }
     return $html;
 }

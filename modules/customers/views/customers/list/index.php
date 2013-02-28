@@ -8,6 +8,7 @@
     <div class="control-group">
         <?php echo html_anchor(\Uri::create('/customers/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
+    <?php echo $pagination['customer']->render();?>
     <?php if (!empty($crud_objects['customer']['data'])): ?>
     <table class="table table-striped table-condensed">
         <tr>

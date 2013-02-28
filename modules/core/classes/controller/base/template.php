@@ -188,7 +188,9 @@ class Controller_Base_Template extends \Controller_Template
                         'total_items' => $data_cnt,
                         'per_page' => 10,
                         'pagination_url' => \Fuel\Core\Uri::create($this->_crud_redirect_uri),
-                        'uri_segment' => 'page'
+                        'uri_segment' => 'page',
+                        'show_first'              => true,
+                        'show_last'               => true,
                     );
 
                     $this->_pagination[$crud_object] = \Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
