@@ -186,7 +186,7 @@ class Controller_Base_Template extends \Controller_Template
 
                     $this->_pagination_config[$crud_object] = array(
                         'total_items' => $data_cnt,
-                        'per_page' => 10,
+                        'per_page' => 25,
                         'pagination_url' => \Fuel\Core\Uri::create($this->_crud_redirect_uri),
                         'uri_segment' => 'page',
                         'show_first'              => true,

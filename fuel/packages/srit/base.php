@@ -304,7 +304,8 @@ function twitter_html_input_password($name, $value, $label_locale, array $label_
  * @param array $attr
  * @return string
  */
-function twitter_html_submit_button($name, $value, $locale, array $locale_params = array(), array $attr = array()) {
+function twitter_html_submit_button($name, $value, $locale = null, array $locale_params = array(), array $attr = array()) {
+    $locale = empty($locale) ? __(extend_locale($name . '.label'), $locale_params) : __($locale, $locale_params);
     $attr['class'] = (isset($attr['class'])) ? 'btn ' . $attr['class'] : 'btn';
     return html_submit_button($name, $value, $locale, $locale_params, $attr);
 }

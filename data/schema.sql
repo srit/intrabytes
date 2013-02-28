@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 28. Feb 2013 um 05:58
+-- Erstellungszeit: 28. Feb 2013 um 09:00
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=285 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=296 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -505,7 +505,17 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (281, 'settings.languages.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Sprache löschen', 1),
 (282, 'settings.languages.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
 (283, 'settings.languages.delete.success', 'core', 'Sprache gelöscht!', 1),
-(284, 'settings.languages.list.actions.locales.label', 'core', 'Locales anzeigen', 1);
+(284, 'settings.languages.list.actions.locales.label', 'core', 'Locales anzeigen', 1),
+(285, 'settings.locales.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Locale hinzufügen', 1),
+(286, 'settings.locales.add.success', 'core', 'Locale hinzugefügt', 1),
+(287, 'settings.locales.list.key.label', 'core', 'Key', 1),
+(288, 'settings.locales.list.group.label', 'core', 'Gruppe', 1),
+(289, 'settings.locales.list.value.label', 'core', 'Wert', 1),
+(290, 'settings.locales.list.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale speichern', 1),
+(291, 'settings.locales.list.actions.label', 'core', 'Aktionen', 1),
+(292, 'settings.locales.list.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', 1),
+(294, 'settings.locales.list.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', 1),
+(295, 'settings.locales.list.title', 'core', 'Locale Übersicht', 1);
 
 -- --------------------------------------------------------
 
@@ -26634,7 +26644,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361989582, '3d698ed27a0d8aa34a2bdfa7e0dfdc6778c3c030', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362035301, '7cb2f61a6194d448930cda7447db3672e12896f2', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

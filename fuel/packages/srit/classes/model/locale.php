@@ -18,9 +18,10 @@ class Model_Locale extends Model
         'language'
     );
 
-    public static function find_all_by_language_and_locale($language, $locale = null) {
+    public static function find_all_by_language_and_locale($language, $locale = null)
+    {
         $language_relation_where = array('language' => $language);
-        if($locale != null) {
+        if ($locale != null) {
             $language_relation_where = array_merge($language_relation_where, array('locale' => $locale));
         }
 
@@ -28,8 +29,20 @@ class Model_Locale extends Model
             ->related('language', array('where' => $language_relation_where))
             ->get();
 
-        return $items ?: false;
+        return $items ? : false;
 
+    }
+
+    public static function find_groups_like_group($group, array $options = array())
+    {
+        $options = array_merge_recursive($options, array(
+            'where' => array(
+                array('group', 'LIKE', $group . '%')
+            ),
+            'group_by' => 'group'
+        ));
+        $items = static::find_all($options);
+        return $items ? : false;
     }
 
 }

@@ -36,7 +36,7 @@ $customer = $crud_objects['customer']['data'];
 
         <div class="control-group">
             <div class="controls controls-row">
-                <?php echo twitter_html_input_text('customer[postalcode_text]', xss_clean($postalcode_text), null, array(), array(), array('tabindex' => 9, 'autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Fuel\Core\Uri::create('/customers/postalcodes/rest/search'))) ?>
+                <?php echo twitter_html_input_text('customer[postalcode_text]', xss_clean($postalcode_text), null, array(), array(), array('tabindex' => 9, 'autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/customers/postalcodes/rest/search'))) ?>
                 <?php echo html_hidden('customer[postalcode_id]', '') ?>
             </div>
         </div>

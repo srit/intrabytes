@@ -28,7 +28,7 @@
         <td><?php echo xss_clean($lang->language) ?></td>
         <td><?php echo xss_clean($lang->plain) ?></td>
         <td><?php echo boolean_icon(xss_clean($lang->default)) ?></td>
-        <td><?php echo html_anchor(\Uri::create('/core/settings/locales/:language_id', array('language_id' => $lang->id)), count($lang->locales)) ?></td>
+        <td><?php echo html_anchor(\Uri::create('/core/settings/locales/list/:language_id', array('language_id' => $lang->id)), count($lang->locales)) ?></td>
         <td>
 
 
@@ -36,7 +36,7 @@
             array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/languages/edit/:id', array('id' => $lang->id)), __(extend_locale('actions.edit.label')))),
             array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/languages/delete/:id', array('id' => $lang->id)), __(extend_locale('actions.delete.label')))),
             array('is_divider' => true),
-            array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/locales/:language_id', array('language_id' => $lang->id)), __(extend_locale('actions.locales.label')))),
+            array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/locales/list/:language_id', array('language_id' => $lang->id)), __(extend_locale('actions.locales.label')))),
         ), extend_locale('actions.label'), array()); ?>
 
 

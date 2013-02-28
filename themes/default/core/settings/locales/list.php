@@ -17,7 +17,17 @@
             <th><?php echo __(extend_locale('value.label')) ?></th>
             <th><?php echo __(extend_locale('actions.label')) ?></th>
         </tr>
-
+        <tr>
+            <td>
+                <form method="post" accept-charset="utf-8"
+                      action="<?php echo \Fuel\Core\Uri::create('core/settings/locales/add/:language_id', array('language_id' => $language_id)) ?>">
+                <?php echo security_field(); ?>
+                <?php echo twitter_html_input_text_wo_label('key', '') ?></td>
+            <td><?php echo twitter_html_input_text_wo_label('group', '', null, array(), array('autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/core/settings/locales/rest/search'))) ?></td>
+            <td><?php echo twitter_html_input_text_wo_label('value', '') ?></td>
+            <td><?php echo twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) ?>
+            </form></td>
+        </tr>
         <?php foreach ($crud_objects['srit:locale']['data'] as $locale): ?>
         <tr>
             <td><?php echo xss_clean($locale->key) ?></td>
@@ -35,3 +45,18 @@
     <?php echo $pagination['srit:locale']->render(); ?>
     <?php endif; ?>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('[data-provide="typeahead"]').typeahead({
+            source:function (query, process) {
+                var link = $(this)[0].$element[0].dataset.link;
+                var what = $(this)[0].$element[0].name;
+                return $.getJSON(link, { query:query, what:what }, function (data) {
+                    return process(data.options);
+                });
+            }
+        });
+    });
+
+</script>
