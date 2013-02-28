@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 28. Feb 2013 um 09:00
+-- Erstellungszeit: 28. Feb 2013 um 16:45
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_languages` (
   `dec_point` varchar(1) NOT NULL,
   `date_format` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Daten für Tabelle `intrabytes_languages`
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=296 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=321 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -515,7 +515,32 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (291, 'settings.locales.list.actions.label', 'core', 'Aktionen', 1),
 (292, 'settings.locales.list.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', 1),
 (294, 'settings.locales.list.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', 1),
-(295, 'settings.locales.list.title', 'core', 'Locale Übersicht', 1);
+(295, 'settings.locales.list.title', 'core', 'Locale Übersicht', 1),
+(296, 'access.denied.login.first.label', 'login', 'Bitte logge dich erst ein', 1),
+(297, 'settings.pubkeys.list.title', 'users', 'Public Key Übersicht', 1),
+(298, 'settings.pubkeys.list.add.button.label', 'users', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', 1),
+(299, 'settings.pubkeys.list.name.label', 'users', 'Name', 1),
+(300, 'settings.pubkeys.list.key.label', 'users', 'Public Key', 1),
+(301, 'settings.pubkeys.list.created_at.label', 'users', 'Erstellt', 1),
+(302, 'settings.pubkeys.list.actions.label', 'users', 'Aktionen', 1),
+(303, 'settings.pubkeys.list.actions.edit.label', 'users', '<i class="icon-edit"></i> Bearbeiten', 1),
+(304, 'settings.pubkeys.list.actions.delete.label', 'users', '<i class="icon-trash"></i> Löschen', 1),
+(305, 'settings.pubkeys.edit.title', 'users', 'Public Key bearbeiten', 1),
+(306, 'settings.pubkeys.edit.name.label', 'users', 'Name', 1),
+(307, 'settings.pubkeys.edit.value.label', 'users', 'Public Key', 1),
+(308, 'settings.pubkeys.edit.save.button.label', 'users', '<i class="icon-white icon-ok"></i> Public Key speichern', 1),
+(309, 'settings.pubkeys.edit.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(310, 'settings.pubkeys.add.title', 'users', 'Public Key hinzufügen', 1),
+(311, 'settings.pubkeys.add.name.label', 'users', 'Name', 1),
+(312, 'settings.pubkeys.add.value.label', 'users', 'Public Key', 1),
+(313, 'settings.pubkeys.add.save.button.label', 'users', '<i class="icon-white icon-ok"></i> Public Key anlegen', 1),
+(314, 'settings.pubkeys.add.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(315, 'settings.pubkeys.delete.title', 'users', 'Public Key löschen', 1),
+(316, 'settings.pubkeys.delete.legend', 'users', 'Willst du den Public Key wirklich löschen?', 1),
+(317, 'settings.pubkeys.delete.delete.button.label', 'users', '<i class="icon-white icon-thumbs-up"></i> Ja, den Public Key löschen', 1),
+(318, 'settings.pubkeys.delete.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(319, 'settings.pubkeys.add.success', 'users', 'Public Key angelegt', 1),
+(320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1);
 
 -- --------------------------------------------------------
 
@@ -26644,7 +26669,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362035301, '7cb2f61a6194d448930cda7447db3672e12896f2', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362064246, '1d10f2f76af56d1274daf98622c4ce77393f08f1', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -26685,15 +26710,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `intrabytes_user_public_keys`
 --
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
-(1, 1, 'MacBookPro', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgdexLHN4AOd31hcBv5U9eekaav6jSBcS/u0Haz/EoNP9CJZuLOw1ODm+gXdK0+uN4ZOy0hWS0uHSnTPBbBSBOf/xsjtutonQCl5SIxjCEqKUTvcLsRj8XLq/SSO2C3OkwYb7ta0LeKOkQ9SuL1kXPFeqj9O34JLFm2phrSKeoVydzt5Ug0wfu03Ui4Q7yv6KSdagPoOO1UicY6GEyjcdsylreZEF7sDoU8zYa4Pi1+0+rLHZLnU44CaAU6EMhVap8NkYmkThoe9a8gBpfqJwnnaApR2xcNe9V9SPR2mMbHABA2bg1YDeFBvy7oSCvJNClIYRVSRRMrpvIHc57JEZh stefanriedel@Stefans-MacBook-Pro.local', '2013-02-11 19:25:18', '2013-02-11 19:25:18'),
-(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-12 12:52:49');
+(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

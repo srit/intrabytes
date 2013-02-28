@@ -9,6 +9,7 @@
     <div class="control-group">
         <?php echo html_anchor(\Uri::create('/core/settings/locales/add/:language_id', array('language_id' => $language_id)), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
+    <?php echo $pagination['srit:locale']->render(); ?>
     <?php if (!empty($crud_objects['srit:locale']['data'])): ?>
     <table class="table table-striped table-condensed">
         <tr>

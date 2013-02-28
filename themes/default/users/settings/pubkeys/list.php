@@ -24,8 +24,8 @@
             <td>
 
                 <?php echo twitter_button_group(array(
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/edit/:id', array('id' => $pub_key->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/delete/:id', array('id' => $pub_key->id)), '<i class="icon-trash"></i> ' . __(extend_locale('actions.delete.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/edit/:id', array('id' => $pub_key->id)), __(extend_locale('actions.edit.label')))),
+                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/delete/:id', array('id' => $pub_key->id)), __(extend_locale('actions.delete.label')))),
             ), extend_locale('actions.label'), array()); ?>
 
             </td>
