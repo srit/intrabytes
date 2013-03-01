@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 28. Feb 2013 um 16:45
+-- Erstellungszeit: 01. Mrz 2013 um 15:52
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=321 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=323 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -540,7 +540,9 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (317, 'settings.pubkeys.delete.delete.button.label', 'users', '<i class="icon-white icon-thumbs-up"></i> Ja, den Public Key löschen', 1),
 (318, 'settings.pubkeys.delete.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
 (319, 'settings.pubkeys.add.success', 'users', 'Public Key angelegt', 1),
-(320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1);
+(320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1),
+(321, 'show.index.title', 'customers', 'Kontakt Anzeige', 1),
+(322, 'settings.pubkeys.add.locale', 'users', 'Public Key Daten', 1);
 
 -- --------------------------------------------------------
 
@@ -26669,7 +26671,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362064246, '1d10f2f76af56d1274daf98622c4ce77393f08f1', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362122129, '39246385473eceec2acedff888d60970859fb60c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -26710,7 +26712,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_user_public_keys`

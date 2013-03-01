@@ -20,8 +20,8 @@
             </tr> 
             <?php foreach ($crud_objects['customer_project']['data'] as $customer_project): ?>
                 <tr>
-                    <td><?php echo \Html::anchor(\Uri::create('/customers/projects/show/:customer_id/:id', array('customer_id' => $customer_project->customer_id, 'id' => $customer_project->id)), xss_clean($customer_project->name)) ?></td>
-                    <td><?php echo xss_clean($customer_project->url) ?></td>
+                    <td><?php echo html_anchor(\Uri::create('/customers/projects/show/:customer_id/:id', array('customer_id' => $customer_project->customer_id, 'id' => $customer_project->id)), xss_clean($customer_project->name)) ?></td>
+                    <td><?php echo html_anchor(xss_clean($customer_project->url), xss_clean($customer_project->url), array('target' => '_blank')) ?></td>
                     <td>
                         <?php echo xss_clean($customer_project->redmine_project_label) ?>   <br>
                         <?php echo html_anchor(xss_clean($customer_project->redmine_project_url()), extend_locale('redmine_project_url.label'), array('target' => '_blank'))?>

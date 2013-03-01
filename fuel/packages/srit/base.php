@@ -110,8 +110,12 @@ function error_text($value) {
  * @param array $attr
  * @return string
  */
-function html_legend($locale, array $locale_params = array(), array $attr = array()) {
-    return html_tag('legend', $attr, __($locale, $locale_params));
+function html_legend($locale = null, array $locale_params = array(), array $attr = array()) {
+
+    $locale = ($locale == null) ? __(extend_locale('locale'), $locale_params) : __($locale, $locale_params);
+
+    return html_tag('div', array('class' => 'span11 header'), html_tag('h4', array(), $locale));
+    //return html_tag('legend', $attr, __($locale, $locale_params));
 }
 
 /**

@@ -95,6 +95,17 @@ class Model_Customer extends Model {
         return $item;
     }
 
+    public static function forge($data = array(), $new = true, $view = null)
+    {
+        $data = array_merge_recursive(array('country_id' => 0, 'postalcode_text' => '', 'city_text' => ''), $data);
+        return new static($data, $new, $view);
+    }
+
+    /**public static function forge(array $data = array(), $new = true, $view = null) {
+        $data = array_merge_recursive(array('country_id' => 0, 'postalcode_text' => '', 'city_text' => ''), $data);
+        return parent::forge($data, $new, $view);
+    }**/
+
     public static function find_for_edit($id = null, array $options = array()) {
         $model_options = array(
 

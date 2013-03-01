@@ -19,9 +19,20 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    margin-top: -1px;
+    margin-top: 0px;
     margin-right: 2px;
 }
 .btn-mini [class^="icon-"], .btn-mini [class*=" icon-"] {
     margin-top: -2px;
+}
+
+.header {
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #D1D1D1;
+}
+
+body {
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-size: 12px;
 }
