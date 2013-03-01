@@ -21,7 +21,7 @@
         <?php foreach ($crud_objects['redmine']['data'] as $redmine): ?>
         <tr>
             <td><?php echo xss_clean($redmine->name) ?></td>
-            <td><?php echo xss_clean($redmine->url) ?></td>
+            <td><?php echo html_anchor(xss_clean($redmine->url), xss_clean($redmine->url), array('target' => '_blank'))?></td>
             <td><?php echo xss_clean($redmine->api_key) ?></td>
             <td>
                 <?php echo twitter_button_group(array(

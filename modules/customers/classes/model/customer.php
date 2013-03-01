@@ -82,7 +82,17 @@ class Model_Customer extends Model {
             'order_by' => array('id' => 'DESC')
         );
         $options = array_merge_recursive($tmp_options, $options);
-        return parent::find($id, $options);
+        $item = parent::find($id, $options);
+        if($item != false && $id !== 'all' && !isset($item->postalcode)) {
+            $item->set('country_id', (isset($item->country_id)) ? $item->country_id : 0);
+            $item->set('postalcode_text', (isset($item->postalcode_text)) ? $item->postalcode_text : '');
+            $item->set('city_text', (isset($item->city_text)) ? $item->city_text : '');
+        } elseif($item != false && $id !== 'all' && isset($item->postalcode)) {
+            $item->set('country_id', (isset($item->postalcode->country_id)) ? $item->postalcode->country_id : 0);
+            $item->set('postalcode_text', (isset($item->postalcode->postalcode)) ? $item->postalcode->postalcode : '');
+            $item->set('city_text', (isset($item->postalcode->city)) ? $item->postalcode->city : '');
+        }
+        return $item;
     }
 
     public static function find_for_edit($id = null, array $options = array()) {

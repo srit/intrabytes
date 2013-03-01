@@ -36,7 +36,7 @@ $customer = $crud_objects['customer']['data'];
 
         <div class="control-group">
             <div class="controls controls-row">
-                <?php echo twitter_html_input_text('customer[postalcode_text]', xss_clean($postalcode_text), null, array(), array(), array('tabindex' => 9, 'autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/customers/postalcodes/rest/search'))) ?>
+                <?php echo twitter_html_input_text('customer[postalcode_text]', xss_clean($customer->postalcode_text), null, array(), array(), array('tabindex' => 9, 'autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/customers/postalcodes/rest/search'))) ?>
                 <?php echo html_hidden('customer[postalcode_id]', '') ?>
             </div>
         </div>
@@ -45,7 +45,7 @@ $customer = $crud_objects['customer']['data'];
 
         <div class="control-group">
             <div class="controls controls-row">
-                <?php echo twitter_html_select('customer[country_id]', $countries, xss_clean($country_id), extend_locale('country.label'), array(), array(), false, array('tabindex' => 11)) ?>
+                <?php echo twitter_html_select('customer[country_id]', $countries, xss_clean($customer->country_id), extend_locale('country.label'), array(), array(), false, array('tabindex' => 11)) ?>
             </div>
         </div>
 
@@ -82,7 +82,7 @@ $customer = $crud_objects['customer']['data'];
 
         <div class="control-group">
             <div class="controls controls-row">
-                <?php echo twitter_html_input_text('customer[city_text]', xss_clean($city_text), null, array(), array(), array('class' => '', 'tabindex' => 10)) ?>
+                <?php echo twitter_html_input_text('customer[city_text]', xss_clean($customer->city_text), null, array(), array(), array('class' => '', 'tabindex' => 10)) ?>
             </div>
         </div>
 
