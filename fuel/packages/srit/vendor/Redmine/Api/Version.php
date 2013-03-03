@@ -39,12 +39,7 @@ class Version extends AbstractApi
         if (true === $forceUpdate || empty($this->versions)) {
             $this->all($project);
         }
-        $ret = array();
-        foreach ($this->versions['versions'] as $e) {
-            $ret[$e[(int) 'id']] =  $e['name'];
-        }
-
-        return $reverse ? array_flip($ret) : $ret;
+        return $this->versions['versions'];
     }
 
     /**

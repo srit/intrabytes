@@ -36,12 +36,7 @@ class Role extends AbstractApi
         if (empty($this->roles)) {
             $this->all();
         }
-        $ret = array();
-        foreach ($this->roles['roles'] as $e) {
-            $ret[$e['name']] = (int) $e['id'];
-        }
-
-        return $ret;
+        return $this->roles['roles'];
     }
 
     /**

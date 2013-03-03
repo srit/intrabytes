@@ -36,12 +36,7 @@ class IssueStatus extends AbstractApi
         if (empty($this->issueStatuses)) {
             $this->all();
         }
-        $ret = array();
-        foreach ($this->issueStatuses['issue_statuses'] as $e) {
-            $ret[$e['name']] = (int) $e['id'];
-        }
-
-        return $ret;
+        return $this->issueStatuses['issue_statuses'];
     }
 
     /**

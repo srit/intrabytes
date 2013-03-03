@@ -36,12 +36,7 @@ class Group extends AbstractApi
         if (empty($this->groups)) {
             $this->all();
         }
-        $ret = array();
-        foreach ($this->groups['groups'] as $e) {
-            $ret[$e['name']] = (int) $e['id'];
-        }
-
-        return $ret;
+        return $this->groups['groups'];
     }
 
     /**

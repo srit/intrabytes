@@ -38,12 +38,7 @@ class IssueCategory extends AbstractApi
         if (true === $forceUpdate || empty($this->issueCategories)) {
             $this->all($project);
         }
-        $ret = array();
-        foreach ($this->issueCategories['issue_categories'] as $e) {
-            $ret[$e['name']] = (int) $e['id'];
-        }
-
-        return $ret;
+        return $this->issueCategories['issue_categories'];
     }
 
     /**

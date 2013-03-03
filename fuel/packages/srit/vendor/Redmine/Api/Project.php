@@ -33,17 +33,12 @@ class Project extends AbstractApi
      * @param  boolean $reverse     to return an array indexed by name rather than id
      * @return array   list of projects (id => project name)
      */
-    public function listing($forceUpdate = false, $reverse = true)
+    public function listing($forceUpdate = false)
     {
         if (true === $forceUpdate || empty($this->projects)) {
             $this->all();
         }
-        $ret = array();
-        foreach ($this->projects['projects'] as $e) {
-            $ret[(int)$e['id']] =  $e['name'];
-        }
-
-        return $reverse ? array_flip($ret) : $ret;
+        return $this->projects['projects'];
     }
 
     /**

@@ -36,11 +36,7 @@ class Tracker extends AbstractApi
         if (empty($this->trackers)) {
             $this->all();
         }
-        $ret = array();
-        foreach ($this->trackers['trackers'] as $e) {
-            $ret[$e['name']] = (int) $e['id'];
-        }
 
-        return $ret;
+        return $this->trackers['trackers'];
     }
 }
