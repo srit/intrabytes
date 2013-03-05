@@ -40,7 +40,7 @@ class Model_Language extends Model
             'related' => array('locales')
         ));
     }
-
+    
     public static function find_by_language_key($language_key) {
         return parent::find('first', array('where' => array(
             'language' => $language_key
