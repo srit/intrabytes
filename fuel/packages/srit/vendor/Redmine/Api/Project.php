@@ -21,7 +21,7 @@ class Project extends AbstractApi
      */
     public function all(array $params = array())
     {
-        $this->projects = $this->get('/projects.json?'.$this->http_build_str($params));
+        $this->projects = $this->get('/projects.json?' . $this->http_build_str($params));
 
         return $this->projects;
     }
@@ -49,11 +49,14 @@ class Project extends AbstractApi
     public function getIdByName($name)
     {
         $arr = $this->listing();
-        if (!isset($arr[$name])) {
-            return false;
+        $ret = false;
+        foreach ($arr as $pr) {
+            if ($pr['identifier'] == $name) {
+                $ret = $pr['id'];
+                break;
+            }
         }
-
-        return $arr[(string) $name];
+        return $ret;
     }
 
     /**
@@ -65,7 +68,7 @@ class Project extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('/projects/'.urlencode($id).'.json?include=trackers,issue_categories,attachments,relations');
+        return $this->get('/projects/' . urlencode($id) . '.json?include=trackers,issue_categories,attachments,relations');
     }
 
     /**
@@ -78,14 +81,14 @@ class Project extends AbstractApi
     public function create(array $params = array())
     {
         $defaults = array(
-            'name'        => null,
-            'identifier'  => null,
+            'name' => null,
+            'identifier' => null,
             'description' => null,
         );
         $params = array_filter(array_merge($defaults, $params));
-        if(
+        if (
             !isset($params['name'])
-         || !isset($params['identifier'])
+            || !isset($params['identifier'])
         ) {
             throw new \Exception('Missing mandatory parameters');
         }
@@ -109,9 +112,9 @@ class Project extends AbstractApi
     public function update($id, array $params)
     {
         $defaults = array(
-            'id'        => $id,
-            'name'        => null,
-            'identifier'  => null,
+            'id' => $id,
+            'name' => null,
+            'identifier' => null,
             'description' => null,
         );
         $params = array_filter(array_merge($defaults, $params));
@@ -121,7 +124,7 @@ class Project extends AbstractApi
             $xml->addChild($k, $v);
         }
 
-        return $this->put('/projects/'.$id.'.xml', $xml->asXML());
+        return $this->put('/projects/' . $id . '.xml', $xml->asXML());
     }
 
     /**
@@ -133,6 +136,6 @@ class Project extends AbstractApi
      */
     public function remove($id)
     {
-        return $this->delete('/projects/'.$id.'.xml');
+        return $this->delete('/projects/' . $id . '.xml');
     }
 }

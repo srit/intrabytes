@@ -14,6 +14,7 @@ class Model_Customer_Project extends Model {
     protected static $_properties = array(
         'id',
         'name',
+        'description',
         'url',
         'redmine_project_label',
         'customer_id',

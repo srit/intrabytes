@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 01. Mrz 2013 um 15:52
+-- Erstellungszeit: 05. Mrz 2013 um 13:31
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -86,9 +86,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
-(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627'),
-(3, '2013-02-12 15:19:33', '2013-02-22 14:03:41', 'info@expeedo.de', 'expeedo21', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '7797'),
-(8, '2013-02-24 20:09:00', '2013-02-24 20:09:00', 'sr@web.de', 'Hans Hans', 'Hans', 'Hans', 1, '0381', '', 'Hans Straße', '10', '25911');
+(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627');
 
 -- --------------------------------------------------------
 
@@ -130,6 +128,7 @@ INSERT INTO `intrabytes_customer_contacts` (`id`, `email`, `lastname`, `firstnam
 CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `url` varchar(255) DEFAULT NULL,
   `redmine_project_label` varchar(50) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
@@ -137,15 +136,16 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_projects`
 --
 
-INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', 'http://www.sonatex.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-02-25 19:05:14'),
-(10, 'Sonatex Easyshop', 'http://easyshop.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-02-25 19:05:00');
+INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
+(1, 'Sonatex Hauptshop', '<span><b>B2B Textilgroßhandel</b> für günstige &amp; nachhaltige T-Shirts &amp; andere Werbetextilien, Berufsbekleidung &amp; Sportbekleidung - <b>mit Mengenrabatt!</b></span><br>', 'http://www.sonatex.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-03-05 11:54:28'),
+(10, 'Sonatex Easyshop', '', 'http://easyshop.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-02-25 19:05:00'),
+(11, 'intrabytes', '', '', 'alphabytes', 2, 10, '2013-03-04 13:28:06', '2013-03-04 13:28:05');
 
 -- --------------------------------------------------------
 
@@ -26671,7 +26671,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362122129, '39246385473eceec2acedff888d60970859fb60c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362468305, 'a6860688efaf259bb48324b438f9eab81be4e408', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
