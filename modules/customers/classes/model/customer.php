@@ -52,9 +52,6 @@ class Model_Customer extends Model {
     );
 
     public static function find($id = null, array $options = array()) {
-
-        static::$_logger->debug('Find Function Args', array($id, $options));
-
         $tmp_options = array(
             'related' => array(
                 'customer_contacts' => array(
@@ -84,27 +81,44 @@ class Model_Customer extends Model {
         $options = array_merge_recursive($tmp_options, $options);
         $item = parent::find($id, $options);
         if($item != false && $id !== 'all' && !isset($item->postalcode)) {
-            $item->set('country_id', (isset($item->country_id)) ? $item->country_id : 0);
-            $item->set('postalcode_text', (isset($item->postalcode_text)) ? $item->postalcode_text : '');
-            $item->set('city_text', (isset($item->city_text)) ? $item->city_text : '');
+
+            $country_id = (isset($item->country_id)) ? $item->country_id : 0;
+            $postalcode_text = (isset($item->postalcode_text)) ? $item->postalcode_text : '';
+            $city_text = (isset($item->city_text)) ? $item->city_text : '';
+
+
         } elseif($item != false && $id !== 'all' && isset($item->postalcode)) {
-            $item->set('country_id', (isset($item->postalcode->country_id)) ? $item->postalcode->country_id : 0);
-            $item->set('postalcode_text', (isset($item->postalcode->postalcode)) ? $item->postalcode->postalcode : '');
-            $item->set('city_text', (isset($item->postalcode->city)) ? $item->postalcode->city : '');
+            $country_id = (isset($item->postalcode->country_id)) ? $item->postalcode->country_id : 0;
+            $postalcode_text = (isset($item->postalcode->postalcode)) ? $item->postalcode->postalcode : 0;
+            $city_text = (isset($item->postalcode->city)) ? $item->postalcode->city : 0;
+        }
+
+        if($item != false && $id !== 'all') {
+            $tmp_data = array(
+                'country_id' => $country_id,
+                'postalcode_text' => $postalcode_text,
+                'city_text' => $city_text
+            );
+            $item->set($tmp_data);
         }
         return $item;
     }
 
     public static function forge($data = array(), $new = true, $view = null)
     {
-        $data = array_merge_recursive(array('country_id' => 0, 'postalcode_text' => '', 'city_text' => ''), $data);
-        return new static($data, $new, $view);
-    }
+        $item = new static($data, $new, $view);
+        if($new == true) {
+            $tmp_data = array(
+                'country_id' => 0,
+                'postalcode_text' => '',
+                'city_text' => ''
+            );
+            $item->set($tmp_data);
+        }
 
-    /**public static function forge(array $data = array(), $new = true, $view = null) {
-        $data = array_merge_recursive(array('country_id' => 0, 'postalcode_text' => '', 'city_text' => ''), $data);
-        return parent::forge($data, $new, $view);
-    }**/
+        return $item;
+
+    }
 
     public static function find_for_edit($id = null, array $options = array()) {
         $model_options = array(
@@ -145,17 +159,6 @@ class Model_Customer extends Model {
             }
             $this->postalcode_id = $postalcode->id;
         }
-
-        //var_dump($this->_data);exit;
-        
-        /**if($this->postalcode && !($this->postalcode instanceof \Srit\Model_Postalcode)) {
-            $postalcode = Model_Postalcode::find_by_postalcode($this->postalcode);
-            if($postalcode == false) {
-                $postalcode = Model_Postalcode::forge(array('postalcode' => $this->postalcode, 'city' => $this->city, 'country_id' => $this->country_id));
-                $postalcode->save();
-            }
-            $this->postalcode = $postalcode;
-        }**/
 
         static::$_logger->debug('Func get Args save', func_get_args());
 
