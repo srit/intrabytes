@@ -29,6 +29,6 @@ $project = $crud_objects['customer_project']['data'];
         <?php echo twitter_submit_group() ?>
     </div>
     <div class="span5">
-        <?php echo form_help_text('pubkeys') ?>
+        <?php echo form_help_text('projects') ?>
     </div>
 </form>

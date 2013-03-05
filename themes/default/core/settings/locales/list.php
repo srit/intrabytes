@@ -22,12 +22,13 @@
             <td>
                 <form method="post" accept-charset="utf-8"
                       action="<?php echo \Uri::create('core/settings/locales/add/:language_id', array('language_id' => $language_id)) ?>">
-                <?php echo security_field(); ?>
+                    <?php echo security_field(); ?>
+                    <?php echo html_hidden('language_id', $language_id) ?>
                 <?php echo twitter_html_input_text_wo_label('key', '') ?></td>
             <td><?php echo twitter_html_input_text_wo_label('group', '', null, array(), array('autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/core/settings/locales/rest/search'))) ?></td>
             <td><?php echo twitter_html_input_text_wo_label('value', '') ?></td>
             <td><?php echo twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) ?>
-            </form></td>
+                </form></td>
         </tr>
         <?php foreach ($crud_objects['srit:locale']['data'] as $locale): ?>
         <tr>

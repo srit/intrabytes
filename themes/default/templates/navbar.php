@@ -24,6 +24,9 @@
 
                 </ul>
                 <ul class="nav pull-right">
+                    <li class="indicator">
+                        <?php echo $theme->asset->img('ajax-loader.gif', array('id' => 'indicator', 'class' => 'img-circle')) ?>
+                    </li>
                     <li class="dropdown">
                         <?php echo \Html::anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
                         <ul class="dropdown-menu">

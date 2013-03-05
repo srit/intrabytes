@@ -29,8 +29,6 @@ echo $theme->view('templates/navbar');
             </div>
         </div>
     </div>
-    <div id="indicator" style="width: 100px;" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div style="text-align: center;text-align: -moz-center;"><?php echo $theme->asset->img('ajax-loader.gif') ?></div>
-    </div>
 </div>
+<?php echo $theme->view('templates/_partials/body/end') ?>
 

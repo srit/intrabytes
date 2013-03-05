@@ -2,17 +2,13 @@
 /**
  * @created 01.10.12 - 10:56
  * @author stefanriedel
- */?>
+ */
+?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8"/>
-<title><?php echo $title ?></title>
-<?php echo $theme->asset->css(array('bootstrap.min.css', 'main.css')) ?>
-<?php echo $theme->asset->js(array('http://code.jquery.com/jquery-latest.js', 'bootstrap.js', 'main.js')) ?>
-<script type="text/javascript">
-    $(function () {
-        $('.topbar').dropdown();
-    });
-</script>
+    <meta charset="utf-8"/>
+    <title><?php echo $title ?></title>
+    <?php echo $theme->asset->css(array('bootstrap.min.css', 'main.css')) ?>
+    <?php echo $theme->asset->js(array('http://code.jquery.com/jquery-latest.js', 'bootstrap.js', 'main.js')) ?>
 </head>

@@ -74,8 +74,6 @@ class Controller_Base_Template extends \Controller_Template
 
 
         Theme::instance($this->template)->set_template($this->template)->set_global('theme', Theme::instance($this->template), false);
-
-
         $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;
         if (!empty($this->request->module) && is_dir($additional_view_dir)) {
             /**
@@ -94,6 +92,16 @@ class Controller_Base_Template extends \Controller_Template
             $this->_init_crud_objects();
         }
         $this->_log_controller_data();
+
+        $additional_js = array();
+        $controller_main_js_path = 'modules/'.strtolower($this->_controller_namespace).'/main.js';
+
+        if(Theme::instance($this->template)->asset->find_file($controller_main_js_path, 'js')) {
+            $additional_js[] = $controller_main_js_path;
+        }
+
+        Theme::instance($this->template)->set_template($this->template)->set_global('additional_js', $additional_js);
+
     }
 
     public function after($response)
@@ -229,10 +237,12 @@ class Controller_Base_Template extends \Controller_Template
                     Messages::instance()->success(__(extend_locale('success')));
                     Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                 }
-
                 $this->_crud_objects[$crud_object]['data'] = $data;
                 $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }
+
+
+
             $this->_get_content_template()
                 ->set('crud_objects', $this->_crud_objects, false)
                 ->set('pagination', $this->_pagination, false);

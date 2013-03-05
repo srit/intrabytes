@@ -71,32 +71,3 @@ $customer = $crud_objects['customer']['data'];
         <?php echo twitter_submit_group() ?>
     </div>
 </form>
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('[data-provide="typeahead"]').typeahead({
-            source:function (query, process) {
-                var link = $(this)[0].$element[0].dataset.link;
-                var country_id = $('#customer_country_id option:selected').val();
-                return $.getJSON(link, { query:query, country_id:country_id }, function (data) {
-                    return process(data.options);
-                });
-            },
-            updater:function (item, process) {
-                var map = item.split(" - ");
-                var link = '<?php echo \Fuel\Core\Uri::create('/customers/postalcodes/rest/fetch') ?>';
-                var country_id = $('#customer_country_id option:selected').val();
-                $.getJSON(link, { postalcode:map[0], country_id:country_id }, function (data) {
-                    var postalcode_id_field = $('#customer_postalcode_id');
-                    var postalcode_text_field = $('#customer_postalcode_text');
-                    var city_text_field = $('#customer_city_text');
-                    postalcode_id_field.val(data.id);
-                    city_text_field.val(data.city);
-                    postalcode_text_field.val(data.postalcode);
-                });
-            }
-        });
-    });
-
-</script>
