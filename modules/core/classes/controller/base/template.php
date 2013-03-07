@@ -65,7 +65,7 @@ class Controller_Base_Template extends \Controller_Template
         /**
          * CSRF Token ist falsch, POST Variablen löschen!
          */
-        if (\Fuel\Core\Request::active()->get_method() == 'POST' && false == \Security::check_token()) {
+        if (\Fuel::$env == \Fuel::PRODUCTION && \Request::active()->get_method() == 'POST' && false == \Security::check_token()) {
             Messages::error(__('validation.form.invalid'));
             foreach ($_POST as $key => $value) {
                 unset($_POST[$key]);
@@ -213,7 +213,7 @@ class Controller_Base_Template extends \Controller_Template
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
                 }
 
-                if (\Input::post('save', false)) {
+                if (\Input::post('save', false) || \Input::post('save_next', false)) {
                     /**
                      * edit oder add
                      */
@@ -228,7 +228,12 @@ class Controller_Base_Template extends \Controller_Template
                     if ($data->validate($new_data)) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
-                        Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+                        if(\Input::post('save', false)) {
+                            $redirect_uri = \Uri::create($this->_crud_redirect_uri);
+                        } else {
+                            $redirect_uri = \Fuel\Core\Uri::current();
+                        }
+                        Messages::redirect($redirect_uri);
                     }
                 }
 

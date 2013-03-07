@@ -281,7 +281,11 @@ function twitter_html_input_password_wo_label($name, $value, $placeholder_locale
 
 function twitter_submit_group()
 {
-    return html_tag('div', array('class' => 'control-group'), html_tag('div', array('class' => 'controls'), twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' . twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
+    return html_tag('div', array('class' => 'control-group'),
+            html_tag('div', array('class' => 'controls'),
+                twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
+                twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' .
+                twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
 }
 
 function twitter_delete_group()
@@ -366,8 +370,8 @@ function security_field()
 function twitter_button_group(array $list, $value_locale, array $value_locale_params = array())
 {
     $html = '<div class="btn-group">';
-    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn btn-mini', 'data-toggle' => 'dropdown'));
-    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn btn-mini dropdown-toggle', 'data-toggle' => 'dropdown'));
+    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn btn-small', 'data-toggle' => 'dropdown'));
+    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn btn-small dropdown-toggle', 'data-toggle' => 'dropdown'));
 
     $list_elements = '';
     foreach ($list as $li) {
