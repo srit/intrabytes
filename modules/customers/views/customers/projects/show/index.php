@@ -19,7 +19,7 @@ $project = $crud_objects['customer_project']['data']
             <div class="clearfix" style="margin-bottom: 10px;"></div>
             <strong>Projekt URL:</strong> <a href="#"><i class="icon-share"></i>http://www.sonatex.de</a>
             <div class="clearfix" style="margin-bottom: 10px;"></div>
-            <a href="#" class="btn btn-small btn-info"><i class="icon-white icon-edit"></i> Projekt Bearbeiten</a> <a href="#" class="btn btn-small btn-danger"><i class="icon-white icon-trash"></i> Projekt Löschen</a>
+            <a href="#" class="btn btn-info"><i class="icon-white icon-edit"></i> Projekt Bearbeiten</a> <a href="#" class="btn btn-danger"><i class="icon-white icon-trash"></i> Projekt Löschen</a>
         </div>
         <div class="tab-pane" id="redmine">
             ...

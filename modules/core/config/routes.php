@@ -8,5 +8,6 @@ return array(
     'core/settings/languages' => 'core/settings/languages/list',
     'core/settings/locales/list/(:language_id)' => 'core/settings/locales/list/$1',
     //'core/settings/locales/(:language_id)' => 'core/settings/locales/list/$1',
-    'core/settings/locales/add/(:language_id)' => 'core/settings/locales/add/$1'
+    'core/settings/locales/add/(:language_id)' => 'core/settings/locales/add/$1',
+    'core/settings/locales/edit/(:language_id)/(:id)' => 'core/settings/locales/edit/$1/$2'
 );

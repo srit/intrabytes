@@ -33,12 +33,12 @@
 }
 
 body {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: Arial, Verdana;
     font-size: 12px;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-family: Arial, Verdana;
     font-weight: normal;
 }
 
@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .tab-content{
     background-color: #FFF;
-    padding: 4px 12px;
+    padding: 12px;
     border-spacing: 2px;
     border-color: gray;
     line-height: 20px;
