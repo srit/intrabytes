@@ -34,7 +34,7 @@
         <tr>
             <td><?php echo xss_clean($locale->key) ?></td>
             <td><?php echo xss_clean($locale->group) ?></td>
-            <td><?php echo xss_clean($locale->value) ?></td>
+            <td><?php echo $locale->cutted_value()?></td>
             <td>
                 <?php echo twitter_button_group(array(
                 array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/core/settings/locales/edit/:language_id/:id', array('language_id' => $language_id, 'id' => $locale->id)), __(extend_locale('actions.edit.label')))),
