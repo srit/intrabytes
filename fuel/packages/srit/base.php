@@ -282,8 +282,8 @@ function twitter_html_input_password_wo_label($name, $value, $placeholder_locale
 function twitter_submit_group()
 {
     return html_tag('div', array('class' => 'control-group'),
-            html_tag('div', array('class' => 'controls'),
-                twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
+        html_tag('div', array('class' => 'controls'),
+            twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
                 twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' .
                 twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
 }
@@ -467,7 +467,8 @@ function twitter_html_select($name, array $options, $value, $label_locale = null
     return $html;
 }
 
-function form_help_text($prefix) {
+function form_help_text($prefix)
+{
     return __(extend_locale($prefix . '.help.label'));
 }
 
@@ -508,14 +509,27 @@ function h6($value, $attr = array())
     return h(6, $value, $attr);
 }
 
-function list_route($route_name = null, $route_params = array()) {
-    if($route_name == null) {
+function named_route($route_name = null, $route_params = array())
+{
+    if ($route_name == null) {
         /**
          * @todo
          */
     }
 
-    $route = \Fuel\Core\Router::$routes[$route_name]->translation;
-                                                        var_dump($route);
-
+    $route = \Fuel\Core\Router::$routes[$route_name]->path;
+    /**
+     * um zu prüfen ob alle erforderlichen parameter mit übergeben wurden
+     */
+    if(preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
+        if(empty($route_params)) {
+            throw new \FuelException(__('exception.function.list_route.no.route_params'));
+        }
+        foreach($params[0] as $p) {
+            if(!isset($route_params[$p])) {
+                throw new \FuelException(__('exception.function.list_route.missing.route_param', array('param', $p)));
+            }
+        }
+    }
+    return \Router::get($route_name, $route_params);
 }

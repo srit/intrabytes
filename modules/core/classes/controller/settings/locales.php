@@ -13,7 +13,6 @@ class Controller_Settings_Locales extends \Core\Controller_Base_User {
     );
 
     public function action_list() {
-         list_route('core/_locale_list_');
     }
 
     public function action_edit() {

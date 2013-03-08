@@ -5,17 +5,14 @@
  */
 
 return array(
+    'core/settings/locales/list/(:language_id)' => array('core/settings/locales/list', 'name' => 'core_settings_locales_list'),
+    'core/settings/locales/add/(:language_id)' => array('core/settings/locales/add' , 'name' => 'core_settings_locales_add'),
+    'core/settings/locales/edit/(:language_id)/(:id)' => array('core/settings/locales/edit', 'name' => 'core_settings_locales_edit'),
+    'core/settings/locales/delete/(:language_id)/(:id)' => array('core/settings/locales/delete', 'name' => 'core_settings_locales_delete'),
 
-    '_locale_list_' => 'core/settings/locales/list/(:language_id)',
+    'core/settings/languages/list' => array('core/settings/languages/list', 'name' => 'core_settings_languages_list'),
+    'core/settings/languages/add' => array('core/settings/languages/add', 'name' => 'core_settings_languages_edit'),
+    'core/settings/languages/edit/(:language_id)' => array('core/settings/languages/edit', 'name' => 'core_settings_languages_edit'),
+    'core/settings/languages/delete/(:language_id)' => array('core/settings/languages/delete', 'name' => 'core_settings_languages_delete'),
 
-    'core/settings/locales/list/(:language_id)' => array(
-        'core/settings/locales/list',
-        'name' => '_locale_list_'
-    ),
-
-    'core/settings/languages' => 'core/settings/languages/list',
-    'core/settings/locales/list/(:language_id)' => 'core/settings/locales/list/$1',
-    //'core/settings/locales/(:language_id)' => 'core/settings/locales/list/$1',
-    'core/settings/locales/add/(:language_id)' => 'core/settings/locales/add/$1',
-    'core/settings/locales/edit/(:language_id)/(:id)' => 'core/settings/locales/edit/$1/$2'
 );

@@ -20,6 +20,7 @@ Autoloader::add_classes(array(
     'Srit\\Validation' => __DIR__ . '/classes/validation.php',
     'Srit\\Error' => __DIR__ . '/classes/error.php',
     'ChromePhp' => __DIR__ . '/vendor/chromephp.php',
+    'Srit\\Module' => __DIR__ . '/classes/module.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api
