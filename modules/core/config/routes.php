@@ -11,8 +11,8 @@ return array(
     'core/settings/locales/delete/(:language_id)/(:id)' => array('core/settings/locales/delete', 'name' => 'core_settings_locales_delete'),
 
     'core/settings/languages/list' => array('core/settings/languages/list', 'name' => 'core_settings_languages_list'),
-    'core/settings/languages/add' => array('core/settings/languages/add', 'name' => 'core_settings_languages_edit'),
-    'core/settings/languages/edit/(:language_id)' => array('core/settings/languages/edit', 'name' => 'core_settings_languages_edit'),
-    'core/settings/languages/delete/(:language_id)' => array('core/settings/languages/delete', 'name' => 'core_settings_languages_delete'),
+    'core/settings/languages/add' => array('core/settings/languages/add', 'name' => 'core_settings_languages_add'),
+    'core/settings/languages/edit/(:id)' => array('core/settings/languages/edit', 'name' => 'core_settings_languages_edit'),
+    'core/settings/languages/delete/(:id)' => array('core/settings/languages/delete', 'name' => 'core_settings_languages_delete'),
 
 );

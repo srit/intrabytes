@@ -30,7 +30,7 @@
                     <li class="dropdown">
                         <?php echo \Html::anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
                         <ul class="dropdown-menu">
-                            <li><?php echo \Html::anchor(core_settings_languages_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.language.label')) ?></li>
+                            <li><?php echo html_anchor(core_settings_languages_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.language.label')) ?></li>
                             <li><?php echo \Html::anchor(\Uri::create('/redmines/list'), '<i class="icon-list-alt"></i> ' . __('nav.settings.redmines.label')) ?></li>
                         </ul>
                     </li>

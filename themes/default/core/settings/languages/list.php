@@ -3,9 +3,9 @@
  * @created 26.02.13 - 08:14
  * @author stefanriedel
  */?>
-<form method="post" action="<?php echo \Uri::create('core/settings/languages/add') ?>">
+<form method="post" action="<?php echo core_settings_languages_add_route() ?>">
     <div class="input-append">
-        <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
+        <?php echo security_field(); ?>
         <?php echo twitter_html_input_text_wo_label('add_plain', '', extend_locale('add.plain.label'), array(), array('class' => 'input-medium', 'required' => 'required')) ?>
         <?php echo twitter_html_submit_button('add', 'add', extend_locale('add.button.label'), array(), array('class' => 'btn-success')) ?>
     </div>
@@ -28,15 +28,15 @@
         <td><?php echo xss_clean($lang->language) ?></td>
         <td><?php echo xss_clean($lang->plain) ?></td>
         <td><?php echo boolean_icon(xss_clean($lang->default)) ?></td>
-        <td><?php echo html_anchor(core_settings_locales_list_route(array('language_id' => $lang->id)), count($lang->locales)) ?></td>
+        <td><?php echo html_anchor(core_settings_locales_list_route($lang->id), count($lang->locales)) ?></td>
         <td>
 
 
             <?php echo twitter_button_group(array(
-            array('attr' => array(), 'value' => html_anchor(core_settings_languages_edit_route(array('language_id' => $lang->id)), __(extend_locale('actions.edit.label')))),
-            array('attr' => array(), 'value' => html_anchor(core_settings_languages_delete_route(array('language_id' => $lang->id)), __(extend_locale('actions.delete.label')))),
+            array('attr' => array(), 'value' => html_anchor(core_settings_languages_edit_route($lang->id), __(extend_locale('actions.edit.label')))),
+            array('attr' => array(), 'value' => html_anchor(core_settings_languages_delete_route($lang->id), __(extend_locale('actions.delete.label')))),
             array('is_divider' => true),
-            array('attr' => array(), 'value' => html_anchor(core_settings_locales_list_route(array('language_id' => $lang->id)), __(extend_locale('actions.locales.label')))),
+            array('attr' => array(), 'value' => html_anchor(core_settings_locales_list_route($lang->id), __(extend_locale('actions.locales.label')))),
         ), extend_locale('actions.label'), array()); ?>
 
 
