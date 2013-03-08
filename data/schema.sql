@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 05. Mrz 2013 um 13:31
+-- Erstellungszeit: 08. Mrz 2013 um 13:03
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 --
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
-(1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
-(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627');
+(1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
+(2, '2013-02-11 12:58:58', '2013-03-05 12:55:30', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von Straße', '80', '6606');
 
 -- --------------------------------------------------------
 
@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
 --
 
 INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', '<span><b>B2B Textilgroßhandel</b> für günstige &amp; nachhaltige T-Shirts &amp; andere Werbetextilien, Berufsbekleidung &amp; Sportbekleidung - <b>mit Mengenrabatt!</b></span><br>', 'http://www.sonatex.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-03-05 11:54:28'),
-(10, 'Sonatex Easyshop', '', 'http://easyshop.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-02-25 19:05:00'),
+(1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-03-05 12:59:35'),
+(10, 'Sonnenschein Website', '', 'http://sonnenschein.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-03-05 12:58:48'),
 (11, 'intrabytes', '', '', 'alphabytes', 2, 10, '2013-03-04 13:28:06', '2013-03-04 13:28:05');
 
 -- --------------------------------------------------------
@@ -217,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=323 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=354 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -542,7 +542,36 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (319, 'settings.pubkeys.add.success', 'users', 'Public Key angelegt', 1),
 (320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1),
 (321, 'show.index.title', 'customers', 'Kontakt Anzeige', 1),
-(322, 'settings.pubkeys.add.locale', 'users', 'Public Key Daten', 1);
+(322, 'settings.pubkeys.add.locale', 'users', 'Public Key Daten', 1),
+(323, 'projects.show.index.project.tab.label', 'customers', 'Projektdaten', 1),
+(324, 'projects.show.index.redmine.tab.label', 'customers', 'Redmine Daten', 1),
+(325, 'list.index.show.project.label', 'customers', 'Zeige Projekt "<strong>:name</strong>"', 1),
+(326, 'settings.pubkeys.add.legend.label', 'users', 'Public Key', 1),
+(327, 'projects.add.index.description.label', 'customers', 'Projektbeschreibung', 1),
+(328, 'settings.locales.add.title', 'core', 'Locale hinzufügen', 1),
+(329, 'settings.locales.add.legend', 'core', 'Locale Daten', 1),
+(330, 'settings.locales.add.key.label', 'core', 'Key', 1),
+(331, 'core.settings.locales.add.group.label', 'core', 'Gruppe', 1),
+(332, 'settings.locales.add.group.label', 'core', 'Gruppe', 1),
+(333, 'settings.locales.add.value.label', 'core', 'Inhalt', 1),
+(334, 'settings.locales.add.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale anlegen', 1),
+(335, 'settings.locales.add.save_next.button.label', 'core', '<i class="icon-white icon-chevron-right"></i> Speichern und weiter', 1),
+(336, 'settings.locales.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 0),
+(337, 'settings.locales.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(338, 'settings.locales.edit.title', 'core', 'Locale bearbeiten', 1),
+(339, 'settings.locales.edit.legend', 'core', 'Locale Daten', 1),
+(340, 'settings.locales.edit.key.label', 'core', 'Key', 1),
+(341, 'settings.locales.edit.group.label', 'core', 'Gruppe', 1),
+(342, 'settings.locales.edit.value.label', 'core', 'Inhalt', 1),
+(343, 'settings.locales.edit.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale speichern', 1),
+(344, 'settings.locales.edit.save_next.button.label', 'core', '<i class="icon-white icon-chevron-right"></i> Speichern und weiter bearbeiten', 1),
+(345, 'settings.locales.edit.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(346, 'settings.locales.add.locales.help.label', 'core', 'Alle Felder sind als Pflichtfelder zu betrachten.<br>Bis auf das Feld Inhalt, solltest du einfach eine leere Zeichenkette für die Locale benutzen wollen, lasse das Feld leer.<br><br><br>Solltest du den erzeugten HTML Code bearbeiten wollen klicke dazu auf folgenden Button: <a class="btn" href="javascript:void();"><i class="icon-pencil"></i></a>', 1),
+(348, 'settings.locales.delete.success', 'core', 'Locale wurde gelöscht', 1),
+(349, 'settings.locales.delete.title', 'core', 'Locale löschen', 1),
+(350, 'settings.locales.delete.legend', 'core', 'Locale wirklich löschen?', 1),
+(351, 'settings.locales.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Locale löschen', 1),
+(352, 'settings.locales.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1);
 
 -- --------------------------------------------------------
 
@@ -26671,7 +26700,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362468305, 'a6860688efaf259bb48324b438f9eab81be4e408', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362731288, 'f398040a361705a5b7a1a64d145af3368311ea33', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
