@@ -507,3 +507,15 @@ function h6($value, $attr = array())
 {
     return h(6, $value, $attr);
 }
+
+function list_route($route_name = null, $route_params = array()) {
+    if($route_name == null) {
+        /**
+         * @todo
+         */
+    }
+
+    $route = \Fuel\Core\Router::$routes[$route_name]->translation;
+                                                        var_dump($route);
+
+}

@@ -45,9 +45,10 @@ class Model_Locale extends Model
         return $items ? : false;
     }
 
-    public function cutted_value() {
-        $value = strip_tags(xss_clean($this->value));
-        return strlen($value) > 50 ? substr($value, 0, 50) . '...' : $value;
+    public function cutted_value($length = 50) {
+        $tmp_value = strip_tags(xss_clean($this->value));
+
+        return strlen($tmp_value) > $length ? substr($tmp_value, 0, $length) . '...' : $this->value;
     }
 
 }

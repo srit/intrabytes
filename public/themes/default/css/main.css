@@ -19,7 +19,7 @@
 }
 
 [class^="icon-"], [class*=" icon-"] {
-    margin-top: 0px;
+    margin-top: -1px;
     margin-right: 2px;
 }
 .btn-mini [class^="icon-"], .btn-mini [class*=" icon-"] {
