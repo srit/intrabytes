@@ -4,7 +4,8 @@
  * @author stefanriedel
  */
 namespace Customers;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Country extends Model {
     protected static $_properties = array(

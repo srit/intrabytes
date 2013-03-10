@@ -6,9 +6,6 @@
 
 namespace Customers;
 
-use \Core\Messages;
-use \Core\Theme;
-
 class Controller_Edit extends Controller_Customers
 {
 

@@ -6,9 +6,6 @@
 
 namespace Core;
 
-use \Core\Messages;
-use \Core\Theme;
-
 class Controller_Settings_Locales_Rest extends \Controller_Rest {
     
     public function action_search() {

@@ -1,8 +1,9 @@
 <?php
 
 namespace Srit;
-use \Srit\Model;
 
+
+use Srit\Model;
 
 class Model_Locale extends Model
 {

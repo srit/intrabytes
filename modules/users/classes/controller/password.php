@@ -6,7 +6,7 @@
 
 namespace Users;
 
-use \Core\Theme;
+use Core\Theme;
 
 class Controller_Password extends \Core\Controller_Base_Template_Blank_Public
 {

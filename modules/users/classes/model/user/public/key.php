@@ -4,7 +4,8 @@
  * @author stefanriedel
  */
 namespace Users;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_User_Public_Key extends Model {
     protected static $_properties = array(

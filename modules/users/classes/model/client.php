@@ -6,7 +6,8 @@
 
 
 namespace Users;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Client extends Model
 {

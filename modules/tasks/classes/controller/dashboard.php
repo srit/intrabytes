@@ -6,7 +6,7 @@
 
 namespace Tasks;
 
-use \Core\Theme;
+use Core\Theme;
 
 class Controller_Dashboard extends \Core\Controller_Base_User_Raw {
 

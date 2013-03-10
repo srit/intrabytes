@@ -6,10 +6,9 @@
 
 namespace Srit;
 
-use \Monolog\Logger;
-use \Monolog\Handler\ChromePHPHandler;
-use \Monolog\Handler\FirePHPHandler;
-use \Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\ChromePHPHandler;
+use Monolog\Handler\FirePHPHandler;
+use Monolog\Logger;
 
 class Model extends \Orm\Model
 {

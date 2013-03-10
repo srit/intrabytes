@@ -4,7 +4,8 @@
  * @author stefanriedel
  */
 namespace Redmines;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Redmine extends Model {
     protected static $_properties = array(

@@ -2,10 +2,11 @@
 
 namespace Core;
 
-use Monolog\Logger;
+use Fuel\Core\Fuel;
+use Fuel\Core\Security;
 use Monolog\Handler\ChromePHPHandler;
 use Monolog\Handler\FirePHPHandler;
-use Monolog\Handler\RotatingFileHandler;
+use Monolog\Logger;
 
 class Controller_Base_Template extends \Controller_Template
 {
@@ -65,13 +66,12 @@ class Controller_Base_Template extends \Controller_Template
         /**
          * CSRF Token ist falsch, POST Variablen löschen!
          */
-        if (\Fuel::$env == \Fuel::PRODUCTION && \Request::active()->get_method() == 'POST' && false == \Security::check_token()) {
+        if (Fuel::$env == Fuel::PRODUCTION && Request::active()->get_method() == 'POST' && false == Security::check_token()) {
             Messages::error(__('validation.form.invalid'));
             foreach ($_POST as $key => $value) {
                 unset($_POST[$key]);
             }
         }
-
 
         Theme::instance($this->template)->set_template($this->template)->set_global('theme', Theme::instance($this->template), false);
         $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;

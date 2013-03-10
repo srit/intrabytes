@@ -1,8 +1,9 @@
 <?php
 
 namespace Core;
-use \Srit\Model;
 
+
+use Srit\Model;
 
 class Model_Mandant extends Model
 {

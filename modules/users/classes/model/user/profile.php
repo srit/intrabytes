@@ -5,7 +5,8 @@
  */
 
 namespace Users;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_User_Profile extends Model
 {
