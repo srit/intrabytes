@@ -5,18 +5,24 @@
  */
 
 namespace Core;
+use Auth\Auth_Login_SimpleAuth;
 use Users\Model_User;
 
 /**
  * @todo auf ORM umstellen und ins User Modul
  */
-class Auth_Login_ICCRMAuth extends \Auth\Auth_Login_SimpleAuth
+class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
 {
 
     /**
      * @var \Users\Model_User
      */
     protected $_user = null;
+
+    protected $config = array(
+        'drivers' => array('group' => array('Core\\ICCRMGroup')),
+        'additional_fields' => array('profile_fields'),
+    );
 
     /**
      * @var array
@@ -314,6 +320,22 @@ class Auth_Login_ICCRMAuth extends \Auth\Auth_Login_SimpleAuth
             $this->_user = Model_User::get_user($this->get_email());
         }
         return $this->_user;
+    }
+
+    public function get_groups()
+    {
+        if (empty($this->user))
+        {
+            return false;
+        }
+
+        $gr = $this->get_user()->groups;
+        $groups = array();
+        foreach($gr as $g) {
+            $groups[] = array('Core\\ICCRMGroup', $g);
+        }
+        return $groups;
+        //return array(array('SimpleGroup', $this->user['group']));
     }
 
 }
