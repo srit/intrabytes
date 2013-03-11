@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 22. Feb 2013 um 16:13
+-- Erstellungszeit: 08. Mrz 2013 um 13:03
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -78,16 +78,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
 --
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
-(1, '2013-02-06 09:29:23', '2013-02-11 12:48:12', 'andrej.oblogin@sonatex.de', 'Sonatex GmbH', 'Andrej', 'Oblogin', 1, '023479250415', '023479250420', 'Castroper Hellweg', '109', '6573'),
-(2, '2013-02-11 12:58:58', '2013-02-11 13:00:09', 'sr@alphabytes.de', 'alphabytes', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Strasse', '80', '9627'),
-(3, '2013-02-12 15:19:33', '2013-02-22 14:03:41', 'info@expeedo.de', 'expeedo21', 'Michael', 'Balzer', 1, '0381684593', '', 'Mühlenstraße', '5', '7797');
+(1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
+(2, '2013-02-11 12:58:58', '2013-03-05 12:55:30', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von Straße', '80', '6606');
 
 -- --------------------------------------------------------
 
@@ -129,22 +128,24 @@ INSERT INTO `intrabytes_customer_contacts` (`id`, `email`, `lastname`, `firstnam
 CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
   `url` varchar(255) DEFAULT NULL,
   `redmine_project_label` varchar(50) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
+  `redmine_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_projects`
 --
 
-INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `url`, `redmine_project_label`, `customer_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonatex Hauptshop', 'www.sonatex.de', 'www-sonatex-de', 1, '2013-02-12 20:52:08', '2013-02-22 12:52:18'),
-(6, 'Guru', '', '', 3, '2013-02-21 12:32:30', '2013-02-21 12:32:30'),
-(7, 'Add Projekt', NULL, NULL, 0, '2013-02-22 09:55:44', '2013-02-22 09:55:44');
+INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
+(1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-03-05 12:59:35'),
+(10, 'Sonnenschein Website', '', 'http://sonnenschein.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-03-05 12:58:48'),
+(11, 'intrabytes', '', '', 'alphabytes', 2, 10, '2013-03-04 13:28:06', '2013-03-04 13:28:05');
 
 -- --------------------------------------------------------
 
@@ -216,7 +217,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=190 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=354 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -282,7 +283,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (57, 'book.index.carryout.label', 'cash', 'Übertrag', 1),
 (58, 'book.index.sum.label', 'cash', 'Summenübertrag', 1),
 (59, 'list.index.nodata', 'projects', '<p>Keine Projekte vorhanden</p>', 1),
-(60, 'list.index.count.contacts.label', 'customers', 'Anzahl Kontakte :amount', 1),
+(60, 'list.index.count.contacts.label', 'customers', 'Ansprechpartner (:amount)', 1),
 (61, 'list.index.title', 'customers', 'Kontaktübersicht', 1),
 (62, 'list.index.add.button.label', 'customers', '<i class="icon-white icon-plus"></i> Kontakt hinzufügen ', 1),
 (63, 'list.index.address.label', 'customers', 'Adresse', 1),
@@ -308,7 +309,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (83, 'salutation.salutation.mister.label', 'model', 'Herr', 1),
 (84, 'salutation.salutation.miss.label', 'model', 'Frau', 1),
 (85, 'countries.name.germany.label', 'model', 'Deutschland', 1),
-(86, 'countries.name.switzerland.label', 'model', 'SChweiz', 1),
+(86, 'countries.name.switzerland.label', 'model', 'Schweiz', 1),
 (87, 'countries.name.austria.label', 'model', 'Österreich', 1),
 (88, 'list.index.count.projects.label', 'customers', 'Projekte (:amount)', 1),
 (89, 'list.index.actions.add.project.label', 'customers', '<i class="icon-plus"></i> Projekt hinzufügen', 1),
@@ -407,9 +408,170 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (184, 'projects.add.index.success', 'customers', 'Projekt angelegt', 1),
 (185, 'projects.list.index.nodata', 'customers', 'Noch keine Projekte vorhanden', 1),
 (186, 'delete.index.legend', 'customers', 'Kontakt löschen', 1),
-(187, 'delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kunden löschen', 1),
+(187, 'delete.index.delete.button.label', 'customers', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kontakt löschen', 1),
 (188, 'delete.index.cancel.button.label', 'customers', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
-(189, '404.index.title', 'core', 'Seite nicht gefunden.', 1);
+(189, '404.index.title', 'core', 'Seite nicht gefunden.', 1),
+(190, 'delete.index.success', 'customers', 'Kontakt gelöscht', 1),
+(191, 'add.index.success', 'customers', 'Kontakt angelegt', 1),
+(192, 'add.index.title', 'redmines', 'Redmine Installation hinzufügen', 1),
+(193, 'add.index.legend', 'redmines', 'Redmine Daten', 1),
+(194, 'add.index.success', 'redmines', 'Redmine Installation hinzugefügt', 1),
+(195, 'add.index.redmine[name].label', 'redmines', 'Bezeichnung', 1),
+(196, 'add.index.redmine[url].label', 'redmines', 'URL (inkl. http(s)://)', 1),
+(197, 'add.index.save.button.label', 'redmines', '<i class="icon-white icon-ok"></i> Redmine Installation anlegen', 1),
+(198, 'add.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(199, 'add.index.validation.name.required.error', 'redmines', 'Bezeichnung bitte ausfüllen', 1),
+(200, 'add.index.validation.url.required.error', 'redmines', 'URL bitte ausfüllen', 1),
+(201, 'add.index.validation.url.is_url.error', 'redmines', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1),
+(202, 'add.index.validation.email.required.error', 'customers', 'E-Mail-Adresse erforderlich', 1),
+(203, 'add.index.validation.company_name.required.error', 'customers', 'Firmenname erforderlich', 1),
+(204, 'add.index.validation.firstname.required.error', 'customers', 'Vorname erforderlich', 1),
+(205, 'add.index.validation.lastname.required.error', 'customers', 'Nachname erforderlich', 1),
+(206, 'add.index.validation.phone.required.error', 'customers', 'Telefonnummer erforderlich', 1),
+(207, 'add.index.validation.street.required.error', 'customers', 'Straße erforderlich', 1),
+(208, 'add.index.validation.housenumber.required.error', 'customers', 'Hausnummer erforderlich', 1),
+(209, 'add.index.validation.postalcode_text.required.error', 'customers', 'Postleitzahl erforderlich', 1),
+(210, 'add.index.validation.city_text.required.error', 'customers', 'Stadt erforderlich', 1),
+(211, 'add.index.customer[company_name].label', 'customers', 'Firmenname', 1),
+(212, 'add.index.customer[phone].label', 'customers', 'Telefonnummer', 1),
+(213, 'add.index.customer[fax].label', 'customers', 'Faxnummer', 1),
+(214, 'add.index.customer[firstname].label', 'customers', 'Vorname', 1),
+(215, 'add.index.customer[lastname].label', 'customers', 'Nachname', 1),
+(216, 'add.index.customer[street].label', 'customers', 'Straße', 1),
+(217, 'add.index.customer[street].label', 'customers', 'Straße', 1),
+(218, 'add.index.customer[housenumber].label', 'customers', 'Hausnummer', 1),
+(219, 'add.index.customer[postalcode_text].label', 'customers', 'PLZ', 1),
+(220, 'add.index.customer[city_text].label', 'customers', 'Stadt', 1),
+(221, 'add.index.customer[email].label', 'customers', 'E-Mail-Adresse', 1),
+(222, 'add.index.validation.email.valid_email.error', 'customers', 'Keine korrekte E-Mail Adresse angegeben', 1),
+(223, 'settings.redmines.label', 'nav', 'Redmine Installationen', 1),
+(224, 'add.index.redmine[api_key].label', 'redmines', 'API Schlüssel', 1),
+(225, 'list.index.title', 'redmines', 'Redmine Installationen', 1),
+(226, 'delete.index.title', 'redmines', 'Redmine Installation löschen', 1),
+(227, 'delete.index.legend', 'redmines', 'Redmine Installation wirklich löschen?', 1),
+(228, 'delete.index.delete.button.label', 'redmines', '<i class="icon-white icon-thumbs-up"></i> Ja, die Redmine Installation löschen', 1),
+(229, 'delete.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(230, 'delete.index.success', 'redmines', 'Redmine Installation gelöscht', 1),
+(231, 'list.index.add.button.label', 'redmines', '<i class="icon-white icon-plus"></i> Redmine Installation hinzufügen', 1),
+(232, 'list.index.name.label', 'redmines', 'Bezeichnung', 1),
+(233, 'list.index.url.label', 'redmines', 'URL', 1),
+(234, 'list.index.api_key.label', 'redmines', 'API Schlüssel', 1),
+(235, 'list.index.actions.label', 'redmines', 'Aktionen', 1),
+(236, 'list.index.actions.show.label', 'redmines', '<i class="icon-list"></i> Anzeigen', 1),
+(237, 'list.index.actions.edit.label', 'redmines', '<i class="icon-edit"></i> Bearbeiten', 1),
+(238, 'list.index.actions.delete.label', 'redmines', '<i class="icon-trash"></i> Löschen', 1),
+(239, 'edit.index.title', 'redmines', 'Redmine Installation bearbeiten', 1),
+(240, 'edit.index.legend', 'redmines', 'Redmine Daten', 1),
+(241, 'edit.index.redmine[name].label', 'redmines', 'Bezeichnung', 1),
+(242, 'edit.index.redmine[url].label', 'redmines', 'URL (inkl. http(s)://)', 1),
+(243, 'edit.index.redmine[api_key].label', 'redmines', 'API Schlüssel', 1),
+(244, 'edit.index.save.button.label', 'redmines', '<i class="icon-white icon-ok"></i> Redmine Installation bearbeiten', 1),
+(245, 'edit.index.cancel.button.label', 'redmines', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(246, 'edit.index.success', 'redmines', 'Redmine Installation bearbeitet', 1),
+(247, 'edit.index.validation.api_key.connection_succeeded.error', 'redmines', 'Der API Key ist falsch', 1),
+(248, 'projects.list.index.redmine_project_url.label', 'customers', '<i class="icon-share"></i> Zum Redmine Projekt', 1),
+(249, 'projects.add.index.validation.url.valid_url.error', 'customers', 'Das scheint keine URL zu sein, bitte achte auf den http(s):// Prefix', 1),
+(250, 'settings.languages.list.title', 'core', 'Sprachübersicht', 1),
+(251, 'settings.languages.list.add.plain.label', 'core', 'Sprache z.B. English', 1),
+(252, 'settings.languages.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Sprache hinzufügen', 1),
+(253, 'settings.languages.list.id.label', 'core', '#', 1),
+(254, 'settings.languages.list.locale.label', 'core', 'Locale', 1),
+(255, 'settings.languages.list.language.label', 'core', 'Sprache', 1),
+(256, 'settings.languages.list.plain.label', 'core', 'Bezeichnung', 1),
+(257, 'settings.languages.list.default.label', 'core', 'Standard', 1),
+(258, 'settings.languages.list.count.locales.label', 'core', 'Übersetzungen', 1),
+(259, 'settings.languages.list.actions.label', 'core', 'Aktionen', 1),
+(260, 'settings.languages.list.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', 1),
+(261, 'settings.languages.list.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', 1),
+(262, 'settings.languages.edit.title', 'core', 'Sprache bearbeiten', 1),
+(263, 'settings.languages.edit.legend', 'core', 'Sprachdaten', 1),
+(264, 'settings.languages.edit.locale.label', 'core', 'Locale', 1),
+(265, 'settings.languages.edit.language.label', 'core', 'Sprache', 1),
+(266, 'settings.languages.edit.plain.label', 'core', 'Bezeichnung', 1),
+(267, 'settings.languages.edit.default.label', 'core', 'Standardsprache', 1),
+(268, 'settings.languages.edit.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Sprache bearbeiten', 1),
+(269, 'settings.languages.edit.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(270, 'settings.languages.edit.success', 'core', 'Sprache bearbeitet', 1),
+(271, 'settings.languages.add.title', 'core', 'Sprache hinzufügen', 1),
+(272, 'settings.languages.add.legend', 'core', 'Sprachdaten', 1),
+(273, 'settings.languages.add.locale.label', 'core', 'Locale', 1),
+(274, 'settings.languages.add.language.label', 'core', 'Sprache', 1),
+(275, 'settings.languages.add.plain.label', 'core', 'Bezeichnung', 1),
+(276, 'settings.languages.add.default.label', 'core', 'Standardsprache', 1),
+(277, 'settings.languages.add.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Sprache speichern', 1),
+(278, 'settings.languages.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(279, 'settings.languages.delete.title', 'core', 'Sprache löschen', 1),
+(280, 'settings.languages.delete.legend', 'core', 'Bist du sicher, das du die Sprache löschen möchtest?', 1),
+(281, 'settings.languages.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Sprache löschen', 1),
+(282, 'settings.languages.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(283, 'settings.languages.delete.success', 'core', 'Sprache gelöscht!', 1),
+(284, 'settings.languages.list.actions.locales.label', 'core', 'Locales anzeigen', 1),
+(285, 'settings.locales.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Locale hinzufügen', 1),
+(286, 'settings.locales.add.success', 'core', 'Locale hinzugefügt', 1),
+(287, 'settings.locales.list.key.label', 'core', 'Key', 1),
+(288, 'settings.locales.list.group.label', 'core', 'Gruppe', 1),
+(289, 'settings.locales.list.value.label', 'core', 'Wert', 1),
+(290, 'settings.locales.list.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale speichern', 1),
+(291, 'settings.locales.list.actions.label', 'core', 'Aktionen', 1),
+(292, 'settings.locales.list.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', 1),
+(294, 'settings.locales.list.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', 1),
+(295, 'settings.locales.list.title', 'core', 'Locale Übersicht', 1),
+(296, 'access.denied.login.first.label', 'login', 'Bitte logge dich erst ein', 1),
+(297, 'settings.pubkeys.list.title', 'users', 'Public Key Übersicht', 1),
+(298, 'settings.pubkeys.list.add.button.label', 'users', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', 1),
+(299, 'settings.pubkeys.list.name.label', 'users', 'Name', 1),
+(300, 'settings.pubkeys.list.key.label', 'users', 'Public Key', 1),
+(301, 'settings.pubkeys.list.created_at.label', 'users', 'Erstellt', 1),
+(302, 'settings.pubkeys.list.actions.label', 'users', 'Aktionen', 1),
+(303, 'settings.pubkeys.list.actions.edit.label', 'users', '<i class="icon-edit"></i> Bearbeiten', 1),
+(304, 'settings.pubkeys.list.actions.delete.label', 'users', '<i class="icon-trash"></i> Löschen', 1),
+(305, 'settings.pubkeys.edit.title', 'users', 'Public Key bearbeiten', 1),
+(306, 'settings.pubkeys.edit.name.label', 'users', 'Name', 1),
+(307, 'settings.pubkeys.edit.value.label', 'users', 'Public Key', 1),
+(308, 'settings.pubkeys.edit.save.button.label', 'users', '<i class="icon-white icon-ok"></i> Public Key speichern', 1),
+(309, 'settings.pubkeys.edit.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(310, 'settings.pubkeys.add.title', 'users', 'Public Key hinzufügen', 1),
+(311, 'settings.pubkeys.add.name.label', 'users', 'Name', 1),
+(312, 'settings.pubkeys.add.value.label', 'users', 'Public Key', 1),
+(313, 'settings.pubkeys.add.save.button.label', 'users', '<i class="icon-white icon-ok"></i> Public Key anlegen', 1),
+(314, 'settings.pubkeys.add.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(315, 'settings.pubkeys.delete.title', 'users', 'Public Key löschen', 1),
+(316, 'settings.pubkeys.delete.legend', 'users', 'Willst du den Public Key wirklich löschen?', 1),
+(317, 'settings.pubkeys.delete.delete.button.label', 'users', '<i class="icon-white icon-thumbs-up"></i> Ja, den Public Key löschen', 1),
+(318, 'settings.pubkeys.delete.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(319, 'settings.pubkeys.add.success', 'users', 'Public Key angelegt', 1),
+(320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1),
+(321, 'show.index.title', 'customers', 'Kontakt Anzeige', 1),
+(322, 'settings.pubkeys.add.locale', 'users', 'Public Key Daten', 1),
+(323, 'projects.show.index.project.tab.label', 'customers', 'Projektdaten', 1),
+(324, 'projects.show.index.redmine.tab.label', 'customers', 'Redmine Daten', 1),
+(325, 'list.index.show.project.label', 'customers', 'Zeige Projekt "<strong>:name</strong>"', 1),
+(326, 'settings.pubkeys.add.legend.label', 'users', 'Public Key', 1),
+(327, 'projects.add.index.description.label', 'customers', 'Projektbeschreibung', 1),
+(328, 'settings.locales.add.title', 'core', 'Locale hinzufügen', 1),
+(329, 'settings.locales.add.legend', 'core', 'Locale Daten', 1),
+(330, 'settings.locales.add.key.label', 'core', 'Key', 1),
+(331, 'core.settings.locales.add.group.label', 'core', 'Gruppe', 1),
+(332, 'settings.locales.add.group.label', 'core', 'Gruppe', 1),
+(333, 'settings.locales.add.value.label', 'core', 'Inhalt', 1),
+(334, 'settings.locales.add.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale anlegen', 1),
+(335, 'settings.locales.add.save_next.button.label', 'core', '<i class="icon-white icon-chevron-right"></i> Speichern und weiter', 1),
+(336, 'settings.locales.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 0),
+(337, 'settings.locales.add.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(338, 'settings.locales.edit.title', 'core', 'Locale bearbeiten', 1),
+(339, 'settings.locales.edit.legend', 'core', 'Locale Daten', 1),
+(340, 'settings.locales.edit.key.label', 'core', 'Key', 1),
+(341, 'settings.locales.edit.group.label', 'core', 'Gruppe', 1),
+(342, 'settings.locales.edit.value.label', 'core', 'Inhalt', 1),
+(343, 'settings.locales.edit.save.button.label', 'core', '<i class="icon-white icon-ok"></i> Locale speichern', 1),
+(344, 'settings.locales.edit.save_next.button.label', 'core', '<i class="icon-white icon-chevron-right"></i> Speichern und weiter bearbeiten', 1),
+(345, 'settings.locales.edit.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1),
+(346, 'settings.locales.add.locales.help.label', 'core', 'Alle Felder sind als Pflichtfelder zu betrachten.<br>Bis auf das Feld Inhalt, solltest du einfach eine leere Zeichenkette für die Locale benutzen wollen, lasse das Feld leer.<br><br><br>Solltest du den erzeugten HTML Code bearbeiten wollen klicke dazu auf folgenden Button: <a class="btn" href="javascript:void();"><i class="icon-pencil"></i></a>', 1),
+(348, 'settings.locales.delete.success', 'core', 'Locale wurde gelöscht', 1),
+(349, 'settings.locales.delete.title', 'core', 'Locale löschen', 1),
+(350, 'settings.locales.delete.legend', 'core', 'Locale wirklich löschen?', 1),
+(351, 'settings.locales.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Locale löschen', 1),
+(352, 'settings.locales.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1);
 
 -- --------------------------------------------------------
 
@@ -26432,6 +26594,29 @@ INSERT INTO `intrabytes_postalcodes` (`id`, `postalcode`, `city`, `country_id`) 
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `intrabytes_redmines`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_redmines` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `api_key` varchar(42) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Daten für Tabelle `intrabytes_redmines`
+--
+
+INSERT INTO `intrabytes_redmines` (`id`, `name`, `url`, `api_key`, `created_at`, `updated_at`) VALUES
+(10, 'Alphabytes', 'http://redmine.alphadev.de', 'a6112ee85240a9be87c66d5cc804f479d2e454fb', '2013-02-25 09:32:29', '2013-02-25 09:55:17');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `intrabytes_salutations`
 --
 
@@ -26515,7 +26700,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1361526688, '9148d781f2d5233a05f663d92a0ad766f85ecafd', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362731288, 'f398040a361705a5b7a1a64d145af3368311ea33', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -26563,8 +26748,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
 --
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
-(1, 1, 'MacBookPro', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDgdexLHN4AOd31hcBv5U9eekaav6jSBcS/u0Haz/EoNP9CJZuLOw1ODm+gXdK0+uN4ZOy0hWS0uHSnTPBbBSBOf/xsjtutonQCl5SIxjCEqKUTvcLsRj8XLq/SSO2C3OkwYb7ta0LeKOkQ9SuL1kXPFeqj9O34JLFm2phrSKeoVydzt5Ug0wfu03Ui4Q7yv6KSdagPoOO1UicY6GEyjcdsylreZEF7sDoU8zYa4Pi1+0+rLHZLnU44CaAU6EMhVap8NkYmkThoe9a8gBpfqJwnnaApR2xcNe9V9SPR2mMbHABA2bg1YDeFBvy7oSCvJNClIYRVSRRMrpvIHc57JEZh stefanriedel@Stefans-MacBook-Pro.local', '2013-02-11 19:25:18', '2013-02-11 19:25:18'),
-(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-12 12:52:49');
+(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

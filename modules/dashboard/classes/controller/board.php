@@ -6,7 +6,7 @@
 
 namespace Dashboard;
 
-use \Core\Theme;
+use Core\Theme;
 
 class Controller_Board extends \Core\Controller_Base_User {
 

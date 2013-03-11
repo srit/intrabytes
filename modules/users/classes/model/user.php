@@ -33,6 +33,10 @@ class Model_User extends Model
         )
     );
 
+    protected static $_many_many = array(
+        'groups'
+    );
+
     protected static $_has_many = array(
         'user_public_keys'
     );
@@ -72,7 +76,7 @@ class Model_User extends Model
             'where' => array(
                 array('username' => $username_or_email),
                 'or' => array(array('email' => $username_or_email))),
-            'related' => array('client','user_profile','user_public_keys')
+            'related' => array('client','user_profile','user_public_keys','groups')
         );
         return static::find('first', $options);
     }
