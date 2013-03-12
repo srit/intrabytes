@@ -6,9 +6,6 @@
 
 namespace Customers;
 
-use \Core\Messages;
-use \Core\Theme;
-
 class Controller_Projects_Delete extends Controller_Projects {
     
     public function action_index() {

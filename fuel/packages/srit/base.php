@@ -13,6 +13,7 @@
  */
 
 /**
+ * @todo Sprachmigrationen anlegen
  * @todo Hilfsfunktion form_start und form_end
  */
 
@@ -114,9 +115,13 @@ function error_text($value)
  * @param array $attr
  * @return string
  */
-function html_legend($locale, array $locale_params = array(), array $attr = array())
+function html_legend($locale = null, array $locale_params = array(), array $attr = array())
 {
-    return html_tag('legend', $attr, __($locale, $locale_params));
+
+    $locale = ($locale == null) ? __(extend_locale('legend.label'), $locale_params) : __($locale, $locale_params);
+
+    return html_tag('div', array('class' => 'span11 header'), html_tag('h4', array(), $locale));
+    //return html_tag('legend', $attr, __($locale, $locale_params));
 }
 
 /**
@@ -129,6 +134,12 @@ function html_label(array $label_attr, $for, $label_locale, array $label_locale_
 {
     $label_attr['for'] = (isset($attr['for']) && !empty($label_attr['for'])) ? : $for;
     $label_attr['id'] = (isset($attr['id']) && !empty($label_attr['id'])) ? $label_attr['id'] : 'label_' . $for;
+
+    if (preg_match('/\[.*\]/', $label_attr['id'])) {
+        $label_attr['for'] = str_replace(array('[', ']'), array('_', ''), $label_attr['for']);
+        $label_attr['id'] = str_replace(array('[', ']'), array('_', ''), $label_attr['id']);
+    }
+
     $html = html_tag('label', $label_attr, __($label_locale, $label_locale_attr));
     return $html;
 }
@@ -167,6 +178,12 @@ function html_hidden($name, $value, array $attr = array())
 function html_input($name, $value, array $attr = array())
 {
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ? : $name;
+
+
+    if (preg_match('/\[.*\]/', $attr['id'])) {
+        $attr['id'] = str_replace(array('[', ']'), array('_', ''), $attr['id']);
+    }
+
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ? : $name;
     $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ? : $value;
     $html = html_tag('input', $attr);
@@ -194,6 +211,7 @@ function html_checkbox($name, $value, $checked = false, array $attr = array())
 function twitter_html_input_checkbox($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), $checked = false, array $attr = array())
 {
     $label_attr['class'] = 'control-label';
+    $placeholder_locale = (!empty($placeholder_locale)) ? $placeholder_locale : __(extend_locale($name . '.label', $placeholder_locale_params));
     return html_label($label_attr, $name, html_checkbox($name, $value, $checked, $attr) . ' ' . __($placeholder_locale, $placeholder_locale_params));
 }
 
@@ -263,7 +281,11 @@ function twitter_html_input_password_wo_label($name, $value, $placeholder_locale
 
 function twitter_submit_group()
 {
-    return html_tag('div', array('class' => 'control-group'), html_tag('div', array('class' => 'controls'), twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' . twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
+    return html_tag('div', array('class' => 'control-group'),
+        html_tag('div', array('class' => 'controls'),
+            twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
+                twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' .
+                twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
 }
 
 function twitter_delete_group()
@@ -283,17 +305,18 @@ function twitter_delete_group()
 function twitter_html_input_text($name, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), array $attr = array())
 {
     $label_attr['class'] = 'control-label';
-    $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
-    $html = html_input_text($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
-    //$html .= html_tag('span', array('class' => 'help-block'), __(extend_locale($name.'.help-block-text')));
+    $attr['placeholder'] = $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    $html = html_label($label_attr, $name, $label_locale);
+    $html .= html_tag('div', array('class' => 'controls'), html_input_text_wo_label($name, $value, $attr));
     return $html;
 }
 
 function twitter_html_input_textarea($name, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), array $attr = array())
 {
     $label_attr['class'] = 'control-label';
-    $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
-    $html = html_input_textarea($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
+    $attr['placeholder'] = $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    $html = html_label($label_attr, $name, $label_locale);
+    $html .= html_tag('div', array('class' => 'controls'), html_input_textarea_wo_label($name, $value, $attr));
     return $html;
 }
 
@@ -313,8 +336,9 @@ function twitter_html_input_password($name, $value, $label_locale, array $label_
  * @param array $attr
  * @return string
  */
-function twitter_html_submit_button($name, $value, $locale, array $locale_params = array(), array $attr = array())
+function twitter_html_submit_button($name, $value, $locale = null, array $locale_params = array(), array $attr = array())
 {
+    $locale = empty($locale) ? __(extend_locale($name . '.label'), $locale_params) : __($locale, $locale_params);
     $attr['class'] = (isset($attr['class'])) ? 'btn ' . $attr['class'] : 'btn';
     return html_submit_button($name, $value, $locale, $locale_params, $attr);
 }
@@ -346,8 +370,8 @@ function security_field()
 function twitter_button_group(array $list, $value_locale, array $value_locale_params = array())
 {
     $html = '<div class="btn-group">';
-    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn btn-mini', 'data-toggle' => 'dropdown'));
-    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn btn-mini dropdown-toggle', 'data-toggle' => 'dropdown'));
+    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn btn-small', 'data-toggle' => 'dropdown'));
+    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn btn-small dropdown-toggle', 'data-toggle' => 'dropdown'));
 
     $list_elements = '';
     foreach ($list as $li) {
@@ -375,9 +399,9 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 function boolean_icon($value)
 {
     if ((bool)$value == true) {
-        $html = html_tag('span', array('class' => 'label label-success'), html_tag('i', array('class' => 'icon-white icon-ok'), ''));
+        $html = html_tag('span', array('class' => 'badge badge-success'), html_tag('i', array('class' => 'icon-white icon-ok'), ''));
     } else {
-        $html = html_tag('span', array('class' => 'label label-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
+        $html = html_tag('span', array('class' => 'badge badge-important'), html_tag('i', array('class' => 'icon-white icon-remove'), ''));
     }
     return $html;
 }
@@ -413,6 +437,13 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
 {
 
     $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ? : $name;
+
+
+    if (preg_match('/\[.*\]/', $attr['id'])) {
+        $attr['id'] = str_replace(array('[', ']'), array('_', ''), $attr['id']);
+    }
+
+
     $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ? : $name;
     $attr['multiple'] = $multiselect;
     $options_html = '';
@@ -427,25 +458,78 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
 
 }
 
-function twitter_html_select($name, array $options, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array())
+function twitter_html_select($name, array $options, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array())
 {
-    $label_attr['class'] = (!empty($label_attr['class'])) ? $label_attr['class'] . ' control-label' : 'control-label';
-    return html_select($name, $options, $value, $label_locale, $label_locale_params, $label_attr, $multiselect, $attr);
+    $label_attr['class'] = 'control-label';
+    $attr['placeholder'] = $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    $html = html_label($label_attr, $name, $label_locale);
+    $html .= html_tag('div', array('class' => 'controls'), html_select_wo_label($name, $options, $value, $multiselect, $attr));
+    return $html;
 }
 
-function array_key_exists_r($needle, $haystack)
+function form_help_text($prefix)
 {
-    $result = array_key_exists($needle, $haystack);
-    if ($result) {
-        return $result;
+    return __(extend_locale($prefix . '.help.label'));
+}
+
+function h($size, $value, $attr = array())
+{
+    $size = (int)$size;
+    $size = ($size > 0 && $size < 7) ? $size : 6;
+    return html_tag('h' . $size, $attr, $value);
+}
+
+function h1($value, $attr = array())
+{
+    return h(1, $value, $attr);
+}
+
+function h2($value, $attr = array())
+{
+    return h(2, $value, $attr);
+}
+
+function h3($value, $attr = array())
+{
+    return h(3, $value, $attr);
+}
+
+function h4($value, $attr = array())
+{
+    return h(4, $value, $attr);
+}
+
+function h5($value, $attr = array())
+{
+    return h(5, $value, $attr);
+}
+
+function h6($value, $attr = array())
+{
+    return h(6, $value, $attr);
+}
+
+function named_route($route_name = null, $route_params = array())
+{
+    if ($route_name == null) {
+        /**
+         * @todo
+         */
     }
-    foreach ($haystack as $v) {
-        if (is_array($v) || is_object($v)){
-            $result = array_key_exists_r($needle, $v);
+
+    $route = \Fuel\Core\Router::$routes[$route_name]->path;
+    /**
+     * um zu prüfen ob alle erforderlichen parameter mit übergeben wurden
+     */
+    if(preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
+        if(empty($route_params)) {
+            throw new \FuelException(__('exception.function.list_route.no.route_params'));
         }
-        if ($result){
-            return $result;
+        foreach($params[0] as $p) {
+            if(!isset($route_params[$p])) {
+                throw new \FuelException(__('exception.function.list_route.missing.route_param', array('param', $p)));
+            }
         }
     }
-    return $result;
+    return \Router::get($route_name, $route_params);
 }

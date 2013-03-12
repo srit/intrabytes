@@ -5,7 +5,8 @@
  */
 
 namespace Customers;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Customer_Contact extends Model {
 

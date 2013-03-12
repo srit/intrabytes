@@ -6,7 +6,7 @@
 
 namespace Users;
 
-use \Core\Theme;
+use Core\Theme;
 
 class Controller_Settings extends \Core\Controller_Base_User {
 

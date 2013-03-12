@@ -6,9 +6,6 @@
 
 namespace Customers;
 
-use \Core\Messages;
-use \Core\Theme;
-
 class Controller_Postalcodes_Rest extends \Controller_Rest {
     
     public function action_search() {

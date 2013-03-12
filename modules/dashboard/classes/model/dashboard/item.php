@@ -5,7 +5,8 @@
  */
 
 namespace Dashboard;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Dashboard_Item extends Model {
 
