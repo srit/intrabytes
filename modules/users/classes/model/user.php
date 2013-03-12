@@ -11,7 +11,7 @@ class Model_User extends Model
         'client_id',
         'username',
         'password',
-        'group',
+        'group_id',
         'email',
         'last_login',
         'login_hash',
@@ -24,6 +24,7 @@ class Model_User extends Model
 
     protected static $_belongs_to = array(
         'client',
+        'group'
     );
 
     protected static $_has_one = array(
@@ -76,7 +77,16 @@ class Model_User extends Model
             'where' => array(
                 array('username' => $username_or_email),
                 'or' => array(array('email' => $username_or_email))),
-            'related' => array('client','user_profile','user_public_keys','groups')
+            'related' => array(
+                'client',
+                'user_profile',
+                'user_public_keys',
+                'group' => array(
+                    'related' => array(
+                        'roles'
+                    )
+                )
+            )
         );
         return static::find('first', $options);
     }

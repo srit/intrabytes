@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 08. Mrz 2013 um 13:03
+-- Erstellungszeit: 12. Mrz 2013 um 05:38
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -175,6 +175,48 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items_users` (
   `order` int(5) NOT NULL,
   PRIMARY KEY (`id`,`dashboard_item_id`,`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_groups`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `points` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_groups`
+--
+
+INSERT INTO `intrabytes_groups` (`id`, `name`, `points`, `created_at`, `updated_at`) VALUES
+(1, 'admins', 100, '2013-03-11 08:44:43', '2013-03-11 08:44:43');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_groups_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_groups_roles` (
+  `role_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`role_id`,`group_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `intrabytes_groups_roles`
+--
+
+INSERT INTO `intrabytes_groups_roles` (`role_id`, `group_id`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -26617,6 +26659,28 @@ INSERT INTO `intrabytes_redmines` (`id`, `name`, `url`, `api_key`, `created_at`,
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `intrabytes_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_roles`
+--
+
+INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', '2013-03-11 21:40:21', '2013-03-11 21:40:21');
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `intrabytes_salutations`
 --
 
@@ -26678,10 +26742,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_task_categories` (
 CREATE TABLE IF NOT EXISTS `intrabytes_users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `client_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
   `pepper` varchar(32) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `group` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `last_login` int(11) NOT NULL,
   `login_hash` varchar(255) NOT NULL,
@@ -26699,8 +26763,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 -- Daten für Tabelle `intrabytes_users`
 --
 
-INSERT INTO `intrabytes_users` (`id`, `client_id`, `username`, `pepper`, `password`, `group`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 100, 'admin@blogshocker.com', 1362731288, 'f398040a361705a5b7a1a64d145af3368311ea33', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
+(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363033321, 'c457c7035564ef34b2394f5bf44f109f5c2a867c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

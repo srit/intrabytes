@@ -8,17 +8,16 @@ namespace Users;
 
 use Srit\Model;
 
-class Model_Group extends Model {
+class Model_Role extends Model {
     protected static $_properties = array(
         'id',
         'name',
-        'points',
         'created_at',
         'updated_at'
     );
 
     protected static $_many_many = array(
-        'roles'
+        'groups'
     );
 
     protected static $_observers = array(

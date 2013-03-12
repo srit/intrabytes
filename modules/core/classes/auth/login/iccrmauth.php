@@ -32,7 +32,6 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
         'username',
         'password',
         'pepper',
-        'group',
         'email',
         'last_login',
         'login_hash',
@@ -329,11 +328,8 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
             return false;
         }
 
-        $gr = $this->get_user()->groups;
-        $groups = array();
-        foreach($gr as $g) {
-            $groups[] = array('Core\\ICCRMGroup', $g);
-        }
+        $gr = $this->get_user()->group;
+        $groups = array(array('Core\\ICCRMGroup', $gr->name => $gr));
         return $groups;
         //return array(array('SimpleGroup', $this->user['group']));
     }
