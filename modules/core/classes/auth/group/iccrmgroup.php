@@ -14,12 +14,11 @@ namespace Core;
 
 
 use Auth\Auth;
-use Auth\Auth_Group_SimpleGroup;
-use Fuel\Core\Debug;
+use Auth\Auth_Group_Driver;
 use Users\Model_Group;
 use Users\Model_User;
 
-class Auth_Group_ICCRMGroup extends Auth_Group_SimpleGroup
+class Auth_Group_ICCRMGroup extends Auth_Group_Driver
 {
 
     public static $_valid_groups = array();
@@ -35,6 +34,20 @@ class Auth_Group_ICCRMGroup extends Auth_Group_SimpleGroup
     protected $config = array(
         'drivers' => array('acl' => array('SimpleAcl'))
     );
+
+    public function get_name($group = null) {
+        if ($group === null)
+        {
+            if ( !$login = Auth::instance() or !is_array($groups = $login->get_groups()))
+            {
+                return false;
+            }
+
+            $group = isset($groups[0]) ? array_pop($groups[0]) : false;
+        }
+
+        return $group->name;
+    }
 
     /**
      *
@@ -63,20 +76,13 @@ class Auth_Group_ICCRMGroup extends Auth_Group_SimpleGroup
     {
         // When group is empty, attempt to get groups from a current login
         if ($group === null) {
-            if (!$login = Auth::instance()
-                or !is_array($groups = $login->get_groups())
-                or !isset($groups[0][1])
-            ) {
+            if (!$login = Auth::instance() or !is_array($groups = $login->get_groups()) or !isset($groups[0])) {
                 return array();
             }
-            $group = $groups[0][1];
+            $group = array_pop($groups[0]);
         } elseif (!in_array((int)$group, static::$_valid_groups)) {
             return array();
         }
-
-        $groups = \Config::get('simpleauth.groups');
-        return $groups[(int)$group]['roles'];
+        return $group->roles;
     }
 }
-
-/* end of file simplegroup.php */
