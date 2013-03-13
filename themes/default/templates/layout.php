@@ -2,7 +2,7 @@
 // page header
 echo $theme->view('templates/header');
 echo $theme->view('templates/_partials/body/start');
-echo $theme->view('templates/navbar');
+//echo $theme->view('templates/navbar');
 ?>
 <div class="container" id="content">
     <div id="page-container">

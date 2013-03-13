@@ -32,7 +32,7 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
     }
 
     protected $config = array(
-        'drivers' => array('acl' => array('SimpleAcl'))
+        'drivers' => array('acl' => array('Core\\ICCRMAcl')),
     );
 
     public function get_name($group = null) {
@@ -74,15 +74,19 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
 
     public function get_roles($group = null)
     {
+        if (!$login = Auth::instance() or !is_array($groups = $login->get_groups()) or !isset($groups[0])) {
+            return array();
+        }
         // When group is empty, attempt to get groups from a current login
         if ($group === null) {
-            if (!$login = Auth::instance() or !is_array($groups = $login->get_groups()) or !isset($groups[0])) {
-                return array();
-            }
             $group = array_pop($groups[0]);
         } elseif (!in_array((int)$group, static::$_valid_groups)) {
             return array();
+        } else {
+            $group = array_pop($groups[0]);
         }
+
         return $group->roles;
+
     }
 }

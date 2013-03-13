@@ -83,7 +83,11 @@ class Model_User extends Model
                 'user_public_keys',
                 'group' => array(
                     'related' => array(
-                        'roles'
+                        'roles' => array(
+                            'related' => array(
+                                'acls'
+                            )
+                        )
                     )
                 )
             )

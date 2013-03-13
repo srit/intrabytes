@@ -391,7 +391,7 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 
 /**
  *
- * erzeugt ein true oder fals icon
+ * erzeugt ein true oder false icon
  *
  * @param bool $value
  * @return string

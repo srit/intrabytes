@@ -8,34 +8,21 @@ namespace Users;
 
 use Srit\Model;
 
-class Model_Role extends Model {
+class Model_Acl extends Model {
     protected static $_properties = array(
         'id',
-        'name',
-        'created_at',
-        'updated_at'
+        'area',
+        'right'
     );
 
     protected static $_many_many = array(
-        'groups',
-        'acls'
-    );
-
-    protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
-            'events' => array('before_insert'),
-            'mysql_timestamp' => true,
-        ),
-        'Orm\Observer_UpdatedAt' => array(
-            'events' => array('before_save'),
-            'mysql_timestamp' => true,
-        ),
+        'roles'
     );
 
     public static function find($id = null, array $options = array()) {
         $tmp_options = array(
             'related' => array(
-                'acls'
+                'roles'
             )
         );
         $options = array_merge_recursive($tmp_options, $options);

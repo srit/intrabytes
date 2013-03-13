@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Mrz 2013 um 05:38
+-- Erstellungszeit: 13. Mrz 2013 um 06:11
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.4.10
 
@@ -19,6 +19,45 @@ SET time_zone = "+00:00";
 --
 -- Datenbank: `intrabytes`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_acls`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `area` varchar(50) NOT NULL,
+  `right` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_acls`
+--
+
+INSERT INTO `intrabytes_acls` (`id`, `area`, `right`) VALUES
+(1, 'Users\\Controller_Login', 'index');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_acls_roles`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_acls_roles` (
+  `role_id` int(11) NOT NULL,
+  `acl_id` int(11) NOT NULL,
+  PRIMARY KEY (`role_id`,`acl_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Daten für Tabelle `intrabytes_acls_roles`
+--
+
+INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
+(2, 1);
 
 -- --------------------------------------------------------
 
@@ -78,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -86,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
-(2, '2013-02-11 12:58:58', '2013-03-05 12:55:30', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von Straße', '80', '6606');
+(2, '2013-02-11 12:58:58', '2013-03-12 19:23:42', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606');
 
 -- --------------------------------------------------------
 
@@ -259,7 +298,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=354 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=353 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -26664,19 +26703,20 @@ INSERT INTO `intrabytes_redmines` (`id`, `name`, `url`, `api_key`, `created_at`,
 
 CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8 NOT NULL,
+  `name` varchar(50) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_roles`
 --
 
 INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', '2013-03-11 21:40:21', '2013-03-11 21:40:21');
+(1, 'admin', '2013-03-11 21:40:21', '2013-03-11 21:40:21'),
+(2, '#', '2013-03-12 22:04:41', '2013-03-12 22:04:41');
 
 -- --------------------------------------------------------
 
@@ -26764,7 +26804,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363033321, 'c457c7035564ef34b2394f5bf44f109f5c2a867c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363113457, 'f270b9db2c9d7a466669fd51e24c625982b6b3e8', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
