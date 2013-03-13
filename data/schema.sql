@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 3.5.6
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 13. Mrz 2013 um 06:11
+-- Erstellungszeit: 13. Mrz 2013 um 16:34
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.5
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -28,17 +28,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `area` varchar(50) NOT NULL,
+  `area` varchar(50) DEFAULT NULL,
   `right` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `intrabytes_acls`
 --
 
 INSERT INTO `intrabytes_acls` (`id`, `area`, `right`) VALUES
-(1, 'Users\\Controller_Login', 'index');
+(2, NULL, 'add'),
+(3, NULL, 'edit'),
+(4, NULL, 'list'),
+(5, NULL, 'show'),
+(6, NULL, 'delete');
 
 -- --------------------------------------------------------
 
@@ -57,7 +61,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls_roles` (
 --
 
 INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
-(2, 1);
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5);
 
 -- --------------------------------------------------------
 
@@ -26804,7 +26811,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363113457, 'f270b9db2c9d7a466669fd51e24c625982b6b3e8', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363186646, '624d4e4ac83851994186d728820e42b465c51fce', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 
