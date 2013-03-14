@@ -49,7 +49,7 @@ class Model_Customer_Project extends Model {
 
     public static function find($id = null, array $options = array()) {
 
-        static::$_logger->debug('Find Function Args', array($id, $options));
+        Logger::forge('model')->debug('Find Function Args', array($id, $options));
 
         $tmp_options = array(
             'related' => array(

@@ -6,10 +6,6 @@
 
 namespace Srit;
 
-use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Logger;
-
 class Model extends \Orm\Model
 {
 
@@ -32,12 +28,12 @@ class Model extends \Orm\Model
         if(!isset($options['order'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
-        static::$_logger->debug('Find Function Args MODEL:', array($id, $options));
+        Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
         return parent::find($id, $options);
     }
 
     public static function _init() {
-        static::_init_logger();
+
     }
 
     public static function find_all(array $options = array()) {
@@ -107,15 +103,6 @@ class Model extends \Orm\Model
 
     public static function find_for_edit($params = null, array $options = array()) {
 
-    }
-
-    protected static function _init_logger() {
-        $log_level = \Config::get('logger.level');
-
-        static::$_logger = new Logger('model');
-
-        static::$_logger->pushHandler(new ChromePHPHandler($log_level));
-        static::$_logger->pushHandler(new FirePHPHandler($log_level));
     }
 
 }

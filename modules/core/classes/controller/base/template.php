@@ -2,11 +2,10 @@
 
 namespace Core;
 
+use Fuel\Core\Config;
 use Fuel\Core\Fuel;
 use Fuel\Core\Security;
-use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Logger;
+use Srit\Logger;
 
 class Controller_Base_Template extends \Controller_Template
 {
@@ -312,16 +311,7 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _init_logger()
     {
-
-        /**
-         * @todo Logger Class erstellen (forge)
-         */
-
-        $log_level = \Config::get('logger.level');
-
-        $this->_logger = new Logger('controller');
-        $this->_logger->pushHandler(new ChromePHPHandler($log_level));
-        $this->_logger->pushHandler(new FirePHPHandler($log_level));
+        $this->_logger = Logger::forge('controller');
     }
 
     private function _log_controller_data()

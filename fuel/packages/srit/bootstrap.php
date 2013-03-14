@@ -21,6 +21,7 @@ Autoloader::add_classes(array(
     'Srit\\Error' => __DIR__ . '/classes/error.php',
     'ChromePhp' => __DIR__ . '/vendor/chromephp.php',
     'Srit\\Module' => __DIR__ . '/classes/module.php',
+    'Srit\\Logger' => __DIR__ . '/classes/logger.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api
