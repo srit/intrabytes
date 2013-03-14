@@ -8,7 +8,6 @@ namespace Srit;
 
 
 use Fuel\Core\Config;
-use Fuel\Core\Request;
 use Monolog\Handler\ChromePHPHandler;
 
 class Logger extends \Monolog\Logger {

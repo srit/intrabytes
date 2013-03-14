@@ -12,7 +12,8 @@ class Model_Acl extends Model {
     protected static $_properties = array(
         'id',
         'area',
-        'right'
+        'right',
+        'is_global'
     );
 
     protected static $_many_many = array(

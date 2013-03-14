@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 13. Mrz 2013 um 16:34
+-- Erstellungszeit: 14. Mrz 2013 um 08:55
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -29,20 +29,22 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `area` varchar(50) DEFAULT NULL,
-  `right` varchar(50) NOT NULL,
+  `right` varchar(50) DEFAULT NULL,
+  `is_global` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Daten für Tabelle `intrabytes_acls`
 --
 
-INSERT INTO `intrabytes_acls` (`id`, `area`, `right`) VALUES
-(2, NULL, 'add'),
-(3, NULL, 'edit'),
-(4, NULL, 'list'),
-(5, NULL, 'show'),
-(6, NULL, 'delete');
+INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`) VALUES
+(2, NULL, 'add', 0),
+(3, NULL, 'edit', 0),
+(4, NULL, 'list', 0),
+(5, NULL, 'show', 0),
+(6, NULL, 'delete', 0),
+(7, NULL, 'true', 1);
 
 -- --------------------------------------------------------
 
@@ -64,7 +66,8 @@ INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
 (1, 2),
 (1, 3),
 (1, 4),
-(1, 5);
+(1, 5),
+(3, 7);
 
 -- --------------------------------------------------------
 
@@ -236,14 +239,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_groups` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_groups`
 --
 
 INSERT INTO `intrabytes_groups` (`id`, `name`, `points`, `created_at`, `updated_at`) VALUES
-(1, 'admins', 100, '2013-03-11 08:44:43', '2013-03-11 08:44:43');
+(1, 'admins', 100, '2013-03-11 08:44:43', '2013-03-11 08:44:43'),
+(2, 'super_admins', 1000, '2013-03-14 08:28:02', '2013-03-14 08:28:02');
 
 -- --------------------------------------------------------
 
@@ -262,7 +266,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_groups_roles` (
 --
 
 INSERT INTO `intrabytes_groups_roles` (`role_id`, `group_id`) VALUES
-(1, 1);
+(1, 1),
+(3, 2);
 
 -- --------------------------------------------------------
 
@@ -26715,7 +26720,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `intrabytes_roles`
@@ -26723,7 +26728,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
 
 INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '2013-03-11 21:40:21', '2013-03-11 21:40:21'),
-(2, '#', '2013-03-12 22:04:41', '2013-03-12 22:04:41');
+(2, '#', '2013-03-12 22:04:41', '2013-03-12 22:04:41'),
+(3, 'super_admin', '2013-03-14 08:26:20', '2013-03-14 08:26:20');
 
 -- --------------------------------------------------------
 
@@ -26811,7 +26817,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363186646, '624d4e4ac83851994186d728820e42b465c51fce', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363245578, 'b88b968c81523eaae0ad4cd489970dfafdf2e22f', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

@@ -8,7 +8,7 @@ namespace Core;
 
 use Auth\Auth;
 use Auth\Auth_Acl_Driver;
-use Users\Model_Acl;
+use Srit\Logger;
 use Users\Model_Role;
 
 class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
@@ -36,6 +36,11 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                 if (!empty($role->acls)) {
                     $i = 0;
                     foreach ($role->acls as $acl) {
+                        if((bool)$acl->is_global) {
+                            $acl_array[$role->name] = ($acl->right == 'true' || (int)$acl->right == 1) ? true : false;
+                            continue;
+                        }
+
                         //wildcard areas
                         if(!empty($acl->area)) {
                             $area = $acl->area;
@@ -50,7 +55,9 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                 }
             }
 
+            Logger::forge('acl')->addDebug('ACL Array: ', array($acl_array));
             foreach ($current_roles as $r_role) {
+
                 if (!array_key_exists($r_role->name, $acl_array)) {
                     continue;
                 }
