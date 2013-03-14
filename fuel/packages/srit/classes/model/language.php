@@ -5,7 +5,8 @@
  */
 
 namespace Srit;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Language extends Model
 {
@@ -27,18 +28,12 @@ class Model_Language extends Model
             'cascade_delete' => true,
         ));
 
-    public function validate($factory = 'default') {
+    public function validate($input = array()) {
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('locale')->add_rule('required')->add_rule('min_length', 5);
         $this->_fieldset->field('language')->add_rule('required')->add_rule('min_length', 2);
         $this->_fieldset->field('plain')->add_rule('required')->add_rule('min_length', 5);
-        if($this->_fieldset->validation()->run() == false) {
-            foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error($error);
-            }
-            return false;
-        }
-        return true;
+        return parent::validate($input);
     }
 
     public static function find_all(array $options = array()) {
@@ -46,7 +41,7 @@ class Model_Language extends Model
             'related' => array('locales')
         ));
     }
-
+    
     public static function find_by_language_key($language_key) {
         return parent::find('first', array('where' => array(
             'language' => $language_key
@@ -73,7 +68,7 @@ class Model_Language extends Model
 
         try {
             parent::save($cascade, $use_transaction);
-            if($old_default != null) {
+            if($old_default != null && $old_default->id != $this->id) {
                 $old_default->set('default', 0);
                 $old_default->save();
             }
@@ -81,5 +76,4 @@ class Model_Language extends Model
             throw $e;
         }
     }
-
 }

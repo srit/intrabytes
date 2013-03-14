@@ -6,11 +6,6 @@
 
 namespace Srit;
 
-use \Monolog\Logger;
-use \Monolog\Handler\ChromePHPHandler;
-use \Monolog\Handler\FirePHPHandler;
-use \Monolog\Handler\RotatingFileHandler;
-
 class Model extends \Orm\Model
 {
 
@@ -29,8 +24,16 @@ class Model extends \Orm\Model
      */
     protected $_fieldset = null;
 
+    public static function find($id = null, array $options = array()) {
+        if(!isset($options['order'])) {
+            $options['order_by'] = array('id' => 'DESC');
+        }
+        Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
+        return parent::find($id, $options);
+    }
+
     public static function _init() {
-        static::_init_logger();
+
     }
 
     public static function find_all(array $options = array()) {
@@ -50,13 +53,19 @@ class Model extends \Orm\Model
         }
     }
 
-    public function validate() {
-        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
-        if($this->_fieldset->validation()->run() == false) {
+    public function validate($input = array()) {
+
+        if(!$this->_fieldset instanceof \Fuel\Core\Fieldset) {
+            $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        }
+
+        if($this->_fieldset->validation()->run($input) == false) {
             foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error($error);
+                \Core\Messages::error(__(extend_locale($error)));
             }
-        };
+            return false;
+        }
+        return true;
     }
 
     public function formatted($property)
@@ -91,18 +100,9 @@ class Model extends \Orm\Model
         }
         return $value;
     }
-    
+
     public static function find_for_edit($params = null, array $options = array()) {
-        
-    }
 
-    protected static function _init_logger() {
-        $log_level = \Config::get('logger.level');
-
-        static::$_logger = new Logger('model');
-
-        static::$_logger->pushHandler(new ChromePHPHandler($log_level));
-        static::$_logger->pushHandler(new FirePHPHandler($log_level));
     }
 
 }

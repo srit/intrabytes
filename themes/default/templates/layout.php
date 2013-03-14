@@ -6,7 +6,8 @@ echo $theme->view('templates/navbar');
 ?>
 <div class="container" id="content">
     <div id="page-container">
-        <legend><?php echo $title ?></legend>
+
+        <?php echo h4($title); ?>
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php
@@ -29,3 +30,5 @@ echo $theme->view('templates/navbar');
         </div>
     </div>
 </div>
+<?php echo $theme->view('templates/_partials/body/end') ?>
+

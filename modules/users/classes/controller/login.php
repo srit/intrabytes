@@ -5,8 +5,8 @@
  */
 namespace Users;
 
-use \Core\Messages;
-use \Core\Theme;
+use Core\Messages;
+use Core\Theme;
 
 class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
 {

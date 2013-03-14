@@ -10,7 +10,7 @@
         <?php echo security_field(); ?>
         <?php echo html_legend(extend_locale('legend')); ?>
     </div>
-    <div class="span12">
+    <div class="span11">
         <?php echo twitter_delete_group() ?>
     </div>
 </form>

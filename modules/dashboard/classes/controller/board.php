@@ -6,16 +6,14 @@
 
 namespace Dashboard;
 
-use \Core\Theme;
+use Core\Theme;
+use Fuel\Core\Debug;
 
 class Controller_Board extends \Core\Controller_Base_User {
 
     public function action_index() {
-
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);
-
         $data = array();
-
         if(is_array($dashboard_items) && count($dashboard_items) > 0) {
             foreach($dashboard_items as $item) {
 
@@ -25,7 +23,7 @@ class Controller_Board extends \Core\Controller_Base_User {
                 }
                 catch (\Exception $e)
                 {
-                    \Debug::dump($e);
+                    Debug::dump($e);
                 }
             }
         }

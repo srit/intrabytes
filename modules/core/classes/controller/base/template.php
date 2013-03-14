@@ -2,10 +2,10 @@
 
 namespace Core;
 
-use Monolog\Logger;
-use Monolog\Handler\ChromePHPHandler;
-use Monolog\Handler\FirePHPHandler;
-use Monolog\Handler\RotatingFileHandler;
+use Fuel\Core\Config;
+use Fuel\Core\Fuel;
+use Fuel\Core\Security;
+use Srit\Logger;
 
 class Controller_Base_Template extends \Controller_Template
 {
@@ -25,6 +25,13 @@ class Controller_Base_Template extends \Controller_Template
     protected $_crud_action = null;
 
     protected $_crud_redirect_uri = null;
+
+    protected $_pagination_config = array();
+
+    /**
+     * @var \Fuel\Core\Pagination
+     */
+    protected $_pagination = array();
 
     protected $_named_params = array();
 
@@ -58,17 +65,14 @@ class Controller_Base_Template extends \Controller_Template
         /**
          * CSRF Token ist falsch, POST Variablen löschen!
          */
-        if (\Fuel\Core\Request::active()->get_method() == 'POST' && false == \Security::check_token()) {
+        if (Fuel::$env == Fuel::PRODUCTION && Request::active()->get_method() == 'POST' && false == Security::check_token()) {
             Messages::error(__('validation.form.invalid'));
             foreach ($_POST as $key => $value) {
                 unset($_POST[$key]);
             }
         }
 
-
         Theme::instance($this->template)->set_template($this->template)->set_global('theme', Theme::instance($this->template), false);
-
-
         $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;
         if (!empty($this->request->module) && is_dir($additional_view_dir)) {
             /**
@@ -87,6 +91,16 @@ class Controller_Base_Template extends \Controller_Template
             $this->_init_crud_objects();
         }
         $this->_log_controller_data();
+
+        $additional_js = array();
+        $controller_main_js_path = 'modules/'.strtolower($this->_controller_namespace).'/main.js';
+
+        if(Theme::instance($this->template)->asset->find_file($controller_main_js_path, 'js')) {
+            $additional_js[] = $controller_main_js_path;
+        }
+
+        Theme::instance($this->template)->set_template($this->template)->set_global('additional_js', $additional_js);
+
     }
 
     public function after($response)
@@ -147,9 +161,16 @@ class Controller_Base_Template extends \Controller_Template
                 /**
                  * wenn ein namspace mit angegeben wurde,
                  * versuchen diesen aufzulösen
+                 *
+                 * evtl macht es auch sinn zu prüfen, ob das Model mit dem Namespace angegeben wurde
+                 * z.B. Srit\Model_Languages
+                 *
                  */
                 if (count($explode_crud) > 1) {
-
+                    $model = \Inflector::camelize($explode_crud[1]);
+                    $model = \Inflector::underscore($model);
+                    $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+                    $this->_model_object_name = ucfirst($explode_crud[0]) . '\\' . $this->_model_object_name;
                 } else {
                     list($model) = $explode_crud;
                     $model = \Inflector::camelize($model);
@@ -167,6 +188,23 @@ class Controller_Base_Template extends \Controller_Template
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
+
+                    $data_cnt = forward_static_call_array(array($this->_model_object_name, 'count'), array($options));
+
+                    $this->_pagination_config[$crud_object] = array(
+                        'total_items' => $data_cnt,
+                        'per_page' => 25,
+                        'pagination_url' => \Fuel\Core\Uri::create($this->_crud_redirect_uri),
+                        'uri_segment' => 'page',
+                        'show_first'              => true,
+                        'show_last'               => true,
+                    );
+
+                    $this->_pagination[$crud_object] = \Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
+
+                    $options['limit'] = $this->_pagination[$crud_object]->per_page;
+                    $options['offset'] = $this->_pagination[$crud_object]->offset;
+
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
                 } elseif ($this->_crud_action == 'add') {
                     $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($this->_named_params));
@@ -174,35 +212,50 @@ class Controller_Base_Template extends \Controller_Template
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
                 }
 
-                if (\Input::post('save', false)) {
+                if (\Input::post('save', false) || \Input::post('save_next', false)) {
                     /**
                      * edit oder add
                      */
-                    $data->set(\Input::post());
-                    if ($data->validate()) {
+
+                    $form_data = \Input::post();
+                    /**
+                     * für mehrfach formulare auf einer seite brauchen wir die kennung
+                     * dabei heißen die formularfelder zum beispiel customer[name], customer[street] etc.
+                     */
+                    $new_data = (isset($form_data[$crud_object]) && is_array($form_data[$crud_object])) ? $form_data[$crud_object] : $form_data;
+                    $data->set($new_data);
+                    if ($data->validate($new_data)) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
-
-                        Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+                        if(\Input::post('save', false)) {
+                            $redirect_uri = \Uri::create($this->_crud_redirect_uri);
+                        } else {
+                            $redirect_uri = \Fuel\Core\Uri::current();
+                        }
+                        Messages::redirect($redirect_uri);
                     }
                 }
 
                 if (\Input::post('delete', false)) {
                     $data->delete();
                     Messages::instance()->success(__(extend_locale('success')));
-
                     Messages::redirect(\Uri::create($this->_crud_redirect_uri));
                 }
-
                 $this->_crud_objects[$crud_object]['data'] = $data;
+                $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }
+
+
+
             $this->_get_content_template()
-                ->set('crud_objects', $this->_crud_objects);
+                ->set('crud_objects', $this->_crud_objects, false)
+                ->set('pagination', $this->_pagination, false);
 
         }
     }
 
-    protected function _init_crud_vars() {
+    protected function _init_crud_vars()
+    {
         \Config::load('crud', true);
         $crud_options = \Config::get('crud.default');
 
@@ -248,8 +301,9 @@ class Controller_Base_Template extends \Controller_Template
      * @return \Fuel\Core\View
      * @throws \Exception
      */
-    protected function _get_content_template() {
-        if(empty($this->_controller_path)) {
+    protected function _get_content_template()
+    {
+        if (empty($this->_controller_path)) {
             throw new \Exception(__(extend_locale('exception.controller_path_undefined')));
         }
         return Theme::instance($this->template)->get_partial('content', $this->_controller_path);
@@ -257,16 +311,7 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _init_logger()
     {
-
-        /**
-         * @todo Logger Class erstellen (forge)
-         */
-
-        $log_level = \Config::get('logger.level');
-
-        $this->_logger = new Logger('controller');
-        $this->_logger->pushHandler(new ChromePHPHandler($log_level));
-        $this->_logger->pushHandler(new FirePHPHandler($log_level));
+        $this->_logger = Logger::forge('controller');
     }
 
     private function _log_controller_data()

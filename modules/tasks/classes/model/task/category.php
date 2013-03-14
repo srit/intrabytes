@@ -5,7 +5,8 @@
  */
 
 namespace Tasks;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Task_Category extends Model {
 
