@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 14. Mrz 2013 um 08:55
+-- Erstellungszeit: 15. Mrz 2013 um 15:29
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -310,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=353 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=370 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -664,7 +664,24 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (349, 'settings.locales.delete.title', 'core', 'Locale löschen', 1),
 (350, 'settings.locales.delete.legend', 'core', 'Locale wirklich löschen?', 1),
 (351, 'settings.locales.delete.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, die Locale löschen', 1),
-(352, 'settings.locales.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1);
+(352, 'settings.locales.delete.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
+(353, 'show.index.redmine.project.overview.label', 'customers.projects', 'Redmine Projekt Daten', 1),
+(354, 'show.index.id', 'customers.projects', 'Projekt ID', 1),
+(355, 'show.index.identifier', 'customers.projects', 'Kennung', 1),
+(356, 'show.index.name', 'customers.projects', 'Name', 1),
+(357, 'show.index.description', 'customers.projects', 'Beschreibung', 1),
+(358, 'show.index.homepage', 'customers.projects', 'Homepage', 1),
+(359, 'show.index.created_on', 'customers.projects', 'Erstellt', 1),
+(360, 'show.index.updated_on', 'customers.projects', 'zuletzt Geändert', 1),
+(361, 'settings.locales.edit.success', 'core', 'Locale geändert', 1),
+(362, 'show.index.redmine.project.versions.label', 'customers.projects', 'Versionen', 1),
+(363, 'show.index.redmine.project.versions.name.label', 'customers.projects', 'Versions Name', 1),
+(364, 'show.index.redmine.project.versions.duedate.label', 'customers.projects', 'Fällig am', 1),
+(365, 'show.index.redmine.project.tickets.overview.label', 'customers.projects', 'Ticket Übersicht', 1),
+(366, 'show.index.redmine.project.count.tickets.label', 'customers.projects', 'Anzahl Tickets', 1),
+(367, 'show.index.redmine.project.tickets.label', 'customers.projects', 'Ticketübersicht', 1),
+(368, 'show.index.actions.edit.label', 'customers.projects', '<i class="icon-edit"></i> Projekt bearbeiten', 1),
+(369, 'show.index.actions.delete.label', 'customers.projects', '<i class="icon-trash"></i> Projekt löschen', 1);
 
 -- --------------------------------------------------------
 
@@ -26817,7 +26834,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363245578, 'b88b968c81523eaae0ad4cd489970dfafdf2e22f', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363333536, '7bdbdfb461ce4f36bad184f741e7fc3bb21145bb', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

@@ -58,6 +58,14 @@ function format_currency($value)
     return \Srit\L10n::instance()->format_currency($value);
 }
 
+function format_date($value) {
+    return \Srit\L10n::instance()->format_date($value);
+}
+
+function format_datetime($value) {
+    return \Srit\L10n::instance()->format_datetime($value);
+}
+
 /**
  * @param int $current
  * @return array
@@ -409,13 +417,16 @@ function boolean_icon($value)
 
 function html_anchor($href, $value = null, $attr = array(), $secure = null)
 {
+    if(preg_match('#^((http:|www\.).*)# i', $href, $matches) and !preg_match('#'.$_SERVER['HTTP_HOST'].'# i', $matches[0])) {
+        $attr['target'] = (!isset($attr['target'])) ? '_blank' : $attr['target'];
+    }
+
     if (!preg_match('#^(\w+://|javascript:|\#)# i', $href)) {
         $urlparts = explode('?', $href, 2);
         $href = \Uri::create($urlparts[0], array(), isset($urlparts[1]) ? $urlparts[1] : array(), $secure);
     } elseif (!preg_match('#^(javascript:|\#)# i', $href) and  is_bool($secure)) {
         $href = http_build_url($href, array('scheme' => $secure ? 'https' : 'http'));
     }
-
     // Create and display a URL hyperlink
     is_null($value) and $value = $href;
 
@@ -532,4 +543,11 @@ function named_route($route_name = null, $route_params = array())
         }
     }
     return \Router::get($route_name, $route_params);
+}
+
+
+function twitter_anchor($route, $label, array $attr = array(), $secure = false) {
+    $attr['class'] = isset($attr['class']) ? $attr['class'] . ' ' : '';
+    $attr['class'] .= 'btn';
+    return html_anchor($route, $label, $attr, $secure);
 }

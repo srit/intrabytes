@@ -2,6 +2,8 @@
 
 namespace Redmine\Api;
 
+use Fuel\Core\Arr;
+
 /**
  * Listing projects, creating, editing
  *
@@ -68,7 +70,23 @@ class Project extends AbstractApi
      */
     public function show($id)
     {
-        return $this->get('/projects/' . urlencode($id) . '.json?include=trackers,issue_categories,attachments,relations');
+        $project = $this->get('/projects/' . urlencode($id) . '.json?include=trackers,issue_categories,attachments,relations');
+        $sort_mapping = array(
+            'id',
+            'identifier',
+            'name',
+            'description',
+            'homepage',
+            'created_on',
+            'updated_on',
+            'trackers',
+            'issue_categories'
+        );
+        $sorted_project['project'] = array();
+        foreach($sort_mapping as $field) {
+            $sorted_project['project'][$field] = $project['project'][$field];
+        }
+        return $sorted_project;
     }
 
     /**

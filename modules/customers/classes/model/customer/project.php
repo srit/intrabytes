@@ -7,6 +7,7 @@
 
 namespace Customers;
 
+use Srit\Logger;
 use Srit\Model;
 
 class Model_Customer_Project extends Model {
