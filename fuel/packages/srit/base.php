@@ -542,7 +542,7 @@ function named_route($route_name = null, $route_params = array())
             }
         }
     }
-    return \Router::get($route_name, $route_params);
+    return \Fuel\Core\Router::get($route_name, $route_params);
 }
 
 

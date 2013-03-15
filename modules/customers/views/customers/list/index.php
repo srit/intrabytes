@@ -34,7 +34,7 @@
             </td>
             <td>
                 <?php echo html_anchor(\Uri::create('/customers/contact_persons'), __(extend_locale('count.contacts.label'), array(':amount' => count($customer->customer_contacts)))) ?><br>
-                <?php echo html_anchor(\Uri::create('/customers/projects/list/:id', array('id' => $customer->id)), __(extend_locale('count.projects.label'), array(':amount' => $cnt_projects = count($customer->customer_projects)))) ?>
+                <?php echo html_anchor(customers_projects_list_route($customer->id), __(extend_locale('count.projects.label'), array(':amount' => $cnt_projects = count($customer->customer_projects)))) ?>
             </td>
             <td>
                 <?php

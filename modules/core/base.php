@@ -65,13 +65,13 @@ function core_settings_locales_add_route($language_id) {
 function core_settings_locales_edit_route($id, $language_id) {
     $route_name = 'edit';
     $route_params['language_id'] = (int)$language_id;
-    $route_params['id'] = $id;
+    $route_params['id'] = (int)$id;
     return core_settings_locales_named_route($route_name, $route_params);
 }
 
 function core_settings_locales_delete_route($id, $language_id) {
     $route_name = 'delete';
     $route_params['language_id'] = (int)$language_id;
-    $route_params['id'] = $id;
+    $route_params['id'] = (int)$id;
     return core_settings_locales_named_route($route_name, $route_params);
 }
