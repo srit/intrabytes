@@ -94,31 +94,31 @@ function customers_customer_contacts_edit_route($id, $customer_id) {
     $route_name = 'edit';
     $route_params['customer_id'] = (int)$customer_id;
     $route_params['id'] = (int)$id;
-    return customers_projects_named_route($route_name, $route_params);
+    return customers_customer_contacts_named_route($route_name, $route_params);
 }
 
 function customers_customer_contacts_delete_route($id, $customer_id) {
     $route_name = 'delete';
     $route_params['customer_id'] = (int)$customer_id;
     $route_params['id'] = (int)$id;
-    return customers_projects_named_route($route_name, $route_params);
+    return customers_customer_contacts_named_route($route_name, $route_params);
 }
 
 function customers_customer_contacts_show_route($id, $customer_id) {
     $route_name = 'show';
     $route_params['customer_id'] = (int)$customer_id;
     $route_params['id'] = (int)$id;
-    return customers_projects_named_route($route_name, $route_params);
+    return customers_customer_contacts_named_route($route_name, $route_params);
 }
 
 function customers_customer_contacts_list_route($customer_id) {
     $route_name = 'list';
     $route_params['customer_id'] = (int)$customer_id;
-    return customers_projects_named_route($route_name, $route_params);
+    return customers_customer_contacts_named_route($route_name, $route_params);
 }
 
 function customers_customer_contacts_add_route($customer_id) {
     $route_name = 'add';
     $route_params['customer_id'] = (int)$customer_id;
-    return customers_projects_named_route($route_name, $route_params);
+    return customers_customer_contacts_named_route($route_name, $route_params);
 }
