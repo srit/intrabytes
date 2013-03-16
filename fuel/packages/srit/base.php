@@ -520,12 +520,13 @@ function h6($value, $attr = array())
     return h(6, $value, $attr);
 }
 
-function named_route($route_name = null, $route_params = array())
+function named_route($route_name, $route_params = array(), $route_must_exists = true)
 {
-    if ($route_name == null) {
-        /**
-         * @todo
-         */
+
+    if($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
+        throw new \FuelException(__('exception.function.named_route.route_not_exists'));
+    } elseif(!isset(\Fuel\Core\Router::$routes[$route_name])) {
+        return null;
     }
 
     $route = \Fuel\Core\Router::$routes[$route_name]->path;
@@ -534,11 +535,11 @@ function named_route($route_name = null, $route_params = array())
      */
     if(preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
         if(empty($route_params)) {
-            throw new \FuelException(__('exception.function.list_route.no.route_params'));
+            throw new \FuelException(__('exception.function.named_route.no_route_params'));
         }
         foreach($params[0] as $p) {
             if(!isset($route_params[$p])) {
-                throw new \FuelException(__('exception.function.list_route.missing.route_param', array('param', $p)));
+                throw new \FuelException(__('exception.function.named_route.missing_route_param', array('param', $p)));
             }
         }
     }

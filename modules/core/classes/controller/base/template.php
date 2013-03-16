@@ -272,10 +272,8 @@ class Controller_Base_Template extends \Controller_Template
 
         $route_prefix = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
         $route_function_prefix = str_replace('/', '_', $route_prefix);
-        $route_function_name = $route_function_prefix . '_route';
-        if (function_exists($route_function_name)) {
-            $this->_crud_list_uri = named_route($route_function_prefix, $this->_named_params);
-        }
+        $this->_crud_list_uri = named_route($route_function_prefix, $this->_named_params, false);
+
         if (empty($this->_crud_list_uri)) {
             //simple way
             $this->_crud_list_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
