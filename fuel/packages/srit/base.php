@@ -546,6 +546,13 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
     return \Fuel\Core\Router::get($route_name, $route_params);
 }
 
+function base_route() {
+    return \Fuel\Core\Uri::create('/');
+}
+
+function logout_route() {
+    return \Fuel\Core\Uri::create('/users/logout');
+}
 
 function twitter_anchor($route, $label, array $attr = array(), $secure = false) {
     $attr['class'] = isset($attr['class']) ? $attr['class'] . ' ' : '';

@@ -4,6 +4,7 @@ namespace Core;
 
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;
+use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Fuel\Core\Pagination;
 use Fuel\Core\Request;
@@ -187,7 +188,15 @@ class Controller_Base_Template extends \Controller_Template
                     $this->_model_object_name = $this->_controller_namespace . '\\' . $this->_model_object_name;
                 }
 
-                $options = array('where' => $this->_named_params);
+                $fixed_named_params = array();
+
+                if(isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
+                    $fixed_named_params = $crud['fixed_named_params'];
+                }
+
+                $merged_named_params = array_merge($this->_named_params, $fixed_named_params);
+
+                $options = array('where' => $merged_named_params);
                 $this->_logger->debug('Options:', $options);
 
                 /**
@@ -215,9 +224,13 @@ class Controller_Base_Template extends \Controller_Template
 
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
                 } elseif ($this->_crud_action == 'add') {
-                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($this->_named_params));
+                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($merged_named_params));
                 } else {
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
+                }
+
+                if(in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
+                    throw new HttpNotFoundException;
                 }
 
                 if (Input::post('save', false) || Input::post('save_next', false)) {
