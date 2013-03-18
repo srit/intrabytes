@@ -53,15 +53,4 @@ class Model_User_Public_Key extends Model {
         $this->_fieldset->field('value')->add_rule('required');
         return parent::validate($input);
     }
-
-    /**
-     * @param null $cascade
-     * @param bool $use_transaction
-     * @return bool
-     * @todo Observer_User
-     */
-    public function save($cascade = null, $use_transaction = false) {
-        $this->user_id = \Auth::get_user()->id;
-        return parent::save($cascade, $use_transaction);
-    }
 }

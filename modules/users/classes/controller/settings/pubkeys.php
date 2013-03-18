@@ -6,11 +6,20 @@
 
 namespace Users;
 
+use Auth\Auth;
+
 class Controller_Settings_Pubkeys extends \Core\Controller_Base_User {
 
     protected $_crud_objects = array(
         'user_public_key' => array()
     );
+
+    public function before() {
+        $this->_crud_objects['user_public_key']['fixed_named_params'] = array(
+            'user_id' => Auth::get_user()->id
+        );
+        return parent::before();
+    }
 
     public function action_list() {
 

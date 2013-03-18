@@ -22,6 +22,8 @@ Autoloader::add_classes(array(
     'ChromePhp' => __DIR__ . '/vendor/chromephp.php',
     'Srit\\Module' => __DIR__ . '/classes/module.php',
     'Srit\\Logger' => __DIR__ . '/classes/logger.php',
+    'Srit\\HttpNotFoundException' => __DIR__.'/classes/httpexceptions.php',
+    'Srit\\HttpServerErrorException' => __DIR__.'/classes/httpexceptions.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api

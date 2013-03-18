@@ -4,7 +4,16 @@ namespace Core;
 
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;
+use Srit\HttpNotFoundException;
+use Fuel\Core\Input;
+use Fuel\Core\Pagination;
+use Fuel\Core\Request;
+use Fuel\Core\Response;
 use Fuel\Core\Security;
+use Fuel\Core\Uri;
+use Oil\Exception;
+use Srit\Inflector;
+use Srit\Locale;
 use Srit\Logger;
 
 class Controller_Base_Template extends \Controller_Template
@@ -24,7 +33,7 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_crud_action = null;
 
-    protected $_crud_redirect_uri = null;
+    protected $_crud_list_uri = null;
 
     protected $_pagination_config = array();
 
@@ -56,7 +65,7 @@ class Controller_Base_Template extends \Controller_Template
     public function before()
     {
 
-        if (\Input::is_ajax()) {
+        if (Input::is_ajax()) {
             return parent::before();
         }
 
@@ -93,9 +102,9 @@ class Controller_Base_Template extends \Controller_Template
         $this->_log_controller_data();
 
         $additional_js = array();
-        $controller_main_js_path = 'modules/'.strtolower($this->_controller_namespace).'/main.js';
+        $controller_main_js_path = 'modules/' . strtolower($this->_controller_namespace) . '/main.js';
 
-        if(Theme::instance($this->template)->asset->find_file($controller_main_js_path, 'js')) {
+        if (Theme::instance($this->template)->asset->find_file($controller_main_js_path, 'js')) {
             $additional_js[] = $controller_main_js_path;
         }
 
@@ -105,14 +114,14 @@ class Controller_Base_Template extends \Controller_Template
 
     public function after($response)
     {
-        if (!\Input::is_ajax()) {
+        if (!Input::is_ajax()) {
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
-                $response = \Response::forge(Theme::instance($this->template));
+                $response = Response::forge(Theme::instance($this->template));
             }
 
             if (!$response instanceof Response) {
-                $response = \Response::forge($response);
+                $response = Response::forge($response);
             }
 
             Theme::clear($this->template);
@@ -131,12 +140,12 @@ class Controller_Base_Template extends \Controller_Template
     protected function _init_crud_objects()
     {
 
-        \Config::load('crud', true);
-        $crud_options = \Config::get('crud.default');
+        Config::load('crud', true);
+        $crud_options = Config::get('crud.default');
         $this->_init_crud_vars();
 
-        if (\Input::post('cancel', false)) {
-            Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+        if (Input::post('cancel', false)) {
+            Messages::redirect(Uri::create($this->_crud_list_uri));
         }
 
         if (in_array($this->_crud_action, $crud_options['crud_actions'])) {
@@ -167,19 +176,27 @@ class Controller_Base_Template extends \Controller_Template
                  *
                  */
                 if (count($explode_crud) > 1) {
-                    $model = \Inflector::camelize($explode_crud[1]);
-                    $model = \Inflector::underscore($model);
+                    $model = Inflector::camelize($explode_crud[1]);
+                    $model = Inflector::underscore($model);
                     $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
                     $this->_model_object_name = ucfirst($explode_crud[0]) . '\\' . $this->_model_object_name;
                 } else {
                     list($model) = $explode_crud;
-                    $model = \Inflector::camelize($model);
-                    $model = \Inflector::underscore($model);
+                    $model = Inflector::camelize($model);
+                    $model = Inflector::underscore($model);
                     $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
                     $this->_model_object_name = $this->_controller_namespace . '\\' . $this->_model_object_name;
                 }
 
-                $options = array('where' => $this->_named_params);
+                $fixed_named_params = array();
+
+                if(isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
+                    $fixed_named_params = $crud['fixed_named_params'];
+                }
+
+                $merged_named_params = array_merge($this->_named_params, $fixed_named_params);
+
+                $options = array('where' => $merged_named_params);
                 $this->_logger->debug('Options:', $options);
 
                 /**
@@ -194,30 +211,34 @@ class Controller_Base_Template extends \Controller_Template
                     $this->_pagination_config[$crud_object] = array(
                         'total_items' => $data_cnt,
                         'per_page' => 25,
-                        'pagination_url' => \Fuel\Core\Uri::create($this->_crud_redirect_uri),
+                        'pagination_url' => $this->_crud_list_uri,
                         'uri_segment' => 'page',
-                        'show_first'              => true,
-                        'show_last'               => true,
+                        'show_first' => true,
+                        'show_last' => true,
                     );
 
-                    $this->_pagination[$crud_object] = \Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
+                    $this->_pagination[$crud_object] = Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
 
                     $options['limit'] = $this->_pagination[$crud_object]->per_page;
                     $options['offset'] = $this->_pagination[$crud_object]->offset;
 
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
                 } elseif ($this->_crud_action == 'add') {
-                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($this->_named_params));
+                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($merged_named_params));
                 } else {
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
                 }
 
-                if (\Input::post('save', false) || \Input::post('save_next', false)) {
+                if(in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
+                    throw new HttpNotFoundException;
+                }
+
+                if (Input::post('save', false) || Input::post('save_next', false)) {
                     /**
                      * edit oder add
                      */
 
-                    $form_data = \Input::post();
+                    $form_data = Input::post();
                     /**
                      * für mehrfach formulare auf einer seite brauchen wir die kennung
                      * dabei heißen die formularfelder zum beispiel customer[name], customer[street] etc.
@@ -227,24 +248,23 @@ class Controller_Base_Template extends \Controller_Template
                     if ($data->validate($new_data)) {
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
-                        if(\Input::post('save', false)) {
-                            $redirect_uri = \Uri::create($this->_crud_redirect_uri);
+                        if (Input::post('save', false)) {
+                            $redirect_uri = $this->_crud_list_uri;
                         } else {
-                            $redirect_uri = \Fuel\Core\Uri::current();
+                            $redirect_uri = Uri::current();
                         }
                         Messages::redirect($redirect_uri);
                     }
                 }
 
-                if (\Input::post('delete', false)) {
+                if (Input::post('delete', false)) {
                     $data->delete();
                     Messages::instance()->success(__(extend_locale('success')));
-                    Messages::redirect(\Uri::create($this->_crud_redirect_uri));
+                    Messages::redirect($this->_crud_list_uri);
                 }
                 $this->_crud_objects[$crud_object]['data'] = $data;
                 $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }
-
 
 
             $this->_get_content_template()
@@ -256,19 +276,27 @@ class Controller_Base_Template extends \Controller_Template
 
     protected function _init_crud_vars()
     {
-        \Config::load('crud', true);
-        $crud_options = \Config::get('crud.default');
+        Config::load('crud', true);
+        $crud_options = Config::get('crud.default');
 
         $expl_controller_without_controller_prefix = explode('_', $this->_controller_without_controller_prefix);
         $this->_last_controller_part = array_pop($expl_controller_without_controller_prefix);
         $this->_crud_action = (in_array($this->_controller_action, $crud_options['crud_actions'])) ? $this->_controller_action : strtolower($this->_last_controller_part);
-        $this->_crud_redirect_uri = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path) . '/' . implode('/', $this->_named_params);
+
+        $route_prefix = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
+        $route_function_prefix = str_replace('/', '_', $route_prefix);
+        $this->_crud_list_uri = named_route($route_function_prefix, $this->_named_params, false);
+
+        if (empty($this->_crud_list_uri)) {
+            //simple way
+            $this->_crud_list_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
+        }
 
         $this->_get_content_template()
             ->set('last_controller_part', $this->_last_controller_part)
             ->set('crud_action', $this->_crud_action);
 
-        $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_redirect_uri));
+        $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
     }
 
     /**
@@ -281,8 +309,9 @@ class Controller_Base_Template extends \Controller_Template
         $this->_controller_action = $this->request->action;
         $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
-        \Srit\Locale::instance()->setLocalePrefix($this->_locale_prefix);
-        $this->_named_params = \Request::forge()->named_params;
+
+        Locale::instance()->setLocalePrefix($this->_locale_prefix);
+        $this->_named_params = Request::forge()->named_params;
         Theme::instance($this->template)->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)
             ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
@@ -304,7 +333,7 @@ class Controller_Base_Template extends \Controller_Template
     protected function _get_content_template()
     {
         if (empty($this->_controller_path)) {
-            throw new \Exception(__(extend_locale('exception.controller_path_undefined')));
+            throw new Exception(__(extend_locale('exception.controller_path_undefined')));
         }
         return Theme::instance($this->template)->get_partial('content', $this->_controller_path);
     }
