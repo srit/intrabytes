@@ -6,7 +6,7 @@
 ?>
 <div class="span12">
     <div class="control-group">
-        <?php echo html_anchor(\Uri::create('/users/settings/pubkeys/add'), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
+        <?php echo html_anchor(users_settings_pubkeys_add_route(), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
     <?php if (!empty($crud_objects['user_public_key']['data'])): ?>
     <table class="table table-striped table-condensed">
@@ -24,8 +24,8 @@
             <td>
 
                 <?php echo twitter_button_group(array(
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/edit/:id', array('id' => $pub_key->id)), __(extend_locale('actions.edit.label')))),
-                array('attr' => array(), 'value' => \Html::anchor(\Uri::create('/users/settings/pubkeys/delete/:id', array('id' => $pub_key->id)), __(extend_locale('actions.delete.label')))),
+                array('attr' => array(), 'value' => html_anchor(users_settings_pubkeys_edit_route($pub_key->id), __(extend_locale('actions.edit.label')))),
+                array('attr' => array(), 'value' => html_anchor(users_settings_pubkeys_delete_route($pub_key->id), __(extend_locale('actions.delete.label')))),
             ), extend_locale('actions.label'), array()); ?>
 
             </td>

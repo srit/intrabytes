@@ -5,6 +5,6 @@
  */?>
 
 <p>
-    <?php echo __('Die Seite wurde leider nicht gefunden.') ?>
-    <?php echo \Html::anchor(\Uri::create('/'), __('Zurück zum Dashboard')) ?>
+    <?php echo __(extend_locale('page_not_found')) ?>
+    <?php echo html_anchor(base_route(), __(extend_locale('back_to_dashboard'))) ?>
 </p>

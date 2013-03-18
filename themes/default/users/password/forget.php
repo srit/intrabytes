@@ -3,6 +3,11 @@
  * @created 01.10.12 - 13:41
  * @author stefanriedel
  */
+
+/**
+ * @todo new code style
+ */
+
 ?>
 <form action="<?php echo \Uri::create('/users/password/forget') ?>" method="post" accept-charset="utf-8"
       id="password_forget">

@@ -12,14 +12,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <?php echo \Html::anchor(\Uri::create(Config::get('routes._root_')), \Config::get('project.name'), array('class' => 'brand')) ?>
+            <?php echo html_anchor(base_route(), \Config::get('project.name'), array('class' => 'brand')) ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li>
-                        <?php echo \Html::anchor(\Uri::create(Config::get('routes._root_')), '<i class="icon-white icon-home"></i> ' . __('nav.dashboard.label')) ?>
+                        <?php echo html_anchor(base_route(), '<i class="icon-white icon-home"></i> ' . __('nav.dashboard.label')) ?>
                     </li>
                     <li>
-                        <?php echo \Html::anchor(\Uri::create('/customers/list'), '<i class="icon-white icon-list"></i> ' . __('nav.customers.label')) ?>
+                        <?php echo html_anchor(customers_list_route(), '<i class="icon-white icon-list"></i> ' . __('nav.customers.label')) ?>
                     </li>
 
                 </ul>
@@ -28,21 +28,21 @@
                         <?php echo $theme->asset->img('ajax-loader.gif', array('id' => 'indicator', 'class' => 'img-circle')) ?>
                     </li>
                     <li class="dropdown">
-                        <?php echo \Html::anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
+                        <?php echo html_anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
                         <ul class="dropdown-menu">
                             <li><?php echo html_anchor(core_settings_languages_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.language.label')) ?></li>
-                            <li><?php echo \Html::anchor(\Uri::create('/redmines/list'), '<i class="icon-list-alt"></i> ' . __('nav.settings.redmines.label')) ?></li>
+                            <li><?php echo html_anchor(redmines_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.redmines.label')) ?></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="icon-white icon-user"></i> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><?php echo \Html::anchor(\Uri::create('/users/settings/dashboard'), __('usernav.dashboard.config.label')) ?></li>
-                            <li><?php echo \Html::anchor(\Uri::create('/users/settings/pubkeys/list'), __('usernav.pubkeys.config.label')) ?></li>
-                            <li><?php echo \Html::anchor(\Uri::create('/users/logout'), __('usernav.logout.label')) ?></li>
+                            <li><?php echo html_anchor(\Uri::create('/users/settings/dashboard'), __('usernav.dashboard.config.label')) ?></li>
+                            <li><?php echo html_anchor(users_settings_pubkeys_list_route(), __('usernav.pubkeys.config.label')) ?></li>
+                            <li><?php echo html_anchor(logout_route(), __('usernav.logout.label')) ?></li>
                         </ul>
                         </a></li>
-                    <li><?php echo \Html::anchor(\Uri::create('/users/logout'), '<i class="icon-white icon-off"></i> ' . __('nav.logout.label', array(':name' => $user))) ?></li>
+                    <li><?php echo html_anchor(logout_route(), '<i class="icon-white icon-off"></i> ' . __('nav.logout.label', array(':name' => $user))) ?></li>
                 </ul>
             </div>
         </div>

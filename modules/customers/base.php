@@ -40,6 +40,9 @@ function customers_show_route($id) {
     return customers_named_route($route_name, $route_params);
 }
 
+/**
+ * Customer Projects
+ */
 function customers_projects_named_route($name, $route_params = array()) {
     $route_name = 'projects_';
     $route_name .= $name;
@@ -81,7 +84,7 @@ function customers_projects_add_route($customer_id) {
 }
 
 /**
- * Customer Projects
+ * Customer Contacts
  */
 function customers_customer_contacts_named_route($name, $route_params = array()) {
     $route_name = 'customer_contacts_';
