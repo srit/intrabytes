@@ -9,7 +9,7 @@
  */
 
 ?>
-<form action="<?php echo \Uri::create('/users/password/forget') ?>" method="post" accept-charset="utf-8"
+<form action="<?php echo forget_password_route() ?>" method="post" accept-charset="utf-8"
       id="password_forget">
 
     <?php echo \Form::hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());?>
@@ -27,4 +27,4 @@
     array('class' => 'btn btn-block btn-info', 'value' => 'submit')
 ) ?>
 </form>
-<?php echo \Html::anchor(\Uri::create('/users/login'), __(extend_locale('back_to_login.label'))) ?>
+<?php echo html_anchor(login_route(), __(extend_locale('back_to_login.label'))) ?>

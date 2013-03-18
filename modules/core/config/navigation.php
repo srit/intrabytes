@@ -5,11 +5,8 @@
  */
 
 return array(
-    'main' => array(
-        'dashboard' => array(
-            'route' => \Fuel\Core\Router::get('_root_'),
-            'label' => '<i class="icon-dashboard"></i> ' . __('Dashboard'),
-        ),
+    'top_left' => array(),
+    'top_right' => array(
         'settings' => array(
             'route' => 'javascript: void(0)',
             'label' => '<i class="icon-wrench"></i> ' . __('Einstellungen'),

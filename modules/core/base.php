@@ -4,6 +4,31 @@
  * @author stefanriedel
  */
 
+
+/**
+ * @todo ins routing auslagern
+ */
+function base_route() {
+    return \Fuel\Core\Uri::create('/');
+}
+
+function logout_route() {
+    return \Fuel\Core\Uri::create('/users/logout');
+}
+
+function login_route() {
+    return \Fuel\Core\Uri::create('/users/login');
+}
+
+
+function forget_password_route() {
+    \Fuel\Core\Uri::create('/users/password/forget');
+}
+
+function confirmed_email_password_route($hash) {
+    \Fuel\Core\Uri::create('/users/password/confirmed_email/:hash', array('hash' => $hash));
+}
+
 function core_named_route($name, $route_params = array()) {
     $route_name = 'core_';
     $route_name .= $name;

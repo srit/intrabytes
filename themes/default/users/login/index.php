@@ -13,4 +13,4 @@
     <?php echo twitter_html_submit_button('submit', 'submit', extend_locale('login.button.label'), array(), array('class' => 'btn-info btn-block')) ?>
 
 </form>
-<?php echo html_anchor(\Uri::create('/users/password/forget'), extend_locale('forgetpassword.label')) ?>
+<?php echo html_anchor(forget_password_route(), extend_locale('forgetpassword.label')) ?>
