@@ -7,8 +7,7 @@
 return array(
     'top_left' => array(
         'customers' => array(
-            'route' => \Fuel\Core\Router::get('_root_'),
-            'label' => '<i class="icon-dashboard"></i> ' . __('Dashboard'),
+            'route' => customers_list_route()
         )
     )
 );

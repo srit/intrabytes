@@ -14,6 +14,10 @@ class Logger extends \Monolog\Logger {
 
     protected static $_instances = array();
 
+    /**
+     * @param string $name
+     * @return Logger
+     */
     public static function forge($name = 'default') {
 
         if(!isset(static::$_instances[$name])) {

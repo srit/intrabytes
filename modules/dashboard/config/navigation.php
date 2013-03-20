@@ -8,7 +8,6 @@ return array(
     'top_left' => array(
         'dashboard' => array(
             'route' => dashboard_route(),
-            'label' => '<i class="icon-dashboard"></i> ' . __('navigation.top_left.dashboard'),
         )
     )
 );
