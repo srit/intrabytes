@@ -1,6 +1,8 @@
 <?php
 
 namespace Core;
+use Auth\Auth;
+use Fuel\Core\Config;
 use Users\Model_User;
 
 /**
@@ -20,9 +22,9 @@ class Controller_Base_User extends Controller_Base_Template_Public {
          */
         if(!\Auth::check()) {
             Messages::error(__('login.access.denied.login.first.label'));
-            Messages::redirect('/users/login');
+            Messages::redirect(login_route());
         }
-        $this->_user = \Auth::instance()->get_user();
+        $this->_user = Auth::instance()->get_user();
         parent::before();
     }
 
@@ -32,7 +34,10 @@ class Controller_Base_User extends Controller_Base_Template_Public {
             return parent::after($response);
         }
 
+        $this->_navigation = Config::load('navigation', true);
+
         Theme::instance($this->template)->get_template()->set_global('user', $this->_user);
+        Theme::instance($this->template)->get_template()->set_global('navigation', $this->_navigation);
         return parent::after($response);
     }
 }

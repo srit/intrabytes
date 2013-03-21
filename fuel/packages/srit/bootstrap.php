@@ -24,6 +24,9 @@ Autoloader::add_classes(array(
     'Srit\\Logger' => __DIR__ . '/classes/logger.php',
     'Srit\\HttpNotFoundException' => __DIR__.'/classes/httpexceptions.php',
     'Srit\\HttpServerErrorException' => __DIR__.'/classes/httpexceptions.php',
+    'Srit\\Navigation' => __DIR__ . '/classes/navigation.php',
+    'Srit\\Navigation_Elements' => __DIR__ . '/classes/navigation/elements.php',
+    'Srit\\Navigation_Element' => __DIR__ . '/classes/navigation/element.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api

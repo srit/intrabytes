@@ -262,6 +262,7 @@ class Controller_Base_Template extends \Controller_Template
                     Messages::instance()->success(__(extend_locale('success')));
                     Messages::redirect($this->_crud_list_uri);
                 }
+
                 $this->_crud_objects[$crud_object]['data'] = $data;
                 $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }

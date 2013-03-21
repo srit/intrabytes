@@ -7,8 +7,9 @@
 namespace Users;
 
 use Auth\Auth;
+use Core\Controller_Base_User;
 
-class Controller_Settings_Pubkeys extends \Core\Controller_Base_User {
+class Controller_Settings_Pubkeys extends Controller_Base_User {
 
     protected $_crud_objects = array(
         'user_public_key' => array()
