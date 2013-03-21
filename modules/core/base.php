@@ -22,7 +22,7 @@ function login_route() {
 
 
 function forget_password_route() {
-    \Fuel\Core\Uri::create('/users/password/forget');
+    return \Fuel\Core\Uri::create('/users/password/forget');
 }
 
 function confirmed_email_password_route($hash) {

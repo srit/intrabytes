@@ -52,6 +52,6 @@ class Controller_Login extends \Core\Controller_Base_Template_Blank_Public
 
         $username = \Input::post('username', false);
 
-        Theme::instance($this->template)->set_partial('content', 'users/login/index')->set('fieldset', $fieldset, false)->set('username', $username);
+        Theme::instance()->set_partial('content', 'users/login/index')->set('fieldset', $fieldset, false)->set('username', $username);
     }
 }

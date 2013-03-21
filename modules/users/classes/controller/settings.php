@@ -11,6 +11,6 @@ use Core\Theme;
 class Controller_Settings extends \Core\Controller_Base_User {
 
     public function action_dashboard() {
-        Theme::instance($this->template)->set_partial('content', 'users/settings/dashboard');
+        Theme::instance()->set_partial('content', 'users/settings/dashboard');
     }
 }

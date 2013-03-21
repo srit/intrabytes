@@ -6,7 +6,7 @@
 
 namespace Srit;
 
-class Navigation_Elements implements \Iterator {
+class Navigation_Elements implements \Iterator, \Countable {
 
     protected $_elements = array();
 
@@ -14,9 +14,11 @@ class Navigation_Elements implements \Iterator {
         $this->_elements = $_data;
     }
 
+    /***************************************************************************
+     * Implementation of Iterable
+     **************************************************************************/
     public function rewind()
     {
-        $this->_pointer = 0;
         return $this;
     }
 
@@ -25,13 +27,16 @@ class Navigation_Elements implements \Iterator {
      */
     public function current()
     {
+        $name = $this->key();
         $cur = current($this->_elements);
-        return new Navigation_Element($cur);
+        $cur_element = new Navigation_Element($cur);
+        $cur_element->setName($name);
+        return $cur_element;
     }
 
     public function key()
     {
-        return key($this->current());
+        return key($this->_elements);
     }
 
     public function next()
@@ -42,5 +47,9 @@ class Navigation_Elements implements \Iterator {
     public function valid()
     {
         return key($this->_elements) !== null;
+    }
+
+    public function count() {
+        return count($this->_elements);
     }
 }

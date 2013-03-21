@@ -12,7 +12,20 @@ class Navigation_Element {
 
     protected $_has_childs = false;
 
-    protected $_childs = null;
+    protected $_children = null;
+
+    protected $_name = '';
+
+    public function setName($name)
+    {
+        $this->_name = $name;
+        return $this;
+    }
+
+    public function getName()
+    {
+        return $this->_name;
+    }
 
     public function __get($property) {
         if($property == 'links' || !isset($this->_data[$property])) {
@@ -27,21 +40,22 @@ class Navigation_Element {
     }
 
     public function init() {
-        if($this->hasChilds()) {
-            $this->setChilds(new Navigation_Elements($this->_data['links']));
+        if($this->hasChildren()) {
+            $this->setChildren(new Navigation_Elements($this->_data['links']));
         }
     }
 
-    public function hasChilds() {
+    public function hasChildren() {
         $this->_has_childs = (isset($this->_data['links']) && is_array($this->_data['links']));
         return $this->_has_childs;
     }
 
-    public function setChilds(Navigation_Elements $childs) {
-        $this->_childs = $childs;
+    public function setChildren(Navigation_Elements $childs) {
+        $this->_children = $childs;
+        return $this;
     }
 
-    public function getChilds() {
-        return $this->_childs;
+    public function getChildren() {
+        return $this->_children;
     }
 }

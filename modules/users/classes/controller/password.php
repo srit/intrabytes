@@ -21,7 +21,7 @@ class Controller_Password extends \Core\Controller_Base_Template_Blank_Public
 
 
         }
-        Theme::instance($this->template)->set_partial('content', 'users/password/forget');
+        Theme::instance()->set_partial('content', 'users/password/forget');
     }
 
     public function action_confirmed_email()
@@ -42,7 +42,7 @@ class Controller_Password extends \Core\Controller_Base_Template_Blank_Public
                 $password_changed = true;
             }
         }
-        Theme::instance($this->template)->set_partial('content', 'users/password/confirmed_email')
+        Theme::instance()->set_partial('content', 'users/password/confirmed_email')
                             ->set('hash', $hash)
                             ->set('hash_true', $hash_true)
                             ->set('password_changed', $password_changed);

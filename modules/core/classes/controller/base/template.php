@@ -81,13 +81,13 @@ class Controller_Base_Template extends \Controller_Template
             }
         }
 
-        Theme::instance($this->template)->set_template($this->template)->set_global('theme', Theme::instance($this->template), false);
+        Theme::instance()->set_template($this->template)->set_global('theme', Theme::instance(), false);
         $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;
         if (!empty($this->request->module) && is_dir($additional_view_dir)) {
             /**
              * @todo dynamischer machen das aktuell aktivierte theme sollte unterstützt werden können
              */
-            Theme::instance($this->template)->add_paths(
+            Theme::instance()->add_paths(
                 array(
                     ROOT . 'modules' . DS . $this->request->module . DS
                 )
@@ -104,11 +104,11 @@ class Controller_Base_Template extends \Controller_Template
         $additional_js = array();
         $controller_main_js_path = 'modules/' . strtolower($this->_controller_namespace) . '/main.js';
 
-        if (Theme::instance($this->template)->asset->find_file($controller_main_js_path, 'js')) {
+        if (Theme::instance()->asset->find_file($controller_main_js_path, 'js')) {
             $additional_js[] = $controller_main_js_path;
         }
 
-        Theme::instance($this->template)->set_template($this->template)->set_global('additional_js', $additional_js);
+        Theme::instance()->set_template($this->template)->set_global('additional_js', $additional_js);
 
     }
 
@@ -117,7 +117,7 @@ class Controller_Base_Template extends \Controller_Template
         if (!Input::is_ajax()) {
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
-                $response = Response::forge(Theme::instance($this->template));
+                $response = Response::forge(Theme::instance());
             }
 
             if (!$response instanceof Response) {
@@ -134,7 +134,7 @@ class Controller_Base_Template extends \Controller_Template
 
     protected function _init_global_locales()
     {
-        Theme::instance($this->template)->get_template()->set_global('title', __(extend_locale('title')));
+        Theme::instance()->get_template()->set_global('title', __(extend_locale('title')));
     }
 
     protected function _init_crud_objects()
@@ -313,7 +313,7 @@ class Controller_Base_Template extends \Controller_Template
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
         $this->_named_params = Request::forge()->named_params;
-        Theme::instance($this->template)->set_partial('content', $this->_controller_path)
+        Theme::instance()->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)
             ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
             ->set('controller_action', $this->_controller_action)
@@ -321,7 +321,7 @@ class Controller_Base_Template extends \Controller_Template
             ->set('locale_prefix', $this->_locale_prefix);
         if (!empty($this->_named_params)) {
             foreach ($this->_named_params as $name => $value) {
-                Theme::instance($this->template)->get_partial('content', $this->_controller_path)->set($name, $value);
+                Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
         $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
@@ -336,7 +336,7 @@ class Controller_Base_Template extends \Controller_Template
         if (empty($this->_controller_path)) {
             throw new Exception(__(extend_locale('exception.controller_path_undefined')));
         }
-        return Theme::instance($this->template)->get_partial('content', $this->_controller_path);
+        return Theme::instance()->get_partial('content', $this->_controller_path);
     }
 
     private function _init_logger()
