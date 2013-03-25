@@ -8,13 +8,16 @@ namespace Dashboard;
 
 use Core\Theme;
 use Fuel\Core\Debug;
+use Fuel\Core\Uri;
 use Srit\Navigation;
 
 class Controller_Board extends \Core\Controller_Base_User {
 
     public function action_index() {
 
-        $navigation = Navigation::forge('top_right')->render();
+        $navigation = Navigation::instance();
+
+
 
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);
         $data = array();

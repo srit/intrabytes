@@ -11,13 +11,13 @@ return array(
             'route' => 'javascript: void(0)',
             'links' => array(
                 'languages' => array(
-                    'route' => core_settings_languages_list_route()
-                ),
-                'links' => array(
-                    'test' => array(
-                        'route' => 'jkashdsakjh/khsadkjsah'
+                    'route' => core_settings_languages_list_route(),
+                    'links' => array(
+                        'tests' => array(
+                            'route' => 'jkashdsakjh/khsadkjsah'
+                        )
                     )
-                )
+                ),
             )
         ),
         'user_settings' => array(

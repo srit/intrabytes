@@ -6,15 +6,39 @@
 
 namespace Srit;
 
-class Navigation_Element {
+use Fuel\Core\Uri;
+
+class Navigation_Element implements \ArrayAccess{
 
     protected $_data = array();
 
     protected $_has_childs = false;
 
-    protected $_children = null;
-
     protected $_name = '';
+
+    public function set($property, $value) {
+        $this->_data[$property] = $value;
+    }
+
+    public function & get($property) {
+        return $this->_data[$property];
+    }
+
+    public function & __get($property) {
+        return $this->get($property);
+    }
+
+    public function __set($property, $value) {
+        $this->set($property, $value);
+    }
+
+    public function __isset($property) {
+        return (isset($this->_data[$property]));
+    }
+
+    public function __unset($property) {
+        unset($this->_data[$property]);
+    }
 
     public function setName($name)
     {
@@ -27,22 +51,19 @@ class Navigation_Element {
         return $this->_name;
     }
 
-    public function __get($property) {
-        if($property == 'links' || !isset($this->_data[$property])) {
-            return null;
-        }
-        return $this->_data[$property];
-    }
-
-    public function __construct($_data) {
+    public function __construct($_data, $name = null) {
         $this->_data = $_data;
+        $this->_name = $name;
         $this->init();
     }
 
     public function init() {
-        if($this->hasChildren()) {
-            $this->setChildren(new Navigation_Elements($this->_data['links']));
-        }
+        $this->_chckIsActive();
+    }
+
+    protected function _chckIsActive() {
+        $current_uri = Uri::current();
+        var_dump($current_uri);
     }
 
     public function hasChildren() {
@@ -56,6 +77,33 @@ class Navigation_Element {
     }
 
     public function getChildren() {
-        return $this->_children;
+        return $this->_data['links'];
     }
+
+
+    /***************************************************************************
+     * Implementation of ArrayAccess
+     **************************************************************************/
+
+    public function offsetSet($offset, $value)
+    {
+        $this->__set($offset,$value);
+    }
+
+    public function offsetExists($offset)
+    {
+        return $this->__isset($offset);
+    }
+
+    public function offsetUnset($offset)
+    {
+        $this->__unset($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->__get($offset);
+    }
+
+
 }
