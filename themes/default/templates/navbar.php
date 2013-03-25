@@ -13,7 +13,14 @@
                 <span class="icon-bar"></span>
             </button>
             <?php echo html_anchor(base_route(), \Config::get('project.name'), array('class' => 'brand')) ?>
+
             <div class="nav-collapse collapse">
+                <?php echo $top_left->render() ?>
+                <?php echo $top_right->render() ?>
+            </div>
+
+
+            <!--<div class="nav-collapse collapse">
                 <ul class="nav">
                     <li>
                         <?php echo html_anchor(base_route(), '<i class="icon-white icon-home"></i> ' . __('nav.dashboard.label')) ?>
@@ -35,7 +42,7 @@
                         </ul>
                     </li>
                     <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="icon-white icon-user"></i> <b class="caret"></b></a>
+                            <i class="icon-white icon-user"></i> <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><?php echo html_anchor(\Uri::create('/users/settings/dashboard'), __('usernav.dashboard.config.label')) ?></li>
                             <li><?php echo html_anchor(users_settings_pubkeys_list_route(), __('usernav.pubkeys.config.label')) ?></li>
@@ -44,7 +51,7 @@
                         </a></li>
                     <li><?php echo html_anchor(logout_route(), '<i class="icon-white icon-off"></i> ' . __('nav.logout.label', array(':name' => $user))) ?></li>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

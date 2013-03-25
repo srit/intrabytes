@@ -12,19 +12,31 @@ class Navigation_Element implements \ArrayAccess{
 
     protected $_data = array();
 
-    protected $_has_childs = false;
+    protected $_has_children = false;
+
+    protected $_children = null;
 
     protected $_name = '';
+
+    protected $_active = false;
+
+    /**
+     * @var Navigation_Element
+     */
+    protected $_parent = null;
 
     public function set($property, $value) {
         $this->_data[$property] = $value;
     }
 
-    public function & get($property) {
+    public function get($property) {
+        if($property_name = '_' . $property AND property_exists($this, $property_name)) {
+            return $this->{$property_name};
+        }
         return $this->_data[$property];
     }
 
-    public function & __get($property) {
+    public function __get($property) {
         return $this->get($property);
     }
 
@@ -40,6 +52,25 @@ class Navigation_Element implements \ArrayAccess{
         unset($this->_data[$property]);
     }
 
+    public function setActive($active, $with_parent = true) {
+        $this->_active = (bool)$active;
+        if($with_parent == true && $this->hasParent()) {
+            $this->getParent()->setActive($this->_active);
+        }
+    }
+
+    public function setParent(Navigation_Element $parent) {
+        $this->_parent = $parent;
+    }
+
+    public function hasParent() {
+        return ($this->_parent instanceof Navigation_Element);
+    }
+
+    public function getParent() {
+        return $this->_parent;
+    }
+
     public function setName($name)
     {
         $this->_name = $name;
@@ -51,29 +82,38 @@ class Navigation_Element implements \ArrayAccess{
         return $this->_name;
     }
 
-    public function __construct($_data, $name = null) {
+    public function __construct($_data, $name = null, $_parent = null) {
         $this->_data = $_data;
         $this->_name = $name;
+        if($_parent != null) {
+            $this->setParent($_parent);
+        }
         $this->init();
     }
 
     public function init() {
-        $this->_chckIsActive();
+        $this->_chck_is_active();
+        $this->_chck_of_children();
     }
 
-    protected function _chckIsActive() {
+    protected function _chck_of_children()
+    {
+        $this->_has_children = (isset($this->_data['links']));
+        if ($this->_has_children == true) {
+            $this->_children = $this->_data['links'];
+        }
+    }
+
+    protected function _chck_is_active() {
         $current_uri = Uri::current();
-        var_dump($current_uri);
+        if($current_uri == $this->__get('route')) {
+            $this->setActive(true);
+        }
     }
 
     public function hasChildren() {
-        $this->_has_childs = (isset($this->_data['links']) && is_array($this->_data['links']));
-        return $this->_has_childs;
-    }
-
-    public function setChildren(Navigation_Elements $childs) {
-        $this->_children = $childs;
-        return $this;
+        $this->_has_children = (isset($this->_data['links']));
+        return $this->_has_children;
     }
 
     public function getChildren() {

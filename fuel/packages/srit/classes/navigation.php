@@ -5,9 +5,8 @@
  */
 
 namespace Srit;
-
-use Core\Theme;
 use Fuel\Core\Config;
+use Fuel\Core\Theme;
 use Oil\Exception;
 
 class Navigation
@@ -54,7 +53,12 @@ class Navigation
     public function __construct($name = null)
     {
         if ($this->_nav_data_array == array()) {
-            $this->_nav_data_array = Config::load('navigation', true);
+            if($name == null) {
+                $this->_nav_data_array = Config::load('navigation', true);
+            } else {
+                Config::load('navigation', true);
+                $this->_nav_data_array[$name] = Config::get('navigation.' . $name);
+            }
             $this->_initNavigationElements();
         }
         if ($name != null) {
@@ -63,7 +67,6 @@ class Navigation
                 throw new Exception(__('exception.navigation.level.not_exists', array('level' => $name)));
             }
         }
-
     }
 
     protected function _initNavigationElements()
@@ -83,11 +86,10 @@ class Navigation
 
     public function render($max_depth = null, $force = false)
     {
-        if ($force == true || (count($this->_elements) > 0 && $this->_rendered == '')) {
-            $this->_rendered = $this->_render_elements($this->_elements);
-        }
 
-        Theme::instance()->get_template()->set_global($this->_name, $this->_rendered);
+        if(!empty($this->_name) && isset($this->_elements[$this->_name]) && $this->_elements[$this->_name] instanceof Navigation_Elements) {
+            $this->_rendered = Theme::instance()->view('templates/_partials/navigation/' . $this->_name)->set('elements', $this->_elements[$this->_name], false);
+        }
 
         return $this->_rendered;
     }
@@ -98,13 +100,15 @@ class Navigation
      */
     protected function _render_elements(Navigation_Elements $elements, $depth = 0)
     {
-        foreach ($elements as $element) {
+        //var_dump($elements);
+
+        /**foreach ($elements as $element) {
             if ($element->hasChildren()) {
                 $this->_render_elements($element->getChildren(), ++$depth);
             } else {
                 $this->_render_element($element);
             }
-        }
+        }**/
     }
 
     protected function _render_element($element)

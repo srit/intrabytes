@@ -14,11 +14,6 @@ use Srit\Navigation;
 class Controller_Board extends \Core\Controller_Base_User {
 
     public function action_index() {
-
-        $navigation = Navigation::instance();
-
-
-
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);
         $data = array();
         if(is_array($dashboard_items) && count($dashboard_items) > 0) {

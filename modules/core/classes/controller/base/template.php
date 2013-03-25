@@ -15,6 +15,7 @@ use Oil\Exception;
 use Srit\Inflector;
 use Srit\Locale;
 use Srit\Logger;
+use Srit\Navigation;
 
 class Controller_Base_Template extends \Controller_Template
 {
@@ -47,6 +48,9 @@ class Controller_Base_Template extends \Controller_Template
     protected $_model_object_name = null;
 
     public $template = 'templates/layout';
+
+    protected $_navigation_template = 'templates/navbar';
+
     protected $_locale_prefix = null;
 
     /**
@@ -96,6 +100,8 @@ class Controller_Base_Template extends \Controller_Template
 
         $this->_init_controller_vars();
         $this->_init_global_locales();
+        $this->_init_navigation();
+
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
         }
@@ -108,8 +114,15 @@ class Controller_Base_Template extends \Controller_Template
             $additional_js[] = $controller_main_js_path;
         }
 
-        Theme::instance()->set_template($this->template)->set_global('additional_js', $additional_js);
+        Theme::instance()->get_template($this->template)->set_global('additional_js', $additional_js);
 
+    }
+
+    protected function _init_navigation()
+    {
+        Theme::instance()->set_partial('navigation', $this->_navigation_template);
+        Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_left', Navigation::forge('top_left'), false);
+        Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_right', Navigation::forge('top_right'), false);
     }
 
     public function after($response)
@@ -134,7 +147,7 @@ class Controller_Base_Template extends \Controller_Template
 
     protected function _init_global_locales()
     {
-        Theme::instance()->get_template()->set_global('title', __(extend_locale('title')));
+        Theme::instance()->get_template($this->template)->set_global('title', __(extend_locale('title')));
     }
 
     protected function _init_crud_objects()
@@ -300,9 +313,6 @@ class Controller_Base_Template extends \Controller_Template
         $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
     }
 
-    /**
-     * @todo crud spezifisches auslagern, wir benötige diese Daten in jedem Fall und können sicher auch anhand der Controller_Action das benötigte Template setzen
-     */
     protected function _init_controller_vars()
     {
         $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);

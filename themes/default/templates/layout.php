@@ -2,7 +2,8 @@
 // page header
 echo $theme->view('templates/header');
 echo $theme->view('templates/_partials/body/start');
-//echo $theme->view('templates/navbar');
+echo $partials['navigation'];
+//echo $theme->view('templates/navbar', array('top_left' => $top_left, 'top_right' => $top_right));
 ?>
 <div class="container" id="content">
     <div id="page-container">
