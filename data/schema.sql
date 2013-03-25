@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Mrz 2013 um 15:07
+-- Erstellungszeit: 25. Mrz 2013 um 16:22
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -310,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=382 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=383 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -685,15 +685,16 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (370, 'settings.pubkeys.edit.legend.label', 'users', 'Public Key Daten', 1),
 (371, 'settings.pubkeys.edit.save_next.button.label', 'users', 'Speichern und weiter', 1),
 (372, 'settings.pubkeys.edit.pubkeys.help.label', 'users', 'Hilfetext', 1),
-(373, 'settings.anchor.label', 'navigation', '<i class="icon-white icon-wrench"></i> Einstellungen <b class="caret"></b>', 1),
+(373, 'settings.anchor.label', 'navigation', '<i class="icon-wrench"></i> Einstellungen <b class="caret"></b>', 1),
 (374, 'languages.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Spracheinstellungen', 1),
 (375, 'redmines.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Redmineinstallationen', 1),
-(376, 'dashboard.anchor.label', 'navigation', '<i class="icon-white icon-home"></i> Dashboard', 1),
-(377, 'customers.anchor.label', 'navigation', '<i class="icon-white icon-list"></i> Kontakte', 1),
-(378, 'user_settings.anchor.label', 'navigation', '<i class="icon-white icon-user"></i> <b class="caret"></b>', 1),
-(379, 'user_logout.anchor.label', 'navigation', '<i class="icon-white icon-off"></i> Logout', 1),
+(376, 'dashboard.anchor.label', 'navigation', '<i class="icon-home"></i> Dashboard', 1),
+(377, 'customers.anchor.label', 'navigation', '<i class="icon-list"></i> Kontakte', 1),
+(378, 'user_settings.anchor.label', 'navigation', '<i class="icon-user"></i> <b class="caret"></b>', 1),
+(379, 'user_logout.anchor.label', 'navigation', '<i class="icon-off"></i> Logout', 1),
 (380, 'user_pubkey_settings.anchor.label', 'navigation', '<i class="icon-fire"></i> Public Key Verwaltung', 1),
-(381, 'dashboard_settings.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1);
+(381, 'dashboard_settings.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
+(382, 'settings.pubkeys.list.value.label', 'users', 'Public Key', 1);
 
 -- --------------------------------------------------------
 

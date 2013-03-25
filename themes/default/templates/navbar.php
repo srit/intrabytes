@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 ?>
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
         <div class="container">
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -18,40 +18,6 @@
                 <?php echo $top_left->render() ?>
                 <?php echo $top_right->render() ?>
             </div>
-
-
-            <!--<div class="nav-collapse collapse">
-                <ul class="nav">
-                    <li>
-                        <?php echo html_anchor(base_route(), '<i class="icon-white icon-home"></i> ' . __('nav.dashboard.label')) ?>
-                    </li>
-                    <li>
-                        <?php echo html_anchor(customers_list_route(), '<i class="icon-white icon-list"></i> ' . __('nav.customers.label')) ?>
-                    </li>
-
-                </ul>
-                <ul class="nav pull-right">
-                    <li class="indicator">
-                        <?php echo $theme->asset->img('ajax-loader.gif', array('id' => 'indicator', 'class' => 'img-circle')) ?>
-                    </li>
-                    <li class="dropdown">
-                        <?php echo html_anchor('#', '<i class="icon-white icon-wrench"></i> ' . __('nav.settings.label') . ' <b class="caret"></b>', array('class' => 'dropdown-toggle', 'data-toggle' => 'dropdown')) ?>
-                        <ul class="dropdown-menu">
-                            <li><?php echo html_anchor(core_settings_languages_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.language.label')) ?></li>
-                            <li><?php echo html_anchor(redmines_list_route(), '<i class="icon-list-alt"></i> ' . __('nav.settings.redmines.label')) ?></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="icon-white icon-user"></i> <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><?php echo html_anchor(\Uri::create('/users/settings/dashboard'), __('usernav.dashboard.config.label')) ?></li>
-                            <li><?php echo html_anchor(users_settings_pubkeys_list_route(), __('usernav.pubkeys.config.label')) ?></li>
-                            <li><?php echo html_anchor(logout_route(), __('usernav.logout.label')) ?></li>
-                        </ul>
-                        </a></li>
-                    <li><?php echo html_anchor(logout_route(), '<i class="icon-white icon-off"></i> ' . __('nav.logout.label', array(':name' => $user))) ?></li>
-                </ul>
-            </div>-->
         </div>
     </div>
 </div>

@@ -12,11 +12,6 @@ return array(
             'links' => array(
                 'languages' => array(
                     'route' => core_settings_languages_list_route(),
-                    'links' => array(
-                        'tests' => array(
-                            'route' => 'jkashdsakjh/khsadkjsah'
-                        )
-                    )
                 ),
             )
         ),
