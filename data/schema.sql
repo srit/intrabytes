@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 15. Mrz 2013 um 15:29
+-- Erstellungszeit: 25. Mrz 2013 um 15:07
 -- Server Version: 5.5.29-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.5
 
@@ -310,7 +310,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=370 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=382 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -681,7 +681,19 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (366, 'show.index.redmine.project.count.tickets.label', 'customers.projects', 'Anzahl Tickets', 1),
 (367, 'show.index.redmine.project.tickets.label', 'customers.projects', 'Ticketübersicht', 1),
 (368, 'show.index.actions.edit.label', 'customers.projects', '<i class="icon-edit"></i> Projekt bearbeiten', 1),
-(369, 'show.index.actions.delete.label', 'customers.projects', '<i class="icon-trash"></i> Projekt löschen', 1);
+(369, 'show.index.actions.delete.label', 'customers.projects', '<i class="icon-trash"></i> Projekt löschen', 1),
+(370, 'settings.pubkeys.edit.legend.label', 'users', 'Public Key Daten', 1),
+(371, 'settings.pubkeys.edit.save_next.button.label', 'users', 'Speichern und weiter', 1),
+(372, 'settings.pubkeys.edit.pubkeys.help.label', 'users', 'Hilfetext', 1),
+(373, 'settings.anchor.label', 'navigation', '<i class="icon-white icon-wrench"></i> Einstellungen <b class="caret"></b>', 1),
+(374, 'languages.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Spracheinstellungen', 1),
+(375, 'redmines.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Redmineinstallationen', 1),
+(376, 'dashboard.anchor.label', 'navigation', '<i class="icon-white icon-home"></i> Dashboard', 1),
+(377, 'customers.anchor.label', 'navigation', '<i class="icon-white icon-list"></i> Kontakte', 1),
+(378, 'user_settings.anchor.label', 'navigation', '<i class="icon-white icon-user"></i> <b class="caret"></b>', 1),
+(379, 'user_logout.anchor.label', 'navigation', '<i class="icon-white icon-off"></i> Logout', 1),
+(380, 'user_pubkey_settings.anchor.label', 'navigation', '<i class="icon-fire"></i> Public Key Verwaltung', 1),
+(381, 'dashboard_settings.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1);
 
 -- --------------------------------------------------------
 
@@ -726,6 +738,34 @@ INSERT INTO `intrabytes_migration` (`type`, `name`, `migration`) VALUES
 ('module', 'cash', '004_adddescandtyp'),
 ('module', 'cash', '005_renametypid'),
 ('module', 'cash', '006_addentrytypes');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_navigation`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
+  `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
+  `left_id` int(9) unsigned NOT NULL,
+  `right_id` int(9) unsigned NOT NULL,
+  `tree_id` int(9) unsigned DEFAULT NULL,
+  `symlink_id` int(9) unsigned DEFAULT NULL,
+  `level` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `left_id` (`left_id`),
+  KEY `right_id` (`right_id`),
+  KEY `symlink_id` (`symlink_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Daten für Tabelle `intrabytes_navigation`
+--
+
+INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `level`) VALUES
+(1, 1, 6, 1, NULL, 'top_left'),
+(2, 2, 5, 1, NULL, NULL),
+(3, 3, 4, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26834,7 +26874,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1363333536, '7bdbdfb461ce4f36bad184f741e7fc3bb21145bb', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1364196280, 'ab12cc8d81441401d1ee3bbcc36e64a9b9b3ebfc', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
 
 -- --------------------------------------------------------
 

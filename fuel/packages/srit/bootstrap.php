@@ -8,6 +8,7 @@ Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
+    'Srit\\Model_Navigation' => __DIR__ . '/classes/model/navigation.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
@@ -51,6 +52,11 @@ Autoloader::add_classes(array(
     'Redmine\\Api\\User' => __DIR__ . '/vendor/Redmine/Api/User.php',
     'Redmine\\Api\\Version' => __DIR__ . '/vendor/Redmine/Api/Version.php',
     'Redmine\\Api\\Wiki' => __DIR__ . '/vendor/Redmine/Api/Wiki.php',
+
+    /**
+     * https://github.com/WanWizard/fuel-nestedsets
+     */
+    'Nestedsets\\Model'		   			=> __DIR__ . '/vendor/fuel-nestedsets/classes/model.php',
 ));
 
 require_once 'base.php';
