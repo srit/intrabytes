@@ -5,7 +5,7 @@
  * @author stefanriedel
  */
 
-namespace Core;
+namespace Srit;
 
 class Controller_Base_User_Raw extends Controller_Base_User {
 

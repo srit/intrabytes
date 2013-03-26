@@ -6,10 +6,11 @@
 
 namespace Dashboard;
 
-use Core\Theme;
+use Srit\Theme;
 use Fuel\Core\Debug;
+use Srit\Controller_Base_User;
 
-class Controller_Board extends \Core\Controller_Base_User {
+class Controller_Board extends Controller_Base_User {
 
     public function action_index() {
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);

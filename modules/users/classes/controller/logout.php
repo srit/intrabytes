@@ -6,13 +6,18 @@
 
 namespace Users;
 
-class Controller_Logout extends \Core\Controller_Base_User
+use Auth\Auth;
+use Fuel\Core\Uri;
+use Srit\Controller_Base_User;
+use Srit\Messages;
+
+class Controller_Logout extends Controller_Base_User
 {
     public function action_index()
     {
-        \Auth::logout();
-        \Core\Messages::success(__('Sie haben sich erfolgreich ausgeloggt.'));
-        \Core\Messages::redirect(\Uri::create('/users/login'));
+        Auth::logout();
+        Messages::success(__('Sie haben sich erfolgreich ausgeloggt.'));
+        Messages::redirect(Uri::create('/users/login'));
     }
 
 }

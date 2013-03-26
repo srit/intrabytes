@@ -7,7 +7,7 @@
 namespace Users;
 
 use Auth\Auth;
-use Core\Controller_Base_User;
+use Srit\Controller_Base_User;
 
 class Controller_Settings_Pubkeys extends Controller_Base_User {
 

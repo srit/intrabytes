@@ -10,7 +10,7 @@
  * @link       http://fuelphp.com
  */
 
-namespace Core;
+namespace Srit;
 
 
 use Auth\Auth;
@@ -32,7 +32,7 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
     }
 
     protected $config = array(
-        'drivers' => array('acl' => array('Core\\ICCRMAcl')),
+        'drivers' => array('acl' => array('Srit\\ICCRMAcl')),
     );
 
     public function get_name($group = null) {

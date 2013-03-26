@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Srit;
 
 /**
  * Part of Fuel Depot.

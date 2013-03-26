@@ -6,7 +6,9 @@
 
 namespace Core;
 
-class Controller_Settings_Languages extends \Core\Controller_Base_User {
+use Srit\Controller_Base_User;
+
+class Controller_Settings_Languages extends Controller_Base_User {
 
     protected $_crud_objects = array(
         'srit:language' => array()

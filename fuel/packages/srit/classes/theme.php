@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Core;
+namespace Srit;
 
 class Theme extends \Fuel\Core\Theme
 {

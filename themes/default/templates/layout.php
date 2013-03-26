@@ -12,16 +12,16 @@ echo $partials['navigation'];
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php
-                if(\Core\Messages::instance()) {
+                if(\Srit\Messages::instance()) {
                     $messages = false;
                     foreach (array('error', 'warning', 'success', 'info') as $type) {
-                        foreach (\Core\Messages::instance()->get($type) as $message) {
+                        foreach (\Srit\Messages::instance()->get($type) as $message) {
                             $messages = true;
                             echo '<div class="alert alert-', $message['type'], '"><a class="close" data-dismiss="alert" href="#">×</a>', $message['body'], '</div>', "\n";
                         }
                     }
                 }
-                \Core\Messages::reset();
+                \Srit\Messages::reset();
                 if($messages == true) {
                     echo html_tag('div', array('class' => 'clearfix'));
                 }

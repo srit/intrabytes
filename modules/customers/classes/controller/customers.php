@@ -6,7 +6,9 @@
 
 namespace Customers;
 
-class Controller_Customers extends \Core\Controller_Base_User {
+use Srit\Controller_Base_User;
+
+class Controller_Customers extends Controller_Base_User {
 
     protected $_crud_objects = array(
         'customer' => array()

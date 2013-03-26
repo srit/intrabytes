@@ -20,7 +20,7 @@
  */
 
 return array(
-	'driver' => 'Core\\ICCRMAuth',
+	'driver' => 'Srit\\ICCRMAuth',
 	'verify_multiple_logins' => false,
 	'salt' => '7b0b3a9131e69122b066ce7d0f2fe34b',
 );

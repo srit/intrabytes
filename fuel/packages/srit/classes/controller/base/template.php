@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Srit;
 
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;

@@ -7,7 +7,7 @@
  * @copyright 2012 The Authors
  */
 
-namespace Core;
+namespace Srit;
 
 if (version_compare(PHP_VERSION, '5.3.7', '<')) {
 	trigger_error("The Password Compatibility Library requires PHP >= 5.3.7", E_USER_WARNING);

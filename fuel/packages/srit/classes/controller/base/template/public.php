@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Srit;
 /**
  * @created 28.09.12 - 09:57
  * @author stefanriedel

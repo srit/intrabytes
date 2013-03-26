@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Core;
+namespace Srit;
 
 use Auth\Auth;
 use Auth\Auth_Acl_Driver;

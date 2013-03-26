@@ -1,6 +1,6 @@
 <?php
 
-namespace Core;
+namespace Srit;
 use Auth\Auth;
 use Fuel\Core\Config;
 use Users\Model_User;

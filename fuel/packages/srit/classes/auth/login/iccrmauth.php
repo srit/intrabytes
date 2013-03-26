@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Core;
+namespace Srit;
 use Auth\Auth_Login_SimpleAuth;
 use Srit\Logger;
 use Users\Model_Group;
@@ -22,7 +22,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
     protected $_user = null;
 
     protected $config = array(
-        'drivers' => array('group' => array('Core\\ICCRMGroup')),
+        'drivers' => array('group' => array('Srit\\ICCRMGroup')),
         'additional_fields' => array('profile_fields'),
     );
 

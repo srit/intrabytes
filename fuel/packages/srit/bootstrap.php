@@ -28,6 +28,19 @@ Autoloader::add_classes(array(
     'Srit\\Navigation' => __DIR__ . '/classes/navigation.php',
     'Srit\\Navigation_Elements' => __DIR__ . '/classes/navigation/elements.php',
     'Srit\\Navigation_Element' => __DIR__ . '/classes/navigation/element.php',
+    'Srit\\Theme' => __DIR__ . '/classes/theme.php',
+    'Srit\\Messages' => __DIR__ . '/classes/messages.php',
+    'Srit\\Password' => __DIR__ . '/classes/password.php',
+    'Srit\\Messages_Instance' => __DIR__ . '/classes/messages/instance.php',
+    'Srit\\Auth_Acl_ICCRMAcl' => __DIR__ . '/classes/auth/acl/iccrmacl.php',
+    'Srit\\Auth_Group_ICCRMGroup' => __DIR__ . '/classes/auth/group/iccrmgroup.php',
+    'Srit\\Auth_Login_ICCRMAuth' => __DIR__ . '/classes/auth/login/iccrmauth.php',
+    'Srit\\Controller_Base_User' => __DIR__ . '/classes/controller/base/user.php',
+    'Srit\\Controller_Base_User_Raw' => __DIR__ . '/classes/controller/base/user/raw.php',
+    'Srit\\Controller_Base_Template' => __DIR__ . '/classes/controller/base/template.php',
+    'Srit\\Controller_Base_Template_Public' => __DIR__ . '/classes/controller/base/template/public.php',
+    'Srit\\Controller_Base_Template_Blank' => __DIR__ . '/classes/controller/base/template/blank.php',
+    'Srit\\Controller_Base_Template_Blank_Public' => __DIR__ . '/classes/controller/base/template/blank/public.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api
@@ -60,6 +73,6 @@ Autoloader::add_classes(array(
 ));
 
 require_once 'base.php';
-
-\Lang::init();
-\Config::load('logger', true);
+require_once __DIR__ . '/vendor/password_combat/password.php';
+\Srit\Lang::init();
+\Fuel\Core\Config::load('logger', true);

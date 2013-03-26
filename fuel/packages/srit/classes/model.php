@@ -61,7 +61,7 @@ class Model extends \Orm\Model
 
         if($this->_fieldset->validation()->run($input) == false) {
             foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error(__(extend_locale($error)));
+                Messages::error(__(extend_locale($error)));
             }
             return false;
         }

@@ -3,9 +3,7 @@
  * @created 30.10.12 - 09:28
  * @author stefanriedel
  */
-namespace Core;
-
-require_once APPPATH . '..' . DS . '..' . DS . 'modules' . DS . 'core' . DS . 'vendor' . DS . 'password_combat' . DS . 'password.php';
+namespace Srit;
 
 class Password {
     public static function password_hash($password, $algo, array $options = array()) {

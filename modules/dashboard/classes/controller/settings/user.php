@@ -6,8 +6,8 @@
 
 namespace Dashboard;
 
-use Core\Controller_Base_User;
-use Core\Theme;
+use Srit\Controller_Base_User;
+use Srit\Theme;
 
 class Controller_Settings_User extends Controller_Base_User {
 
