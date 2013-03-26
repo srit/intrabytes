@@ -6,6 +6,8 @@
 
 namespace Core;
 use Auth\Auth_Login_SimpleAuth;
+use Srit\Logger;
+use Users\Model_Group;
 use Users\Model_User;
 
 /**
@@ -328,7 +330,13 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
             return false;
         }
 
-        $gr = $this->get_user()->group;
+        Logger::forge('Iccrmauth')->debug('user', array($this->user));
+
+        if($this->user['id'] == 0 && $this->user['username'] == 'guest') {
+            $gr = Model_Group::find_guest();
+        } else {
+            $gr = $this->get_user()->group;
+        }
         $groups = array(array('Core\\ICCRMGroup', $gr->name => $gr));
         return $groups;
         //return array(array('SimpleGroup', $this->user['group']));

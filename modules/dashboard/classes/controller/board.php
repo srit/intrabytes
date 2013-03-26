@@ -8,8 +8,6 @@ namespace Dashboard;
 
 use Core\Theme;
 use Fuel\Core\Debug;
-use Fuel\Core\Uri;
-use Srit\Navigation;
 
 class Controller_Board extends \Core\Controller_Base_User {
 

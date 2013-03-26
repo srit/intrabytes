@@ -4,9 +4,14 @@
  * @author stefanriedel
  */
 
+/**
+ * @todo build if we need navigations dynamicly
+ */
+
 namespace Srit;
 
 class Model_Navigation extends \Nestedsets\Model {
+
     protected static $_table_name = 'navigation';
 
     protected static $_properties = array(

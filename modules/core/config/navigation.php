@@ -12,11 +12,9 @@ return array(
             'links' => array(
                 'languages' => array(
                     'route' => core_settings_languages_list_route(),
+                    'acl' => 'Core\\Settings_Languages.list'
                 ),
             )
         ),
-        'user_settings' => array(
-            'route' => 'javascript: void(0)',
-        )
     )
 );

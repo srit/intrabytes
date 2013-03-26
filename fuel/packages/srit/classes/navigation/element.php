@@ -6,6 +6,7 @@
 
 namespace Srit;
 
+use Auth\Auth;
 use Fuel\Core\Uri;
 
 class Navigation_Element implements \ArrayAccess{
@@ -19,6 +20,8 @@ class Navigation_Element implements \ArrayAccess{
     protected $_name = '';
 
     protected $_active = false;
+
+    protected $_allowed = false;
 
     /**
      * @var Navigation_Element
@@ -50,6 +53,14 @@ class Navigation_Element implements \ArrayAccess{
 
     public function __unset($property) {
         unset($this->_data[$property]);
+    }
+
+    public function setAllowed($allowed, $with_parent = true)
+    {
+        $this->_allowed = (bool)$allowed;
+        if($with_parent == true && $this->hasParent() && $this->_allowed == true) {
+            $this->getParent()->setAllowed($this->_allowed);
+        }
     }
 
     public function setActive($active, $with_parent = true) {
@@ -94,6 +105,7 @@ class Navigation_Element implements \ArrayAccess{
     public function init() {
         $this->_chck_is_active();
         $this->_chck_of_children();
+        $this->_chck_allowed();
     }
 
     protected function _chck_of_children()
@@ -108,6 +120,13 @@ class Navigation_Element implements \ArrayAccess{
         $current_uri = Uri::current();
         if($current_uri == $this->__get('route')) {
             $this->setActive(true);
+        }
+    }
+
+    protected function _chck_allowed() {
+        if($this->__isset('acl')) {
+            $allowed = Auth::has_access($this->get('acl'));
+            $this->setAllowed($allowed);
         }
     }
 

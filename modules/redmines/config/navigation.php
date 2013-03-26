@@ -9,7 +9,8 @@ return array(
         'settings' => array(
             'links' => array(
                 'redmines' => array(
-                    'route' => redmines_list_route()
+                    'route' => redmines_list_route(),
+                    'acl' => 'Redmines\\List.index'
                 )
             )
         )

@@ -7,7 +7,8 @@
 return array(
     'top_left' => array(
         'customers' => array(
-            'route' => customers_list_route()
+            'route' => customers_list_route(),
+            'acl' => 'Customers\\List.index'
         )
     )
 );

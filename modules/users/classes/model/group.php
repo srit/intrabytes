@@ -31,4 +31,10 @@ class Model_Group extends Model {
             'mysql_timestamp' => true,
         ),
     );
+
+    public static function find_guest() {
+        $options = array('where' => array('name' => 'guest'));
+        return static::find('first', $options);
+    }
+
 }
