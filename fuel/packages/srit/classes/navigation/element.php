@@ -8,6 +8,7 @@ namespace Srit;
 
 use Auth\Auth;
 use Fuel\Core\Uri;
+use Oil\Exception;
 
 class Navigation_Element implements \ArrayAccess{
 
@@ -22,6 +23,8 @@ class Navigation_Element implements \ArrayAccess{
     protected $_active = false;
 
     protected $_allowed = false;
+
+    protected $_show = true;
 
     /**
      * @var Navigation_Element
@@ -70,6 +73,13 @@ class Navigation_Element implements \ArrayAccess{
         }
     }
 
+    public function setShow($show, $with_parent = true) {
+        $this->_show = (bool)$show;
+        if($with_parent == true && $this->hasParent() && $this->_show == true) {
+            $this->getParent()->setActive($this->_show);
+        }
+    }
+
     public function setParent(Navigation_Element $parent) {
         $this->_parent = $parent;
     }
@@ -106,6 +116,13 @@ class Navigation_Element implements \ArrayAccess{
         $this->_chck_is_active();
         $this->_chck_of_children();
         $this->_chck_allowed();
+        $this->_chck_show();
+    }
+
+    protected function _chck_show() {
+        if(isset($this->_data['show'])) {
+            $this->setShow($this->_data['show']);
+        }
     }
 
     protected function _chck_of_children()
@@ -118,7 +135,7 @@ class Navigation_Element implements \ArrayAccess{
 
     protected function _chck_is_active() {
         $current_uri = Uri::current();
-        if($current_uri == $this->__get('route')) {
+        if($current_uri == $this->get('route')) {
             $this->setActive(true);
         }
     }
@@ -139,6 +156,17 @@ class Navigation_Element implements \ArrayAccess{
         return $this->_data['links'];
     }
 
+
+    public function addChildren($name, array $data) {
+        if(!isset($this->_data['links'])) {
+            $_tmp_data = array($name => $data);
+            $this->_data['links'] = new Navigation_Elements($_tmp_data, $this);
+
+        } else {
+            $this->_data['links']->addElement($name, $data);
+        }
+        $this->init();
+    }
 
     /***************************************************************************
      * Implementation of ArrayAccess

@@ -6,6 +6,8 @@
 
 namespace Customers;
 
+use Srit\Navigation;
+
 class Controller_Show extends Controller_Customers {
 
     public function action_index() {

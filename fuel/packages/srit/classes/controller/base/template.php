@@ -22,7 +22,11 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_controller_namespace = '';
 
+    protected $_controller_namespace_lowercased = '';
+
     protected $_controller_without_controller_prefix = '';
+
+    protected $_controller_without_controller_prefix_lowercased = '';
 
     protected $_controller_action = '';
 
@@ -100,7 +104,6 @@ class Controller_Base_Template extends \Controller_Template
 
         $this->_init_controller_vars();
         $this->_init_global_locales();
-        $this->_init_navigation();
 
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
@@ -113,7 +116,6 @@ class Controller_Base_Template extends \Controller_Template
         if (Theme::instance()->asset->find_file($controller_main_js_path, 'js')) {
             $additional_js[] = $controller_main_js_path;
         }
-
         Theme::instance()->get_template($this->template)->set_global('additional_js', $additional_js);
 
     }
@@ -128,6 +130,7 @@ class Controller_Base_Template extends \Controller_Template
     public function after($response)
     {
         if (!Input::is_ajax()) {
+            $this->_init_navigation();
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
                 $response = Response::forge(Theme::instance());
@@ -211,10 +214,6 @@ class Controller_Base_Template extends \Controller_Template
 
                 $options = array('where' => $merged_named_params);
                 $this->_logger->debug('Options:', $options);
-
-                /**
-                 * @todo Cancel Button wurde betätigt
-                 */
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
@@ -316,12 +315,26 @@ class Controller_Base_Template extends \Controller_Template
     protected function _init_controller_vars()
     {
         $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
+        $this->_controller_namespace_lowercased = strtolower($this->_controller_namespace);
         $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
+        $this->_controller_without_controller_prefix_lowercased = strtolower($this->_controller_without_controller_prefix);
         $this->_controller_action = $this->request->action;
         $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
+
+        $navigation_level = Navigation::instance()->find_element_level($this->_controller_namespace_lowercased);
+        if(!empty($navigation_level)) {
+            $navigation_element_data = array(
+                'route' => Uri::current(),
+                'acl' => $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action,
+                'show' => false
+            );
+            $navigation_element_name = $this->_controller_namespace_lowercased . '_' . $this->_controller_without_controller_prefix_lowercased . '_' . $this->_controller_action;
+            Navigation::forge($navigation_level)->{$this->_controller_namespace_lowercased}->addChildren($navigation_element_name, $navigation_element_data);
+        }
+
         $this->_named_params = Request::forge()->named_params;
         Theme::instance()->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)
