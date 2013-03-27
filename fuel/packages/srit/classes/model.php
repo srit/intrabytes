@@ -28,7 +28,7 @@ class Model extends \Orm\Model
         if(!isset($options['order'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
-        Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
+        //Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
         return parent::find($id, $options);
     }
 

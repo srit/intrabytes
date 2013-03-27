@@ -7,8 +7,6 @@
 namespace Srit;
 
 use Auth\Auth;
-use Fuel\Core\Uri;
-use Oil\Exception;
 
 class Navigation_Element implements \ArrayAccess{
 
@@ -134,8 +132,11 @@ class Navigation_Element implements \ArrayAccess{
     }
 
     protected function _chck_is_active() {
-        $current_uri = Uri::current();
-        if($current_uri == $this->get('route')) {
+
+        $request = Request::active();
+        if($this->__isset('action') && $request->action == $this->get('action')
+            && $this->__isset('controller_name') && $request->controller_name == $this->get('controller_name')
+            && $this->__isset('module') && $request->module == $this->get('module')) {
             $this->setActive(true);
         }
     }

@@ -7,7 +7,7 @@ use Fuel\Core\Fuel;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Fuel\Core\Pagination;
-use Fuel\Core\Request;
+use Srit\Request;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
 use Fuel\Core\Uri;
@@ -168,7 +168,7 @@ class Controller_Base_Template extends \Controller_Template
 
             foreach ($this->_crud_objects as $key => $crud) {
 
-                $this->_logger->debug('Crud Array', array($key, $crud));
+                //$this->_logger->debug('Crud Array', array($key, $crud));
 
                 if (!is_string($key)) {
                     $this->_crud_objects[$crud] = array();
@@ -181,7 +181,7 @@ class Controller_Base_Template extends \Controller_Template
                 }
 
                 $explode_crud = explode(':', $crud_object);
-                $this->_logger->debug('Explode Crud', $explode_crud);
+                //$this->_logger->debug('Explode Crud', $explode_crud);
 
                 /**
                  * wenn ein namspace mit angegeben wurde,
@@ -213,7 +213,7 @@ class Controller_Base_Template extends \Controller_Template
                 $merged_named_params = array_merge($this->_named_params, $fixed_named_params);
 
                 $options = array('where' => $merged_named_params);
-                $this->_logger->debug('Options:', $options);
+                //$this->_logger->debug('Options:', $options);
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
@@ -309,7 +309,7 @@ class Controller_Base_Template extends \Controller_Template
             ->set('last_controller_part', $this->_last_controller_part)
             ->set('crud_action', $this->_crud_action);
 
-        $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
+        //$this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
     }
 
     protected function _init_controller_vars()
@@ -347,7 +347,7 @@ class Controller_Base_Template extends \Controller_Template
                 Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
-        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
+        //$this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
     }
 
     /**
@@ -369,6 +369,7 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _log_controller_data()
     {
+        return;
         $reflector = new \ReflectionClass(get_called_class());
         $namespace = $reflector->getNamespaceName();
         $this->_logger->addDebug('Controller Namespace: ', array($namespace));

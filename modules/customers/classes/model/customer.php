@@ -161,7 +161,7 @@ class Model_Customer extends Model {
             $this->postalcode_id = $postalcode->id;
         }
 
-        static::$_logger->debug('Func get Args save', func_get_args());
+        //static::$_logger->debug('Func get Args save', func_get_args());
 
         return parent::save($cascade, $use_transaction);
     }

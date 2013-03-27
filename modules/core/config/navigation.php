@@ -12,7 +12,10 @@ return array(
             'links' => array(
                 'languages' => array(
                     'route' => core_settings_languages_list_route(),
-                    'acl' => 'Core\\Settings_Languages.list'
+                    'acl' => 'Core\\Settings_Languages.list',
+                    'module' => 'core',
+                    'controller_name' => 'settings_languages',
+                    'action' => 'list'
                 ),
             )
         ),
