@@ -9,6 +9,7 @@ echo $partials['navigation'];
     <div id="page-container">
 
         <?php echo h4($title); ?>
+        <?php echo $partials['breadcrumb'] ?>
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php

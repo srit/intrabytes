@@ -5,9 +5,8 @@
  */
 
 namespace Srit;
-use Fuel\Core\Arr;
+
 use Fuel\Core\Config;
-use Oil\Exception;
 
 class Navigation
 {
@@ -29,6 +28,10 @@ class Navigation
     protected $_name = null;
 
     protected $_rendered = '';
+
+    protected $_rendered_breadcrumb = '';
+
+    protected $_active_elements = array();
 
     public static function instance()
     {
@@ -58,15 +61,36 @@ class Navigation
             } else {
                 Config::load('navigation', true);
                 $this->_nav_data_array[$name] = Config::get('navigation.' . $name);
+                $this->_name = $name;
             }
             $this->_initNavigationElements();
         }
-        if ($name != null) {
-            $this->_name = $name;
-            if (!isset($this->_nav_data_array[$name])) {
-                throw new Exception(__('exception.navigation.level.not_exists', array('level' => $name)));
+    }
+
+
+    public function find_active()
+    {
+        foreach ($this->_elements as $elements) {
+            $this->_active_elements = $this->_find_active_elements($elements);
+            if($this->_active_elements != array()) {
+                break;
             }
         }
+        return $this->_active_elements;
+    }
+
+    protected function _find_active_elements($elements)
+    {
+        $active_elements = array();
+        foreach ($elements as $element) {
+            if ($element->active == true) {
+                $active_elements[] = $element;
+                if($element->hasChildren()) {
+                    $active_elements = array_merge($active_elements, $this->_find_active_elements($element->getChildren()));
+                }
+            }
+        }
+        return $active_elements;
     }
 
     /**
@@ -109,6 +133,14 @@ class Navigation
         }
 
         return $this->_rendered;
+    }
+
+    public function render_breadcrumb() {
+        if(empty($this->_active_elements)) {
+            $this->find_active();
+        }
+        $this->_rendered_breadcrumb = Theme::instance()->view('templates/_partials/navigation/breadcrumb')->set('breadcrumb_elements', $this->_active_elements, false);
+        return $this->_rendered_breadcrumb;
     }
 
     /**

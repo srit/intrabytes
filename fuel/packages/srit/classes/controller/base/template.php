@@ -55,6 +55,8 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_navigation_template = 'templates/navbar';
 
+    protected $_breadcrumb_template = 'templates/breadcrumb';
+
     protected $_locale_prefix = null;
 
     /**
@@ -125,6 +127,7 @@ class Controller_Base_Template extends \Controller_Template
         Theme::instance()->set_partial('navigation', $this->_navigation_template);
         Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_left', Navigation::forge('top_left'), false);
         Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_right', Navigation::forge('top_right'), false);
+        Theme::instance()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', Navigation::instance(), false);
     }
 
     public function after($response)
@@ -369,6 +372,7 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _log_controller_data()
     {
+        $this->_logger->debug('controller' , array($this->_controller_without_controller_prefix));
         return;
         $reflector = new \ReflectionClass(get_called_class());
         $namespace = $reflector->getNamespaceName();

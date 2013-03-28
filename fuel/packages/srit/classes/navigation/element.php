@@ -37,7 +37,10 @@ class Navigation_Element implements \ArrayAccess{
         if($property_name = '_' . $property AND property_exists($this, $property_name)) {
             return $this->{$property_name};
         }
-        return $this->_data[$property];
+        if(isset($this->_data[$property])) {
+            return $this->_data[$property];
+        }
+        return null;
     }
 
     public function __get($property) {

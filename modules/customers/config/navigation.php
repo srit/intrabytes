@@ -41,7 +41,7 @@ return array(
                     //'route' => customers_show_route(2),
                     //'acl' => 'Customers\\Show.index',
                     'module' => 'customers',
-                    'controller_name' => 'delete',
+                    'controller_name' => 'add',
                     'action' => 'index',
                     'show' => false
                 )

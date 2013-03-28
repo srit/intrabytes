@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 27. Mrz 2013 um 13:19
+-- Erstellungszeit: 28. Mrz 2013 um 12:05
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=383 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=395 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -705,7 +705,19 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (379, 'user_logout.anchor.label', 'navigation', '<i class="icon-off"></i> Logout', 1),
 (380, 'user_pubkey_settings.anchor.label', 'navigation', '<i class="icon-fire"></i> Public Key Verwaltung', 1),
 (381, 'dashboard_settings.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
-(382, 'settings.pubkeys.list.value.label', 'users', 'Public Key', 1);
+(382, 'settings.pubkeys.list.value.label', 'users', 'Public Key', 1),
+(383, 'prefix.label', 'breadcrumb', 'Du befindest dich hier:', 1),
+(384, 'settings.anchor.label', 'breadcrumb', 'Einstellungen', 1),
+(385, 'languages.anchor.label', 'breadcrumb', 'Spracheinstellungen', 1),
+(386, 'languages_edit.anchor.label', 'breadcrumb', 'Sprache bearbeiten', 1),
+(387, 'dashboard.anchor.label', 'breadcrumb', 'Dashboard', 1),
+(388, 'customers.anchor.label', 'breadcrumb', 'Kontakte', 1),
+(389, 'customers_show.anchor.label', 'breadcrumb', 'Kontakt', 1),
+(390, 'customers_edit.anchor.label', 'breadcrumb', 'Kontakt bearbeiten', 1),
+(391, 'customers_delete.anchor.label', 'breadcrumb', 'Kontakt löschen', 1),
+(392, 'locales_edit.anchor.label', 'breadcrumb', 'Locale bearbeiten', 1),
+(393, 'locales_list.anchor.label', 'breadcrumb', 'Locale Übersicht', 1),
+(394, 'customers_add.anchor.label', 'breadcrumb', 'Kontakt hinzufügen', 1);
 
 -- --------------------------------------------------------
 
@@ -26881,7 +26893,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1364378247, 'ee241815773d50a9d073f393715fee00ce68ffa6', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1364295654, 'tZzWYKlLIjBfuhWiNSumd9o7BoLgZlj07nOxtNrzcwU=');
+(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1364455761, '5bed982f9ac88d7ce087bf43e985e24885c0b2c0', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1364295654, 'tZzWYKlLIjBfuhWiNSumd9o7BoLgZlj07nOxtNrzcwU=');
 
 -- --------------------------------------------------------
 
