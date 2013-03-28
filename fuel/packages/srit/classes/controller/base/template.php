@@ -62,6 +62,8 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_breadcrumb_template = 'templates/breadcrumb';
 
+    protected $_last_pages_template = 'templates/last_pages';
+
     protected $_locale_prefix = null;
 
     /**
@@ -127,7 +129,7 @@ class Controller_Base_Template extends \Controller_Template
             $additional_js[] = $controller_main_js_path;
         }
         Theme::instance()->get_template($this->template)->set_global('additional_js', $additional_js);
-
+        $this->_last_pages();
     }
 
     protected function _init_navigation()
@@ -153,15 +155,15 @@ class Controller_Base_Template extends \Controller_Template
             }
 
             Theme::clear($this->template);
-
-
-            $this->_last_pages();
             return $response;
         }
 
         return parent::after($response);
     }
 
+    /**
+     * @todo to navigation?
+     */
     protected function _last_pages()
     {
         $last_pages = Session::instance()->get('last_pages', array());
@@ -188,9 +190,10 @@ class Controller_Base_Template extends \Controller_Template
             }
 
             Session::instance()->set('last_pages', $last_pages);
-
-
         }
+
+        Theme::instance()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', $last_pages);
+
     }
 
     protected function _init_title()

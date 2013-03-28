@@ -469,7 +469,12 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
 
 }
 
-function twitter_html_select($name, array $options, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array())
+function twitter_html_select_wo_label($name, array $options, $value = null, $multiselect = false, array $attr = array()) {
+    $html = html_tag('div', array('class' => 'controls'), html_select_wo_label($name, $options, $value, $multiselect, $attr));
+    return $html;
+}
+
+function twitter_html_select($name, array $options, $value = null, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), $multiselect = false, array $attr = array())
 {
     $label_attr['class'] = 'control-label';
     $attr['placeholder'] = $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);

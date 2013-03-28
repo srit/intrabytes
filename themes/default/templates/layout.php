@@ -9,11 +9,14 @@ echo $partials['navigation'];
     <div id="page-container">
 
         <?php echo h4($title); ?>
-        <?php echo $partials['breadcrumb'] ?>
+        <div class="row-fluid">
+            <div class="span9"><?php echo $partials['breadcrumb'] ?></div>
+            <div class="span3"><?php echo $partials['last_pages'] ?></div>
+        </div>
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php
-                if(\Srit\Messages::instance()) {
+                if (\Srit\Messages::instance()) {
                     $messages = false;
                     foreach (array('error', 'warning', 'success', 'info') as $type) {
                         foreach (\Srit\Messages::instance()->get($type) as $message) {
@@ -23,7 +26,7 @@ echo $partials['navigation'];
                     }
                 }
                 \Srit\Messages::reset();
-                if($messages == true) {
+                if ($messages == true) {
                     echo html_tag('div', array('class' => 'clearfix'));
                 }
                 ?>
