@@ -6,6 +6,7 @@
 
 namespace Customers;
 
+use Fuel\Core\Fieldset;
 use Srit\Model;
 
 class Model_Customer extends Model {
@@ -133,7 +134,7 @@ class Model_Customer extends Model {
         /**
          * @todo Telefonnummern Validierung
          */
-        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('email')->add_rule('required')->add_rule('valid_email');
         $this->_fieldset->field('company_name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('firstname')->add_rule('required')->add_rule('min_length', 2);
@@ -164,6 +165,10 @@ class Model_Customer extends Model {
         //static::$_logger->debug('Func get Args save', func_get_args());
 
         return parent::save($cascade, $use_transaction);
+    }
+
+    public function __toString() {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
 }

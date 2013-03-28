@@ -2,8 +2,10 @@
 
 namespace Srit;
 
+use Fuel\Core\Arr;
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;
+use Fuel\Core\Session;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Fuel\Core\Pagination;
@@ -42,6 +44,9 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_pagination_config = array();
 
+
+    protected $_page_title = null;
+
     /**
      * @var \Fuel\Core\Pagination
      */
@@ -72,9 +77,13 @@ class Controller_Base_Template extends \Controller_Template
      */
     protected $_logger = null;
 
+    public function set_page_title($page_title)
+    {
+        $this->_page_title = $page_title;
+    }
+
     public function before()
     {
-
         if (Input::is_ajax()) {
             return parent::before();
         }
@@ -105,7 +114,6 @@ class Controller_Base_Template extends \Controller_Template
         }
 
         $this->_init_controller_vars();
-        $this->_init_global_locales();
 
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
@@ -133,6 +141,7 @@ class Controller_Base_Template extends \Controller_Template
     public function after($response)
     {
         if (!Input::is_ajax()) {
+            $this->_init_title();
             $this->_init_navigation();
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
@@ -145,15 +154,48 @@ class Controller_Base_Template extends \Controller_Template
 
             Theme::clear($this->template);
 
+
+            $this->_last_pages();
             return $response;
         }
 
         return parent::after($response);
     }
 
-    protected function _init_global_locales()
+    protected function _last_pages()
     {
-        Theme::instance()->get_template($this->template)->set_global('title', __(extend_locale('title')));
+        $last_pages = Session::instance()->get('last_pages', array());
+
+        if (!isset($last_pages[0]) || $last_pages[0]['title'] != $this->_page_title) {
+
+            if (Arr::in_array_recursive($this->_page_title, $last_pages)) {
+                foreach ($last_pages as $i => $page) {
+                    if ($page['title'] == $this->_page_title) {
+                        unset($last_pages[$i]);
+                    }
+                }
+            }
+
+            $last_page = array(
+                'uri' => Uri::current(),
+                'title' => $this->_page_title,
+                'time' => time()
+            );
+            array_unshift($last_pages, $last_page);
+
+            if ($max_last_pages = Config::get('max_last_pages') AND count($last_pages) > $max_last_pages) {
+                unset($last_pages[$max_last_pages - 1]);
+            }
+
+            Session::instance()->set('last_pages', $last_pages);
+
+
+        }
+    }
+
+    protected function _init_title()
+    {
+        Theme::instance()->get_template($this->template)->set_global('title', $this->_page_title);
     }
 
     protected function _init_crud_objects()
@@ -209,7 +251,7 @@ class Controller_Base_Template extends \Controller_Template
 
                 $fixed_named_params = array();
 
-                if(isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
+                if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
                     $fixed_named_params = $crud['fixed_named_params'];
                 }
 
@@ -242,9 +284,11 @@ class Controller_Base_Template extends \Controller_Template
                     $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($merged_named_params));
                 } else {
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
+                    //extend the title
+                    $this->set_page_title(__(extend_locale('title'), array('extend' => $data->__toString())));
                 }
 
-                if(in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
+                if (in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
                     throw new HttpNotFoundException;
                 }
 
@@ -328,7 +372,7 @@ class Controller_Base_Template extends \Controller_Template
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
 
         $navigation_level = Navigation::instance()->find_element_level($this->_controller_namespace_lowercased);
-        if(!empty($navigation_level)) {
+        if (!empty($navigation_level)) {
             $navigation_element_data = array(
                 'route' => Uri::current(),
                 'acl' => $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action,
@@ -350,6 +394,9 @@ class Controller_Base_Template extends \Controller_Template
                 Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
+
+        $this->set_page_title(__(extend_locale('title')));
+
         //$this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
     }
 
@@ -372,7 +419,7 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _log_controller_data()
     {
-        $this->_logger->debug('controller' , array($this->_controller_without_controller_prefix));
+        $this->_logger->debug('controller', array($this->_controller_without_controller_prefix));
         return;
         $reflector = new \ReflectionClass(get_called_class());
         $namespace = $reflector->getNamespaceName();

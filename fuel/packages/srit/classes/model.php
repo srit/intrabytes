@@ -105,4 +105,8 @@ class Model extends \Orm\Model
 
     }
 
+    public function __toString() {
+        return '';
+    }
+
 }
