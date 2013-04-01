@@ -55,7 +55,7 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                 }
             }
 
-            Logger::forge('acl')->addDebug('ACL Array: ', array($acl_array));
+            //Logger::forge('acl')->addDebug('ACL Array: ', array($acl_array));
             foreach ($current_roles as $r_role) {
 
                 if (!array_key_exists($r_role->name, $acl_array)) {

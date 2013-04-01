@@ -50,7 +50,7 @@ class Model_Customer_Project extends Model {
 
     public static function find($id = null, array $options = array()) {
 
-        Logger::forge('model')->debug('Find Function Args', array($id, $options));
+        //Logger::forge('model')->debug('Find Function Args', array($id, $options));
 
         $tmp_options = array(
             'related' => array(
@@ -81,6 +81,10 @@ class Model_Customer_Project extends Model {
         $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('url')->add_rule('valid_url');
         return parent::validate($input);
+    }
+
+    public function __toString() {
+        return $this->name;
     }
 
 }

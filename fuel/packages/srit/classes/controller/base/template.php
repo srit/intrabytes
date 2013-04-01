@@ -2,12 +2,15 @@
 
 namespace Srit;
 
+use Fuel\Core\Arr;
 use Fuel\Core\Config;
+use Fuel\Core\Cookie;
 use Fuel\Core\Fuel;
+use Fuel\Core\Session;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Fuel\Core\Pagination;
-use Fuel\Core\Request;
+use Srit\Request;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
 use Fuel\Core\Uri;
@@ -22,7 +25,11 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_controller_namespace = '';
 
+    protected $_controller_namespace_lowercased = '';
+
     protected $_controller_without_controller_prefix = '';
+
+    protected $_controller_without_controller_prefix_lowercased = '';
 
     protected $_controller_action = '';
 
@@ -38,6 +45,9 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_pagination_config = array();
 
+
+    protected $_page_title = null;
+
     /**
      * @var \Fuel\Core\Pagination
      */
@@ -50,6 +60,10 @@ class Controller_Base_Template extends \Controller_Template
     public $template = 'templates/layout';
 
     protected $_navigation_template = 'templates/navbar';
+
+    protected $_breadcrumb_template = 'templates/breadcrumb';
+
+    protected $_last_pages_template = 'templates/last_pages';
 
     protected $_locale_prefix = null;
 
@@ -66,9 +80,13 @@ class Controller_Base_Template extends \Controller_Template
      */
     protected $_logger = null;
 
+    public function set_page_title($page_title)
+    {
+        $this->_page_title = $page_title;
+    }
+
     public function before()
     {
-
         if (Input::is_ajax()) {
             return parent::before();
         }
@@ -99,8 +117,6 @@ class Controller_Base_Template extends \Controller_Template
         }
 
         $this->_init_controller_vars();
-        $this->_init_global_locales();
-        $this->_init_navigation();
 
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
@@ -113,9 +129,8 @@ class Controller_Base_Template extends \Controller_Template
         if (Theme::instance()->asset->find_file($controller_main_js_path, 'js')) {
             $additional_js[] = $controller_main_js_path;
         }
-
         Theme::instance()->get_template($this->template)->set_global('additional_js', $additional_js);
-
+        $this->_last_pages();
     }
 
     protected function _init_navigation()
@@ -123,11 +138,14 @@ class Controller_Base_Template extends \Controller_Template
         Theme::instance()->set_partial('navigation', $this->_navigation_template);
         Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_left', Navigation::forge('top_left'), false);
         Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_right', Navigation::forge('top_right'), false);
+        Theme::instance()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', Navigation::instance(), false);
     }
 
     public function after($response)
     {
         if (!Input::is_ajax()) {
+            $this->_init_title();
+            $this->_init_navigation();
             // If nothing was returned set the theme instance as the response
             if (empty($response)) {
                 $response = Response::forge(Theme::instance());
@@ -138,16 +156,27 @@ class Controller_Base_Template extends \Controller_Template
             }
 
             Theme::clear($this->template);
-
             return $response;
         }
 
         return parent::after($response);
     }
 
-    protected function _init_global_locales()
+    /**
+     * @todo to navigation?
+     */
+    protected function _last_pages()
     {
-        Theme::instance()->get_template($this->template)->set_global('title', __(extend_locale('title')));
+
+        Last_Pages::setActivePageTitle($this->_page_title);
+        Last_Pages::set();
+        Theme::instance()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', Last_Pages::get());
+
+    }
+
+    protected function _init_title()
+    {
+        Theme::instance()->get_template($this->template)->set_global('title', $this->_page_title);
     }
 
     protected function _init_crud_objects()
@@ -165,7 +194,7 @@ class Controller_Base_Template extends \Controller_Template
 
             foreach ($this->_crud_objects as $key => $crud) {
 
-                $this->_logger->debug('Crud Array', array($key, $crud));
+                //$this->_logger->debug('Crud Array', array($key, $crud));
 
                 if (!is_string($key)) {
                     $this->_crud_objects[$crud] = array();
@@ -178,7 +207,7 @@ class Controller_Base_Template extends \Controller_Template
                 }
 
                 $explode_crud = explode(':', $crud_object);
-                $this->_logger->debug('Explode Crud', $explode_crud);
+                //$this->_logger->debug('Explode Crud', $explode_crud);
 
                 /**
                  * wenn ein namspace mit angegeben wurde,
@@ -203,18 +232,14 @@ class Controller_Base_Template extends \Controller_Template
 
                 $fixed_named_params = array();
 
-                if(isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
+                if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
                     $fixed_named_params = $crud['fixed_named_params'];
                 }
 
                 $merged_named_params = array_merge($this->_named_params, $fixed_named_params);
 
                 $options = array('where' => $merged_named_params);
-                $this->_logger->debug('Options:', $options);
-
-                /**
-                 * @todo Cancel Button wurde betätigt
-                 */
+                //$this->_logger->debug('Options:', $options);
 
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
@@ -240,9 +265,11 @@ class Controller_Base_Template extends \Controller_Template
                     $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($merged_named_params));
                 } else {
                     $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
+                    //extend the title
+                    $this->set_page_title(__(extend_locale('title'), array('extend' => $data->__toString())));
                 }
 
-                if(in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
+                if (in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
                     throw new HttpNotFoundException;
                 }
 
@@ -310,18 +337,32 @@ class Controller_Base_Template extends \Controller_Template
             ->set('last_controller_part', $this->_last_controller_part)
             ->set('crud_action', $this->_crud_action);
 
-        $this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
+        //$this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
     }
 
     protected function _init_controller_vars()
     {
         $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
+        $this->_controller_namespace_lowercased = strtolower($this->_controller_namespace);
         $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
+        $this->_controller_without_controller_prefix_lowercased = strtolower($this->_controller_without_controller_prefix);
         $this->_controller_action = $this->request->action;
         $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
+
+        $navigation_level = Navigation::instance()->find_element_level($this->_controller_namespace_lowercased);
+        if (!empty($navigation_level)) {
+            $navigation_element_data = array(
+                'route' => Uri::current(),
+                'acl' => $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action,
+                'show' => false
+            );
+            $navigation_element_name = $this->_controller_namespace_lowercased . '_' . $this->_controller_without_controller_prefix_lowercased . '_' . $this->_controller_action;
+            Navigation::forge($navigation_level)->{$this->_controller_namespace_lowercased}->addChildren($navigation_element_name, $navigation_element_data);
+        }
+
         $this->_named_params = Request::forge()->named_params;
         Theme::instance()->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)
@@ -334,7 +375,10 @@ class Controller_Base_Template extends \Controller_Template
                 Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
             }
         }
-        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
+
+        $this->set_page_title(__(extend_locale('title')));
+
+        //$this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
     }
 
     /**
@@ -356,6 +400,8 @@ class Controller_Base_Template extends \Controller_Template
 
     private function _log_controller_data()
     {
+        $this->_logger->debug('controller', array($this->_controller_without_controller_prefix));
+        return;
         $reflector = new \ReflectionClass(get_called_class());
         $namespace = $reflector->getNamespaceName();
         $this->_logger->addDebug('Controller Namespace: ', array($namespace));

@@ -11,13 +11,19 @@ return array(
             'links' => array(
                 'user_pubkey_settings' => array(
                     'route' => users_settings_pubkeys_list_route(),
-                    'acl' => 'Users\\Settings_Pubkeys.list'
+                    'acl' => 'Users\\Settings_Pubkeys.list',
+                    'module' => 'users',
+                    'controller_name' => 'settings_pubkeys',
+                    'action' => 'list'
                 ),
             )
         ),
         'user_logout' => array(
             'route' => logout_route(),
-            'acl' => 'Users\\Logout.index'
+            'acl' => 'Users\\Logout.index',
+            'module' => 'users',
+            'controller_name' => 'logout',
+            'action' => 'index'
         )
     )
 );

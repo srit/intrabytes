@@ -152,7 +152,7 @@ return array(
      */
     'cookie' => array(
         // Number of seconds before the cookie expires
-        'expiration' => 0,
+        'expiration' => 86400 * 365,
         // Restrict the path that the cookie is available to
         'path' => '/',
         // Restrict the domain that the cookie is available to
@@ -265,7 +265,8 @@ return array(
          * If you don't want the config in a group use null as groupname.
          */
         'config' => array(
-            'project'
+            'project',
+            'config'
         ),
 
         /**
