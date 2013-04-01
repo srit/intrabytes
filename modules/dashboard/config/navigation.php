@@ -6,8 +6,7 @@
 
 return array(
     'top_left' => array(
-        'dashboard' => array(
-            'route' => dashboard_route(),
+        'dashboard_board' => array(
             'acl' => 'Dashboard\\Board.index',
             'module' => 'dashboard',
             'controller_name' => 'board',
@@ -17,8 +16,7 @@ return array(
     'top_right' => array(
         'user_settings' => array(
             'links' => array(
-                'dashboard_settings' => array(
-                    'route' => named_route('dashboard_settings_user'),
+                'dashboard_settings_user' => array(
                     'acl' => 'Dashboard\\Settings_User.index',
                     'module' => 'dashboard',
                     'controller_name' => 'settings_user',

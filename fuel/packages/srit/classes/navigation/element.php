@@ -24,6 +24,8 @@ class Navigation_Element implements \ArrayAccess{
 
     protected $_show = true;
 
+    protected $_not_linkable = false;
+
     /**
      * @var Navigation_Element
      */
@@ -118,6 +120,7 @@ class Navigation_Element implements \ArrayAccess{
         $this->_chck_of_children();
         $this->_chck_allowed();
         $this->_chck_show();
+        $this->_chck_has_named_params();
     }
 
     protected function _chck_show() {
@@ -151,6 +154,32 @@ class Navigation_Element implements \ArrayAccess{
         }
     }
 
+    protected function _chck_has_named_params() {
+        if($this->__isset('named_params')) {
+            $named_params = $this->get('named_params');
+            $tmp_named_params = array();
+            foreach($named_params as $name => $named_param) {
+                if(is_int($name)) {
+                    //nur wenn kein wert definiert
+
+                    /**
+                     * @todo very bad!!
+                     */
+                    if(!isset(Request::active()->named_params[$named_param])) {
+                        $this->_not_linkable = true;
+                        $this->_show = false;
+                        $tmp_named_params[$named_param] = 0;
+                    } else {
+                        $tmp_named_params[$named_param] = Request::active()->named_params[$named_param];
+                    }
+                } else {
+                    $tmp_named_params[$name] = $named_param;
+                }
+            }
+            $this->set('named_params', $tmp_named_params);
+        }
+    }
+
     public function hasChildren() {
         $this->_has_children = (isset($this->_data['links']));
         return $this->_has_children;
@@ -170,6 +199,13 @@ class Navigation_Element implements \ArrayAccess{
             $this->_data['links']->addElement($name, $data);
         }
         $this->init();
+    }
+
+    public function get_route() {
+        $named_params = isset($this->named_params) ? $this->named_params : array();
+        $route_name = $this->name;
+        $route = isset($this->route) ? $this->route : named_route($route_name, $named_params);
+        return $route;
     }
 
     /***************************************************************************

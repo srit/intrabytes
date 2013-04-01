@@ -6,6 +6,7 @@
 
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
+    'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\Request' => __DIR__ . '/classes/request.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',

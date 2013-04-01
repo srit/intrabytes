@@ -83,4 +83,8 @@ class Model_Customer_Project extends Model {
         return parent::validate($input);
     }
 
+    public function __toString() {
+        return $this->name;
+    }
+
 }

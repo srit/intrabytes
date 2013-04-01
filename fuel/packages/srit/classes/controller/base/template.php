@@ -4,6 +4,7 @@ namespace Srit;
 
 use Fuel\Core\Arr;
 use Fuel\Core\Config;
+use Fuel\Core\Cookie;
 use Fuel\Core\Fuel;
 use Fuel\Core\Session;
 use Srit\HttpNotFoundException;
@@ -166,33 +167,10 @@ class Controller_Base_Template extends \Controller_Template
      */
     protected function _last_pages()
     {
-        $last_pages = Session::instance()->get('last_pages', array());
 
-        if (!isset($last_pages[0]) || $last_pages[0]['title'] != $this->_page_title) {
-
-            if (Arr::in_array_recursive($this->_page_title, $last_pages)) {
-                foreach ($last_pages as $i => $page) {
-                    if ($page['title'] == $this->_page_title) {
-                        unset($last_pages[$i]);
-                    }
-                }
-            }
-
-            $last_page = array(
-                'uri' => Uri::current(),
-                'title' => $this->_page_title,
-                'time' => time()
-            );
-            array_unshift($last_pages, $last_page);
-
-            if ($max_last_pages = Config::get('max_last_pages') AND count($last_pages) > $max_last_pages) {
-                unset($last_pages[$max_last_pages - 1]);
-            }
-
-            Session::instance()->set('last_pages', $last_pages);
-        }
-
-        Theme::instance()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', $last_pages);
+        Last_Pages::setActivePageTitle($this->_page_title);
+        Last_Pages::set();
+        Theme::instance()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', Last_Pages::get());
 
     }
 

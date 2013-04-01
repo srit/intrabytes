@@ -10,38 +10,46 @@ return array(
         'settings' => array(
             'route' => 'javascript: void(0)',
             'links' => array(
-                'languages' => array(
-                    'route' => core_settings_languages_list_route(),
+                'core_settings_languages_list' => array(
                     'acl' => 'Core\\Settings_Languages.list',
                     'module' => 'core',
                     'controller_name' => 'settings_languages',
                     'action' => 'list',
                     'links' => array(
-                        'languages_show' => array(
+                        'core_settings_languages_show' => array(
                             //'route' => customers_show_route(2),
                             //'acl' => 'Customers\\Show.index',
                             'module' => 'core',
                             'controller_name' => 'settings_languages',
                             'action' => 'show',
-                            'show' => false
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            )
                         ),
-                        'languages_edit' => array(
+                        'core_settings_languages_edit' => array(
                             //'route' => customers_show_route(2),
                             //'acl' => 'Customers\\Show.index',
                             'module' => 'core',
                             'controller_name' => 'settings_languages',
                             'action' => 'edit',
-                            'show' => false
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            )
                         ),
-                        'languages_delete' => array(
+                        'core_settings_languages_delete' => array(
                             //'route' => customers_show_route(2),
                             //'acl' => 'Customers\\Show.index',
                             'module' => 'core',
                             'controller_name' => 'settings_languages',
                             'action' => 'delete',
-                            'show' => false
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            )
                         ),
-                        'languages_add' => array(
+                        'core_settings_languages_add' => array(
                             //'route' => customers_show_route(2),
                             //'acl' => 'Customers\\Show.index',
                             'module' => 'core',
@@ -49,30 +57,46 @@ return array(
                             'action' => 'add',
                             'show' => false
                         ),
-                        'locales_list' => array(
+                        'core_settings_locales_list' => array(
                             'module' => 'core',
                             'controller_name' => 'settings_locales',
                             'action' => 'list',
-                            'show' => false
+                            'show' => false,
+                            'named_params' => array(
+                                'language_id'
+                            ),
+                            'links' => array(
+                                'core_settings_locales_add' => array(
+                                    'module' => 'core',
+                                    'controller_name' => 'settings_locales',
+                                    'action' => 'add',
+                                    'show' => false,
+                                    'named_params' => array(
+                                        'language_id'
+                                    ),
+                                ),
+                                'core_settings_locales_edit' => array(
+                                    'module' => 'core',
+                                    'controller_name' => 'settings_locales',
+                                    'action' => 'edit',
+                                    'show' => false,
+                                    'named_params' => array(
+                                        'language_id',
+                                        'id'
+                                    ),
+                                ),
+                                'core_settings_locales_delete' => array(
+                                    'module' => 'core',
+                                    'controller_name' => 'settings_locales',
+                                    'action' => 'delete',
+                                    'show' => false,
+                                    'named_params' => array(
+                                        'language_id',
+                                        'id'
+                                    ),
+                                )
+                            )
                         ),
-                        'locales_add' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'add',
-                            'show' => false
-                        ),
-                        'locales_edit' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'edit',
-                            'show' => false
-                        ),
-                        'locales_delete' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'delete',
-                            'show' => false
-                        )
                     )
                 ),
             )

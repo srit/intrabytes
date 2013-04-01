@@ -58,11 +58,13 @@ function format_currency($value)
     return \Srit\L10n::instance()->format_currency($value);
 }
 
-function format_date($value) {
+function format_date($value)
+{
     return \Srit\L10n::instance()->format_date($value);
 }
 
-function format_datetime($value) {
+function format_datetime($value)
+{
     return \Srit\L10n::instance()->format_datetime($value);
 }
 
@@ -375,11 +377,11 @@ function security_field()
  * @param array $value_locale_params
  * @return string
  */
-function twitter_button_group(array $list, $value_locale, array $value_locale_params = array())
+function twitter_button_group(array $list, $value_locale, array $value_locale_params = array(), $btn_size = 'btn-small')
 {
     $html = '<div class="btn-group">';
-    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn btn-small', 'data-toggle' => 'dropdown'));
-    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn btn-small dropdown-toggle', 'data-toggle' => 'dropdown'));
+    $html .= html_button(__($value_locale, $value_locale_params), array('class' => 'btn ' . $btn_size, 'data-toggle' => 'dropdown'));
+    $html .= html_button(html_tag('span', array('class' => 'caret')), array('class' => 'btn ' . $btn_size . ' dropdown-toggle', 'data-toggle' => 'dropdown'));
 
     $list_elements = '';
     foreach ($list as $li) {
@@ -417,7 +419,7 @@ function boolean_icon($value)
 
 function html_anchor($href, $value = null, $attr = array(), $secure = null)
 {
-    if(preg_match('#^((http:|www\.).*)# i', $href, $matches) and !preg_match('#'.$_SERVER['HTTP_HOST'].'# i', $matches[0])) {
+    if (preg_match('#^((http:|www\.).*)# i', $href, $matches) and !preg_match('#' . $_SERVER['HTTP_HOST'] . '# i', $matches[0])) {
         $attr['target'] = (!isset($attr['target'])) ? '_blank' : $attr['target'];
     }
 
@@ -469,7 +471,8 @@ function html_select_wo_label($name, array $options, $value = null, $multiselect
 
 }
 
-function twitter_html_select_wo_label($name, array $options, $value = null, $multiselect = false, array $attr = array()) {
+function twitter_html_select_wo_label($name, array $options, $value = null, $multiselect = false, array $attr = array())
+{
     $html = html_tag('div', array('class' => 'controls'), html_select_wo_label($name, $options, $value, $multiselect, $attr));
     return $html;
 }
@@ -528,9 +531,9 @@ function h6($value, $attr = array())
 function named_route($route_name, $route_params = array(), $route_must_exists = true)
 {
 
-    if($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
-        throw new \FuelException(__('exception.function.named_route.route_not_exists'));
-    } elseif(!isset(\Fuel\Core\Router::$routes[$route_name])) {
+    if ($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
+        throw new \FuelException(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
+    } elseif (!isset(\Fuel\Core\Router::$routes[$route_name])) {
         return null;
     }
 
@@ -538,12 +541,13 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
     /**
      * um zu prüfen ob alle erforderlichen parameter mit übergeben wurden
      */
-    if(preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
-        if(empty($route_params)) {
+    if (preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
+        if (empty($route_params)) {
+            var_dump($route_name, $route_params);exit;
             throw new \FuelException(__('exception.function.named_route.no_route_params'));
         }
-        foreach($params[0] as $p) {
-            if(!isset($route_params[$p])) {
+        foreach ($params[0] as $p) {
+            if (!isset($route_params[$p])) {
                 throw new \FuelException(__('exception.function.named_route.missing_route_param', array('param', $p)));
             }
         }
@@ -551,8 +555,23 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
     return \Fuel\Core\Router::get($route_name, $route_params);
 }
 
-function twitter_anchor($route, $label, array $attr = array(), $secure = false) {
+function twitter_anchor($route, $label, array $attr = array(), $secure = false)
+{
     $attr['class'] = isset($attr['class']) ? $attr['class'] . ' ' : '';
     $attr['class'] .= 'btn';
     return html_anchor($route, $label, $attr, $secure);
+}
+
+function serializer($value)
+{
+    return addslashes(serialize($value));
+}
+
+function unserializer($value)
+{
+    return unserialize(stripslashes($value));
+}
+
+function current_uri(){
+    return \Fuel\Core\Uri::current();
 }

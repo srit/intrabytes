@@ -25,7 +25,7 @@ if ($element->show == true && $element->allowed == true):
 
     ?>
     <li<?php echo ($class != '') ? ' class="' . $class . '"' : '' ?>>
-        <?php echo html_anchor($element->route, __('navigation.' . $element->name . '.anchor.label'), $anchor_attributes) ?>
+        <?php echo html_anchor($element->get_route(), __('navigation.' . $element->name . '.anchor.label'), $anchor_attributes) ?>
         <?php if ((bool)$element->hasChildren() == true):
 
 
