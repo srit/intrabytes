@@ -83,3 +83,18 @@ h1, h2, h3, h4, h5, h6 {
 .pagination {
     margin: 5px 0;
 }
+
+.asc, .desc {
+    padding-right: 19px;
+    background-repeat: no-repeat;
+    background-position: top right;
+}
+
+.asc {
+    background-image: url('../img/bullet_arrow_down.png');
+}
+
+
+.desc {
+    background-image: url('../img/bullet_arrow_up.png');
+}

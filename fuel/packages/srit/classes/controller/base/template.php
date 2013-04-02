@@ -2,18 +2,14 @@
 
 namespace Srit;
 
-use Fuel\Core\Arr;
 use Fuel\Core\Config;
-use Fuel\Core\Cookie;
 use Fuel\Core\Fuel;
-use Fuel\Core\Session;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
-use Fuel\Core\Pagination;
+use Srit\Pagination;
 use Srit\Request;
 use Fuel\Core\Response;
 use Fuel\Core\Security;
-use Fuel\Core\Uri;
 use Oil\Exception;
 use Srit\Inflector;
 use Srit\Locale;
@@ -244,20 +240,39 @@ class Controller_Base_Template extends \Controller_Template
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
 
-                    if(Input::get('filter', false)) {
+                    if ($filter_type = Input::get('filter_type', false)) {
+                        $not_filtered = array('filter_type', 'page', 'order', 'order_field', 'order_type');
                         $cleaned_filter = array();
                         $filter_data = Input::get();
                         $filter_data = (isset($filter_data[$crud_object]) && is_array($filter_data[$crud_object])) ? $filter_data[$crud_object] : $filter_data;
                         //ist der button und sollte entfernt werden
-                        unset($filter_data['filter']);
-                        foreach($filter_data as $field_name => $value) {
-                            if(($value = trim($value)) != '') {
+                        foreach ($filter_data as $field_name => $value) {
+                            if (($value = trim($value)) != '' AND !in_array($field_name, $not_filtered)) {
                                 $field_value_pair = array($field_name => $value);
-                                $options['where'] = array_merge($options['where'], $field_value_pair);
+                                if ($filter_type == 'filter_like') {
+                                    $options['where'] = array_merge($options['where'], array(array($field_name, 'LIKE', '%' . $value . '%')));
+                                } else {
+                                    $options['where'] = array_merge($options['where'], $field_value_pair);
+                                }
                                 $cleaned_filter = array_merge($cleaned_filter, $field_value_pair);
                             }
                         }
                         $this->_crud_objects[$crud_object]['filter'] = $cleaned_filter;
+                    }
+
+                    if($get = Input::get()
+                        AND (isset($get['order']) OR isset($get[$crud_object]['order']))
+                        AND (isset($get['order_field']) OR isset($get[$crud_object]['order_field']))
+                        AND (isset($get['order_type']) OR isset($get[$crud_object]['order_type']))) {
+                        $order_field = isset($get['order_field'] ) ? $get['order_field'] : $get[$crud_object]['order_field'];
+                        $order_type = isset($get['order_type'] ) ? $get['order_type'] : $get[$crud_object]['order_type'];
+
+                        if(!empty($order_field) && !empty($order_type) && in_array(strtolower($order_type), array('asc', 'desc'))) {
+                            if(!isset($options['order_by'])) {
+                                $options['order_by'] = array();
+                            }
+                            $options['order_by'][] = array($order_field, strtoupper($order_type));
+                        }
                     }
 
                     $data_cnt = forward_static_call_array(array($this->_model_object_name, 'count'), array($options));
@@ -265,7 +280,7 @@ class Controller_Base_Template extends \Controller_Template
                     $this->_pagination_config[$crud_object] = array(
                         'total_items' => $data_cnt,
                         'per_page' => 25,
-                        'pagination_url' => $this->_crud_list_uri,
+                        'pagination_url' => Uri::current(),
                         'uri_segment' => 'page',
                         'show_first' => true,
                         'show_last' => true,
@@ -367,18 +382,6 @@ class Controller_Base_Template extends \Controller_Template
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
-
-        $navigation_level = Navigation::instance()->find_element_level($this->_controller_namespace_lowercased);
-        if (!empty($navigation_level)) {
-            $navigation_element_data = array(
-                'route' => Uri::current(),
-                'acl' => $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action,
-                'show' => false
-            );
-            $navigation_element_name = $this->_controller_namespace_lowercased . '_' . $this->_controller_without_controller_prefix_lowercased . '_' . $this->_controller_action;
-            Navigation::forge($navigation_level)->{$this->_controller_namespace_lowercased}->addChildren($navigation_element_name, $navigation_element_data);
-        }
-
         $this->_named_params = Request::forge()->named_params;
         Theme::instance()->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)

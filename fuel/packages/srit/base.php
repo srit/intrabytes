@@ -48,6 +48,11 @@ function xss_clean($value)
     return \Fuel\Core\Security::xss_clean($value);
 }
 
+function html_entities($value)
+{
+    return \Fuel\Core\Security::htmlentities($value);
+}
+
 function format_from_object($property, \Srit\Model $obj)
 {
     return $obj->formatted($property);
@@ -425,7 +430,7 @@ function html_anchor($href, $value = null, $attr = array(), $secure = null)
 
     if (!preg_match('#^(\w+://|javascript:|\#)# i', $href)) {
         $urlparts = explode('?', $href, 2);
-        $href = \Uri::create($urlparts[0], array(), isset($urlparts[1]) ? $urlparts[1] : array(), $secure);
+        $href = \Srit\Uri::create($urlparts[0], array(), isset($urlparts[1]) ? $urlparts[1] : array(), $secure);
     } elseif (!preg_match('#^(javascript:|\#)# i', $href) and  is_bool($secure)) {
         $href = http_build_url($href, array('scheme' => $secure ? 'https' : 'http'));
     }
@@ -543,7 +548,8 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
      */
     if (preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
         if (empty($route_params)) {
-            var_dump($route_name, $route_params);exit;
+            var_dump($route_name, $route_params);
+            exit;
             throw new \FuelException(__('exception.function.named_route.no_route_params'));
         }
         foreach ($params[0] as $p) {
@@ -572,6 +578,66 @@ function unserializer($value)
     return unserialize(stripslashes($value));
 }
 
-function current_uri(){
-    return \Fuel\Core\Uri::current();
+function current_uri()
+{
+    return \Srit\Uri::current();
+}
+
+function order_anchor($name, $label, $model_name = null)
+{
+    $params = \Fuel\Core\Input::get();
+    $uri = \Srit\Request::active()->uri;
+    if ((isset($params['order']) || isset($params[$model_name]['order']))
+        && ((isset($params['order_field']) && $params['order_field'] == $name) || (isset($params[$model_name]) && isset($params[$model_name]['order_field']) && $params[$model_name]['order_field'] == $name))
+    ) {
+        if ($model_name != null) {
+            $get_params[$model_name] = array(
+                'order' => 1,
+                'order_field' => $name,
+                'order_type' => (isset($params[$model_name]) && isset($params[$model_name]['order_type']) && $params[$model_name]['order_type'] == 'ASC') ? 'DESC' : 'ASC'
+            );
+            unset($params[$model_name]['order'], $params[$model_name]['order_type'], $params[$model_name]['order_field']);
+        } else {
+            $get_params = array(
+                'order' => 1,
+                'order_field' => $name,
+                'order_type' => ($params['order_type'] == 'ASC') ? 'DESC' : 'ASC'
+            );
+            unset($params['order'], $params['order_type'], $params['order_field']);
+        }
+
+        $get_params = array_merge($params, $get_params);
+
+        $class_name = isset($get_params['order_type']) ? strtolower($get_params['order_type']) : strtolower($get_params[$model_name]['order_type']);
+
+        $anchor_params = array('class' => $class_name);
+    } else {
+        if ($model_name != null) {
+            $get_params[$model_name] = array(
+                'order' => 1,
+                'order_field' => $name,
+                'order_type' => 'ASC'
+            );
+        } else {
+            $get_params[$model_name] = array(
+                'order' => 1,
+                'order_field' => $name,
+                'order_type' => 'ASC'
+            );
+        }
+
+        $get_params = array_merge($params, $get_params);
+
+        $uri = \Srit\Uri::create($uri, array(), $get_params);
+        $anchor_params = array();
+    }
+    $uri = \Srit\Uri::create($uri, array(), $get_params);
+    return html_anchor($uri, $label, $anchor_params);
+}
+
+
+function html_js_void_anchor($value, $id, $attr = array())
+{
+    $attr['id'] = $id;
+    return html_anchor('javascript: void(0)', $value, $attr);
 }
