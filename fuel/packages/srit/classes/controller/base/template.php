@@ -244,6 +244,22 @@ class Controller_Base_Template extends \Controller_Template
                 if ($this->_crud_action == 'list') {
                     //list ist im moment die einzige action, welche ein find_all machen sollte
 
+                    if(Input::get('filter', false)) {
+                        $cleaned_filter = array();
+                        $filter_data = Input::get();
+                        $filter_data = (isset($filter_data[$crud_object]) && is_array($filter_data[$crud_object])) ? $filter_data[$crud_object] : $filter_data;
+                        //ist der button und sollte entfernt werden
+                        unset($filter_data['filter']);
+                        foreach($filter_data as $field_name => $value) {
+                            if(($value = trim($value)) != '') {
+                                $field_value_pair = array($field_name => $value);
+                                $options['where'] = array_merge($options['where'], $field_value_pair);
+                                $cleaned_filter = array_merge($cleaned_filter, $field_value_pair);
+                            }
+                        }
+                        $this->_crud_objects[$crud_object]['filter'] = $cleaned_filter;
+                    }
+
                     $data_cnt = forward_static_call_array(array($this->_model_object_name, 'count'), array($options));
 
                     $this->_pagination_config[$crud_object] = array(

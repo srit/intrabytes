@@ -17,4 +17,6 @@ $(document).ready(function () {
         $('.indicator').hide();
     });
 
+    $('[data-spy="affix"]').affix();
+
 });

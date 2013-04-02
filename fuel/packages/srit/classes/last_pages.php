@@ -8,6 +8,7 @@ namespace Srit;
 
 use Fuel\Core\Arr;
 use Fuel\Core\Cookie;
+use Fuel\Core\Input;
 use Fuel\Core\Uri;
 
 class Last_Pages
@@ -38,7 +39,7 @@ class Last_Pages
     public static function set()
     {
         $last_pages = static::get();
-        if ($uri = Uri::current() AND (!isset($last_pages[0]) OR $last_pages[0]['title'] != static::$_active_page_title) AND ($uri != login_route() AND $uri != logout_route())) {
+        if ($uri = Uri::create(null, array(), Input::get()) AND (!isset($last_pages[0]) OR $last_pages[0]['title'] != static::$_active_page_title) AND ($uri != login_route() AND $uri != logout_route())) {
 
             if (Arr::in_array_recursive(static::$_active_page_title, $last_pages)) {
                 foreach ($last_pages as $i => $page) {
@@ -49,7 +50,7 @@ class Last_Pages
             }
 
             $last_page = array(
-                'uri' => Uri::current(),
+                'uri' => $uri,
                 'title' => static::$_active_page_title,
                 'time' => time()
             );
