@@ -222,6 +222,9 @@ class Controller_Base_Template extends \Controller_Template
                     list($model) = $explode_crud;
                     $model = Inflector::camelize($model);
                     $model = Inflector::underscore($model);
+                    /**
+                     * @todo fail - build objects!
+                     */
                     $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
                     $this->_model_object_name = $this->_controller_namespace . '\\' . $this->_model_object_name;
                 }
@@ -238,16 +241,23 @@ class Controller_Base_Template extends \Controller_Template
                 //$this->_logger->debug('Options:', $options);
 
                 if ($this->_crud_action == 'list') {
+                    if(is_callable(array($this->_model_object_name, 'properties'))) {
+                        /**
+                         * @todo bad? why not in the model?
+                         */
+                        $properties = forward_static_call(array($this->_model_object_name, 'properties'));
+                    }
                     //list ist im moment die einzige action, welche ein find_all machen sollte
 
-                    if ($filter_type = Input::get('filter_type', false)) {
+                    if ($filter_type = Input::get('filter_type', false) OR $filter_data = Input::get($crud_object, false)) {
                         $not_filtered = array('filter_type', 'page', 'order', 'order_field', 'order_type');
                         $cleaned_filter = array();
-                        $filter_data = Input::get();
-                        $filter_data = (isset($filter_data[$crud_object]) && is_array($filter_data[$crud_object])) ? $filter_data[$crud_object] : $filter_data;
+                        if(!isset($filter_data)) {
+                            $filter_data = Input::get();
+                        }
                         //ist der button und sollte entfernt werden
                         foreach ($filter_data as $field_name => $value) {
-                            if (($value = trim($value)) != '' AND !in_array($field_name, $not_filtered)) {
+                            if (isset($properties) AND isset($properties[$field_name]) AND ($value = trim($value)) != '' AND !in_array($field_name, $not_filtered)) {
                                 $field_value_pair = array($field_name => $value);
                                 if ($filter_type == 'filter_like') {
                                     $options['where'] = array_merge($options['where'], array(array($field_name, 'LIKE', '%' . $value . '%')));

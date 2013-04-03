@@ -627,8 +627,6 @@ function order_anchor($name, $label, $model_name = null)
         }
 
         $get_params = array_merge($params, $get_params);
-
-        $uri = \Srit\Uri::create($uri, array(), $get_params);
         $anchor_params = array();
     }
     $uri = \Srit\Uri::create($uri, array(), $get_params);
