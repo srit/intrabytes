@@ -41,6 +41,7 @@
         <?php if (!empty($crud_objects['srit:locale']['data'])): ?>
             <table class="table table-striped table-condensed">
                 <tr>
+                    <th width="5%"><?php echo html_checkbox('chckall', 1) ?></th>
                     <th><?php echo order_anchor('key', __(extend_locale('key.label')), 'srit:locale') ?></th>
                     <th><?php echo order_anchor('group', __(extend_locale('group.label')), 'srit:locale') ?></th>
                     <th><?php echo order_anchor('value', __(extend_locale('value.label')), 'srit:locale') ?></th>
@@ -48,6 +49,7 @@
                 </tr>
                 <?php foreach ($crud_objects['srit:locale']['data'] as $locale): ?>
                     <tr>
+                        <td width="5%"><?php echo html_checkbox('checked[]', $locale->id) ?></td>
                         <td><?php echo xss_clean($locale->key) ?></td>
                         <td><?php echo xss_clean($locale->group) ?></td>
                         <td><?php echo $locale->cutted_value() ?></td>
@@ -60,6 +62,7 @@
                     </tr>
                 <?php endforeach; ?>
                 <tr>
+                    <td width="5%"></td>
                     <td>
                         <form method="post" accept-charset="utf-8"
                               action="<?php echo core_settings_locales_add_route($language_id) ?>">

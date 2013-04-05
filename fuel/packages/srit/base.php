@@ -183,9 +183,9 @@ function html_input_password_wo_label($name, $value, array $attr = array())
 function html_hidden($name, $value, array $attr = array())
 {
     $attr['type'] = 'hidden';
-    $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ? : $name;
-    $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ? : $name;
-    $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ? : $value;
+    $attr['id'] = (isset($attr['id']) && !empty($attr['id'])) ? $attr['id'] : $name;
+    $attr['name'] = (isset($attr['name']) && !empty($attr['name'])) ? $attr['name'] : $name;
+    $attr['value'] = (isset($attr['value']) && !empty($attr['value'])) ? $attr['value'] : $value;
     return html_tag('input', $attr);
 }
 
@@ -223,7 +223,7 @@ function html_checkbox($name, $value, $checked = false, array $attr = array())
     return $html;
 }
 
-function twitter_html_input_checkbox($name, $value, $placeholder_locale, array $placeholder_locale_params = array(), $checked = false, array $attr = array())
+function twitter_html_input_checkbox($name, $value, $placeholder_locale = null, array $placeholder_locale_params = array(), $checked = false, array $attr = array())
 {
     $label_attr['class'] = 'control-label';
     $placeholder_locale = (!empty($placeholder_locale)) ? $placeholder_locale : __(extend_locale($name . '.label', $placeholder_locale_params));

@@ -19,4 +19,11 @@ $(document).ready(function () {
 
     $('[data-spy="affix"]').affix();
 
+    $('input[type="checkbox"][name="chckall"]').change(function() {
+        var $this_chckall = $(this);
+        $this_chckall.parents('div').find('input[type="checkbox"][name^="checked"]').each(function(){
+            $(this).attr('checked', $this_chckall.is(':checked'));
+        });
+    });
+
 });
