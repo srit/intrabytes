@@ -13,6 +13,12 @@ use Users\Model_Role;
 
 class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
 {
+
+    /**
+     * @var Model_Role
+     */
+    protected $_roles = null;
+
     public function has_access($condition, array $entity)
     {
         $group = Auth::group();
@@ -27,11 +33,13 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
         $current_rights = array();
         $acl_array = array();
         if (is_array($current_roles)) {
-            $roles = Model_Role::find_all();
-            if (empty($roles)) {
+            if($this->_roles == null) {
+                $this->_roles = Model_Role::find_all();
+            }
+            if (empty($this->_roles)) {
                 return false;
             }
-            foreach ($roles as $role) {
+            foreach ($this->_roles as $role) {
                 $acl_array[$role->name] = array();
                 if (!empty($role->acls)) {
                     $i = 0;

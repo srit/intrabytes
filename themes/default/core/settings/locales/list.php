@@ -23,6 +23,7 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
 <div class="row-fluid">
     <div class="span12">
         <?php if (!empty($crud_objects['srit:locale']['data'])): ?>
+            <form method="post" accept-charset="utf-8" action="<?php echo core_settings_locales_deletes_route() ?>" id="chcked_actions">
             <table class="table table-striped table-condensed">
                 <tr>
                     <th width="5%"><?php echo html_checkbox('chckall', 1) ?></th>
@@ -48,8 +49,7 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
                 <tr>
                     <td width="5%"></td>
                     <td>
-                        <form method="post" accept-charset="utf-8"
-                              action="<?php echo core_settings_locales_add_route($language_id) ?>">
+                        <form method="post" accept-charset="utf-8" action="<?php echo core_settings_locales_add_route($language_id) ?>" id="add_locale">
                             <?php echo security_field(); ?>
                             <?php echo html_hidden('language_id', $language_id) ?>
                         <?php echo twitter_html_input_text_wo_label('key', '') ?></td>
@@ -58,7 +58,11 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
                     <td><?php echo twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) ?>
                         </form></td>
                 </tr>
+                <tr>
+                    <td colspan="5"><?php echo twitter_html_submit_button('deletes', 'deletes', extend_locale('deletes.button.label'), array(), array('class' => 'btn-danger')) ?></td>
+                </tr>
             </table>
+            </form>
             <?php echo $pagination['srit:locale']->render(); ?>
         <?php endif; ?>
     </div>
