@@ -7,6 +7,7 @@
 namespace Srit;
 
 use Fuel\Core\Config;
+use Fuel\Core\Router;
 
 class Navigation
 {
@@ -139,6 +140,20 @@ class Navigation
         if(empty($this->_active_elements)) {
             $this->find_active();
         }
+
+        $base_route = base_route();
+        $null_element = isset($this->_active_elements[0]) ? $this->_active_elements[0] : null;
+
+        if(!empty($this->_active_elements) AND $null_element != null AND $null_element->get_route() != $base_route AND (isset(Router::$routes['_root_']) AND Uri::create(Router::$routes['_root_']->translation) != $null_element->get_route())) {
+            $startseite = new Navigation_Element(array(
+                'route' => base_route(),
+                //'acl' => 'Customers\\Show.index',
+                'show' => false
+            ), 'home');
+            array_unshift($this->_active_elements, $startseite);
+
+        }
+
         $this->_rendered_breadcrumb = Theme::instance()->view('templates/_partials/navigation/breadcrumb')->set('breadcrumb_elements', $this->_active_elements, false);
         return $this->_rendered_breadcrumb;
     }

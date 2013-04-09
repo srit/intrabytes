@@ -2,12 +2,14 @@
     position: relative;
     margin: 0;
     padding: 19px;
-    background-color: #fff;
+}
+
+
+.content, .breadcrumb {
     border: 1px solid #ddd;
+    border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    border-radius: 4px;
-    background-color: #333;
 }
 
 .show-grid div[class*="span"] {

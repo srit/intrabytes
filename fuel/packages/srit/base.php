@@ -548,8 +548,6 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
      */
     if (preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
         if (empty($route_params)) {
-            var_dump($route_name, $route_params);
-            exit;
             throw new \FuelException(__('exception.function.named_route.no_route_params'));
         }
         foreach ($params[0] as $p) {
