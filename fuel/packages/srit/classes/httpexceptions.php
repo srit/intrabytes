@@ -8,7 +8,7 @@ namespace Srit;
 
 
 use Fuel\Core\Config;
-use Fuel\Core\Request;
+use Srit\Request;
 use Fuel\Core\Router;
 
 class HttpNotFoundException extends \HttpException

@@ -6,9 +6,11 @@
 
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
+    'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
+    'Srit\\Request' => __DIR__ . '/classes/request.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
-    'Srit\\Model_Navigation' => __DIR__ . '/classes/model/navigation.php',
+    'Srit\\Model_Sitemap' => __DIR__ . '/classes/model/sitemap.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
@@ -41,6 +43,8 @@ Autoloader::add_classes(array(
     'Srit\\Controller_Base_Template_Public' => __DIR__ . '/classes/controller/base/template/public.php',
     'Srit\\Controller_Base_Template_Blank' => __DIR__ . '/classes/controller/base/template/blank.php',
     'Srit\\Controller_Base_Template_Blank_Public' => __DIR__ . '/classes/controller/base/template/blank/public.php',
+    'Srit\\Uri' => __DIR__ . '/classes/uri.php',
+    'Srit\\Pagination' => __DIR__ . '/classes/pagination.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api

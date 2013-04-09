@@ -100,3 +100,8 @@ function core_settings_locales_delete_route($id, $language_id) {
     $route_params['id'] = (int)$id;
     return core_settings_locales_named_route($route_name, $route_params);
 }
+
+function core_settings_locales_deletes_route() {
+    $route_name = 'deletes';
+    return core_settings_locales_named_route($route_name);
+}

@@ -25,10 +25,10 @@ class Model extends \Orm\Model
     protected $_fieldset = null;
 
     public static function find($id = null, array $options = array()) {
-        if(!isset($options['order'])) {
+        if(!isset($options['order_by'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
-        Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
+        //Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
         return parent::find($id, $options);
     }
 
@@ -103,6 +103,10 @@ class Model extends \Orm\Model
 
     public static function find_for_edit($params = null, array $options = array()) {
 
+    }
+
+    public function __toString() {
+        return '';
     }
 
 }

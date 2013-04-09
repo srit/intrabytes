@@ -7,7 +7,6 @@
 namespace Srit;
 
 use Auth\Auth;
-use Fuel\Core\Uri;
 
 class Navigation_Element implements \ArrayAccess{
 
@@ -23,6 +22,10 @@ class Navigation_Element implements \ArrayAccess{
 
     protected $_allowed = false;
 
+    protected $_show = true;
+
+    protected $_not_linkable = false;
+
     /**
      * @var Navigation_Element
      */
@@ -36,7 +39,10 @@ class Navigation_Element implements \ArrayAccess{
         if($property_name = '_' . $property AND property_exists($this, $property_name)) {
             return $this->{$property_name};
         }
-        return $this->_data[$property];
+        if(isset($this->_data[$property])) {
+            return $this->_data[$property];
+        }
+        return null;
     }
 
     public function __get($property) {
@@ -67,6 +73,13 @@ class Navigation_Element implements \ArrayAccess{
         $this->_active = (bool)$active;
         if($with_parent == true && $this->hasParent()) {
             $this->getParent()->setActive($this->_active);
+        }
+    }
+
+    public function setShow($show, $with_parent = true) {
+        $this->_show = (bool)$show;
+        if($with_parent == true && $this->hasParent() && $this->_show == true) {
+            $this->getParent()->setActive($this->_show);
         }
     }
 
@@ -106,6 +119,14 @@ class Navigation_Element implements \ArrayAccess{
         $this->_chck_is_active();
         $this->_chck_of_children();
         $this->_chck_allowed();
+        $this->_chck_show();
+        $this->_chck_has_named_params();
+    }
+
+    protected function _chck_show() {
+        if(isset($this->_data['show'])) {
+            $this->setShow($this->_data['show']);
+        }
     }
 
     protected function _chck_of_children()
@@ -117,8 +138,11 @@ class Navigation_Element implements \ArrayAccess{
     }
 
     protected function _chck_is_active() {
-        $current_uri = Uri::current();
-        if($current_uri == $this->__get('route')) {
+
+        $request = Request::active();
+        if($this->__isset('action') && $request->action == $this->get('action')
+            && $this->__isset('controller_name') && $request->controller_name == $this->get('controller_name')
+            && $this->__isset('module') && $request->module == $this->get('module')) {
             $this->setActive(true);
         }
     }
@@ -127,6 +151,32 @@ class Navigation_Element implements \ArrayAccess{
         if($this->__isset('acl')) {
             $allowed = Auth::has_access($this->get('acl'));
             $this->setAllowed($allowed);
+        }
+    }
+
+    protected function _chck_has_named_params() {
+        if($this->__isset('named_params')) {
+            $named_params = $this->get('named_params');
+            $tmp_named_params = array();
+            foreach($named_params as $name => $named_param) {
+                if(is_int($name)) {
+                    //nur wenn kein wert definiert
+
+                    /**
+                     * @todo very bad!!
+                     */
+                    if(!isset(Request::active()->named_params[$named_param])) {
+                        $this->_not_linkable = true;
+                        $this->_show = false;
+                        $tmp_named_params[$named_param] = 0;
+                    } else {
+                        $tmp_named_params[$named_param] = Request::active()->named_params[$named_param];
+                    }
+                } else {
+                    $tmp_named_params[$name] = $named_param;
+                }
+            }
+            $this->set('named_params', $tmp_named_params);
         }
     }
 
@@ -139,6 +189,24 @@ class Navigation_Element implements \ArrayAccess{
         return $this->_data['links'];
     }
 
+
+    public function addChildren($name, array $data) {
+        if(!isset($this->_data['links'])) {
+            $_tmp_data = array($name => $data);
+            $this->_data['links'] = new Navigation_Elements($_tmp_data, $this);
+
+        } else {
+            $this->_data['links']->addElement($name, $data);
+        }
+        $this->init();
+    }
+
+    public function get_route() {
+        $named_params = isset($this->named_params) ? $this->named_params : array();
+        $route_name = $this->name;
+        $route = isset($this->route) ? $this->route : named_route($route_name, $named_params);
+        return $route;
+    }
 
     /***************************************************************************
      * Implementation of ArrayAccess

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Mrz 2013 um 16:22
--- Server Version: 5.5.29-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.5
+-- Erstellungszeit: 01. Apr 2013 um 18:24
+-- Server Version: 5.5.29-0ubuntu0.12.04.2
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `right` varchar(50) DEFAULT NULL,
   `is_global` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
 -- Daten für Tabelle `intrabytes_acls`
@@ -44,7 +44,8 @@ INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`) VALUES
 (4, NULL, 'list', 0),
 (5, NULL, 'show', 0),
 (6, NULL, 'delete', 0),
-(7, NULL, 'true', 1);
+(7, NULL, 'true', 1),
+(8, NULL, 'index', 0);
 
 -- --------------------------------------------------------
 
@@ -67,6 +68,7 @@ INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
 (1, 3),
 (1, 4),
 (1, 5),
+(1, 8),
 (3, 7);
 
 -- --------------------------------------------------------
@@ -81,7 +83,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_clients` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_clients`
+--
+
+INSERT INTO `intrabytes_clients` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'alphabytes', '2013-03-26 12:21:16', '2013-03-26 12:21:16');
 
 -- --------------------------------------------------------
 
@@ -239,7 +248,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_groups` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `intrabytes_groups`
@@ -247,7 +256,9 @@ CREATE TABLE IF NOT EXISTS `intrabytes_groups` (
 
 INSERT INTO `intrabytes_groups` (`id`, `name`, `points`, `created_at`, `updated_at`) VALUES
 (1, 'admins', 100, '2013-03-11 08:44:43', '2013-03-11 08:44:43'),
-(2, 'super_admins', 1000, '2013-03-14 08:28:02', '2013-03-14 08:28:02');
+(2, 'super_admins', 1000, '2013-03-14 08:28:02', '2013-03-14 08:28:02'),
+(3, 'guest', 0, '2013-03-26 08:58:28', '2013-03-26 08:58:28'),
+(4, 'banned', -100, '2013-03-26 08:58:50', '2013-03-26 08:58:50');
 
 -- --------------------------------------------------------
 
@@ -310,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=383 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=417 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -318,7 +329,6 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
 
 INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) VALUES
 (1, 'logout.label', 'nav', 'Logout :name', 1),
-(2, 'dashboard.label', 'nav', 'Dashboard', 1),
 (3, 'settings.label', 'nav', 'Einstellungen', 1),
 (4, 'dashboard.config.label', 'usernav', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
 (5, 'logout.label', 'usernav', '<i class="icon-off"></i> Logout', 1),
@@ -634,7 +644,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (318, 'settings.pubkeys.delete.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', 1),
 (319, 'settings.pubkeys.add.success', 'users', 'Public Key angelegt', 1),
 (320, 'settings.pubkeys.delete.success', 'users', 'Public Key gelöscht', 1),
-(321, 'show.index.title', 'customers', 'Kontakt Anzeige', 1),
+(321, 'show.index.title', 'customers', 'Kontakt: :extend', 1),
 (322, 'settings.pubkeys.add.locale', 'users', 'Public Key Daten', 1),
 (323, 'projects.show.index.project.tab.label', 'customers', 'Projektdaten', 1),
 (324, 'projects.show.index.redmine.tab.label', 'customers', 'Redmine Daten', 1),
@@ -686,15 +696,49 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (371, 'settings.pubkeys.edit.save_next.button.label', 'users', 'Speichern und weiter', 1),
 (372, 'settings.pubkeys.edit.pubkeys.help.label', 'users', 'Hilfetext', 1),
 (373, 'settings.anchor.label', 'navigation', '<i class="icon-wrench"></i> Einstellungen <b class="caret"></b>', 1),
-(374, 'languages.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Spracheinstellungen', 1),
-(375, 'redmines.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Redmineinstallationen', 1),
-(376, 'dashboard.anchor.label', 'navigation', '<i class="icon-home"></i> Dashboard', 1),
+(374, 'core_settings_languages_list.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Spracheinstellungen', 1),
+(375, 'redmines_list.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Redmineinstallationen', 1),
+(376, 'dashboard_board.anchor.label', 'navigation', '<i class="icon-home"></i> Dashboard', 1),
 (377, 'customers.anchor.label', 'navigation', '<i class="icon-list"></i> Kontakte', 1),
 (378, 'user_settings.anchor.label', 'navigation', '<i class="icon-user"></i> <b class="caret"></b>', 1),
 (379, 'user_logout.anchor.label', 'navigation', '<i class="icon-off"></i> Logout', 1),
 (380, 'user_pubkey_settings.anchor.label', 'navigation', '<i class="icon-fire"></i> Public Key Verwaltung', 1),
-(381, 'dashboard_settings.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
-(382, 'settings.pubkeys.list.value.label', 'users', 'Public Key', 1);
+(381, 'dashboard_settings_user.anchor.label', 'navigation', '<i class="icon-list-alt"></i> Dashboard konfigurieren', 1),
+(382, 'settings.pubkeys.list.value.label', 'users', 'Public Key', 1),
+(383, 'prefix.label', 'breadcrumb', 'Du befindest dich hier:', 1),
+(384, 'settings.anchor.label', 'breadcrumb', 'Einstellungen', 1),
+(385, 'languages.anchor.label', 'breadcrumb', 'Spracheinstellungen', 1),
+(386, 'languages_edit.anchor.label', 'breadcrumb', 'Sprache bearbeiten', 1),
+(387, 'dashboard_board.anchor.label', 'breadcrumb', 'Dashboard', 1),
+(388, 'customers.anchor.label', 'breadcrumb', 'Kontakte', 1),
+(389, 'customers_show.anchor.label', 'breadcrumb', 'Kontakt', 1),
+(390, 'customers_edit.anchor.label', 'breadcrumb', 'Kontakt bearbeiten', 1),
+(391, 'customers_delete.anchor.label', 'breadcrumb', 'Kontakt löschen', 1),
+(392, 'locales_edit.anchor.label', 'breadcrumb', 'Locale bearbeiten', 1),
+(393, 'locales_list.anchor.label', 'breadcrumb', 'Locale Übersicht', 1),
+(394, 'customers_add.anchor.label', 'breadcrumb', 'Kontakt hinzufügen', 1),
+(395, '404.index.page_not_found', 'core', 'Die von dir angeforderte Seite wurde nicht gefunden.', 1),
+(396, '404.index.back_to_dashboard', 'core', 'Zurück zum Dashboard', 1),
+(397, 'actions.label', 'last_pages', 'History', 1),
+(398, 'button.label', 'back', '<i class="icon-chevron-left"></i> Zurück', 1),
+(399, 'function.named_route.route_not_exists', 'exception', 'Die Route: :route_name existiert leider nicht.', 1),
+(400, 'core_settings_languages_list.anchor.label', 'breadcrumb', 'Sprachübersicht', 1),
+(401, 'core_settings_locales_list.anchor.label', 'breadcrumb', 'Locale Übersicht', 1),
+(402, 'core_settings_languages_edit.anchor.label', 'breadcrumb', 'Sprache bearbeiten', 1),
+(403, 'core_settings_locales_edit.anchor.label', 'breadcrumb', 'Locale bearbeiten', 1),
+(404, 'core_settings_languages_delete.anchor.label', 'breadcrumb', 'Sprache löschen', 1),
+(405, 'core_settings_locales_add.anchor.label', 'breadcrumb', 'Locale hhinzufügen', 1),
+(406, 'core_settings_locales_delete.anchor.label', 'breadcrumb', 'Locale löschen', 1),
+(407, 'customers_projects_list.anchor.label', 'breadcrumb', 'Projekt Übersicht', 1),
+(408, 'customers_projects_show.anchor.label', 'breadcrumb', 'Projektanzeige', 1),
+(409, 'customers_projects_delete.anchor.label', 'breadcrumb', 'Projekt löschen', 1),
+(410, 'customers_projects_edit.anchor.label', 'breadcrumb', 'Projekt bearbeiten', 1),
+(411, 'redmines_list.anchor.label', 'breadcrumb', 'Redmine Installationen', 1),
+(412, 'redmines_add.anchor.label', 'breadcrumb', 'Redmine hinzufügen', 1),
+(413, 'redmines_show.anchor.label', 'breadcrumb', 'Redmine Installation', 1),
+(414, 'redmines_edit.anchor.label', 'breadcrumb', 'Redmine bearbeiten', 1),
+(415, 'redmines_delete.anchor.label', 'breadcrumb', 'Installation löschen', 1),
+(416, 'show.index.title', 'redmines', 'Redmine Installation', 1);
 
 -- --------------------------------------------------------
 
@@ -739,34 +783,6 @@ INSERT INTO `intrabytes_migration` (`type`, `name`, `migration`) VALUES
 ('module', 'cash', '004_adddescandtyp'),
 ('module', 'cash', '005_renametypid'),
 ('module', 'cash', '006_addentrytypes');
-
--- --------------------------------------------------------
-
---
--- Tabellenstruktur für Tabelle `intrabytes_navigation`
---
-
-CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
-  `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
-  `left_id` int(9) unsigned NOT NULL,
-  `right_id` int(9) unsigned NOT NULL,
-  `tree_id` int(9) unsigned DEFAULT NULL,
-  `symlink_id` int(9) unsigned DEFAULT NULL,
-  `level` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `left_id` (`left_id`),
-  KEY `right_id` (`right_id`),
-  KEY `symlink_id` (`symlink_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
-
---
--- Daten für Tabelle `intrabytes_navigation`
---
-
-INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `level`) VALUES
-(1, 1, 6, 1, NULL, 'top_left'),
-(2, 2, 5, 1, NULL, NULL),
-(3, 3, 4, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26812,6 +26828,29 @@ INSERT INTO `intrabytes_salutations` (`id`, `salutation`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Tabellenstruktur für Tabelle `intrabytes_sitemap`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_sitemap` (
+  `id` int(9) unsigned NOT NULL AUTO_INCREMENT,
+  `left_id` int(9) unsigned NOT NULL,
+  `right_id` int(9) unsigned NOT NULL,
+  `tree_id` int(9) unsigned DEFAULT NULL,
+  `symlink_id` int(9) unsigned DEFAULT NULL,
+  `acl` varchar(50) NOT NULL,
+  `route_name` varchar(200) NOT NULL,
+  `module` varchar(50) DEFAULT NULL,
+  `controller_name` varchar(50) NOT NULL,
+  `action` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `left_id` (`left_id`),
+  KEY `right_id` (`right_id`),
+  KEY `symlink_id` (`symlink_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Tabellenstruktur für Tabelle `intrabytes_tasks`
 --
 
@@ -26875,7 +26914,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 2, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1364196280, 'ab12cc8d81441401d1ee3bbcc36e64a9b9b3ebfc', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 0, '');
+(1, 0, 1, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1364840384, '8ca134e7a9c9e7e60bc2016af82c49ff1c526210', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1364295654, 'tZzWYKlLIjBfuhWiNSumd9o7BoLgZlj07nOxtNrzcwU=');
 
 -- --------------------------------------------------------
 

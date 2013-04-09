@@ -330,7 +330,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
             return false;
         }
 
-        Logger::forge('Iccrmauth')->debug('user', array($this->user));
+        //Logger::forge('Iccrmauth')->debug('user', array($this->user));
 
         if($this->user['id'] == 0 && $this->user['username'] == 'guest') {
             $gr = Model_Group::find_guest();

@@ -6,17 +6,30 @@
 
 namespace Srit;
 
+use Fuel\Core\FuelException;
+
 class Navigation_Elements implements \Iterator, \Countable
 {
 
     protected $_elements = array();
 
     /**
+     * @todo the original array
+     */
+    protected $_data_array = array();
+
+    /**
      * @var Navigation_Element
      */
     protected $_parent = null;
 
-    public function __construct($_data, $_parent = null)
+    /**
+     * @param array $_data
+     * @param Navigation_Element $_parent
+     *
+     * @todo $_data is empty
+     */
+    public function __construct(array $_data, $_parent = null)
     {
         if($_parent != null) {
             $this->setParent($_parent);
@@ -42,11 +55,32 @@ class Navigation_Elements implements \Iterator, \Countable
         foreach ($this->_elements as $name => $element) {
             $this->_elements[$name] = new Navigation_Element($element, $name, $this->getParent());
             if ($this->_elements[$name]->hasChildren()) {
-                $this->_elements[$name]['links'] = new Navigation_Elements($this->_elements[$name]->getChildren(), $this->_elements[$name]);
+                $this->_elements[$name]['links'] = new self($this->_elements[$name]->getChildren(), $this->_elements[$name]);
                 //$this->_elements[$name]['links'] = $this->_initNavigationElement($this->_elements[$name]->getChildren());
             }
         }
 
+    }
+
+    public function __isset($property) {
+        return isset($this->_elements[$property]);
+    }
+
+    public function __get($property) {
+        return $this->get($property);
+    }
+
+    public function get($property) {
+        if(isset($this->_elements[$property])) {
+            return $this->_elements[$property];
+        }
+    }
+
+    public function addElement($name, array $data) {
+        if(isset($this->_elements[$name])) {
+            throw new FuelException(__('exception.srit.navigation_elements.addelement.element.exists'));
+        }
+        $this->_elements[$name] = new Navigation_Element($data, $name, $this->getParent());
     }
 
     /***************************************************************************
