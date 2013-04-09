@@ -13,14 +13,16 @@ $profile = $crud_objects['user_profile']['data'];
         <div class="span12">
             <div class="span5">
                 <div class="control-group">
-                    <?php echo twitter_html_input_text('firstname', xss_clean($profile->firstname)) ?>
+                    <?php echo twitter_html_input_text('user_profile[firstname]', xss_clean($profile->firstname)) ?>
                 </div>
                 <div class="control-group">
-                    <?php echo twitter_html_input_text('lastname', xss_clean($profile->lastname)) ?>
+                    <?php echo twitter_html_input_text('user_profile[lastname]', xss_clean($profile->lastname)) ?>
                 </div>
                 <div class="control-group">
-                    <?php echo twitter_html_input_text('birthday', xss_clean($profile->birthday)) ?>
+                    <?php echo twitter_html_input_text('user_profile[birthday]', xss_clean($profile->birthday)) ?>
                 </div>
+
+                <?php echo twitter_submit_group(false) ?>
             </div>
             <div class="span6"><?php echo form_help_text('edit_my_profile') ?></div>
         </div>

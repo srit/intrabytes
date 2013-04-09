@@ -294,12 +294,15 @@ function twitter_html_input_password_wo_label($name, $value, $placeholder_locale
     return $html;
 }
 
-function twitter_submit_group()
+function twitter_submit_group($with_save_next = true)
 {
+
+    $save_next_buttons = ($with_save_next == true) ? twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' : '';
+
     return html_tag('div', array('class' => 'control-group'),
         html_tag('div', array('class' => 'controls'),
             twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
-                twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' .
+                $save_next_buttons .
                 twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
 }
 
