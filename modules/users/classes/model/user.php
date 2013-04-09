@@ -12,7 +12,6 @@ class Model_User extends Model
         'username',
         'password',
         'group_id',
-        'customer_contact_id',
         'email',
         'last_login',
         'login_hash',
@@ -25,10 +24,7 @@ class Model_User extends Model
 
     protected static $_belongs_to = array(
         'client',
-        'group',
-        'customer_contact' => array(
-            'model_to' => 'Customers\\Model_Customer_Contact'
-        )
+        'group'
     );
 
     protected static $_has_one = array(
@@ -83,7 +79,7 @@ class Model_User extends Model
                 'or' => array(array('email' => $username_or_email))),
             'related' => array(
                 'client',
-                'customer_contact',
+                'user_profile',
                 'user_public_keys',
                 'group' => array(
                     'related' => array(
