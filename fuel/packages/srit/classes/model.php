@@ -24,20 +24,50 @@ class Model extends \Orm\Model
      */
     protected $_fieldset = null;
 
-    public static function find($id = null, array $options = array()) {
-        if(!isset($options['order_by'])) {
+    public function __construct(array $data = array(), $new = true, $view = null)
+    {
+        if($new === false) {
+            $this->observe('before_load');
+        }
+        return parent::__construct($data, $new, $view);
+    }
+
+    public static function find($id = null, array $options = array())
+    {
+        if (!isset($options['order_by'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
         //Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
         return parent::find($id, $options);
     }
 
-    public static function _init() {
-
+    public static function _init()
+    {
+        /**$language = Locale::instance()->getLanguage();
+        foreach (static::properties() as $key => $prop) {
+            if (is_array($prop) && isset($prop['type']) && $prop['type'] == 'translated') {
+                $class = get_called_class();
+                if (isset(static::$_properties_cached[$class])) {
+                    unset(static::$_properties_cached[$class]);
+                }
+                $ext_property = array($key . '_' . $language);
+                static::$_properties = array_merge(static::$_properties, $ext_property);
+            }
+        }**/
     }
 
-    public static function find_all(array $options = array()) {
+    public static function find_all(array $options = array())
+    {
         return static::find('all', $options);
+    }
+
+    public function add_property(array $property)
+    {
+        $class = get_called_class();
+        if (isset(static::$_properties_cached[$class])) {
+            unset(static::$_properties_cached[$class]);
+        }
+        static::$_properties = array_merge(static::$_properties, $property);
     }
 
     public static function add_relation(array $relation)
@@ -53,13 +83,14 @@ class Model extends \Orm\Model
         }
     }
 
-    public function validate($input = array()) {
+    public function validate($input = array())
+    {
 
-        if(!$this->_fieldset instanceof \Fuel\Core\Fieldset) {
+        if (!$this->_fieldset instanceof \Fuel\Core\Fieldset) {
             $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
         }
 
-        if($this->_fieldset->validation()->run($input) == false) {
+        if ($this->_fieldset->validation()->run($input) == false) {
             foreach ($this->_fieldset->validation()->error() as $error) {
                 Messages::error(__(extend_locale($error)));
             }
@@ -93,7 +124,7 @@ class Model extends \Orm\Model
     public function & __get($property)
     {
         $properties = static::properties();
-        if(isset($properties[$property]) && isset($properties[$property]['localized']) && $properties[$property]['localized'] == true ) {
+        if (isset($properties[$property]) && isset($properties[$property]['localized']) && $properties[$property]['localized'] == true) {
             $value = __($this->get($property));
         } else {
             $value = $this->get($property);
@@ -101,11 +132,13 @@ class Model extends \Orm\Model
         return $value;
     }
 
-    public static function find_for_edit($params = null, array $options = array()) {
+    public static function find_for_edit($params = null, array $options = array())
+    {
 
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return '';
     }
 

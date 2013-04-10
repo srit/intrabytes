@@ -15,7 +15,9 @@ class Model_User_Profile extends Model
         'user_id',
         'firstname',
         'lastname',
-        'birthday',
+        'birthday' =>array(
+            'type' => 'date'
+        ),
         'gender',
         'created_at',
         'updated_at',
@@ -30,6 +32,7 @@ class Model_User_Profile extends Model
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
+        'Srit\\Observer_Localized'
     );
 
     protected static $_belongs_to = array(

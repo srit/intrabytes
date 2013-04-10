@@ -55,7 +55,7 @@ function html_entities($value)
 
 function format_from_object($property, \Srit\Model $obj)
 {
-    return $obj->formatted($property);
+    return $obj->format($property);
 }
 
 function format_currency($value)

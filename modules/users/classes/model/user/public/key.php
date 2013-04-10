@@ -34,6 +34,7 @@ class Model_User_Public_Key extends Model {
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
+        'Srit\\Observer_Localized'
     );
 
     /*public static function find_for_edit($id, array $options = array()) {

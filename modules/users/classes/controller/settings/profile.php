@@ -13,8 +13,8 @@ use Srit\Logger;
 class Controller_Settings_Profile extends Controller_Base_User {
 
     protected $_crud_objects = array(
-        'user_profile',
-        'user'
+        'user_profile' => array(),
+        'user' => array()
     );
 
     public function before() {

@@ -20,7 +20,7 @@
         <tr>
             <td><?php echo xss_clean($pub_key->name) ?></td>
             <td><?php echo substr(xss_clean($pub_key->value), 0, 50) . '...' ?></td>
-            <td><?php echo format_from_object('created_at', $pub_key) ?></td>
+            <td><?php echo $pub_key->created_at ?></td>
             <td>
 
                 <?php echo twitter_button_group(array(

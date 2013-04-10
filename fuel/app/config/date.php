@@ -29,7 +29,6 @@ return array(
 		'de'		 => '%d.%m.%Y',
 		'de_short'	 => '%d.%m',
         'de_normal'  => '%d.%m.%Y %H:%M',
-		'de_full'	 => '%d.%B %Y %H:%M',
-
+		'de_full'	 => '%d.%B %Y %H:%M:%S',
 	)
 );

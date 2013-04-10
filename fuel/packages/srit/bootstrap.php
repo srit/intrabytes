@@ -12,6 +12,8 @@ Autoloader::add_classes(array(
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Sitemap' => __DIR__ . '/classes/model/sitemap.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
+    'Srit\\Observer_Localized' => __DIR__ . '/classes/observer/localized.php',
+    'Srit\\Observer_Translated' => __DIR__ . '/classes/observer/translated.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
     'Srit\\Locale' => __DIR__ . '/classes/locale.php',

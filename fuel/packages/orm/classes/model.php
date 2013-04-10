@@ -12,6 +12,8 @@
 
 namespace Orm;
 
+use Fuel\Core\FuelException;
+
 /**
  * Record Not Found Exception
  */
@@ -985,7 +987,7 @@ class Model implements \ArrayAccess, \Iterator
 	 */
 	public function & get($property)
 	{
-		if (array_key_exists($property, static::properties()))
+    	if (array_key_exists($property, static::properties()))
 		{
 			if ( ! array_key_exists($property, $this->_data))
 			{

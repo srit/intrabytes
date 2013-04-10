@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 09. Apr 2013 um 16:43
+-- Erstellungszeit: 10. Apr 2013 um 16:22
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -143,8 +143,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 --
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
-(1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
-(2, '2013-02-11 12:58:58', '2013-03-12 19:23:42', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606');
+(1, '2013-02-06 09:29:23', '2013-04-10 16:14:39', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
+(2, '2013-02-11 12:58:58', '2013-04-10 16:14:24', 'info@info.de', 'Hans Hans GBR', 'Stefan', 'Riedel', 2, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606');
 
 -- --------------------------------------------------------
 
@@ -321,7 +321,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`,`language_id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=424 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=434 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -744,7 +744,17 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value`, `language_id`) 
 (420, 'user_settings.anchor.label', 'breadcrumb', 'Nutzereinstellungen', 1),
 (421, 'dashboard_settings_user.anchor.label', 'breadcrumb', 'Dashboardkonfiguration', 1),
 (422, 'home.anchor.label', 'breadcrumb', 'Dashboard', 1),
-(423, 'user_pubkey_settings.anchor.label', 'breadcrumb', 'Public Key Verwaltung', 1);
+(423, 'user_pubkey_settings.anchor.label', 'breadcrumb', 'Public Key Verwaltung', 1),
+(424, 'settings.profile.edit.title', 'users', 'Profil bearbeiten', 1),
+(425, 'users_settings_profile_edit.anchor.label', 'breadcrumb', 'Mein Profil', 1),
+(426, 'settings.profile.edit.profile.tab.label', 'users', 'Profildaten', 1),
+(427, 'settings.profile.edit.password.tab.label', 'users', 'Passwort ändern', 1),
+(428, 'users_settings_profile_edit.anchor.label', 'navigation', '<i class="icon-cog"></i> Meine Daten ändern', 1),
+(429, 'settings.profile.edit.user_profile[firstname].label', 'users', 'Vorname', 1),
+(430, 'settings.profile.edit.user_profile[lastname].label', 'users', 'Nachname', 1),
+(431, 'settings.profile.edit.user_profile[birthday].label', 'users', 'Geburtstag', 1),
+(432, 'settings.profile.edit.save.button.label', 'users', '<i class="icon-white icon-ok"></i> Speichern', 1),
+(433, 'settings.profile.edit.cancel.button.label', 'users', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', 1);
 
 -- --------------------------------------------------------
 
@@ -26820,6 +26830,7 @@ INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 CREATE TABLE IF NOT EXISTS `intrabytes_salutations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `salutation` varchar(50) NOT NULL,
+  `salutation_de` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -26827,9 +26838,9 @@ CREATE TABLE IF NOT EXISTS `intrabytes_salutations` (
 -- Daten für Tabelle `intrabytes_salutations`
 --
 
-INSERT INTO `intrabytes_salutations` (`id`, `salutation`) VALUES
-(1, 'model.salutation.salutation.mister.label'),
-(2, 'model.salutation.salutation.miss.label');
+INSERT INTO `intrabytes_salutations` (`id`, `salutation`, `salutation_de`) VALUES
+(1, '', 'Herr'),
+(2, 'Frau2', 'Frau');
 
 -- --------------------------------------------------------
 
@@ -26923,7 +26934,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `customer_contact_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1365500964, '1f3947562826dfdda252929a2cdcd8cda904d520', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1364295654, 'tZzWYKlLIjBfuhWiNSumd9o7BoLgZlj07nOxtNrzcwU=');
+(1, 0, 1, 0, 'sr', '3c2a974483bf41d6b899482bdf9b0d66', '$2y$10$7b0b3a9131e69122b066ceJNeEHL4/n4n1ed5cGXeMP2NibYlWkDu', 'admin@blogshocker.com', 1365599767, '12fcf8f051391e978d4a3c038ae3807806bbed50', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1364295654, 'tZzWYKlLIjBfuhWiNSumd9o7BoLgZlj07nOxtNrzcwU=');
 
 -- --------------------------------------------------------
 
@@ -26948,7 +26959,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 --
 
 INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-02-05 11:19:47');
+(1, 1, 'Stefan', 'Riedel', '1987-01-01', 'm', '2013-02-05 11:19:47', '2013-04-10 10:36:26');
 
 -- --------------------------------------------------------
 
