@@ -6,6 +6,8 @@
 
 namespace Srit;
 
+use Fuel\Core\Config;
+
 class Model extends \Orm\Model
 {
 
@@ -26,9 +28,7 @@ class Model extends \Orm\Model
 
     public function __construct(array $data = array(), $new = true, $view = null)
     {
-        if($new === false) {
-            $this->observe('before_load');
-        }
+        $this->observe('before_load');
         return parent::__construct($data, $new, $view);
     }
 
@@ -142,4 +142,52 @@ class Model extends \Orm\Model
         return '';
     }
 
+
+    public static function properties()
+    {
+        $class = get_called_class();
+
+        // If already determined
+        if (array_key_exists($class, static::$_properties_cached))
+        {
+            return static::$_properties_cached[$class];
+        }
+
+        // Try to grab the properties from the class...
+        if (property_exists($class, '_properties'))
+        {
+            $properties = static::$_properties;
+            foreach ($properties as $key => $p)
+            {
+                if (is_string($p))
+                {
+                    unset($properties[$key]);
+                    $properties[$p] = array();
+                }
+            }
+        }
+
+        // ...if the above failed, run DB query to fetch properties
+        if (empty($properties))
+        {
+
+            $active_db_connection = Config::get('db.active');
+            $table_name = Config::get('db.'.$active_db_connection.'.table_prefix') . static::table();
+
+            try
+            {
+                $properties = \DB::list_columns($table_name, null, static::connection());
+            }
+            catch (\Exception $e)
+            {
+                throw new \FuelException('Listing columns failed, you have to set the model properties with a '.
+                    'static $_properties setting in the model. Original exception: '.$e->getMessage());
+            }
+        }
+
+        // cache the properties for next usage
+        static::$_properties_cached[$class] = $properties;
+
+        return static::$_properties_cached[$class];
+    }
 }

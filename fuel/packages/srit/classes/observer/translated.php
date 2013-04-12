@@ -5,28 +5,33 @@
  */
 
 namespace Srit;
+use Fuel\Core\FuelException;
 use Orm\Observer;
 
-class Observer_Translated extends Observer {
-    public function after_load(Model $model) {
-        $properties = $model->properties();
-        $language = Locale::instance()->getLanguage();
-        foreach ($properties as $key => $prop) {
-            if (is_array($prop) && isset($prop['type']) && $prop['type'] == 'translated') {
-                $ac_value = $model->get($key . '_' . $language);
-                $model->set($key, $ac_value);
-            }
+class Observer_Translated extends Observer
+{
+
+    protected $_translated_properties = array();
+
+    public function __construct($class)
+    {
+        $props = $class::observers(get_class($this));
+        $this->_translated_properties = isset($props['translated_properties']) ? $props['translated_properties'] : array();
+
+        if (empty($this->_translated_properties)) {
+            throw new FuelException(__('exception.srit.observer_translated.properties.empty'));
         }
+
     }
 
-    public function before_load(Model $model) {
-        $properties = $model->properties();
+    public function after_load(Model $model)
+    {
+        $properties = $this->_translated_properties;
         $language = Locale::instance()->getLanguage();
-        foreach ($properties as $key => $prop) {
-            if (is_array($prop) && isset($prop['type']) && $prop['type'] == 'translated') {
-                $ext_property = array($key . '_' . $language);
-                $model->add_property($ext_property);
-            }
+        foreach ($properties as $property) {
+            $property_name = $property . '_' . $language;
+            $ac_value = $model->get($property_name);
+            $model->set($property, $ac_value);
         }
     }
 

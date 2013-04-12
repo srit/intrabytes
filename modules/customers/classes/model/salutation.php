@@ -12,12 +12,12 @@ use Srit\Model;
 
 class Model_Salutation extends Model
 {
-    protected static $_properties = array(
+    /**protected static $_properties = array(
         'id',
         'salutation' => array(
             'type' => 'translated',
         )
-    );
+    );**/
 
     protected static $_has_many = array(
         'customers',
@@ -25,7 +25,9 @@ class Model_Salutation extends Model
     );
 
     protected static $_observers = array(
-        'Srit\\Observer_Translated'
+        'Srit\\Observer_Translated' => array(
+            'translated_properties' => array('salutation')
+        )
     );
 
     public static function find_all_for_html_select(array $options = array())
