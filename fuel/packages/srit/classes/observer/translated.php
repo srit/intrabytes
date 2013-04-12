@@ -24,6 +24,15 @@ class Observer_Translated extends Observer
 
     }
 
+    public function before_save(Model $model) {
+        $properties = $this->_translated_properties;
+        foreach($properties as $property) {
+            if($model->issets($property)) {
+                $model->unsets($property);
+            }
+        }
+    }
+
     public function after_load(Model $model)
     {
         $properties = $this->_translated_properties;

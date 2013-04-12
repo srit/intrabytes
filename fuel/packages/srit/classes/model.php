@@ -170,7 +170,9 @@ class Model extends \Orm\Model
         // ...if the above failed, run DB query to fetch properties
         if (empty($properties))
         {
-
+            /**
+             * with table_prefix
+             */
             $active_db_connection = Config::get('db.active');
             $table_name = Config::get('db.'.$active_db_connection.'.table_prefix') . static::table();
 
@@ -190,4 +192,13 @@ class Model extends \Orm\Model
 
         return static::$_properties_cached[$class];
     }
+
+    public function issets($property) {
+        return $this->__isset($property);
+    }
+
+    public function unsets($property) {
+        return $this->__unset($property);
+    }
+
 }
