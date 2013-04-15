@@ -96,15 +96,9 @@ class Model_User extends Model
         return $val;
     }*/
 
-    public static function _validate_the_same($val, $field_name) {
-        $active = static::active();
-        $other_value = $active->input($field_name);
-        return $val == $other_value;
-    }
-
     public function validate_new_password($input = array()) {
         $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
-        $this->_fieldset->field('password')->add_rule('required')->add_rule('the_same', array('password_repeat'));
+        $this->_fieldset->field('password')->add_rule('required')->add_rule('is_repeatet', 'password_repeat');
         $this->_fieldset->add('password_repeat')->add_rule('required');
         return parent::validate($input);
     }

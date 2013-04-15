@@ -6,7 +6,6 @@
 
 namespace Srit;
 use Auth\Auth_Login_SimpleAuth;
-use Srit\Logger;
 use Users\Model_Group;
 use Users\Model_User;
 
@@ -163,7 +162,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
         $update['password_resetted'] = '';
         $update['password_resetted_at'] = 0;
         $update['new_password_hash'] = '';
-        $update['updated_at'] = time();
+        $update['updated_at'] = Date::time()->format('mysql');
 
         $affected_rows = \DB::update(\Config::get('simpleauth.table_name'))
             ->set($update)
