@@ -37,7 +37,6 @@ echo $theme->view('core/settings/languages/_partials/filter_form', array('crud_o
                     <th><?php echo __(extend_locale('language.label')) ?></th>
                     <th><?php echo __(extend_locale('plain.label')) ?></th>
                     <th><?php echo __(extend_locale('default.label')) ?></th>
-                    <th><?php echo __(extend_locale('count.locales.label')) ?></th>
                     <th><?php echo __(extend_locale('actions.label')) ?></th>
                 </tr>
                 <?php foreach ($crud_objects['srit:language']['data'] as $lang): ?>
@@ -47,15 +46,12 @@ echo $theme->view('core/settings/languages/_partials/filter_form', array('crud_o
                         <td><?php echo xss_clean($lang->language) ?></td>
                         <td><?php echo xss_clean($lang->plain) ?></td>
                         <td><?php echo boolean_icon(xss_clean($lang->default)) ?></td>
-                        <td><?php echo html_anchor(core_settings_locales_list_route($lang->id), count($lang->locales)) ?></td>
                         <td>
-
-
                             <?php echo twitter_button_group(array(
                                 array('attr' => array(), 'value' => html_anchor(core_settings_languages_edit_route($lang->id), __(extend_locale('actions.edit.label')))),
                                 array('attr' => array(), 'value' => html_anchor(core_settings_languages_delete_route($lang->id), __(extend_locale('actions.delete.label')))),
                                 array('is_divider' => true),
-                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_list_route($lang->id), __(extend_locale('actions.locales.label')))),
+                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_list_route(), __(extend_locale('actions.locales.label')))),
                             ), extend_locale('actions.label'), array()); ?>
 
 

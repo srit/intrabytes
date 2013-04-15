@@ -9,6 +9,7 @@ Autoloader::add_classes(array(
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\Exception' => __DIR__ . '/classes/exception.php',
+    'Srit\\Date' => __DIR__ . '/classes/date.php',
     'Srit\\Request' => __DIR__ . '/classes/request.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Sitemap' => __DIR__ . '/classes/model/sitemap.php',

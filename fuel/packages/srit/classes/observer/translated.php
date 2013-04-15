@@ -51,6 +51,18 @@ class Observer_Translated extends Observer
 
     public function after_load(Model $model)
     {
+        $this->_prepare_value($model);
+    }
+
+    public function after_save(Model $model) {
+        $this->_prepare_value($model);
+    }
+
+    /**
+     * @param Model $model
+     */
+    protected function _prepare_value(Model $model)
+    {
         $properties = $this->_properties;
         $language = Locale::instance()->getLanguage();
         foreach ($properties as $property) {

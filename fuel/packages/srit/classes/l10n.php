@@ -6,7 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Date;
 
 class L10n
 {

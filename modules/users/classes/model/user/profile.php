@@ -6,6 +6,7 @@
 
 namespace Users;
 
+use Auth\Auth;
 use Srit\Model;
 
 class Model_User_Profile extends Model
@@ -31,4 +32,10 @@ class Model_User_Profile extends Model
     protected static $_belongs_to = array(
         'user'
     );
+
+    public static function find_my() {
+        return static::find('first', array('where' => array(
+            'user_id' =>  Auth::get_user()->id
+        )));
+    }
 }

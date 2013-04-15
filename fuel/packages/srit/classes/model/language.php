@@ -10,23 +10,6 @@ use Srit\Model;
 
 class Model_Language extends Model
 {
-    protected static $_properties = array(
-        'id',
-        'locale',
-        'language',
-        'plain',
-        'default',
-        'currency',
-        'thousand_separator',
-        'dec_point',
-        'date_format'
-    );
-
-    protected static $_has_many = array(
-        'locales' => array(
-            'cascade_save' => true,
-            'cascade_delete' => true,
-        ));
 
     public function validate($input = array()) {
         $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
@@ -36,12 +19,14 @@ class Model_Language extends Model
         return parent::validate($input);
     }
 
-    public static function find_all(array $options = array()) {
+    public static function find_all_active(array $options = array()) {
         return parent::find_all(array(
-            'related' => array('locales')
+            'where' => array(
+                'active' => true
+            )
         ));
     }
-    
+
     public static function find_by_language_key($language_key) {
         return parent::find('first', array('where' => array(
             'language' => $language_key

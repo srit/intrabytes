@@ -5,7 +5,6 @@
  */
 
 namespace Srit;
-use Fuel\Core\Date;
 use Orm\Observer;
 
 class Observer_Localized extends Observer {
@@ -31,6 +30,10 @@ class Observer_Localized extends Observer {
             }
         }
 
+    }
+
+    public function after_save(Model $model) {
+        $this->_prepare($model, 'format');
     }
 
     public function after_load(Model $model) {

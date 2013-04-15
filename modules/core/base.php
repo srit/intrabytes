@@ -75,28 +75,24 @@ function core_settings_languages_delete_route($id) {
     return core_settings_languages_named_route($route_name, $route_params);
 }
 
-function core_settings_locales_list_route($language_id) {
+function core_settings_locales_list_route() {
     $route_name = 'list';
-    $route_params['language_id'] = (int)$language_id;
-    return core_settings_locales_named_route($route_name, $route_params);
+    return core_settings_locales_named_route($route_name);
 }
 
-function core_settings_locales_add_route($language_id) {
+function core_settings_locales_add_route() {
     $route_name = 'add';
-    $route_params['language_id'] = (int)$language_id;
-    return core_settings_locales_named_route($route_name, $route_params);
+    return core_settings_locales_named_route($route_name);
 }
 
-function core_settings_locales_edit_route($id, $language_id) {
+function core_settings_locales_edit_route($id) {
     $route_name = 'edit';
-    $route_params['language_id'] = (int)$language_id;
     $route_params['id'] = (int)$id;
     return core_settings_locales_named_route($route_name, $route_params);
 }
 
-function core_settings_locales_delete_route($id, $language_id) {
+function core_settings_locales_delete_route($id) {
     $route_name = 'delete';
-    $route_params['language_id'] = (int)$language_id;
     $route_params['id'] = (int)$id;
     return core_settings_locales_named_route($route_name, $route_params);
 }
@@ -104,4 +100,20 @@ function core_settings_locales_delete_route($id, $language_id) {
 function core_settings_locales_deletes_route() {
     $route_name = 'deletes';
     return core_settings_locales_named_route($route_name);
+}
+
+function twitter_translate_textareas($name, $model) {
+    $languages = \Srit\Model_Language::find_all_active();
+    $textareas = array();
+    if($languages) {
+        foreach($languages as $language) {
+            $textarea_name = $name . '_' . $language->language;
+            $value = (!empty($model->{$textarea_name})) ? $model->{$textarea_name} : '';
+            $textareas[$textarea_name] = array(
+                'language' => $language->language,
+                'textarea' => twitter_html_input_textarea_wo_label($textarea_name, $value)
+            );
+        }
+    }
+    return \Srit\Theme::instance()->view('templates/_partials/form/translate_textareas.php', array('textareas' => $textareas, 'tab_id' => 'tab_' . $name), false);
 }

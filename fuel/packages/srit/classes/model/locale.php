@@ -21,13 +21,9 @@ class Model_Locale extends Model
         )
     );
 
-    protected static $_belongs_to = array(
-        'language'
-    );
-
-    public static function find_all_by_language_and_locale($language, $locale = null)
+    /**public static function find_all_by_locale($locale = null)
     {
-        $language_relation_where = array('language' => $language);
+        $language_relation_where = array();
         if ($locale != null) {
             $language_relation_where = array_merge($language_relation_where, array('locale' => $locale));
         }
@@ -38,6 +34,10 @@ class Model_Locale extends Model
 
         return $items ? : false;
 
+    }**/
+
+    public static function find_all_by_locale($locale = null) {
+        return static::find_all();
     }
 
     public static function find_groups_like_group($group, array $options = array())

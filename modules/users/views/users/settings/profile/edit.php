@@ -11,10 +11,10 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane" id="profile">
-            <?php echo $theme->view('users/settings/profile/_partials/profile_form', array('crud_objects' => $crud_objects)); ?>
+            <?php echo $theme->view('users/settings/profile/_partials/profile_form', array('profile' => $profile)); ?>
         </div>
         <div class="tab-pane" id="password">
-            <p>lksajhdkajsh</p>
+            <?php echo $theme->view('users/settings/profile/_partials/password_form'); ?>
         </div>
     </div>
 </div>
