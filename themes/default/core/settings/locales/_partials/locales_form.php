@@ -18,9 +18,20 @@
         <div class="control-group">
             <?php echo twitter_html_input_text('group', xss_clean($locale->group), null, array(), array(), array('autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/core/settings/locales/rest/search'))) ?>
         </div>
+        <div class="tabbable">
+            <ul class="nav nav-tabs" id="tab">
+                <li>
+                    <a href="#de">users.settings.profile.edit.profile.tab.label</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="de">
+                    <div class="control-group">
+                        <?php echo twitter_html_input_textarea('value', xss_clean($locale->value), null, array(), array(), array('style' => 'width: 550px; height: 200px;')) ?>
+                    </div>
 
-        <div class="control-group">
-            <?php echo twitter_html_input_textarea('value', xss_clean($locale->value), null, array(), array(), array('style' => 'width: 550px; height: 200px;')) ?>
+                </div>
+            </div>
         </div>
         <?php echo twitter_submit_group() ?>
     </div>

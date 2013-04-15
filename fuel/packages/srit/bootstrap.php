@@ -8,10 +8,12 @@ Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
+    'Srit\\Exception' => __DIR__ . '/classes/exception.php',
     'Srit\\Request' => __DIR__ . '/classes/request.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Sitemap' => __DIR__ . '/classes/model/sitemap.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
+    'Srit\\Observer_I18n' => __DIR__ . '/classes/observer/i18n.php',
     'Srit\\Observer_Localized' => __DIR__ . '/classes/observer/localized.php',
     'Srit\\Observer_Translated' => __DIR__ . '/classes/observer/translated.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',

@@ -8,17 +8,6 @@ namespace Users;
 use Srit\Model;
 
 class Model_User_Public_Key extends Model {
-    protected static $_properties = array(
-        'id',
-        'user_id',
-        'name',
-        'value',
-        'created_at' => array(
-            'type' => 'datetime'
-        ),
-        'updated_at'
-    );
-
     protected static $_belongs_to = array(
         'user',
     );
@@ -34,7 +23,16 @@ class Model_User_Public_Key extends Model {
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
-        'Srit\\Observer_Localized'
+        'Srit\\Observer_Localized' => array(
+            'properties' => array(
+                'created_at' =>array(
+                    'type' => 'datetime'
+                ),
+                'updated_at' =>array(
+                    'type' => 'datetime'
+                )
+            )
+        )
     );
 
     /*public static function find_for_edit($id, array $options = array()) {

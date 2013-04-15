@@ -9,6 +9,30 @@ use Fuel\Core\Date;
 use Orm\Observer;
 
 class Observer_Localized extends Observer {
+
+    public function __construct($model)
+    {
+        $props = $model::observers(get_class($this));
+        $this->_properties = isset($props['properties']) ? $props['properties'] : array();
+
+        if (empty($this->_properties)) {
+            throw new Exception(__('exception.srit.observer_localized.properties.empty', array('model' => $model)));
+        }
+
+        $model_properties = $model::properties();
+        foreach ($this->_properties as $name => $property) {
+            if(is_int($name)) {
+                $property_name = $property;
+            } else {
+                $property_name = $name;
+            }
+            if (!isset($model_properties[$property_name])) {
+                throw new Exception(__('exception.srit.observer_localized.property.not.exists', array('property' => $property_name)));
+            }
+        }
+
+    }
+
     public function after_load(Model $model) {
         $this->_prepare($model, 'format');
     }
@@ -23,7 +47,7 @@ class Observer_Localized extends Observer {
      */
     protected function _prepare(Model $model, $format)
     {
-        $properties = $model->properties();
+        $properties = $this->_properties;
         $format_methode_prefix = $format;
         foreach ($properties as $key => $prop) {
             if (is_array($prop) && isset($prop['type'])) {

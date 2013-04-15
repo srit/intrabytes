@@ -7,12 +7,18 @@ use Srit\Model;
 
 class Model_Locale extends Model
 {
-    protected static $_properties = array(
+    /**protected static $_properties = array(
         'id',
         'key',
         'group',
         'value',
         'language_id'
+    );**/
+
+    protected static $_observers = array(
+        'Srit\\Observer_Translated' => array(
+            'properties' => array('value')
+        )
     );
 
     protected static $_belongs_to = array(

@@ -173,6 +173,7 @@ class Model extends \Orm\Model
             /**
              * with table_prefix
              */
+            Config::load('db', true);
             $active_db_connection = Config::get('db.active');
             $table_name = Config::get('db.'.$active_db_connection.'.table_prefix') . static::table();
 

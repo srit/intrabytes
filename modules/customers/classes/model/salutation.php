@@ -26,7 +26,7 @@ class Model_Salutation extends Model
 
     protected static $_observers = array(
         'Srit\\Observer_Translated' => array(
-            'translated_properties' => array('salutation')
+            'properties' => array('salutation')
         )
     );
 
