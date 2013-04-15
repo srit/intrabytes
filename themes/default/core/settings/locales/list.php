@@ -11,7 +11,7 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
 <div class="row-fluid">
     <div class="span2">
         <div class="control-group">
-            <?php echo html_anchor(core_settings_locales_add_route($language_id), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
+            <?php echo html_anchor(core_settings_locales_add_route(), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
         </div>
     </div>
     <?php if (!empty($crud_objects['srit:locale']['data'])): ?>
@@ -40,24 +40,12 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
                         <td><?php echo $locale->cutted_value() ?></td>
                         <td>
                             <?php echo twitter_button_group(array(
-                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_edit_route($locale->id, $language_id), __(extend_locale('actions.edit.label')))),
-                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_delete_route($locale->id, $language_id), __(extend_locale('actions.delete.label')))),
+                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_edit_route($locale->id), __(extend_locale('actions.edit.label')))),
+                                array('attr' => array(), 'value' => html_anchor(core_settings_locales_delete_route($locale->id), __(extend_locale('actions.delete.label')))),
                             ), extend_locale('actions.label'), array()); ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-                <tr>
-                    <td width="5%"></td>
-                    <td>
-                        <form method="post" accept-charset="utf-8" action="<?php echo core_settings_locales_add_route($language_id) ?>" id="add_locale">
-                            <?php echo security_field(); ?>
-                            <?php echo html_hidden('language_id', $language_id) ?>
-                        <?php echo twitter_html_input_text_wo_label('key', '') ?></td>
-                    <td><?php echo twitter_html_input_text_wo_label('group', '', null, array(), array('autocomplete' => 'off', 'data-provide' => 'typeahead', 'data-link' => \Uri::create('/core/settings/locales/rest/search'))) ?></td>
-                    <td><?php echo twitter_html_input_text_wo_label('value', '') ?></td>
-                    <td><?php echo twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) ?>
-                        </form></td>
-                </tr>
                 <tr>
                     <td colspan="5"><?php echo twitter_html_submit_button('deletes', 'deletes', extend_locale('deletes.button.label'), array(), array('class' => 'btn-danger')) ?></td>
                 </tr>

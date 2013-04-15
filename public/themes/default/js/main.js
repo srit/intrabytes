@@ -26,4 +26,18 @@ $(document).ready(function () {
         });
     });
 
+    $(function () {
+
+        if (window.location.hash) {
+            $('.nav-tabs a[href="' + window.location.hash + '"]').tab('show');
+        } else {
+            $('.nav-tabs a:first').tab('show')
+        }
+    })
+
+    $('.nav-tabs a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    });
+
 });

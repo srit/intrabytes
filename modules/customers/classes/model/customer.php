@@ -139,7 +139,6 @@ class Model_Customer extends Model {
         $this->_fieldset->field('company_name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('firstname')->add_rule('required')->add_rule('min_length', 2);
         $this->_fieldset->field('lastname')->add_rule('required')->add_rule('min_length', 2);
-        $this->_fieldset->field('phone')->add_rule('required');
         $this->_fieldset->field('street')->add_rule('required');
         $this->_fieldset->field('housenumber')->add_rule('required');
         $this->_fieldset->add('postalcode_text')->add_rule('required');

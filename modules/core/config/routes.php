@@ -5,10 +5,10 @@
  */
 
 return array(
-    'core/settings/locales/list/(:language_id)' => array('core/settings/locales/list', 'name' => 'core_settings_locales_list'),
-    'core/settings/locales/add/(:language_id)' => array('core/settings/locales/add' , 'name' => 'core_settings_locales_add'),
-    'core/settings/locales/edit/(:language_id)/(:id)' => array('core/settings/locales/edit', 'name' => 'core_settings_locales_edit'),
-    'core/settings/locales/delete/(:language_id)/(:id)' => array('core/settings/locales/delete', 'name' => 'core_settings_locales_delete'),
+    'core/settings/locales/list' => array('core/settings/locales/list', 'name' => 'core_settings_locales_list'),
+    'core/settings/locales/add' => array('core/settings/locales/add' , 'name' => 'core_settings_locales_add'),
+    'core/settings/locales/edit/(:id)' => array('core/settings/locales/edit', 'name' => 'core_settings_locales_edit'),
+    'core/settings/locales/delete/(:id)' => array('core/settings/locales/delete', 'name' => 'core_settings_locales_delete'),
     'core/settings/locales/deletes' => array('core/settings/locales/deletes', 'name' => 'core_settings_locales_deletes'),
 
     'core/settings/languages/list' => array('core/settings/languages/list', 'name' => 'core_settings_languages_list'),
