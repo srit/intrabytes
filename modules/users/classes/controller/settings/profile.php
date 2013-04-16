@@ -39,18 +39,16 @@ class Controller_Settings_Profile extends Controller_Base_User {
             if($profile->validate($user_profile)) {
                 $profile->save();
                 Messages::instance()->success(__(extend_locale('change_password.success')));
-            } else {
-                Messages::redirect(Uri::current() . '#profile');
             }
+            Messages::redirect(Uri::current() . '#profile');
         }
 
         if($password_data = Input::post('user', false)) {
             if($user->validate_new_password($password_data)) {
                 Auth::instance()->change_password_without_old($password_data['password'], $user->username);
                 Messages::success(__(extend_locale('change_password.success')));
-            } else {
-                Messages::redirect(Uri::current() . '#password');
             }
+            Messages::redirect(Uri::current() . '#password');
         }
 
         $this->_get_content_template()->set('profile', $profile);

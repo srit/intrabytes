@@ -13,7 +13,15 @@
     background-image: url('../img/bullet_arrow_up.png');
 }
 
-.famfamfam {background-color: transparent; background-image: url(../img/famfamfam.png); background-repeat: no-repeat; display: inline-block; height: 16px; width: 16px; margin: 0; vertical-align: baseline;}
+.famfamfam {
+    background-color: transparent;
+    background-image: url(../img/famfamfam.png);
+    background-repeat: no-repeat; display: inline-block;
+    height: 16px; width: 16px;
+    margin: 0;
+    vertical-align: text-bottom;
+    line-height: 16px;
+}
 .famfamfam.add {background-position: -0px -0px;}
 .famfamfam.anchor {background-position: -18px -0px;}
 .famfamfam.application {background-position: -36px -0px;}
@@ -1018,7 +1026,10 @@
     display: inline-block;
     width: 16px;
     height: 11px;
-    background:url('../img/flags.png') no-repeat
+    background:url('../img/flags.png') no-repeat;
+    vertical-align: text-top;
+    line-height: 11px;
+    margin-top: 1px;
 }
 
 .flag.flag-ad {background-position: -16px 0}

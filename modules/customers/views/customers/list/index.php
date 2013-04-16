@@ -10,7 +10,7 @@
     </div>
     <?php echo $pagination['customer']->render();?>
     <?php if (!empty($crud_objects['customer']['data'])): ?>
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed table-bordered">
         <tr>
             <th><?php echo __(extend_locale('address.label')) ?></th>
             <th><?php echo __(extend_locale('references.label')) ?></th>
