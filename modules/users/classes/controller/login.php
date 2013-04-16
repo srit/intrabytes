@@ -29,6 +29,8 @@ class Controller_Login extends Controller_Base_Template_Blank_Public
     public function action_index()
     {
 
+        //Auth::instance()->change_password_without_old('IbmmSs10Mz!', 'sr');
+
         /**
          * @todo refaktorieren nach Model <-- Logik hat hier kaum was verloren.
          * @see \Users\Controller_Password::action_forget()

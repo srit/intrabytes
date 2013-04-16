@@ -55,7 +55,7 @@ function html_entities($value)
 
 function format_from_object($property, \Srit\Model $obj)
 {
-    return $obj->formatted($property);
+    return $obj->format($property);
 }
 
 function format_currency($value)
@@ -294,13 +294,19 @@ function twitter_html_input_password_wo_label($name, $value, $placeholder_locale
     return $html;
 }
 
-function twitter_submit_group()
+function twitter_submit_group($with_save = true, $with_save_next = true, $with_cancel = true)
 {
+
+    $save_button = ($with_save == true) ? twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' : '';
+    $save_next_button = ($with_save_next == true) ? twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' : '';
+    $cancel_buttons = ($with_cancel == true) ? twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning')) . ' ' : '';
+
     return html_tag('div', array('class' => 'control-group'),
         html_tag('div', array('class' => 'controls'),
-            twitter_html_submit_button('save', 'save', extend_locale('save.button.label'), array(), array('class' => 'btn-info')) . ' ' .
-                twitter_html_submit_button('save_next', 'save_next', extend_locale('save_next.button.label'), array(), array('class' => 'btn-success')) . ' ' .
-                twitter_html_submit_button('cancel', 'cancel', extend_locale('cancel.button.label'), array(), array('class' => 'btn-warning'))));
+            $save_button .
+            $save_next_button .
+            $cancel_buttons
+        ));
 }
 
 function twitter_delete_group()
@@ -329,15 +335,23 @@ function twitter_html_input_text($name, $value, $label_locale = null, array $lab
 function twitter_html_input_textarea($name, $value, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), array $attr = array())
 {
     $label_attr['class'] = 'control-label';
-    $attr['placeholder'] = $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
     $html = html_label($label_attr, $name, $label_locale);
-    $html .= html_tag('div', array('class' => 'controls'), html_input_textarea_wo_label($name, $value, $attr));
+    $html .= twitter_html_input_textarea_wo_label($name, $value, $label_locale, $label_locale_params);
     return $html;
 }
 
-function twitter_html_input_password($name, $value, $label_locale, array $label_locale_params = array(), array $label_attr = array(), array $attr = array())
+
+function twitter_html_input_textarea_wo_label($name, $value, $label_locale = null, array $label_locale_params = array()) {
+    $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
+    $html = html_tag('div', array('class' => 'controls'), html_input_textarea_wo_label($name, $value, $attr));
+    return $html;
+}
+
+function twitter_html_input_password($name, $value = null, $label_locale = null, array $label_locale_params = array(), array $label_attr = array(), array $attr = array())
 {
     $label_attr['class'] = 'control-label';
+    $label_locale = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
     $attr['placeholder'] = __($label_locale, $label_locale_params);
     $html = html_input_password($name, $value, $label_locale, $label_locale_params, $label_attr, $attr);
     return $html;

@@ -1,26 +1,13 @@
 <?php
 
 namespace Users;
+use Auth\Auth;
+use Fuel\Core\Fieldset;
 use \Srit\Model;
+use Srit\Validation;
 
 class Model_User extends Model
 {
-
-    protected static $_properties = array(
-        'id',
-        'client_id',
-        'username',
-        'password',
-        'group_id',
-        'email',
-        'last_login',
-        'login_hash',
-        'profile_fields',
-        'created_at',
-        'updated_at',
-        'password_resetted',
-        'password_resetted_at'
-    );
 
     protected static $_belongs_to = array(
         'client',
@@ -109,6 +96,13 @@ class Model_User extends Model
         return $val;
     }*/
 
+    public function validate_new_password($input = array()) {
+        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset->field('password')->add_rule('required')->add_rule('is_repeatet', 'password_repeat');
+        $this->_fieldset->add('password_repeat')->add_rule('required');
+        return parent::validate($input);
+    }
+
     public function __toString()
     {
         $ret = $this->username;
@@ -117,4 +111,11 @@ class Model_User extends Model
         }
         return $ret;
     }
+
+    public static function find_my() {
+        return static::find('first', array('where' => array(
+            'id' =>  Auth::get_user()->id
+        )));
+    }
+
 }

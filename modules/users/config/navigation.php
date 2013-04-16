@@ -16,6 +16,12 @@ return array(
                     'controller_name' => 'settings_pubkeys',
                     'action' => 'list'
                 ),
+                'users_settings_profile_edit' => array(
+                    'acl' => 'Users\\Settings_Profile.edit',
+                    'module' => 'users',
+                    'controller_name' => 'settings_profile',
+                    'action' => 'edit',
+                )
             )
         ),
         'user_logout' => array(

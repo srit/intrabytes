@@ -26,7 +26,7 @@
                         <?php echo xss_clean($customer_project->redmine_project_label) ?>   <br>
                         <?php echo html_anchor(xss_clean($customer_project->redmine_project_url()), extend_locale('redmine_project_url.label'), array('target' => '_blank'))?>
                     </td>
-                    <td><?php echo format_from_object('created_at', $customer_project)?></td>
+                    <td><?php echo $customer_project->created_at ?></td>
                     <td>
                         <?php echo twitter_button_group(array(
                         array('attr' => array(), 'value' => html_anchor(customers_projects_show_route($customer_project->id, $customer_project->customer_id), __(extend_locale('actions.show.label')))),

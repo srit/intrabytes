@@ -30,6 +30,7 @@ class Model_Customer_Contact extends Model {
 
     protected static $_belongs_to = array(
         'postalcode',
-        'salutation'
+        'salutation',
+        'customer'
     );
 }
