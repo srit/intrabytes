@@ -10,7 +10,7 @@
     </div>
     <?php if (!empty($crud_objects['redmine']['data'])): ?>
 
-    <table class="table table-striped table-condensed">
+    <table class="table table-striped table-condensed table-bordered">
         <tr>
             <th><?php echo __(extend_locale('name.label')) ?></th>
             <th><?php echo __(extend_locale('url.label')) ?></th>

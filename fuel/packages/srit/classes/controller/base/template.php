@@ -37,7 +37,7 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_crud_action = null;
 
-    protected $_crud_list_uri = null;
+    protected $_crud_redirect_uri = null;
 
     protected $_pagination_config = array();
 
@@ -50,8 +50,6 @@ class Controller_Base_Template extends \Controller_Template
     protected $_pagination = array();
 
     protected $_named_params = array();
-
-    protected $_model_object_name = null;
 
     public $template = 'templates/layout';
 
@@ -183,7 +181,7 @@ class Controller_Base_Template extends \Controller_Template
         $this->_init_crud_vars();
 
         if (Input::post('cancel', false)) {
-            Messages::redirect(Uri::create($this->_crud_list_uri));
+            Messages::redirect(Uri::create($this->_crud_redirect_uri));
         }
 
         if (in_array($this->_crud_action, $crud_options['crud_actions'])) {
@@ -204,48 +202,19 @@ class Controller_Base_Template extends \Controller_Template
 
                 $explode_crud = explode(':', $crud_object);
                 //$this->_logger->debug('Explode Crud', $explode_crud);
+                $this->_extract_crud_object($explode_crud, $crud_object,$crud);
 
-                /**
-                 * wenn ein namspace mit angegeben wurde,
-                 * versuchen diesen aufzulösen
-                 *
-                 * evtl macht es auch sinn zu prüfen, ob das Model mit dem Namespace angegeben wurde
-                 * z.B. Srit\Model_Languages
-                 *
-                 */
-                if (count($explode_crud) > 1) {
-                    $model = Inflector::camelize($explode_crud[1]);
-                    $model = Inflector::underscore($model);
-                    $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
-                    $this->_model_object_name = ucfirst($explode_crud[0]) . '\\' . $this->_model_object_name;
-                } else {
-                    list($model) = $explode_crud;
-                    $model = Inflector::camelize($model);
-                    $model = Inflector::underscore($model);
-                    /**
-                     * @todo fail - build objects!
-                     */
-                    $this->_model_object_name = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
-                    $this->_model_object_name = $this->_controller_namespace . '\\' . $this->_model_object_name;
-                }
+                $this->_named_params = array_merge($this->_named_params, $this->_crud_objects[$crud_object]['fixed_named_params']);
 
-                $fixed_named_params = array();
-
-                if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
-                    $fixed_named_params = $crud['fixed_named_params'];
-                }
-
-                $merged_named_params = array_merge($this->_named_params, $fixed_named_params);
-
-                $options = array('where' => $merged_named_params);
+                $this->_crud_objects[$crud_object]['options'] = array('where' => $this->_named_params);
                 //$this->_logger->debug('Options:', $options);
 
                 if ($this->_crud_action == 'list') {
-                    if(is_callable(array($this->_model_object_name, 'properties'))) {
+                    if(is_callable(array($this->_crud_objects[$crud_object]['model_object_name'], 'properties'))) {
                         /**
                          * @todo bad? why not in the model?
                          */
-                        $properties = forward_static_call(array($this->_model_object_name, 'properties'));
+                        $properties = forward_static_call(array($this->_crud_objects[$crud_object]['model_object_name'], 'properties'));
                     }
                     //list ist im moment die einzige action, welche ein find_all machen sollte
 
@@ -260,9 +229,9 @@ class Controller_Base_Template extends \Controller_Template
                             if (isset($properties) AND isset($properties[$field_name]) AND ($value = trim($value)) != '' AND !in_array($field_name, $not_filtered)) {
                                 $field_value_pair = array($field_name => $value);
                                 if ($filter_type == 'filter_like') {
-                                    $options['where'] = array_merge($options['where'], array(array($field_name, 'LIKE', '%' . $value . '%')));
+                                    $this->_crud_objects[$crud_object]['options']['where'] = array_merge($this->_crud_objects[$crud_object]['options']['where'], array(array($field_name, 'LIKE', '%' . $value . '%')));
                                 } else {
-                                    $options['where'] = array_merge($options['where'], $field_value_pair);
+                                    $this->_crud_objects[$crud_object]['options']['where'] = array_merge($this->_crud_objects[$crud_object]['options']['where'], $field_value_pair);
                                 }
                                 $cleaned_filter = array_merge($cleaned_filter, $field_value_pair);
                             }
@@ -278,14 +247,14 @@ class Controller_Base_Template extends \Controller_Template
                         $order_type = isset($get['order_type'] ) ? $get['order_type'] : $get[$crud_object]['order_type'];
 
                         if(!empty($order_field) && !empty($order_type) && in_array(strtolower($order_type), array('asc', 'desc'))) {
-                            if(!isset($options['order_by'])) {
-                                $options['order_by'] = array();
+                            if(!isset($this->_crud_objects[$crud_object]['options']['order_by'])) {
+                                $this->_crud_objects[$crud_object]['options']['order_by'] = array();
                             }
-                            $options['order_by'][] = array($order_field, strtoupper($order_type));
+                            $this->_crud_objects[$crud_object]['options']['order_by'][] = array($order_field, strtoupper($order_type));
                         }
                     }
 
-                    $data_cnt = forward_static_call_array(array($this->_model_object_name, 'count'), array($options));
+                    $data_cnt = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'count'), array($this->_crud_objects[$crud_object]['options']));
 
                     $this->_pagination_config[$crud_object] = array(
                         'total_items' => $data_cnt,
@@ -298,14 +267,14 @@ class Controller_Base_Template extends \Controller_Template
 
                     $this->_pagination[$crud_object] = Pagination::forge($crud_object, $this->_pagination_config[$crud_object]);
 
-                    $options['limit'] = $this->_pagination[$crud_object]->per_page;
-                    $options['offset'] = $this->_pagination[$crud_object]->offset;
+                    $this->_crud_objects[$crud_object]['options']['limit'] = $this->_pagination[$crud_object]->per_page;
+                    $this->_crud_objects[$crud_object]['options']['offset'] = $this->_pagination[$crud_object]->offset;
 
-                    $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('all', $options));
+                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('all', $this->_crud_objects[$crud_object]['options']));
                 } elseif ($this->_crud_action == 'add') {
-                    $data = forward_static_call_array(array($this->_model_object_name, 'forge'), array($merged_named_params));
+                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'forge'), array($this->_named_params));
                 } else {
-                    $data = forward_static_call_array(array($this->_model_object_name, 'find'), array('first', $options));
+                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('first', $this->_crud_objects[$crud_object]['options']));
                     //extend the title
                     $this->set_page_title(__(extend_locale('title'), array('extend' => $data->__toString())));
                 }
@@ -330,7 +299,7 @@ class Controller_Base_Template extends \Controller_Template
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
                         if (Input::post('save', false)) {
-                            $redirect_uri = $this->_crud_list_uri;
+                            $redirect_uri = $this->_crud_redirect_uri;
                         } else {
                             $redirect_uri = Uri::current();
                         }
@@ -341,7 +310,7 @@ class Controller_Base_Template extends \Controller_Template
                 if (Input::post('delete', false)) {
                     $data->delete();
                     Messages::instance()->success(__(extend_locale('success')));
-                    Messages::redirect($this->_crud_list_uri);
+                    Messages::redirect($this->_crud_redirect_uri);
                 }
 
                 $this->_crud_objects[$crud_object]['data'] = $data;
@@ -367,11 +336,11 @@ class Controller_Base_Template extends \Controller_Template
 
         $route_prefix = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
         $route_function_prefix = str_replace('/', '_', $route_prefix);
-        $this->_crud_list_uri = named_route($route_function_prefix, $this->_named_params, false);
+        $this->_crud_redirect_uri = named_route($route_function_prefix, $this->_named_params, false);
 
-        if (empty($this->_crud_list_uri)) {
+        if (empty($this->_crud_redirect_uri)) {
             //simple way
-            $this->_crud_list_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
+            $this->_crud_redirect_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
         }
 
         $this->_get_content_template()
@@ -437,6 +406,41 @@ class Controller_Base_Template extends \Controller_Template
         $this->_logger->addDebug('Module: ', array($this->request->module));
         $this->_logger->addDebug('Controller: ', array($this->request->controller));
         $this->_logger->addDebug('Action: ', array($this->request->action));
+    }
+
+    /**
+     * @param $explode_crud
+     * @param $crud_object
+     * @param $crud
+     */
+    protected function _extract_crud_object($explode_crud, $crud_object, $crud)
+    {
+        /**
+         * wenn ein namspace mit angegeben wurde,
+         * versuchen diesen aufzulösen
+         *
+         * evtl macht es auch sinn zu prüfen, ob das Model mit dem Namespace angegeben wurde
+         * z.B. Srit\Model_Languages
+         *
+         */
+        if (count($explode_crud) > 1) {
+            $model = Inflector::camelize($explode_crud[1]);
+            $model = Inflector::underscore($model);
+            $this->_crud_objects[$crud_object]['model_object_name'] = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+            $this->_crud_objects[$crud_object]['model_object_name'] = ucfirst($explode_crud[0]) . '\\' . $this->_crud_objects[$crud_object]['model_object_name'];
+        } else {
+            list($model) = $explode_crud;
+            $model = Inflector::camelize($model);
+            $model = Inflector::underscore($model);
+            $this->_crud_objects[$crud_object]['model_object_name'] = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
+            $this->_crud_objects[$crud_object]['model_object_name'] = $this->_controller_namespace . '\\' . $this->_crud_objects[$crud_object]['model_object_name'];
+        }
+
+        $this->_crud_objects[$crud_object]['fixed_named_params'] = array();
+
+        if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
+            $this->_crud_objects[$crud_object]['fixed_named_params'] = $crud['fixed_named_params'];
+        }
     }
 
 }
