@@ -37,7 +37,7 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_crud_action = null;
 
-    protected $_crud_list_uri = null;
+    protected $_crud_redirect_uri = null;
 
     protected $_pagination_config = array();
 
@@ -183,7 +183,7 @@ class Controller_Base_Template extends \Controller_Template
         $this->_init_crud_vars();
 
         if (Input::post('cancel', false)) {
-            Messages::redirect(Uri::create($this->_crud_list_uri));
+            Messages::redirect(Uri::create($this->_crud_redirect_uri));
         }
 
         if (in_array($this->_crud_action, $crud_options['crud_actions'])) {
@@ -330,7 +330,7 @@ class Controller_Base_Template extends \Controller_Template
                         $data->save();
                         Messages::instance()->success(__(extend_locale('success')));
                         if (Input::post('save', false)) {
-                            $redirect_uri = $this->_crud_list_uri;
+                            $redirect_uri = $this->_crud_redirect_uri;
                         } else {
                             $redirect_uri = Uri::current();
                         }
@@ -341,7 +341,7 @@ class Controller_Base_Template extends \Controller_Template
                 if (Input::post('delete', false)) {
                     $data->delete();
                     Messages::instance()->success(__(extend_locale('success')));
-                    Messages::redirect($this->_crud_list_uri);
+                    Messages::redirect($this->_crud_redirect_uri);
                 }
 
                 $this->_crud_objects[$crud_object]['data'] = $data;
@@ -367,11 +367,11 @@ class Controller_Base_Template extends \Controller_Template
 
         $route_prefix = str_replace(array($this->_crud_action, '/index'), array('list', ''), $this->_controller_path);
         $route_function_prefix = str_replace('/', '_', $route_prefix);
-        $this->_crud_list_uri = named_route($route_function_prefix, $this->_named_params, false);
+        $this->_crud_redirect_uri = named_route($route_function_prefix, $this->_named_params, false);
 
-        if (empty($this->_crud_list_uri)) {
+        if (empty($this->_crud_redirect_uri)) {
             //simple way
-            $this->_crud_list_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
+            $this->_crud_redirect_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
         }
 
         $this->_get_content_template()
