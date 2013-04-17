@@ -34,7 +34,7 @@ $project_redmine_url = $project->redmine->url;
         <?php if (!empty($redmine_project)): ?>
             <div class="tab-pane" id="redmine">
                 <?php echo h3(__(extend_locale('redmine.project.overview.label'))) ?>
-                <table class="table table-striped table-condensed">
+                <table class="table table-striped table-condensed table-bordered">
                     <?php foreach ($redmine_project['project'] as $key => $value):
 
                         if (in_array($key, array('trackers', 'issue_categories'))):
@@ -81,7 +81,7 @@ $project_redmine_url = $project->redmine->url;
         <?php if (!empty($redmine_tickets)): ?>
             <div id="redmine_tickets" class="tab-pane">
                 <?php echo h3(__(extend_locale('redmine.project.tickets.overview.label'))) ?>
-                <table class="table table-striped table-condensed">
+                <table class="table table-striped table-condensed table-bordered">
                     <tr>
                         <th><?php echo __(extend_locale('redmine.project.count.tickets.label')) ?></th>
                         <td><?php echo (int)$redmine_tickets['total_count'] ?></td>

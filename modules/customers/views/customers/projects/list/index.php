@@ -10,7 +10,7 @@
         <?php echo html_anchor(customers_projects_add_route($customer_id), extend_locale('add.button.label'), array('class' => 'btn btn-success')) ?>
     </div>
     <?php if (!empty($crud_objects['customer_project']['data'])): ?>
-        <table class="table table-striped table-condensed">
+        <table class="table table-striped table-condensed table-bordered">
             <tr>
                 <th><?php echo __(extend_locale('name.label')) ?></th>
                 <th><?php echo __(extend_locale('url.label')) ?></th>

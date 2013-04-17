@@ -30,7 +30,7 @@ echo $theme->view('core/settings/languages/_partials/filter_form', array('crud_o
 <div class="row-fluid">
     <div class="span12">
         <?php if (!empty($crud_objects['srit:language']['data'])): ?>
-            <table class="table table-striped table-condensed">
+            <table class="table table-striped table-condensed table-bordered">
                 <tr>
                     <th><?php echo __(extend_locale('id.label')) ?></th>
                     <th><?php echo __(extend_locale('locale.label')) ?></th>

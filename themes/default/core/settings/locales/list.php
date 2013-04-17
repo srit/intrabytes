@@ -24,7 +24,7 @@ echo $theme->view('core/settings/locales/_partials/filter_form', array('crud_obj
     <div class="span12">
         <?php if (!empty($crud_objects['srit:locale']['data'])): ?>
             <form method="post" accept-charset="utf-8" action="<?php echo core_settings_locales_deletes_route() ?>" id="chcked_actions">
-            <table class="table table-striped table-condensed">
+            <table class="table table-striped table-condensed table-bordered">
                 <tr>
                     <th width="5%"><?php echo html_checkbox('chckall', 1) ?></th>
                     <th><?php echo order_anchor('key', __(extend_locale('key.label')), 'srit:locale') ?></th>
