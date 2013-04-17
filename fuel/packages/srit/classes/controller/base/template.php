@@ -190,19 +190,11 @@ class Controller_Base_Template extends \Controller_Template
 
                 //$this->_logger->debug('Crud Array', array($key, $crud));
 
-                if (!is_string($key)) {
-                    $this->_crud_objects[$crud] = array();
-                    $crud_object = $crud;
-                } else {
-                    $crud_object = $key;
-                    if (!is_array($crud)) {
-                        $this->_crud_objects[$key] = array();
-                    }
-                }
+                $crud_object = $this->_extract_crud_object($key, $crud);
 
-                $explode_crud = explode(':', $crud_object);
+
                 //$this->_logger->debug('Explode Crud', $explode_crud);
-                $this->_extract_crud_object($explode_crud, $crud_object,$crud);
+                //$this->_extract_crud_object($explode_crud, $crud_object,$crud);
 
                 $this->_named_params = array_merge($this->_named_params, $this->_crud_objects[$crud_object]['fixed_named_params']);
 
@@ -254,10 +246,10 @@ class Controller_Base_Template extends \Controller_Template
                         }
                     }
 
-                    $data_cnt = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'count'), array($this->_crud_objects[$crud_object]['options']));
+                    $this->_crud_objects[$crud_object]['data_cnt'] = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'count'), array($this->_crud_objects[$crud_object]['options']));
 
                     $this->_pagination_config[$crud_object] = array(
-                        'total_items' => $data_cnt,
+                        'total_items' => $this->_crud_objects[$crud_object]['data_cnt'],
                         'per_page' => 25,
                         'pagination_url' => Uri::current(),
                         'uri_segment' => 'page',
@@ -270,16 +262,16 @@ class Controller_Base_Template extends \Controller_Template
                     $this->_crud_objects[$crud_object]['options']['limit'] = $this->_pagination[$crud_object]->per_page;
                     $this->_crud_objects[$crud_object]['options']['offset'] = $this->_pagination[$crud_object]->offset;
 
-                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('all', $this->_crud_objects[$crud_object]['options']));
+                    $this->_crud_objects[$crud_object]['data'] = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('all', $this->_crud_objects[$crud_object]['options']));
                 } elseif ($this->_crud_action == 'add') {
-                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'forge'), array($this->_named_params));
+                    $this->_crud_objects[$crud_object]['data'] = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'forge'), array($this->_named_params));
                 } else {
-                    $data = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('first', $this->_crud_objects[$crud_object]['options']));
+                    $this->_crud_objects[$crud_object]['data'] = forward_static_call_array(array($this->_crud_objects[$crud_object]['model_object_name'], 'find'), array('first', $this->_crud_objects[$crud_object]['options']));
                     //extend the title
-                    $this->set_page_title(__(extend_locale('title'), array('extend' => $data->__toString())));
+                    $this->set_page_title(__(extend_locale('title'), array('extend' => $this->_crud_objects[$crud_object]['data']->__toString())));
                 }
 
-                if (in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($data)) {
+                if (in_array($this->_crud_action, array('show', 'edit', 'delete')) && empty($this->_crud_objects[$crud_object]['data'])) {
                     throw new HttpNotFoundException;
                 }
 
@@ -294,9 +286,9 @@ class Controller_Base_Template extends \Controller_Template
                      * dabei heißen die formularfelder zum beispiel customer[name], customer[street] etc.
                      */
                     $new_data = (isset($form_data[$crud_object]) && is_array($form_data[$crud_object])) ? $form_data[$crud_object] : $form_data;
-                    $data->set($new_data);
-                    if ($data->validate($new_data)) {
-                        $data->save();
+                    $this->_crud_objects[$crud_object]['data']->set($new_data);
+                    if ($this->_crud_objects[$crud_object]['data']->validate($new_data)) {
+                        $this->_crud_objects[$crud_object]['data']->save();
                         Messages::instance()->success(__(extend_locale('success')));
                         if (Input::post('save', false)) {
                             $redirect_uri = $this->_crud_redirect_uri;
@@ -308,13 +300,10 @@ class Controller_Base_Template extends \Controller_Template
                 }
 
                 if (Input::post('delete', false)) {
-                    $data->delete();
+                    $this->_crud_objects[$crud_object]['data']->delete();
                     Messages::instance()->success(__(extend_locale('success')));
                     Messages::redirect($this->_crud_redirect_uri);
                 }
-
-                $this->_crud_objects[$crud_object]['data'] = $data;
-                $this->_crud_objects[$crud_object]['data_cnt'] = (isset($data_cnt)) ? $data_cnt : null;
             }
 
 
@@ -413,8 +402,29 @@ class Controller_Base_Template extends \Controller_Template
      * @param $crud_object
      * @param $crud
      */
-    protected function _extract_crud_object($explode_crud, $crud_object, $crud)
+    protected function ____extract_crud_object($explode_crud, $crud_object, $crud)
     {
+
+    }
+
+    /**
+     * @param $key
+     * @param $crud
+     * @return string
+     */
+    protected function _extract_crud_object($key, $crud)
+    {
+        if (!is_string($key)) {
+            $crud_object = $crud;
+        } else {
+            $crud_object = $key;
+        }
+
+        $this->_crud_objects[$crud_object] = array();
+
+        $explode_crud = explode(':', $crud_object);
+
+
         /**
          * wenn ein namspace mit angegeben wurde,
          * versuchen diesen aufzulösen
@@ -440,7 +450,9 @@ class Controller_Base_Template extends \Controller_Template
 
         if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
             $this->_crud_objects[$crud_object]['fixed_named_params'] = $crud['fixed_named_params'];
+            return $crud_object;
         }
+        return $crud_object;
     }
 
 }
