@@ -10,20 +10,9 @@
 
 namespace Srit;
 
-class Model_Sitemap extends \Nestedsets\Model {
+class Model_Navigation extends \Nestedsets\Model {
 
-    protected static $_table_name = 'sitemap';
-
-    protected static $_properties = array(
-        'id',
-        'left_id',
-        'right_id',
-        'symlink_id',
-        'tree_id',
-        'acl',
-        'route_name',
-        'namespace'
-    );
+    protected static $_table_name = 'navigation';
 
     public static $tree = array(
         'left_field'     => 'left_id',

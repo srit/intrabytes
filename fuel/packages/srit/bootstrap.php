@@ -12,7 +12,7 @@ Autoloader::add_classes(array(
     'Srit\\Date' => __DIR__ . '/classes/date.php',
     'Srit\\Request' => __DIR__ . '/classes/request.php',
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
-    'Srit\\Model_Sitemap' => __DIR__ . '/classes/model/sitemap.php',
+    'Srit\\Model_Navigation' => __DIR__ . '/classes/model/navigation.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
     'Srit\\Observer_I18n' => __DIR__ . '/classes/observer/i18n.php',
     'Srit\\Observer_Localized' => __DIR__ . '/classes/observer/localized.php',
