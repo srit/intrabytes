@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 17. Apr 2013 um 16:11
+-- Erstellungszeit: 18. Apr 2013 um 16:22
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -168,7 +168,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_contacts` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_contacts`
@@ -823,6 +823,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
   `right_id` int(9) unsigned NOT NULL,
   `tree_id` int(9) unsigned DEFAULT NULL,
   `symlink_id` int(9) unsigned DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
   `acl` varchar(50) DEFAULT NULL,
   `route` varchar(200) DEFAULT NULL,
   `module` varchar(50) DEFAULT NULL,
@@ -841,40 +842,40 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
 -- Daten für Tabelle `intrabytes_navigation`
 --
 
-INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `acl`, `route`, `module`, `controller_name`, `action`, `show`, `named_params`, `namespace`) VALUES
-(1, 1, 24, 1, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_left'),
-(2, 22, 23, 1, NULL, 'Dashboard\\Board.index', NULL, 'dashboard', 'board', 'index', 1, NULL, NULL),
-(3, 2, 21, 1, NULL, 'Customers\\List.index', 'customers/list.html5', 'customers', 'list', 'index', 1, NULL, NULL),
-(4, 19, 20, 1, NULL, NULL, NULL, 'customers', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(5, 17, 18, 1, NULL, NULL, NULL, 'customers', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(6, 15, 16, 1, NULL, NULL, NULL, 'customers', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(7, 13, 14, 1, NULL, NULL, NULL, 'customers', 'add', 'index', 0, NULL, NULL),
-(8, 3, 12, 1, NULL, NULL, NULL, 'customers', 'projects_list', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
-(9, 10, 11, 1, NULL, NULL, NULL, 'customers', 'projects_show', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(10, 8, 9, 1, NULL, NULL, NULL, 'customers', 'projects_edit', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(11, 6, 7, 1, NULL, NULL, NULL, 'customers', 'projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(12, 4, 5, 1, NULL, NULL, NULL, 'customers', 'projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
-(13, 1, 42, 2, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
-(14, 12, 41, 2, NULL, NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(15, 31, 40, 2, NULL, 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
-(16, 38, 39, 2, NULL, NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(17, 36, 37, 2, NULL, NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(18, 34, 35, 2, NULL, NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(19, 32, 33, 2, NULL, NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
-(20, 23, 30, 2, NULL, NULL, NULL, 'core', 'settings_locales', 'list', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(21, 28, 29, 2, NULL, NULL, NULL, 'core', 'settings_locales', 'add', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(22, 26, 27, 2, NULL, NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(23, 24, 25, 2, NULL, NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(24, 13, 22, 2, NULL, 'Redmines\\List.index', NULL, 'redmines', 'list', 'index', 1, NULL, NULL),
-(25, 20, 21, 2, NULL, 'Redmines\\Add.index', NULL, 'redmines', 'add', 'index', 0, NULL, NULL),
-(26, 18, 19, 2, NULL, 'Redmines\\Edit.index', NULL, 'redmines', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(27, 16, 17, 2, NULL, 'Redmines\\Delete.index', NULL, 'redmines', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(28, 14, 15, 2, NULL, 'Redmines\\Show.index', NULL, 'redmines', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(29, 4, 11, 2, NULL, NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(30, 9, 10, 2, NULL, 'Users\\Settings_Pubkeys.list', 'users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
-(31, 7, 8, 2, NULL, 'Users\\Settings_Profile.edit', NULL, 'users', 'settings_profile', 'edit', 1, NULL, NULL),
-(32, 5, 6, 2, NULL, 'Dashboard\\Settings_User.index', NULL, 'dashboard', 'settings_user', 'index', 1, NULL, NULL),
-(33, 2, 3, 2, NULL, 'Users\\Logout.index', 'users/logout.html5', 'users', 'logout', 'index', 1, NULL, NULL);
+INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `name`, `acl`, `route`, `module`, `controller_name`, `action`, `show`, `named_params`, `namespace`) VALUES
+(1, 1, 24, 1, NULL, 'top_left', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_left'),
+(2, 22, 23, 1, NULL, 'dashboard_board', 'Dashboard\\Board.index', NULL, 'dashboard', 'board', 'index', 1, NULL, NULL),
+(3, 2, 21, 1, NULL, 'customers', 'Customers\\List.index', 'customers/list.html5', 'customers', 'list', 'index', 1, NULL, NULL),
+(4, 19, 20, 1, NULL, 'customers_show', NULL, NULL, 'customers', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(5, 17, 18, 1, NULL, 'customers_edit', NULL, NULL, 'customers', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(6, 15, 16, 1, NULL, 'customers_delete', NULL, NULL, 'customers', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(7, 13, 14, 1, NULL, 'customers_add', NULL, NULL, 'customers', 'add', 'index', 0, NULL, NULL),
+(8, 3, 12, 1, NULL, 'customers_projects_list', NULL, NULL, 'customers', 'projects_list', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
+(9, 10, 11, 1, NULL, 'customers_projects_show', NULL, NULL, 'customers', 'projects_show', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(10, 8, 9, 1, NULL, 'customers_projects_edit', NULL, NULL, 'customers', 'projects_edit', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(11, 6, 7, 1, NULL, 'customers_projects_delete', NULL, NULL, 'customers', 'projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(12, 4, 5, 1, NULL, 'customers_projects_add', NULL, NULL, 'customers', 'projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
+(13, 1, 42, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
+(14, 12, 41, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(15, 31, 40, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
+(16, 38, 39, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(17, 36, 37, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(18, 34, 35, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(19, 32, 33, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
+(20, 23, 30, 2, NULL, 'core_settings_locales_list', NULL, NULL, 'core', 'settings_locales', 'list', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
+(21, 28, 29, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
+(22, 26, 27, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
+(23, 24, 25, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
+(24, 13, 22, 2, NULL, 'redmines_list', 'Redmines\\List.index', NULL, 'redmines', 'list', 'index', 1, NULL, NULL),
+(25, 20, 21, 2, NULL, 'redmines_add', 'Redmines\\Add.index', NULL, 'redmines', 'add', 'index', 0, NULL, NULL),
+(26, 18, 19, 2, NULL, 'redmines_edit', 'Redmines\\Edit.index', NULL, 'redmines', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(27, 16, 17, 2, NULL, 'redmines_delete', 'Redmines\\Delete.index', NULL, 'redmines', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(28, 14, 15, 2, NULL, 'redmines_show', 'Redmines\\Show.index', NULL, 'redmines', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(29, 4, 11, 2, NULL, 'user_settings', 'Users\\Settings_Pubkeys.list', 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(30, 9, 10, 2, NULL, 'user_pubkey_settings', 'Users\\Settings_Pubkeys.list', 'users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
+(31, 7, 8, 2, NULL, 'users_settings_profile_edit', 'Users\\Settings_Profile.edit', NULL, 'users', 'settings_profile', 'edit', 1, NULL, NULL),
+(32, 5, 6, 2, NULL, 'dashboard_settings_user', 'Dashboard\\Settings_User.index', NULL, 'dashboard', 'settings_user', 'index', 1, NULL, NULL),
+(33, 2, 3, 2, NULL, 'user_logout', 'Users\\Logout.index', 'users/logout.html5', 'users', 'logout', 'index', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26984,7 +26985,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1366199248, '37e9dc5d7d2eec0512bf055feb58779f002754e4', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
+(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1366275115, '56c7ea2ab96025e034c29cc416d7d386e5f13f1f', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
 
 -- --------------------------------------------------------
 

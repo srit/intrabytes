@@ -23,4 +23,12 @@ class Model_Navigation extends \Nestedsets\Model {
         'symlink_field'  => 'symlink_id',
         'use_symlinks'   => false,
     );
+
+    public static function find_namespaces() {
+        return static::find_all(array(
+           'where' => array(
+               array('namespace', '!=', '')
+           )
+        ));
+    }
 }

@@ -40,7 +40,7 @@ class Navigation {
         foreach($navigation_tree as $key => $nav) {
             if(is_array($nav) && !isset($nav['module']) && !isset($nav['controller_name']) && !isset($nav['action']) && !isset($nav['route'])) {
                 //neuer navigations baum
-                $new_tree = Model_Navigation::forge(array('namespace' => $key));
+                $new_tree = Model_Navigation::forge(array('namespace' => $key, 'name' => $key));
                 $new_tree->tree_new_root();
                 static::_iterate_navigation_tree($nav, $new_tree);
             } elseif(is_array($nav) && ((isset($nav['module']) && isset($nav['controller_name']) && isset($nav['action'])) || isset($nav['route']) )) {
@@ -49,6 +49,7 @@ class Navigation {
                 if(isset($forge_data['named_params'])) {
                     $forge_data['named_params'] = serializer($forge_data['named_params']);
                 }
+                $forge_data['name'] = $key;
                 $tree = Model_Navigation::forge($forge_data);
                 $tree->tree_new_last_child_of($navigation);
                 if(isset($nav['links'])) {

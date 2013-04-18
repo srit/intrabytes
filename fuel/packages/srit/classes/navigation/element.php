@@ -155,8 +155,8 @@ class Navigation_Element implements \ArrayAccess{
     }
 
     protected function _chck_has_named_params() {
-        if($this->__isset('named_params')) {
-            $named_params = $this->get('named_params');
+        if($this->__isset('named_params') && ($named_params = $this->get('named_params') AND !empty($named_params))) {
+            //$named_params = $this->get('named_params');
             $tmp_named_params = array();
             foreach($named_params as $name => $named_param) {
                 if(is_int($name)) {
