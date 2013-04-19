@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 18. Apr 2013 um 16:22
+-- Erstellungszeit: 19. Apr 2013 um 16:31
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -856,7 +856,7 @@ INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `sy
 (11, 6, 7, 1, NULL, 'customers_projects_delete', NULL, NULL, 'customers', 'projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
 (12, 4, 5, 1, NULL, 'customers_projects_add', NULL, NULL, 'customers', 'projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
 (13, 1, 42, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
-(14, 12, 41, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(14, 12, 41, 2, NULL, 'settings', NULL, 'asdas', '1', '2', '3', 1, NULL, NULL),
 (15, 31, 40, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
 (16, 38, 39, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
 (17, 36, 37, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
@@ -871,7 +871,7 @@ INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `sy
 (26, 18, 19, 2, NULL, 'redmines_edit', 'Redmines\\Edit.index', NULL, 'redmines', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
 (27, 16, 17, 2, NULL, 'redmines_delete', 'Redmines\\Delete.index', NULL, 'redmines', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
 (28, 14, 15, 2, NULL, 'redmines_show', 'Redmines\\Show.index', NULL, 'redmines', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(29, 4, 11, 2, NULL, 'user_settings', 'Users\\Settings_Pubkeys.list', 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(29, 4, 11, 2, NULL, 'user_settings', 'Users\\Settings_Pubkeys.list', 'asdasaa', '4', '5', '6', 1, NULL, NULL),
 (30, 9, 10, 2, NULL, 'user_pubkey_settings', 'Users\\Settings_Pubkeys.list', 'users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
 (31, 7, 8, 2, NULL, 'users_settings_profile_edit', 'Users\\Settings_Profile.edit', NULL, 'users', 'settings_profile', 'edit', 1, NULL, NULL),
 (32, 5, 6, 2, NULL, 'dashboard_settings_user', 'Dashboard\\Settings_User.index', NULL, 'dashboard', 'settings_user', 'index', 1, NULL, NULL),
@@ -26985,7 +26985,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1366275115, '56c7ea2ab96025e034c29cc416d7d386e5f13f1f', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
+(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1366365819, 'cfd19541bd5d17a6eb62d43ba6afaf2b13c82d15', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
 
 -- --------------------------------------------------------
 

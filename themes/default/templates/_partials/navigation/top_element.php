@@ -5,6 +5,7 @@
  */
 
 if ($element->show == true && $element->allowed == true):
+
     $class = ((bool)$element->active) ? 'active' : '';
 
     $anchor_attributes = array();

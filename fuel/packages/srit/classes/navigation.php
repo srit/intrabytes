@@ -12,9 +12,6 @@ use Fuel\Core\Router;
 class Navigation
 {
 
-    const IS_ROOT_TRUE = true;
-    const IS_ROOT_FALSE = false;
-
     protected static $_instances = array();
 
     /**
@@ -63,16 +60,14 @@ class Navigation
     {
         if (static::$_nav_data_array == array()) {
 
+
             static::$_navigation_namespaces = Model_Navigation::find_namespaces();
             if(static::$_navigation_namespaces != null) {
                 foreach(static::$_navigation_namespaces as $namespace) {
-                    $navigation = Model_Navigation::forge();
-                    $navigation->tree_select($namespace->tree_id);
-                    $root = $navigation->tree_get_root();
-                    if($root != null) {
-                        $tree = $this->_iterate_navigation_tree($root, self::IS_ROOT_TRUE);
-                        static::$_nav_data_array[$namespace->namespace] = $tree;
-                    }
+
+                    static::$_nav_data_array[$namespace->namespace] = Model_Navigation::find_namespaced_tree($namespace);
+
+
                 }
             }
 
@@ -96,23 +91,7 @@ class Navigation
     }
 
 
-    protected function _iterate_navigation_tree($tree, $is_root = false) {
-        $exchange = array();
-        $cildren = $tree->tree_get_children();
-        foreach($cildren as $child) {
-            $element = $child->to_array();
-            if($child->tree_has_children()) {
-                $element['links'] = $this->_iterate_navigation_tree($child);
-            }
-            if(!empty($element['named_params'])) {
-                $element['named_params'] = unserializer($element['named_params']);
-            }
-            $element_name = $element['name'];
-            $exchange = array_merge($exchange, array($element_name => $element));
-        }
 
-        return $exchange;
-    }
 
     public function find_active()
     {
@@ -160,8 +139,12 @@ class Navigation
 
     protected function _initNavigationElements()
     {
-        foreach (static::$_nav_data_array as $level => $elements) {
-            $this->_elements[$level] = new Navigation_Elements($elements);
+        if($this->_name != null) {
+            $this->_elements[$this->_name] = new Navigation_Elements(static::$_nav_data_array[$this->_name]);
+        } else {
+            foreach (static::$_nav_data_array as $level => $elements) {
+                $this->_elements[$level] = new Navigation_Elements($elements);
+            }
         }
     }
 
@@ -230,6 +213,10 @@ class Navigation
     public function __toString()
     {
         return $this->render();
+    }
+
+    public function get_tree($name) {
+
     }
 
     public function get($property)
