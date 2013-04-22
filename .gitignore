@@ -7,8 +7,8 @@ CONTRIBUTING.md
 README.md
 TESTING.md
 fuel/app/config/development/*
-fuel/app/cache/*
-fuel/app/logs/*
+cache/*
+logs/*
 fuel/app/tmp/*
 fuel/packages/*/config/development/*
 !.gitkeep

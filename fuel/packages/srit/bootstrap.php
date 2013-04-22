@@ -50,6 +50,7 @@ Autoloader::add_classes(array(
     'Srit\\Controller_Base_Template_Blank_Public' => __DIR__ . '/classes/controller/base/template/blank/public.php',
     'Srit\\Uri' => __DIR__ . '/classes/uri.php',
     'Srit\\Pagination' => __DIR__ . '/classes/pagination.php',
+    'Srit\\Cache_Storage_File' => __DIR__ . '/classes/cache/storage/file.php',
 
     /**
      * https://github.com/kbsali/php-redmine-api

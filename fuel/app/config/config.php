@@ -48,13 +48,13 @@ return array(
     /**
      * Default location for the file cache
      */
-    'cache_dir' => APPPATH . 'cache/',
+    'cache_dir' => APPPATH . '..' . DS . '..' . DS . 'cache' . DS,
 
     /**
      * Settings for the file finder cache (the Cache class has it's own config!)
      */
-    'caching' => false,
-    'cache_lifetime' => 3600, // In Seconds
+    'caching' => true,
+    'cache_lifetime' => 3600 * 24 * 365, // In Seconds
 
     /**
      * Callback to use with ob_start(), set this to 'ob_gzhandler' for gzip encoding of output
@@ -101,7 +101,7 @@ return array(
      * Fuel::L_ALL
      */
     'log_threshold' => Fuel::$env == Fuel::DEVELOPMENT ? Fuel::L_ALL : Fuel::L_WARNING,
-    'log_path' => APPPATH . 'logs/',
+    'log_path' => APPPATH . '..' . DS . '..' . DS . 'logs' . DS,
     'log_date_format' => 'Y-m-d H:i:s',
 
     /**
@@ -247,8 +247,7 @@ return array(
             array('users'),
             array('dashboard'),
             array('tasks'),
-            array('customers'),
-            array('redmines')
+            array('customers')
         ),
 
         /**

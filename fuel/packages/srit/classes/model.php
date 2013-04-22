@@ -6,7 +6,11 @@
 
 namespace Srit;
 
+use Fuel\Core\Cache;
+use Fuel\Core\CacheNotFoundException;
 use Fuel\Core\Config;
+use Fuel\Core\FuelException;
+use Oil\Exception;
 
 class Model extends \Orm\Model
 {
@@ -32,27 +36,95 @@ class Model extends \Orm\Model
         return parent::__construct($data, $new, $view);
     }
 
+    public static function build_cache_identifier_from_array(array $params, $separator = '_', $rtrim = true)
+    {
+        $identifier = '';
+        foreach ($params as $k => $v) {
+            if (is_array($v)) {
+                $identifier .= trim($k) . $separator;
+                $identifier .= static::build_cache_identifier_from_array($v, $separator, $rtrim);
+            } else {
+                $identifier .= $k . '_' . $v . $separator;
+            }
+        }
+
+        if ($rtrim == true) {
+            $identifier = rtrim($identifier, $separator);
+        }
+
+        $patterns = array(
+            '/[\\\ %@]/',
+            '/[!]/',
+            '/[=]/'
+        );
+
+        $placement = array(
+            $separator,
+            'not',
+            'same'
+        );
+
+        $identifier = preg_replace($patterns, $placement, $identifier);
+
+        return $identifier;
+    }
+
     public static function find($id = null, array $options = array())
     {
         if (!isset($options['order_by'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
+
+        $identifier = static::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
+        $identifier .= static::build_cache_identifier_from_array(array($id, $options));
+
+        try {
+            $data = Cache::get($identifier);
+        } catch (CacheNotFoundException $e) {
+            $data = parent::find($id, $options);
+            Cache::set($identifier, $data);
+        }
+        return $data;
         //Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
-        return parent::find($id, $options);
+
+    }
+
+    public function delete($cascade = null, $use_transaction = false) {
+        try {
+            $return = parent::delete($cascade, $use_transaction);
+            $identifier = static::build_cache_identifier_from_array(array(get_called_class()), '.');
+            Cache::delete_all($identifier);
+        } catch(\Fuel\Core\Exception $e) {
+            throw new Exception(__('exception.srit.model.delete'));
+        }
+
+        return $return;
+    }
+
+    public function save($cascade = null, $use_transaction = false) {
+        try {
+            $return = parent::save($cascade, $use_transaction);
+            $identifier = static::build_cache_identifier_from_array(array(get_called_class()), '.');
+            Cache::delete_all($identifier);
+        } catch(\Fuel\Core\Exception $e) {
+            throw new Exception(__('exception.srit.model.save'));
+        }
+
+        return $return;
     }
 
     public static function _init()
     {
         /**$language = Locale::instance()->getLanguage();
         foreach (static::properties() as $key => $prop) {
-            if (is_array($prop) && isset($prop['type']) && $prop['type'] == 'translated') {
-                $class = get_called_class();
-                if (isset(static::$_properties_cached[$class])) {
-                    unset(static::$_properties_cached[$class]);
-                }
-                $ext_property = array($key . '_' . $language);
-                static::$_properties = array_merge(static::$_properties, $ext_property);
-            }
+        if (is_array($prop) && isset($prop['type']) && $prop['type'] == 'translated') {
+        $class = get_called_class();
+        if (isset(static::$_properties_cached[$class])) {
+        unset(static::$_properties_cached[$class]);
+        }
+        $ext_property = array($key . '_' . $language);
+        static::$_properties = array_merge(static::$_properties, $ext_property);
+        }
         }**/
     }
 
@@ -148,19 +220,15 @@ class Model extends \Orm\Model
         $class = get_called_class();
 
         // If already determined
-        if (array_key_exists($class, static::$_properties_cached))
-        {
+        if (array_key_exists($class, static::$_properties_cached)) {
             return static::$_properties_cached[$class];
         }
 
         // Try to grab the properties from the class...
-        if (property_exists($class, '_properties'))
-        {
+        if (property_exists($class, '_properties')) {
             $properties = static::$_properties;
-            foreach ($properties as $key => $p)
-            {
-                if (is_string($p))
-                {
+            foreach ($properties as $key => $p) {
+                if (is_string($p)) {
                     unset($properties[$key]);
                     $properties[$p] = array();
                 }
@@ -168,23 +236,19 @@ class Model extends \Orm\Model
         }
 
         // ...if the above failed, run DB query to fetch properties
-        if (empty($properties))
-        {
+        if (empty($properties)) {
             /**
              * with table_prefix
              */
             Config::load('db', true);
             $active_db_connection = Config::get('db.active');
-            $table_name = Config::get('db.'.$active_db_connection.'.table_prefix') . static::table();
+            $table_name = Config::get('db.' . $active_db_connection . '.table_prefix') . static::table();
 
-            try
-            {
+            try {
                 $properties = \DB::list_columns($table_name, null, static::connection());
-            }
-            catch (\Exception $e)
-            {
-                throw new \FuelException('Listing columns failed, you have to set the model properties with a '.
-                    'static $_properties setting in the model. Original exception: '.$e->getMessage());
+            } catch (\Exception $e) {
+                throw new \FuelException('Listing columns failed, you have to set the model properties with a ' .
+                    'static $_properties setting in the model. Original exception: ' . $e->getMessage());
             }
         }
 
@@ -194,11 +258,13 @@ class Model extends \Orm\Model
         return static::$_properties_cached[$class];
     }
 
-    public function issets($property) {
+    public function issets($property)
+    {
         return $this->__isset($property);
     }
 
-    public function unsets($property) {
+    public function unsets($property)
+    {
         return $this->__unset($property);
     }
 

@@ -6,6 +6,7 @@
 
 namespace Dashboard;
 
+use Fuel\Core\Config;
 use Srit\Model_Navigation;
 use Srit\Theme;
 use Fuel\Core\Debug;
