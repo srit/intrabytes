@@ -5,6 +5,9 @@
  */
 
 return array(
+
+    'core/navigation' => array('core/navigation/index', 'name' => 'core_navigation_index'),
+
     'core/settings/locales/list' => array('core/settings/locales/list', 'name' => 'core_settings_locales_list'),
     'core/settings/locales/add' => array('core/settings/locales/add' , 'name' => 'core_settings_locales_add'),
     'core/settings/locales/edit/(:id)' => array('core/settings/locales/edit', 'name' => 'core_settings_locales_edit'),

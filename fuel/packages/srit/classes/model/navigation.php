@@ -12,6 +12,7 @@ namespace Srit;
 
 use Fuel\Core\Cache;
 use Fuel\Core\CacheNotFoundException;
+use Fuel\Core\Config;
 
 class Model_Navigation extends \Nestedsets\Model
 {
@@ -57,10 +58,36 @@ class Model_Navigation extends \Nestedsets\Model
             if ($root != null) {
                 $data = static::_iterate_navigation_tree($root, self::IS_ROOT_TRUE);
             }
-            Cache::set($identifier, $data);
+
+            if (Config::get('caching') == true) {
+                Cache::set($identifier, $data);
+            }
         }
         return $data;
     }
+
+    public static function find_trees()
+    {
+
+        $identifier = static::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
+        $identifier .= static::build_cache_identifier_from_array(array('trees'));
+
+        try {
+            $data = Cache::get($identifier);
+        } catch (CacheNotFoundException $e) {
+            $namspaces = static::find_namespaces();
+            $data = array();
+            foreach ($namspaces as $namespace) {
+                $data[$namespace->namespace] = static::find_namespaced_tree($namespace);
+            }
+            if (Config::get('caching') == true) {
+                Cache::set($identifier, $data);
+            }
+        }
+
+        return $data;
+    }
+
 
     protected static function _iterate_navigation_tree($tree, $is_root = false)
     {

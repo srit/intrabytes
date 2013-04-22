@@ -7,6 +7,7 @@
 namespace Customers;
 
 use Fuel\Core\Fieldset;
+use Fuel\Core\Module;
 use Srit\Model;
 
 class Model_Customer extends Model {
@@ -66,11 +67,7 @@ class Model_Customer extends Model {
                         'salutation'
                     )
                 ),
-                'customer_projects' => array(
-                    'related' => array(
-                        'redmine'
-                    )
-                ),
+                'customer_projects' => array(),
                 'postalcode' => array(
                     'related' => array(
                         'country'
@@ -80,6 +77,7 @@ class Model_Customer extends Model {
             ),
             'order_by' => array('id' => 'DESC')
         );
+
         $options = array_merge_recursive($tmp_options, $options);
         $item = parent::find($id, $options);
         if($item != false && $id !== 'all' && !isset($item->postalcode)) {

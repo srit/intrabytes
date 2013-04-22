@@ -28,10 +28,7 @@ class Model_Customer_Project extends Model {
         )
     );
     protected static $_belongs_to = array(
-        'customer',
-        'redmine' => array(
-            'model_to' => 'Redmines\\Model_Redmine'
-        )
+        'customer'
     );
     protected static $_observers = array(
         'Orm\Observer_CreatedAt' => array(
@@ -54,8 +51,7 @@ class Model_Customer_Project extends Model {
 
         $tmp_options = array(
             'related' => array(
-                'customer',
-                'redmine'
+                'customer'
             )
         );
         $options = array_merge_recursive($tmp_options, $options);

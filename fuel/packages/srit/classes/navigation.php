@@ -63,12 +63,7 @@ class Navigation
 
             static::$_navigation_namespaces = Model_Navigation::find_namespaces();
             if(static::$_navigation_namespaces != null) {
-                foreach(static::$_navigation_namespaces as $namespace) {
-
-                    static::$_nav_data_array[$namespace->namespace] = Model_Navigation::find_namespaced_tree($namespace);
-
-
-                }
+                static::$_nav_data_array = Model_Navigation::find_trees();
             }
 
             /**if ($name == null) {

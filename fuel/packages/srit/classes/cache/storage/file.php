@@ -6,35 +6,32 @@
 
 namespace Srit;
 
+use Fuel\Core\File;
+
 class Cache_Storage_File extends \Fuel\Core\Cache_Storage_File
 {
     public function delete_all($section)
     {
+
         $path = rtrim(static::$path, '\\/') . DS;
         $section = static::identifier_to_path($section);
 
         $files = \File::read_dir($path . $section, -1, array('\.cache$' => 'file'));
 
-        $delete = function ($path, $files) use (&$delete, &$section) {
-            $path = rtrim($path, '\\/') . DS;
-
-            foreach ($files as $dir => $file) {
-                if (is_numeric($dir)) {
-                    if (!$result = \File::delete($path . $file)) {
-                        return $result;
-                    }
-                } else {
-                    if (!$result = ($delete($path . $dir, $file) and is_dir($path . $dir) and rmdir($path . $dir))) {
-                        return $result;
-                    }
-                }
-            }
-
-            $section !== '' and rmdir($path);
-
-            return true;
-        };
-
-        return $delete($path . $section, $files);
+        return $this->_delete_all_files($files, $path.$section);
     }
+
+    protected function _delete_all_files(array $files, $path) {
+        $path = rtrim($path, '\\/') . DS;
+        foreach($files as $dir => $file) {
+            if(is_dir($path . $dir)) {
+                $this->_delete_all_files($file, $path . $dir);
+                rmdir($path.$dir);
+            } else {
+                File::delete($path.$file);
+            }
+        }
+        return true;
+    }
+
 }

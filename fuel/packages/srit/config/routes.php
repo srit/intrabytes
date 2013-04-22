@@ -5,4 +5,5 @@
  */
 
 return array(
+    'srit/navigation' => 'srit/navigation/index'
 );
