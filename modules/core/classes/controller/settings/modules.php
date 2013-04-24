@@ -10,6 +10,12 @@ use Srit\Controller_Base_Template;
 
 class Controller_Settings_Modules extends Controller_Base_Template {
 
-    public function action_index() {}
+    protected $_crud_objects = array(
+        'module' => array()
+    );
+
+    public function action_list() {
+
+    }
 
 }
