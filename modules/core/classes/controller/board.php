@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Dashboard;
+namespace Core;
 
 use Fuel\Core\Config;
 use Srit\Model_Navigation;
@@ -30,6 +30,6 @@ class Controller_Board extends Controller_Base_User {
                 }
             }
         }
-        Theme::instance()->set_partial('content', 'dashboard/board/index')->set('dashboard_items', $data, false);
+        Theme::instance()->set_partial('content', 'core/board/index')->set('dashboard_items', $data, false);
     }
 }

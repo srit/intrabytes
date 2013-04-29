@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Dashboard;
+namespace Core;
 
 use Srit\Model;
 

@@ -6,6 +6,9 @@
 
 return array(
 
+    'core/board' => array('core/board/index', 'name' => 'core_board'),
+    'core/settings/user' => array('core/settings/user', 'name' => 'core_settings_user'),
+
     'core/navigation' => array('core/navigation/index', 'name' => 'core_navigation_index'),
 
     'core/settings/modules/list' => array('core/settings/modules/list', 'name' => 'core_modules_list'),

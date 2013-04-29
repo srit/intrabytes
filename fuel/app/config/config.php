@@ -245,7 +245,7 @@ return array(
         'modules' => array(
             array('core'),
             array('users'),
-            array('dashboard'),
+            //array('dashboard'),
             array('tasks'),
             array('customers')
         ),

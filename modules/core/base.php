@@ -8,6 +8,9 @@
 /**
  * @todo ins routing auslagern
  */
+
+
+
 function base_route() {
     return \Fuel\Core\Uri::create('/');
 }

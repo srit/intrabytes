@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 
-namespace Dashboard;
+namespace Core;
 
 use Srit\Model;
 
@@ -12,7 +12,6 @@ class Model_Dashboard_Item extends Model {
 
     protected static $_has_many = array(
         'dashboard_items_user' => array(
-            'model_to' => 'Dashboard\Model_Dashboard_Items_User',
             'cascade_save' => true,
             'cascade_delete' => true,
         )

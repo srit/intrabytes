@@ -5,7 +5,14 @@
  */
 
 return array(
-    'top_left' => array(),
+    'top_left' => array(
+        'core_board' => array(
+            'acl' => 'Dashboard\\Board.index',
+            'module' => 'core',
+            'controller_name' => 'board',
+            'action' => 'index'
+        )
+    ),
     'top_right' => array(
         'settings' => array(
             'route' => 'javascript: void(0)',
@@ -101,5 +108,15 @@ return array(
                 ),
             )
         ),
+        'user_settings' => array(
+            'links' => array(
+                'core_settings_user' => array(
+                    'acl' => 'Dashboard\\Settings_User.index',
+                    'module' => 'core',
+                    'controller_name' => 'settings_user',
+                    'action' => 'index'
+                )
+            )
+        )
     )
 );
