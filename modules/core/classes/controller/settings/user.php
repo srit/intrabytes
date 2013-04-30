@@ -11,7 +11,7 @@ use Srit\Theme;
 
 class Controller_Settings_User extends Controller_Base_User {
 
-    public function action_index() {
-        Theme::instance()->set_partial('content', 'dashboard/settings/user/index');
+    public function action_dashboard() {
+        Theme::instance()->set_partial('content', 'core/settings/user/dashboard');
     }
 }

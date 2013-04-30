@@ -6,10 +6,10 @@
 
 return array(
     'top_left' => array(
-        'core_board' => array(
-            'acl' => 'Dashboard\\Board.index',
+        'core_dashboard' => array(
+            'acl' => 'Dashboard\\Dashboard.index',
             'module' => 'core',
-            'controller_name' => 'board',
+            'controller_name' => 'dashboard',
             'action' => 'index'
         )
     ),
@@ -110,11 +110,11 @@ return array(
         ),
         'user_settings' => array(
             'links' => array(
-                'core_settings_user' => array(
-                    'acl' => 'Dashboard\\Settings_User.index',
+                'core_settings_user_dashboard' => array(
+                    'acl' => 'Core\\Settings_User.dashboard',
                     'module' => 'core',
                     'controller_name' => 'settings_user',
-                    'action' => 'index'
+                    'action' => 'dashboard'
                 )
             )
         )

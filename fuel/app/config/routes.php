@@ -1,6 +1,6 @@
 <?php
 return array(
-	'_root_'  => 'core/board',  // The default route
+	'_root_'  => 'core/dashboard',  // The default route
 	'_404_'   => 'core/404',    // The main 404 route
     '_500_'   => 'core/500',    // The main 500 route
     '(:any)/edit/(:id)' => '$1/edit/index/$2',

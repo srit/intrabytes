@@ -6,8 +6,8 @@
 
 return array(
 
-    'core/board' => array('core/board/index', 'name' => 'core_board'),
-    'core/settings/user' => array('core/settings/user', 'name' => 'core_settings_user'),
+    'core/dashboard' => array('core/dashboard/index', 'name' => 'core_dashboard'),
+    'core/settings_user/dashboard' => array('core/settings_user/dashboard', 'name' => 'core_settings_user_dashboard'),
 
     'core/navigation' => array('core/navigation/index', 'name' => 'core_navigation_index'),
 

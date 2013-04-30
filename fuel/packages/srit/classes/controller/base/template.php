@@ -4,6 +4,7 @@ namespace Srit;
 
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;
+use Fuel\Core\Router;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Srit\Pagination;

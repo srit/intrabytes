@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.6
+-- version 3.5.5
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 29. Apr 2013 um 20:40
+-- Erstellungszeit: 30. Apr 2013 um 07:17
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
--- PHP-Version: 5.3.10-1ubuntu3.6
+-- PHP-Version: 5.4.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -697,7 +697,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (373, 'settings.anchor.label', 'navigation', '<i class="icon-wrench"></i> Einstellungen <b class="caret"></b>'),
 (374, 'core_settings_languages_list.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Spracheinstellungen'),
 (375, 'redmines_list.anchor.label', 'navigation', '<i class="icon-list-alt"></i>  Redmineinstallationen'),
-(376, 'core_board.anchor.label', 'navigation', '<i class="icon-home"></i> Dashboard'),
+(376, 'core_dashboard.anchor.label', 'navigation', '<i class="icon-home"></i> Dashboard'),
 (377, 'customers.anchor.label', 'navigation', '<i class="icon-list"></i> Kontakte'),
 (378, 'user_settings.anchor.label', 'navigation', '<i class="icon-user"></i> <b class="caret"></b>'),
 (379, 'user_logout.anchor.label', 'navigation', '<i class="icon-off"></i> Logout'),
@@ -708,7 +708,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (384, 'settings.anchor.label', 'breadcrumb', 'Einstellungen'),
 (385, 'languages.anchor.label', 'breadcrumb', 'Spracheinstellungen'),
 (386, 'languages_edit.anchor.label', 'breadcrumb', 'Sprache bearbeiten'),
-(387, 'core_board.anchor.label', 'breadcrumb', 'Dashboard'),
+(387, 'core_dashboard.anchor.label', 'breadcrumb', 'Dashboard'),
 (388, 'customers.anchor.label', 'breadcrumb', 'Kontakte'),
 (389, 'customers_show.anchor.label', 'breadcrumb', 'Kontakt'),
 (390, 'customers_edit.anchor.label', 'breadcrumb', 'Kontakt bearbeiten'),
@@ -861,8 +861,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
 
 INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `name`, `acl`, `route`, `module`, `controller_name`, `action`, `show`, `named_params`, `namespace`) VALUES
 (1, 1, 24, 1, NULL, 'top_left', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_left'),
-(2, 22, 23, 1, NULL, 'core_board', 'Dashboard\\Board.index', NULL, 'core', 'board', 'index', 1, NULL, NULL),
-(3, 2, 21, 1, NULL, 'customers', 'Customers\\List.index', 'customers/list.html5', 'customers', 'list', 'index', 1, NULL, NULL),
+(2, 22, 23, 1, NULL, 'core_dashboard', 'Dashboard\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
+(3, 2, 21, 1, NULL, 'customers', 'Customers\\List.index', 'index.php/customers/list.html5', 'customers', 'list', 'index', 1, NULL, NULL),
 (4, 19, 20, 1, NULL, 'customers_show', NULL, NULL, 'customers', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
 (5, 17, 18, 1, NULL, 'customers_edit', NULL, NULL, 'customers', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
 (6, 15, 16, 1, NULL, 'customers_delete', NULL, NULL, 'customers', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
@@ -884,10 +884,10 @@ INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `sy
 (22, 16, 17, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
 (23, 14, 15, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
 (24, 4, 11, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(25, 9, 10, 2, NULL, 'core_settings_user', 'Dashboard\\Settings_User.index', NULL, 'core', 'settings_user', 'index', 1, NULL, NULL),
-(26, 7, 8, 2, NULL, 'user_pubkey_settings', 'Users\\Settings_Pubkeys.list', 'users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
+(25, 9, 10, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL),
+(26, 7, 8, 2, NULL, 'user_pubkey_settings', 'Users\\Settings_Pubkeys.list', 'index.php/users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
 (27, 5, 6, 2, NULL, 'users_settings_profile_edit', 'Users\\Settings_Profile.edit', NULL, 'users', 'settings_profile', 'edit', 1, NULL, NULL),
-(28, 2, 3, 2, NULL, 'user_logout', 'Users\\Logout.index', 'users/logout.html5', 'users', 'logout', 'index', 1, NULL, NULL);
+(28, 2, 3, 2, NULL, 'user_logout', 'Users\\Logout.index', 'index.php/users/logout.html5', 'users', 'logout', 'index', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26997,7 +26997,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1367243025, '16e002675ea70e56a09a88c6caa47c39676a611c', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
+(1, 0, 2, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1367261013, 'cc23737a81b5774cf37c4e15dfa1d8cb2aa8e406', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
 
 -- --------------------------------------------------------
 

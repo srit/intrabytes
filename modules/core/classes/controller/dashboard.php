@@ -12,7 +12,7 @@ use Srit\Theme;
 use Fuel\Core\Debug;
 use Srit\Controller_Base_User;
 
-class Controller_Board extends Controller_Base_User {
+class Controller_Dashboard extends Controller_Base_User {
 
     public function action_index() {
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);
@@ -30,6 +30,6 @@ class Controller_Board extends Controller_Base_User {
                 }
             }
         }
-        Theme::instance()->set_partial('content', 'core/board/index')->set('dashboard_items', $data, false);
+        Theme::instance()->set_partial('content', 'core/dashboard/index')->set('dashboard_items', $data, false);
     }
 }
