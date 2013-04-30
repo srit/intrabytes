@@ -14,6 +14,13 @@ return array(
         )
     ),
     'top_right' => array(
+        'core_user_logout' => array(
+            'route' => 'logout',
+            'acl' => 'Core\\Logout.index',
+            'module' => 'core',
+            'controller_name' => 'logout',
+            'action' => 'index'
+        ),
         'settings' => array(
             'route' => 'javascript: void(0)',
             'links' => array(
@@ -109,7 +116,31 @@ return array(
             )
         ),
         'user_settings' => array(
+            'route' => 'javascript: void(0)',
             'links' => array(
+                'core_settings_user_pubkeys_list' => array(
+                    'acl' => 'Core\\Settings_User_Pubkeys.list',
+                    'module' => 'core',
+                    'controller_name' => 'settings_user_pubkeys',
+                    'action' => 'list',
+                    'links' => array(
+                        'core_settings_user_pubkeys_edit' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_user_pubkeys',
+                            'action' => 'edit',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        ),
+                    )
+                ),
+                'core_settings_user_profile_edit' => array(
+                    'acl' => 'Core\\Settings_User_Profile.edit',
+                    'module' => 'core',
+                    'controller_name' => 'settings_user_profile',
+                    'action' => 'edit',
+                ),
                 'core_settings_user_dashboard' => array(
                     'acl' => 'Core\\Settings_User.dashboard',
                     'module' => 'core',

@@ -8,8 +8,6 @@ namespace Srit;
 
 use Auth\Auth;
 use Auth\Auth_Acl_Driver;
-use Srit\Logger;
-use Users\Model_Role;
 
 class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
 {

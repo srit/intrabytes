@@ -52,6 +52,15 @@ Autoloader::add_classes(array(
     'Srit\\Pagination' => __DIR__ . '/classes/pagination.php',
     'Srit\\Cache_Storage_File' => __DIR__ . '/classes/cache/storage/file.php',
 
+    'Srit\\Model_Group' => __DIR__ . '/classes/model/group.php',
+    'Srit\\Model_User' => __DIR__ . '/classes/model/user.php',
+    'Srit\\Model_Client' => __DIR__ . '/classes/model/client.php',
+    'Srit\\Model_Acl' => __DIR__ . '/classes/model/acl.php',
+    'Srit\\Model_Role' => __DIR__ . '/classes/model/role.php',
+    'Srit\\Model_User_Profile' => __DIR__ . '/classes/model/user/profile.php',
+    'Srit\\Model_User_Public_Key' => __DIR__ . '/classes/model/user/public/key.php',
+    'Srit\\Model_Userexception' => __DIR__ . '/classes/model/userexception.php',
+
     /**
      * https://github.com/kbsali/php-redmine-api
      */

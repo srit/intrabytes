@@ -6,8 +6,6 @@
 
 namespace Srit;
 use Auth\Auth_Login_SimpleAuth;
-use Users\Model_Group;
-use Users\Model_User;
 
 /**
  * @todo auf ORM umstellen und ins User Modul

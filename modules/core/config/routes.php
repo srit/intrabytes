@@ -6,8 +6,17 @@
 
 return array(
 
+    'login' => array('core/login', 'name' => 'login'),
+    'logout' => array('core/logout', 'name' => 'logout'),
+
     'core/dashboard' => array('core/dashboard/index', 'name' => 'core_dashboard'),
-    'core/settings_user/dashboard' => array('core/settings_user/dashboard', 'name' => 'core_settings_user_dashboard'),
+    'core/settings/user/dashboard' => array('core/settings/user/dashboard', 'name' => 'core_settings_user_dashboard'),
+    'core/settings/user/profile/edit' => array('core/settings_user_profile/edit', 'name' => 'core_settings_user_profile_edit'),
+
+    'core/settings/user/pubkeys/list' => array('core/settings/user/pubkeys/list', 'name' => 'core_settings_user_pubkeys_list'),
+    'core/settings/user/pubkeys/add' => array('core/settings/user/pubkeys/add', 'name' => 'core_settings_user_pubkeys_add'),
+    'core/settings/user/pubkeys/edit/(:id)' => array('core/settings/user/pubkeys/edit', 'name' => 'core_settings_user_pubkeys_edit'),
+    'core/settings/user/pubkeys/delete/(:id)' => array('core/settings/user/pubkeys/delete', 'name' => 'core_settings_user_pubkeys_delete'),
 
     'core/navigation' => array('core/navigation/index', 'name' => 'core_navigation_index'),
 

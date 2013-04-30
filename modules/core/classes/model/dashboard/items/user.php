@@ -21,7 +21,7 @@ class Model_Dashboard_Items_User extends Model
     protected static $_belongs_to = array(
         'dashboard_item',
         'user' => array(
-            'model_to' => 'Users\Model_User'
+            'model_to' => 'Srit\Model_User'
         )
     );
 

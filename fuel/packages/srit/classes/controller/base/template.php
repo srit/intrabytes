@@ -288,10 +288,7 @@ class Controller_Base_Template extends \Controller_Template
      */
     protected function _extract_crud_object()
     {
-        $this->_crud_objects[$this->_crud_actual_object] = array();
         $explode_crud = explode(':', $this->_crud_actual_object);
-
-
         /**
          * wenn ein namspace mit angegeben wurde,
          * versuchen diesen aufzulösen
@@ -311,11 +308,6 @@ class Controller_Base_Template extends \Controller_Template
             $model = Inflector::underscore($model);
             $this->_crud_objects[$this->_crud_actual_object]['model_object_name'] = (strstr($model, 'Model_')) ? $model : 'Model_' . $model;
             $this->_crud_objects[$this->_crud_actual_object]['model_object_name'] = $this->_controller_namespace . '\\' . $this->_crud_objects[$this->_crud_actual_object]['model_object_name'];
-        }
-
-        $this->_crud_objects[$this->_crud_actual_object]['fixed_named_params'] = array();
-        if (isset($crud['fixed_named_params']) && !empty($crud['fixed_named_params'])) {
-            $this->_crud_objects[$this->_crud_actual_object]['fixed_named_params'] = $crud['fixed_named_params'];
         }
     }
 

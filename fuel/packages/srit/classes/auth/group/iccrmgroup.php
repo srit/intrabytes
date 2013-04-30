@@ -15,8 +15,6 @@ namespace Srit;
 
 use Auth\Auth;
 use Auth\Auth_Group_Driver;
-use Users\Model_Group;
-use Users\Model_User;
 
 class Auth_Group_ICCRMGroup extends Auth_Group_Driver
 {
