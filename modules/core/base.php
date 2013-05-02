@@ -16,20 +16,20 @@ function base_route() {
 }
 
 function logout_route() {
-    return \Fuel\Core\Uri::create('/logout');
+    return named_route('logout');
 }
 
 function login_route() {
-    return \Fuel\Core\Uri::create('/login');
+    return named_route('login');
 }
 
 
 function forget_password_route() {
-    return \Fuel\Core\Uri::create('/core/password/forget');
+    return named_route('forget_password');
 }
 
 function confirmed_email_password_route($hash) {
-    \Fuel\Core\Uri::create('/users/password/confirmed_email/:hash', array('hash' => $hash));
+    return named_route('confirmed_email', array('hash' => $hash));
 }
 
 function core_named_route($name, $route_params = array()) {

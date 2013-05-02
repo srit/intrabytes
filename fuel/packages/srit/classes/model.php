@@ -53,7 +53,7 @@ class Model extends \Orm\Model
         }
 
         $patterns = array(
-            '/[\\\ %@]/',
+            '/[\\\ %@\/\+]/',
             '/[!]/',
             '/[=]/'
         );

@@ -6,6 +6,8 @@
 
 return array(
 
+    'confirmed_email/:hash' => array('core/password/confirmed_email', 'name' => 'confirmed_email'),
+    'forget_password' => array('core/password/forget', 'name' => 'forget_password'),
     'login' => array('core/login', 'name' => 'login'),
     'logout' => array('core/logout', 'name' => 'logout'),
 

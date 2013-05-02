@@ -42,23 +42,24 @@ class Model_User extends Model
 
     /**public static function get_user($username_or_email)
     {
-        $username_or_email = trim($username_or_email);
-        $properties = static::$_properties;
-        $p = array_combine($properties, $properties);
+    $username_or_email = trim($username_or_email);
+    $properties = static::$_properties;
+    $p = array_combine($properties, $properties);
 
-        $user = static::query()
-            ->related('client')
-            ->related('profile')
-            ->where_open()
-            ->or_where('username', '=', $username_or_email)
-            ->or_where('email', '=', $username_or_email)
-            ->where_close()
-            ->get_one();
+    $user = static::query()
+    ->related('client')
+    ->related('profile')
+    ->where_open()
+    ->or_where('username', '=', $username_or_email)
+    ->or_where('email', '=', $username_or_email)
+    ->where_close()
+    ->get_one();
 
-        return $user ? : false;
+    return $user ? : false;
     }  **/
 
-    public static function get_user($username_or_email) {
+    public static function get_user($username_or_email)
+    {
         $username_or_email = trim($username_or_email);
         $options = array(
             'where' => array(
@@ -96,7 +97,8 @@ class Model_User extends Model
         return $val;
     }*/
 
-    public function validate_new_password($input = array()) {
+    public function validate_new_password($input = array())
+    {
         $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('password')->add_rule('required')->add_rule('is_repeatet', 'password_repeat');
         $this->_fieldset->add('password_repeat')->add_rule('required');
@@ -106,15 +108,16 @@ class Model_User extends Model
     public function __toString()
     {
         $ret = $this->username;
-        if(isset($this->user_profile)) {
+        if (isset($this->user_profile)) {
             $ret = $this->user_profile->firstname . ' ' . $this->user_profile->lastname;
         }
         return $ret;
     }
 
-    public static function find_my() {
+    public static function find_my()
+    {
         return static::find('first', array('where' => array(
-            'id' =>  Auth::get_user()->id
+            'id' => Auth::get_user()->id
         )));
     }
 

@@ -4,7 +4,7 @@
  * @author stefanriedel
  */
 ?>
-<form action="<?php echo \Uri::create('/users/login') ?>" method="post" accept-charset="utf-8" id="login"
+<form action="<?php echo named_route('login') ?>" method="post" accept-charset="utf-8" id="login"
       class="form-horizontal">
 
     <?php echo security_field(); ?>

@@ -8,6 +8,7 @@ namespace Core;
 
 use Fuel\Core\Input;
 use Srit\Messages;
+use Srit\Model_User;
 use Srit\Theme;
 use Srit\Controller_Base_Template_Blank_Public;
 
@@ -21,10 +22,7 @@ class Controller_Password extends Controller_Base_Template_Blank_Public
                 $user = Model_User::get_user(Input::param('username'));
                 Model_Password::prepare_new_password($user);
             }
-
-
         }
-        Theme::instance()->set_partial('content', 'users/password/forget');
     }
 
     public function action_confirmed_email()
@@ -42,13 +40,16 @@ class Controller_Password extends Controller_Base_Template_Blank_Public
         }
 
         if (Input::post('submit', false)) {
-            $validate_new_password = Model_Password::validate_new_password();
+            $input = Input::post('user');
+            $validate_new_password = $user->validate_new_password($input);
+
             if($validate_new_password) {
-                Model_Password::change_password($user, Input::param('password'));
+                $user = Model_User::get_user($user->username);
+                Model_Password::change_password($user, $input['password']);
                 $password_changed = true;
             }
         }
-        Theme::instance()->set_partial('content', 'users/password/confirmed_email')
+        $this->_get_content_template()
                             ->set('hash', $hash)
                             ->set('hash_true', $hash_true)
                             ->set('password_changed', $password_changed);
