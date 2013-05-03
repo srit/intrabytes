@@ -31,6 +31,8 @@ class Controller_Base_Template extends \Controller_Template
 
     protected $_controller_path = '/';
 
+    protected $_controller_path_prefix = '';
+
     protected $_page_title = null;
 
     protected $_named_params = array();
@@ -164,12 +166,18 @@ class Controller_Base_Template extends \Controller_Template
         $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
         $this->_controller_without_controller_prefix_lowercased = strtolower($this->_controller_without_controller_prefix);
         $this->_controller_action = $this->request->action;
-        $this->_controller_path = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
+
+        $this->_controller_path_prefix = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/');
+        $this->_controller_path = strtolower($this->_controller_path_prefix . $this->_controller_action);
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
         $this->_named_params = Request::forge()->named_params;
-        Theme::instance()->set_partial('content', $this->_controller_path)
+
+        $this->_logger->addDebug('controller template path', array($this->_controller_path));
+
+        Theme::instance()->set_templates_path_prefix($this->_controller_path_prefix)
+            ->set_partial('content', $this->_controller_path)
             ->set('controller_namespace', $this->_controller_namespace)
             ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
             ->set('controller_action', $this->_controller_action)
@@ -279,7 +287,7 @@ class Controller_Base_Template extends \Controller_Template
             ->set('last_controller_part', $this->_crud_last_controller_part)
             ->set('crud_action', $this->_crud_action);
 
-        //$this->_logger->debug('Crud Controller Data', array($this->_last_controller_part, $this->_crud_action, $this->_crud_list_uri));
+        $this->_logger->debug('Crud Controller Data', array($this->_crud_last_controller_part, $this->_crud_action, $this->_crud_redirect_uri));
     }
 
 

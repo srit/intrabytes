@@ -10,7 +10,6 @@ fuel/app/config/development/*
 cache/*
 logs/*
 tmp/*
-fuel/app/tmp/*
 fuel/packages/*/config/development/*
 !.gitkeep
 /modules/staff

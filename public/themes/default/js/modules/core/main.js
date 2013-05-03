@@ -15,6 +15,16 @@ $(document).ready(function () {
         }
     });
 
+    $('#postalcode_text[data-provide="typeahead"]').typeahead({
+        source: function (query, process) {
+            var link = $(this)[0].$element[0].dataset.link;
+            console.log(language_id);
+            return $.getJSON(link, { query: query, what: what, language_id: language_id }, function (data) {
+                return process(data.options);
+            });
+        }
+    });
+
     $('a#filter, a#filter_like').click(function () {
         var $this = $(this);
         var form = $this.parents('form');
