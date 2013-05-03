@@ -6,6 +6,34 @@
 
 return array(
 
+    /**
+     * Customers
+     */
+    'core/customers/list' => array('core/customers/list', 'name' => 'core_customers_list'),
+    'core/customers/add' => array('core/customers/add', 'name' => 'core_customers_add'),
+    'core/customers/edit/(:id)' => array('core/customers/edit', 'name' => 'core_customers_edit'),
+    'core/customers/delete/(:id)' => array('core/customers/delete', 'name' => 'core_customers_delete'),
+    'core/customers/show/(:id)' => array('core/customers/show', 'name' => 'core_customers_show'),
+
+    /**
+     * Contact Persons
+     */
+    'core/customers/contacts/list/(:customer_id)' => array('core/customers/contacts/list', 'name' => 'core_customers_contacts_list'),
+    'core/customers/contacts/add/(:customer_id)' => array('core/customers/contacts/add', 'name' => 'core_customers_contacts_add'),
+    'core/customers/contacts/edit/(:customer_id)/(:id)' => array('core/customers/contacts/edit', 'name' => 'core_customers_contacts_edit'),
+    'core/customers/contacts/delete/(:customer_id)/(:id)' => array('core/customers/contacts/delete', 'name' => 'core_customers_contacts_delete'),
+    'core/customers/contacts/show/(:customer_id)/(:id)' => array('core/customers/contacts/show', 'name' => 'core_customers_contacts_show'),
+
+
+    /**
+     * Projects
+     */
+    'core/customers/projects/list/(:customer_id)' => array('core/customers/projects/list', 'name' => 'core_customers_projects_list'),
+    'core/customers/projects/add/(:customer_id)' => array('core/customers/projects/add', 'name' => 'core_customers_projects_add'),
+    'core/customers/projects/edit/(:customer_id)/(:id)' => array('core/customers/projects/edit', 'name' => 'core_customers_projects_edit'),
+    'core/customers/projects/delete/(:customer_id)/(:id)' => array('core/customers/projects/delete', 'name' => 'core_customers_projects_delete'),
+    'core/customers/projects/show/(:customer_id)/(:id)' => array('core/customers/projects/show', 'name' => 'core_customers_projects_show'),
+
     'confirmed_email/:hash' => array('core/password/confirmed_email', 'name' => 'confirmed_email'),
     'forget_password' => array('core/password/forget', 'name' => 'forget_password'),
     'login' => array('core/login', 'name' => 'login'),

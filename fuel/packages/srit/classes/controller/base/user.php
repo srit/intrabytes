@@ -34,10 +34,10 @@ class Controller_Base_User extends Controller_Base_Template_Public {
             return parent::after($response);
         }
 
-        $this->_navigation = Config::load('navigation', true);
+        //$this->_navigation = Config::load('navigation', true);
 
         Theme::instance()->get_template()->set_global('user', $this->_user);
-        Theme::instance()->get_template()->set_global('navigation', $this->_navigation);
+        //Theme::instance()->get_template()->set_global('navigation', $this->_navigation);
         return parent::after($response);
     }
 }

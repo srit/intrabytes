@@ -313,7 +313,9 @@ class Controller_Base_Template extends \Controller_Template
 
     protected function _extract_model_options(array $my_options = array())
     {
-        $this->_named_params = array_merge($this->_named_params, $this->_crud_objects[$this->_crud_actual_object]['fixed_named_params']);
+        if(isset($this->_crud_objects[$this->_crud_actual_object]['fixed_named_params'])) {
+            $this->_named_params = array_merge($this->_named_params, $this->_crud_objects[$this->_crud_actual_object]['fixed_named_params']);
+        }
         if($my_options != array()) {
             $this->_named_params = array_merge($this->_named_params, $my_options);
         }

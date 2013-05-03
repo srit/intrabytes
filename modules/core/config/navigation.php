@@ -6,6 +6,117 @@
 
 return array(
     'top_left' => array(
+
+        'core_customers_list' => array(
+            'acl' => 'Core\\Customers_List.index',
+            'module' => 'core',
+            'controller_name' => 'customers_list',
+            'action' => 'index',
+            'links' => array(
+                'core_customers_show' => array(
+                    //'route' => customers_show_route(2),
+                    'acl' => 'Core\\Customers_Show.index',
+                    'module' => 'core',
+                    'controller_name' => 'customers_show',
+                    'action' => 'index',
+                    'show' => false,
+                    'named_params' => array(
+                        'id'
+                    )
+                ),
+                'core_customers_edit' => array(
+                    //'route' => customers_show_route(2),
+                    'acl' => 'Core\\Customers_Edit.index',
+                    'module' => 'core',
+                    'controller_name' => 'customers_edit',
+                    'action' => 'index',
+                    'show' => false,
+                    'named_params' => array(
+                        'id'
+                    )
+                ),
+                'core_customers_delete' => array(
+                    //'route' => customers_show_route(2),
+                    'acl' => 'Core\\Customers_Delete.index',
+                    'module' => 'core',
+                    'controller_name' => 'customers_delete',
+                    'action' => 'index',
+                    'show' => false,
+                    'named_params' => array(
+                        'id'
+                    )
+                ),
+                'core_customers_add' => array(
+                    //'route' => customers_show_route(2),
+                    'acl' => 'Core\\Customers_Add.index',
+                    'module' => 'core',
+                    'controller_name' => 'customers_add',
+                    'action' => 'index',
+                    'show' => false
+                ),
+                'core_customers_projects_list' => array(
+                    //'route' => customers_show_route(2),
+                    'acl' => 'Core\\Customers_Projects_List.index',
+                    'module' => 'core',
+                    'controller_name' => 'customers_projects_list',
+                    'action' => 'index',
+                    'show' => false,
+                    'named_params' => array(
+                        'customer_id'
+                    ),
+                    'links' => array(
+                        'core_customers_projects_show' => array(
+                            //'route' => customers_show_route(2),
+                            'acl' => 'Core\\Customers_Projects_Show.index',
+                            'module' => 'core',
+                            'controller_name' => 'customers_projects_show',
+                            'action' => 'index',
+                            'show' => false,
+                            'named_params' => array(
+                                'customer_id',
+                                'id'
+                            )
+                        ),
+                        'core_customers_projects_edit' => array(
+                            //'route' => customers_show_route(2),
+                            'acl' => 'Core\\Customers_Projects_Edit.index',
+                            'module' => 'core',
+                            'controller_name' => 'customers_projects_edit',
+                            'action' => 'index',
+                            'show' => false,
+                            'named_params' => array(
+                                'customer_id',
+                                'id'
+                            )
+                        ),
+                        'core_customers_projects_delete' => array(
+                            //'route' => customers_show_route(2),
+                            'acl' => 'Core\\Customers_Projects_Delete.index',
+                            'module' => 'core',
+                            'controller_name' => 'customers_projects_delete',
+                            'action' => 'index',
+                            'show' => false,
+                            'named_params' => array(
+                                'customer_id',
+                                'id'
+                            )
+                        ),
+                        'core_customers_projects_add' => array(
+                            //'route' => customers_show_route(2),
+                            'acl' => 'Core\\Customers_Projects_Add.index',
+                            'module' => 'core',
+                            'controller_name' => 'customers_projects_add',
+                            'action' => 'index',
+                            'show' => false,
+                            'named_params' => array(
+                                'customer_id'
+                            )
+                        )
+                    )
+                )
+            )
+        ),
+
         'core_dashboard' => array(
             'acl' => 'Dashboard\\Dashboard.index',
             'module' => 'core',
