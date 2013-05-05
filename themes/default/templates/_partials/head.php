@@ -11,7 +11,7 @@
     <title><?php echo \Fuel\Core\Config::get('project.name') . ' --- ' . $title ?></title>
     <?php echo $theme->asset->css(array('bootstrap.min.css', 'main.css')) ?>
     <?php echo $theme->asset->js(array(
-        'http://code.jquery.com/jquery-latest.js',
+        'jquery-1.8.2.min.js',
         'bootstrap.min.js',
         'main.js')) ?>
 </head>
