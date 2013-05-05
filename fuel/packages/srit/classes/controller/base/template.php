@@ -167,8 +167,8 @@ class Controller_Base_Template extends \Controller_Template
         $this->_controller_without_controller_prefix_lowercased = strtolower($this->_controller_without_controller_prefix);
         $this->_controller_action = $this->request->action;
 
-        $this->_controller_path_prefix = strtolower($this->_controller_namespace . '/' . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/');
-        $this->_controller_path = strtolower($this->_controller_path_prefix . $this->_controller_action);
+        $this->_controller_path_prefix = strtolower($this->_controller_namespace . '/');
+        $this->_controller_path = strtolower($this->_controller_path_prefix . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
 
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
