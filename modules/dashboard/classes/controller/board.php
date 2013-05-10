@@ -6,16 +6,15 @@
 
 namespace Dashboard;
 
-use \Core\Theme;
+use Srit\Theme;
+use Fuel\Core\Debug;
+use Srit\Controller_Base_User;
 
-class Controller_Board extends \Core\Controller_Base_User {
+class Controller_Board extends Controller_Base_User {
 
     public function action_index() {
-
         $dashboard_items = Model_Dashboard_Item::find_by_user($this->_user->id);
-
         $data = array();
-
         if(is_array($dashboard_items) && count($dashboard_items) > 0) {
             foreach($dashboard_items as $item) {
 
@@ -25,11 +24,10 @@ class Controller_Board extends \Core\Controller_Base_User {
                 }
                 catch (\Exception $e)
                 {
-                    \Debug::dump($e);
+                    Debug::dump($e);
                 }
             }
         }
-
-        Theme::instance($this->template)->set_partial('content', 'dashboard/board/index')->set('dashboard_items', $data, false);
+        Theme::instance()->set_partial('content', 'dashboard/board/index')->set('dashboard_items', $data, false);
     }
 }

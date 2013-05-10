@@ -6,15 +6,11 @@
 
 namespace Customers;
 
-use \Core\Messages;
-use \Core\Theme;
+use Srit\Request;
 
-class Controller_List extends \Core\Controller_Base_User {
+class Controller_List extends Controller_Customers {
 
     public function action_index() {
-
-        $this->customers = Model_Customer::find_all_for_list();
-        Theme::instance($this->template)->set_partial('content', 'customers/list/index')->set('customers', $this->customers);
     }
 
 }

@@ -11,11 +11,11 @@ echo $theme->view('templates/header');
 
                     <?php
                     foreach (array('error', 'warning', 'success', 'info') as $type) {
-                        foreach (\Core\Messages::instance()->get($type) as $message) {
+                        foreach (\Srit\Messages::instance()->get($type) as $message) {
                             echo '<div class="alert alert-', $message['type'], '"><a class="close" data-dismiss="alert" href="#">×</a>', $message['body'], '</div>', "\n";
                         }
                     }
-                    \Core\Messages::reset();
+                    \Srit\Messages::reset();
                     ?>
 
                     <?php echo $partials['content']; ?>

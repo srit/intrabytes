@@ -6,6 +6,14 @@
 
 namespace Users;
 
+use Auth\Auth;
+use Email\Email;
+use Fuel\Core\Config;
+use Fuel\Core\Str;
+use PHPSecLib\Crypt_Hash;
+use Srit\Messages;
+use Srit\Validation;
+
 class Model_PasswordExceptions extends \Fuel\Core\FuelException {}
 
 class Model_Password extends Model_User
@@ -15,7 +23,7 @@ class Model_Password extends Model_User
 
     public static function validate_confirmed_forget_email()
     {
-        $val = \Validation::forge('password_forget');
+        $val = Validation::forge('password_forget');
         $val->add_callable(__CLASS__);
         $val->add('username', __('Nutzername/E-Mail'), array(), array('trim', 'strip_tags', 'required'))
             ->add_rule('user_exists');
@@ -23,12 +31,12 @@ class Model_Password extends Model_User
     }
 
     public static  function change_password(Model_User $user, $password) {
-        \Auth::instance()->change_password_without_old($password, $user->username);
-        \Core\Messages::success(__('Sie haben Ihr Passwort erfolgreich geändert.'));
+        Auth::instance()->change_password_without_old($password, $user->username);
+        Messages::success(__('Sie haben Ihr Passwort erfolgreich geändert.'));
     }
 
     public static function validate_new_password() {
-        $val = \Validation::forge('new_password');
+        $val = Validation::forge('new_password');
         $val->add_callable(__CLASS__);
         $val->add('password', __('Passwort'), array(), array(array('required'), array('min_length', 8)));
         $val->add('repeat_password', __('Passwort wiederholen'), array(), array('repeat_password'));
@@ -45,7 +53,7 @@ class Model_Password extends Model_User
 
     public static function _validation_repeat_password($val)
     {
-        \Validation::active()->set_message('repeat_password', __('Die beiden Passwörter stimmen nicht überein.'));
+        Validation::active()->set_message('repeat_password', __('Die beiden Passwörter stimmen nicht überein.'));
         $active = \Validation::active();
         $password_value = $active->input('password');
         $ret = ($password_value === $val );
@@ -54,13 +62,13 @@ class Model_Password extends Model_User
 
     public static function validate_password_forget()
     {
-        $val = \Validation::forge('password_forget');
+        $val = Validation::forge('password_forget');
         $val->add_callable(__CLASS__);
         $val->add('username', __('Nutzername/E-Mail'), array(), array('trim', 'strip_tags', 'required'))
             ->add_rule('user_exists');
         if (!$val->run()) {
             foreach ($val->error() as $error) {
-                \Core\Messages::error($error);
+                Messages::error($error);
             }
             $ret = false;
         } else {
@@ -87,18 +95,18 @@ class Model_Password extends Model_User
     public static function send_new_password(Model_User $user)
     {
         try {
-            $new_password = \Auth::instance()->reset_password($user->username);
+            $new_password = Auth::instance()->reset_password($user->username);
         } catch (\SimpleUserUpdateException $e) {
             throw new Model_PasswordExceptions(__('Beim aktuallisieren des Benutzers ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut. ' . $e->getMessage()));
         }
         static::send_new_password_mail($user, $new_password);
-        \Core\Messages::success(__('Ihr neues Passwort, wurde an Ihre hinterlegte E-Mail-Adresse versendet.'));
+        Messages::success(__('Ihr neues Passwort, wurde an Ihre hinterlegte E-Mail-Adresse versendet.'));
 
     }
 
     public static function send_new_password_mail(Model_User $user, $new_password)
     {
-        $email = \Email::forge('system');
+        $email = Email::forge('system');
         $email->subject(__('Ihr angefordertes Passwort.'));
         $email->to($user->email, $user);
         $body = <<<STRING
@@ -127,17 +135,17 @@ STRING;
 
     public static function prepare_new_password(Model_User $user)
     {
-        $hasher = new \PHPSecLib\Crypt_Hash();
-        $hash = base64_encode($hasher->pbkdf2(\Str::random('alnum', 8), \Config::get('auth.salt'), 10000, 32));
+        $hasher = new Crypt_Hash();
+        $hash = base64_encode($hasher->pbkdf2(Str::random('alnum', 8), Config::get('auth.salt'), 10000, 32));
 
-        \Auth::instance()->update_user(
+        Auth::instance()->update_user(
             array(
                 'new_password_hash' => $hash,
             ),
             $user->username
         );
         static::send_prepare_new_password_mail($user, $hash);
-        \Core\Messages::success(__('messages.prepare_new_password.success'));
+        Messages::success(__('messages.prepare_new_password.success'));
     }
 
     /**
@@ -153,7 +161,7 @@ STRING;
         if (empty($user->email)) {
             throw new \Model_PasswordExceptions(__('Keine E-Mail Adresse vorhanden.'));
         }
-        $mail = \Email::forge();
+        $mail = Email::forge();
         $mail->subject(__('Sie haben ein neues Passwort angefordert'));
         $mail->to($user->email, $user);
 
@@ -182,7 +190,7 @@ STRING;
 
     public static function _validation_user_exists($val)
     {
-        \Validation::active()->set_message('user_exists', __('Nutzername oder E-Mail nicht bekannt.'));
+        Validation::active()->set_message('user_exists', __('Nutzername oder E-Mail nicht bekannt.'));
         /**
          * @todo fixit!! Das ist so schlecht gelöst
          */

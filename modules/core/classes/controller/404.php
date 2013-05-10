@@ -6,11 +6,11 @@
 
 namespace Core;
 
-class Controller_404 extends \Core\Controller_Base_Template_Blank_Public {
+use Srit\Controller_Base_Template_Blank_Public;
 
+class Controller_404 extends Controller_Base_Template_Blank_Public {
     public function action_index() {
-        Theme::instance($this->template)->get_template()->set_global('title', __('Seite nicht gefunden'));
-        Theme::instance($this->template)->set_partial('content', '404/index');
+
     }
 
 }

@@ -88,7 +88,7 @@ return array(
      * default_timezone        optional, if you want to change the server's default timezone
      */
     'server_gmt_offset' => 0,
-    'default_timezone' => 'UTC',
+    'default_timezone' => 'Europe/Berlin',
 
     /**
      * Logging Threshold.  Can be set to any of the following:
@@ -152,7 +152,7 @@ return array(
      */
     'cookie' => array(
         // Number of seconds before the cookie expires
-        'expiration' => 0,
+        'expiration' => 86400 * 365,
         // Restrict the path that the cookie is available to
         'path' => '/',
         // Restrict the domain that the cookie is available to
@@ -230,6 +230,7 @@ return array(
             'auth',
             'email',
             'parser',
+            'log',
             'srit'
         ),
 
@@ -246,7 +247,8 @@ return array(
             array('users'),
             array('dashboard'),
             array('tasks'),
-            array('customers')
+            array('customers'),
+            array('redmines')
         ),
 
         /**
@@ -263,7 +265,8 @@ return array(
          * If you don't want the config in a group use null as groupname.
          */
         'config' => array(
-            'project'
+            'project',
+            'config'
         ),
 
         /**

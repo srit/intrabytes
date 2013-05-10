@@ -4,7 +4,8 @@
  * @author stefanriedel
  */
 namespace Tasks;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Task extends Model
 {

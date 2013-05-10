@@ -76,7 +76,7 @@ class Locale
     public function setLocalePrefix($locale_prefix = null)
     {
         if (null == $locale_prefix) {
-            $request = \Fuel\Core\Request::forge();
+            $request = \Request::forge();
             $module = $request->module;
             $controller = $request->controller;
             $action = (!empty($request->action)) ? $request->action : 'index';

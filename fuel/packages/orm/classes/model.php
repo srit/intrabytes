@@ -12,6 +12,8 @@
 
 namespace Orm;
 
+use Fuel\Core\FuelException;
+
 /**
  * Record Not Found Exception
  */
@@ -537,7 +539,7 @@ class Model implements \ArrayAccess, \Iterator
 
 			array_key_exists('where', $options) and $where = array_merge($options['where'], $where);
 			$options['where'] = $where;
-			return static::query($options)->get_one();
+            return static::query($options)->get_one();
 		}
 	}
 
@@ -985,7 +987,7 @@ class Model implements \ArrayAccess, \Iterator
 	 */
 	public function & get($property)
 	{
-		if (array_key_exists($property, static::properties()))
+    	if (array_key_exists($property, static::properties()))
 		{
 			if ( ! array_key_exists($property, $this->_data))
 			{

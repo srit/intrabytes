@@ -2,25 +2,31 @@
 // page header
 echo $theme->view('templates/header');
 echo $theme->view('templates/_partials/body/start');
-echo $theme->view('templates/navbar');
+echo $partials['navigation'];
+//echo $theme->view('templates/navbar', array('top_left' => $top_left, 'top_right' => $top_right));
 ?>
 <div class="container" id="content">
     <div id="page-container">
-        <legend><?php echo $title ?></legend>
+
+        <?php echo h4($title); ?>
+        <div class="row-fluid">
+            <div class="span9"><?php echo $partials['breadcrumb'] ?></div>
+            <div class="span3"><?php echo $partials['last_pages'] ?></div>
+        </div>
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php
-                if(\Core\Messages::instance()) {
+                if (\Srit\Messages::instance()) {
                     $messages = false;
                     foreach (array('error', 'warning', 'success', 'info') as $type) {
-                        foreach (\Core\Messages::instance()->get($type) as $message) {
+                        foreach (\Srit\Messages::instance()->get($type) as $message) {
                             $messages = true;
                             echo '<div class="alert alert-', $message['type'], '"><a class="close" data-dismiss="alert" href="#">×</a>', $message['body'], '</div>', "\n";
                         }
                     }
                 }
-                \Core\Messages::reset();
-                if($messages == true) {
+                \Srit\Messages::reset();
+                if ($messages == true) {
                     echo html_tag('div', array('class' => 'clearfix'));
                 }
                 ?>
@@ -29,3 +35,5 @@ echo $theme->view('templates/navbar');
         </div>
     </div>
 </div>
+<?php echo $theme->view('templates/_partials/body/end') ?>
+

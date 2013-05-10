@@ -1,29 +1,17 @@
 <?php
 
 namespace Users;
+use Auth\Auth;
+use Fuel\Core\Fieldset;
 use \Srit\Model;
+use Srit\Validation;
 
 class Model_User extends Model
 {
 
-    protected static $_properties = array(
-        'id',
-        'client_id',
-        'username',
-        'password',
-        'group',
-        'email',
-        'last_login',
-        'login_hash',
-        'profile_fields',
-        'created_at',
-        'updated_at',
-        'password_resetted',
-        'password_resetted_at'
-    );
-
     protected static $_belongs_to = array(
         'client',
+        'group'
     );
 
     protected static $_has_one = array(
@@ -31,6 +19,10 @@ class Model_User extends Model
             'cascade_save' => true,
             'cascade_delete' => true,
         )
+    );
+
+    protected static $_many_many = array(
+        'groups'
     );
 
     protected static $_has_many = array(
@@ -72,7 +64,20 @@ class Model_User extends Model
             'where' => array(
                 array('username' => $username_or_email),
                 'or' => array(array('email' => $username_or_email))),
-            'related' => array('client','user_profile','user_public_keys')
+            'related' => array(
+                'client',
+                'user_profile',
+                'user_public_keys',
+                'group' => array(
+                    'related' => array(
+                        'roles' => array(
+                            'related' => array(
+                                'acls'
+                            )
+                        )
+                    )
+                )
+            )
         );
         return static::find('first', $options);
     }
@@ -91,6 +96,13 @@ class Model_User extends Model
         return $val;
     }*/
 
+    public function validate_new_password($input = array()) {
+        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset->field('password')->add_rule('required')->add_rule('is_repeatet', 'password_repeat');
+        $this->_fieldset->add('password_repeat')->add_rule('required');
+        return parent::validate($input);
+    }
+
     public function __toString()
     {
         $ret = $this->username;
@@ -99,4 +111,11 @@ class Model_User extends Model
         }
         return $ret;
     }
+
+    public static function find_my() {
+        return static::find('first', array('where' => array(
+            'id' =>  Auth::get_user()->id
+        )));
+    }
+
 }

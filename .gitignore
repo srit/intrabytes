@@ -16,3 +16,4 @@ fuel/packages/*/config/development/*
 /nbproject/private/
 fuel/app/config/staging
 fuel/app/config/test
+nbproject

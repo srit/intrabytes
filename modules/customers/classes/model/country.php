@@ -4,17 +4,18 @@
  * @author stefanriedel
  */
 namespace Customers;
-use \Srit\Model;
+
+use Srit\Model;
 
 class Model_Country extends Model {
-    protected static $_properties = array(
+    /**protected static $_properties = array(
         'id',
         'iso_code',
         'name' => array(
             'localized' => true
         ),
         'language_id'
-    );
+    );**/
 
     protected static $_has_many = array(
         'postalcodes'
@@ -23,6 +24,12 @@ class Model_Country extends Model {
     protected static $_belongs_to = array(
         'language' => array(
             'model_to' => '\Srit\Model_Language'
+        )
+    );
+
+    protected static $_observers = array(
+        'Srit\\Observer_Translated' => array(
+            'properties' => array('name')
         )
     );
     

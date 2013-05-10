@@ -5,7 +5,9 @@
  */
 
 namespace Customers;
-use \Srit\Model;
+
+use Fuel\Core\Fieldset;
+use Srit\Model;
 
 class Model_Customer extends Model {
     protected static $_properties = array(
@@ -25,11 +27,12 @@ class Model_Customer extends Model {
     );
 
     protected static $_has_many = array(
-        'customer_contact_persons' => array(
-            'model_to' => '\Customers\Model_Customer_Contact_Person',
+        'customer_contacts' => array(
             'cascade_delete' => true,
         ),
-        'customer_projects',
+        'customer_projects' => array(
+            'cascade_delete' => true
+        ),
     );
 
     protected static $_belongs_to = array(
@@ -50,18 +53,10 @@ class Model_Customer extends Model {
         ),
     );
 
-    public static function find_for_edit($id = null, array $options = array()) {
-        $model_options = array(
-
-        );
-        $options = array_merge_recursive($options, $model_options);
-        return parent::find($id, $options);
-    }
-
-    public static function find_all_for_list(array $options = array()) {
-        $model_options = array(
+    public static function find($id = null, array $options = array()) {
+        $tmp_options = array(
             'related' => array(
-                'customer_contact_persons' => array(
+                'customer_contacts' => array(
                     'related' => array(
                         'postalcode' => array(
                             'related' => array(
@@ -71,7 +66,11 @@ class Model_Customer extends Model {
                         'salutation'
                     )
                 ),
-                'customer_projects',
+                'customer_projects' => array(
+                    'related' => array(
+                        'redmine'
+                    )
+                ),
                 'postalcode' => array(
                     'related' => array(
                         'country'
@@ -81,29 +80,70 @@ class Model_Customer extends Model {
             ),
             'order_by' => array('id' => 'DESC')
         );
-        $options = array_merge_recursive($options, $model_options);
-        return static::find_all($options);
+        $options = array_merge_recursive($tmp_options, $options);
+        $item = parent::find($id, $options);
+        if($item != false && $id !== 'all' && !isset($item->postalcode)) {
+
+            $country_id = (isset($item->country_id)) ? $item->country_id : 0;
+            $postalcode_text = (isset($item->postalcode_text)) ? $item->postalcode_text : '';
+            $city_text = (isset($item->city_text)) ? $item->city_text : '';
+
+
+        } elseif($item != false && $id !== 'all' && isset($item->postalcode)) {
+            $country_id = (isset($item->postalcode->country_id)) ? $item->postalcode->country_id : 0;
+            $postalcode_text = (isset($item->postalcode->postalcode)) ? $item->postalcode->postalcode : 0;
+            $city_text = (isset($item->postalcode->city)) ? $item->postalcode->city : 0;
+        }
+
+        if($item != false && $id !== 'all') {
+            $tmp_data = array(
+                'country_id' => $country_id,
+                'postalcode_text' => $postalcode_text,
+                'city_text' => $city_text
+            );
+            $item->set($tmp_data);
+        }
+        return $item;
     }
 
-    public function validate() {
+    public static function forge($data = array(), $new = true, $view = null)
+    {
+        $item = new static($data, $new, $view);
+        if($new == true) {
+            $tmp_data = array(
+                'country_id' => 0,
+                'postalcode_text' => '',
+                'city_text' => ''
+            );
+            $item->set($tmp_data);
+        }
+
+        return $item;
+
+    }
+
+    public static function find_for_edit($id = null, array $options = array()) {
+        $model_options = array(
+
+        );
+        $options = array_merge_recursive($options, $model_options);
+        return parent::find($id, $options);
+    }
+
+    public function validate($input = array()) {
         /**
          * @todo Telefonnummern Validierung
          */
-        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('email')->add_rule('required')->add_rule('valid_email');
         $this->_fieldset->field('company_name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('firstname')->add_rule('required')->add_rule('min_length', 2);
         $this->_fieldset->field('lastname')->add_rule('required')->add_rule('min_length', 2);
-        $this->_fieldset->field('phone')->add_rule('required');
         $this->_fieldset->field('street')->add_rule('required');
         $this->_fieldset->field('housenumber')->add_rule('required');
-        if($this->_fieldset->validation()->run() == false) {
-            foreach ($this->_fieldset->validation()->error() as $error) {
-                \Core\Messages::error($error);
-            }
-            return false;
-        }
-        return true;
+        $this->_fieldset->add('postalcode_text')->add_rule('required');
+        $this->_fieldset->add('city_text')->add_rule('required');
+        return parent::validate($input);
     }
     
     /**
@@ -121,17 +161,13 @@ class Model_Customer extends Model {
             $this->postalcode_id = $postalcode->id;
         }
 
-        //var_dump($this->_data);exit;
-        
-        /**if($this->postalcode && !($this->postalcode instanceof \Srit\Model_Postalcode)) {
-            $postalcode = Model_Postalcode::find_by_postalcode($this->postalcode);
-            if($postalcode == false) {
-                $postalcode = Model_Postalcode::forge(array('postalcode' => $this->postalcode, 'city' => $this->city, 'country_id' => $this->country_id));
-                $postalcode->save();
-            }
-            $this->postalcode = $postalcode;
-        }**/
+        //static::$_logger->debug('Func get Args save', func_get_args());
+
         return parent::save($cascade, $use_transaction);
+    }
+
+    public function __toString() {
+        return $this->firstname . ' ' . $this->lastname;
     }
 
 }
