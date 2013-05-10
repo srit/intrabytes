@@ -5,5 +5,5 @@
  */
 
 if(false !== $tasks) {
-    echo $theme->view('tasks/dashboard/_partials/task_table', array('tasks' => $tasks));
+    echo $theme->view($theme->get_templates_path_prefix() . 'dashboard/_partials/task_table', array('tasks' => $tasks), false);
 }

@@ -118,7 +118,7 @@ return array(
         ),
 
         'core_dashboard' => array(
-            'acl' => 'Dashboard\\Dashboard.index',
+            'acl' => 'Core\\Dashboard.index',
             'module' => 'core',
             'controller_name' => 'dashboard',
             'action' => 'index'

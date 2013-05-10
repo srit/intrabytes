@@ -8,17 +8,8 @@ namespace Tasks;
 
 use Srit\Model;
 
-class Model_Task_Category extends Model {
-
-    protected static $_properties = array(
-        'id',
-        'name',
-        'color',
-        'background_color',
-        'client_id',
-        'updated_at',
-        'created_at'
-    );
+class Model_Task_Category extends Model
+{
 
     protected static $_has_many = array(
         'task'

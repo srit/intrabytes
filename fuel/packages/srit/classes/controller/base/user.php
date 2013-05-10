@@ -2,8 +2,6 @@
 
 namespace Srit;
 use Auth\Auth;
-use Fuel\Core\Config;
-use Users\Model_User;
 
 /**
  * @created 01.10.12 - 10:39

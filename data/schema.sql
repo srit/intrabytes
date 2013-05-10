@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 30. Apr 2013 um 07:17
+-- Erstellungszeit: 10. Mai 2013 um 13:02
 -- Server Version: 5.5.29-0ubuntu0.12.04.2
--- PHP-Version: 5.4.10
+-- PHP-Version: 5.3.10-1ubuntu3.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -102,6 +102,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_countries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `iso_code` varchar(2) NOT NULL,
   `name_de` varchar(100) NOT NULL,
+  `sort` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`language_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
@@ -110,10 +111,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_countries` (
 -- Daten für Tabelle `intrabytes_countries`
 --
 
-INSERT INTO `intrabytes_countries` (`id`, `iso_code`, `name_de`, `language_id`) VALUES
-(1, 'de', 'Deutschland', 1),
-(2, 'ch', 'Schweiz', 1),
-(3, 'at', 'Österreich', 1);
+INSERT INTO `intrabytes_countries` (`id`, `iso_code`, `name_de`, `sort`, `language_id`) VALUES
+(1, 'de', 'Deutschland', 1, 1),
+(2, 'ch', 'Schweiz', 10, 1),
+(3, 'at', 'Österreich', 5, 1);
 
 -- --------------------------------------------------------
 
@@ -219,7 +220,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_dashboard_items`
+--
+
+INSERT INTO `intrabytes_dashboard_items` (`id`, `name`, `route`, `created_at`, `updated_at`) VALUES
+(1, 'my tasks', 'tasks/dashboard/list', '2013-05-05 21:03:46', '2013-05-05 21:03:46');
 
 -- --------------------------------------------------------
 
@@ -233,7 +241,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items_users` (
   `user_id` int(11) NOT NULL,
   `order` int(5) NOT NULL,
   PRIMARY KEY (`id`,`dashboard_item_id`,`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_dashboard_items_users`
+--
+
+INSERT INTO `intrabytes_dashboard_items_users` (`id`, `dashboard_item_id`, `user_id`, `order`) VALUES
+(1, 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -853,7 +868,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
   KEY `left_id` (`left_id`),
   KEY `right_id` (`right_id`),
   KEY `symlink_id` (`symlink_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=29 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
 
 --
 -- Daten für Tabelle `intrabytes_navigation`
@@ -861,33 +876,34 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
 
 INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `symlink_id`, `name`, `acl`, `route`, `module`, `controller_name`, `action`, `show`, `named_params`, `namespace`) VALUES
 (1, 1, 24, 1, NULL, 'top_left', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_left'),
-(2, 22, 23, 1, NULL, 'core_dashboard', 'Dashboard\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
-(3, 2, 21, 1, NULL, 'customers', 'Customers\\List.index', 'index.php/customers/list.html5', 'customers', 'list', 'index', 1, NULL, NULL),
-(4, 19, 20, 1, NULL, 'customers_show', NULL, NULL, 'customers', 'show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(5, 17, 18, 1, NULL, 'customers_edit', NULL, NULL, 'customers', 'edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(6, 15, 16, 1, NULL, 'customers_delete', NULL, NULL, 'customers', 'delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(7, 13, 14, 1, NULL, 'customers_add', NULL, NULL, 'customers', 'add', 'index', 0, NULL, NULL),
-(8, 3, 12, 1, NULL, 'customers_projects_list', NULL, NULL, 'customers', 'projects_list', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
-(9, 10, 11, 1, NULL, 'customers_projects_show', NULL, NULL, 'customers', 'projects_show', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(10, 8, 9, 1, NULL, 'customers_projects_edit', NULL, NULL, 'customers', 'projects_edit', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(11, 6, 7, 1, NULL, 'customers_projects_delete', NULL, NULL, 'customers', 'projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
-(12, 4, 5, 1, NULL, 'customers_projects_add', NULL, NULL, 'customers', 'projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
-(13, 1, 32, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
-(14, 12, 31, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(15, 21, 30, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
-(16, 28, 29, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(17, 26, 27, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(18, 24, 25, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(19, 22, 23, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
-(20, 13, 20, 2, NULL, 'core_settings_locales_list', NULL, NULL, 'core', 'settings_locales', 'list', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(21, 18, 19, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(22, 16, 17, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(23, 14, 15, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(24, 4, 11, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(25, 9, 10, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL),
-(26, 7, 8, 2, NULL, 'user_pubkey_settings', 'Users\\Settings_Pubkeys.list', 'index.php/users/settings/pubkeys/list.html5', 'users', 'settings_pubkeys', 'list', 1, NULL, NULL),
-(27, 5, 6, 2, NULL, 'users_settings_profile_edit', 'Users\\Settings_Profile.edit', NULL, 'users', 'settings_profile', 'edit', 1, NULL, NULL),
-(28, 2, 3, 2, NULL, 'user_logout', 'Users\\Logout.index', 'index.php/users/logout.html5', 'users', 'logout', 'index', 1, NULL, NULL);
+(2, 4, 23, 1, NULL, 'core_customers_list', 'Core\\Customers_List.index', NULL, 'core', 'customers_list', 'index', 1, NULL, NULL),
+(3, 21, 22, 1, NULL, 'core_customers_show', 'Core\\Customers_Show.index', NULL, 'core', 'customers_show', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(4, 19, 20, 1, NULL, 'core_customers_edit', 'Core\\Customers_Edit.index', NULL, 'core', 'customers_edit', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(5, 17, 18, 1, NULL, 'core_customers_delete', 'Core\\Customers_Delete.index', NULL, 'core', 'customers_delete', 'index', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(6, 15, 16, 1, NULL, 'core_customers_add', 'Core\\Customers_Add.index', NULL, 'core', 'customers_add', 'index', 0, NULL, NULL),
+(7, 5, 14, 1, NULL, 'core_customers_projects_list', 'Core\\Customers_Projects_List.index', NULL, 'core', 'customers_projects_list', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
+(8, 12, 13, 1, NULL, 'core_customers_projects_show', 'Core\\Customers_Projects_Show.index', NULL, 'core', 'customers_projects_show', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(9, 10, 11, 1, NULL, 'core_customers_projects_edit', 'Core\\Customers_Projects_Edit.index', NULL, 'core', 'customers_projects_edit', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(10, 8, 9, 1, NULL, 'core_customers_projects_delete', 'Core\\Customers_Projects_Delete.index', NULL, 'core', 'customers_projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
+(11, 6, 7, 1, NULL, 'core_customers_projects_add', 'Core\\Customers_Projects_Add.index', NULL, 'core', 'customers_projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
+(12, 2, 3, 1, NULL, 'core_dashboard', 'Dashboard\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
+(13, 1, 34, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
+(14, 32, 33, 2, NULL, 'core_user_logout', 'Core\\Logout.index', 'logout', 'core', 'logout', 'index', 1, NULL, NULL),
+(15, 12, 31, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(16, 21, 30, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
+(17, 28, 29, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(18, 26, 27, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(19, 24, 25, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(20, 22, 23, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
+(21, 13, 20, 2, NULL, 'core_settings_locales_list', NULL, NULL, 'core', 'settings_locales', 'list', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
+(22, 18, 19, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
+(23, 16, 17, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
+(24, 14, 15, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
+(25, 2, 11, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(26, 7, 10, 2, NULL, 'core_settings_user_pubkeys_list', 'Core\\Settings_User_Pubkeys.list', NULL, 'core', 'settings_user_pubkeys', 'list', 1, NULL, NULL),
+(27, 8, 9, 2, NULL, 'core_settings_user_pubkeys_edit', NULL, NULL, 'core', 'settings_user_pubkeys', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(28, 5, 6, 2, NULL, 'core_settings_user_profile_edit', 'Core\\Settings_User_Profile.edit', NULL, 'core', 'settings_user_profile', 'edit', 1, NULL, NULL),
+(29, 3, 4, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26946,7 +26962,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_tasks` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`,`task_category_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_tasks`
+--
+
+INSERT INTO `intrabytes_tasks` (`id`, `title`, `due_date`, `task_category_id`, `user_id`, `global`, `created_at`, `updated_at`) VALUES
+(1, 'test title', '2013-05-07 00:00:00', 1, 1, 0, '2013-05-05 21:02:21', '2013-05-05 21:02:21');
 
 -- --------------------------------------------------------
 
@@ -26963,7 +26986,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_task_categories` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`,`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Daten für Tabelle `intrabytes_task_categories`
+--
+
+INSERT INTO `intrabytes_task_categories` (`id`, `name`, `color`, `background_color`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 'test', '#333333', '#FFFFFF', 0, '2013-05-05 21:01:40', '2013-05-05 21:01:40');
 
 -- --------------------------------------------------------
 
@@ -26997,7 +27027,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 2, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1367261013, 'cc23737a81b5774cf37c4e15dfa1d8cb2aa8e406', 'a:0:{}', '0000-00-00 00:00:00', '2013-04-16 08:32:50', 0, 0, '');
+(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1368035382, 'e46e0255504c682c571658ba132ce1473b8cde4c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1367609352, 'XqUJ9bokFhSpFCOBOI4U0Gvkyg9qgs3XPxN8uqRyONI=');
 
 -- --------------------------------------------------------
 

@@ -6,6 +6,7 @@
 
 namespace Core;
 
+use Auth\Auth;
 use Srit\Model;
 
 class Model_Dashboard_Item extends Model {
@@ -15,15 +16,6 @@ class Model_Dashboard_Item extends Model {
             'cascade_save' => true,
             'cascade_delete' => true,
         )
-    );
-
-
-    protected static $_properties = array(
-        'id',
-        'name',
-        'route',
-        'created_at',
-        'updated_at',
     );
 
     protected static $_observers = array(
@@ -37,15 +29,35 @@ class Model_Dashboard_Item extends Model {
         ),
     );
 
+    public static function find_my() {
+        return static::find_by_user(Auth::instance()->get_user_id());
+    }
+
     public static function find_by_user($id)
     {
-        $id = trim($id);
-        $items = static::query()
-            ->related('dashboard_items_user', array('order_by' => array('order')))
-            ->related('dashboard_items_user.user', array('where' => array('id' => $id)))
-            ->get();
 
-        return $items ? : false;
+        if(empty($id)) {
+            throw new Exception(__('exception.tasks.task.find_by_user.id.empty'));
+        }
+
+        $options = array(
+            'where' => array(
+                'dashboard_items_user.user_id' => (int)$id
+            ),
+        );
+
+        return static::find_all($options);
+    }
+
+    public static function find($id = null, array $options = array()) {
+        $tmp_options = array(
+            'related' => array(
+                'dashboard_items_user'
+            ),
+            'order_by' => array('dashboard_items_user.order' => 'ASC')
+        );
+        $options = array_merge_recursive($tmp_options, $options);
+        return parent::find($id, $options);
     }
 
 }

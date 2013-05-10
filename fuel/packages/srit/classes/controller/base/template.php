@@ -2,9 +2,9 @@
 
 namespace Srit;
 
+use Auth\Auth;
 use Fuel\Core\Config;
 use Fuel\Core\Fuel;
-use Fuel\Core\Router;
 use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
 use Srit\Pagination;
@@ -18,6 +18,8 @@ use Srit\Navigation;
 
 class Controller_Base_Template extends \Controller_Template
 {
+
+    protected $_controller_acl = '';
 
     protected $_controller_namespace = '';
 
@@ -97,6 +99,7 @@ class Controller_Base_Template extends \Controller_Template
         }
 
         $this->_init_controller_vars();
+        $this->_init_controller_template_vars();
 
         if (!empty($this->_crud_objects)) {
             $this->_init_crud_objects();
@@ -135,7 +138,7 @@ class Controller_Base_Template extends \Controller_Template
                 $response = Response::forge($response);
             }
 
-            Theme::clear($this->template);
+            Theme::clear();
             return $response;
         }
 
@@ -174,24 +177,11 @@ class Controller_Base_Template extends \Controller_Template
         Locale::instance()->setLocalePrefix($this->_locale_prefix);
         $this->_named_params = Request::forge()->named_params;
 
+        $this->_controller_acl = $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action;
+
+        $this->_logger->addDebug('acl allowed', array(Auth::has_access($this->_controller_acl)));
         $this->_logger->addDebug('controller template path', array($this->_controller_path));
-
-        Theme::instance()->set_templates_path_prefix($this->_controller_path_prefix)
-            ->set_partial('content', $this->_controller_path)
-            ->set('controller_namespace', $this->_controller_namespace)
-            ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
-            ->set('controller_action', $this->_controller_action)
-            ->set('controller_path', $this->_controller_path)
-            ->set('locale_prefix', $this->_locale_prefix);
-        if (!empty($this->_named_params)) {
-            foreach ($this->_named_params as $name => $value) {
-                Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
-            }
-        }
-
-        $this->set_page_title(__(extend_locale('title')));
-
-        //$this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
+        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
     }
 
     /**
@@ -517,6 +507,24 @@ class Controller_Base_Template extends \Controller_Template
                 $this->_crud_objects[$this->_crud_actual_object]['options']['order_by'][] = array($order_field, strtoupper($order_type));
             }
         }
+    }
+
+    protected function _init_controller_template_vars()
+    {
+        Theme::instance()->set_templates_path_prefix($this->_controller_path_prefix)
+            ->set_partial('content', $this->_controller_path)
+            ->set('controller_namespace', $this->_controller_namespace)
+            ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
+            ->set('controller_action', $this->_controller_action)
+            ->set('controller_path', $this->_controller_path)
+            ->set('locale_prefix', $this->_locale_prefix);
+        if (!empty($this->_named_params)) {
+            foreach ($this->_named_params as $name => $value) {
+                Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
+            }
+        }
+
+        $this->set_page_title(__(extend_locale('title')));
     }
 
 }
