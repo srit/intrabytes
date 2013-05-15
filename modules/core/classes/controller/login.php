@@ -8,11 +8,10 @@ namespace Core;
 use Auth\Auth;
 use Fuel\Core\Fieldset;
 use Fuel\Core\Input;
-use Srit\Controller_Base_Template_Blank_Public;
+use Srit\Controller_BaseBlankTemplate;
 use Srit\Messages;
-use Srit\Theme;
 
-class Controller_Login extends Controller_Base_Template_Blank_Public
+class Controller_Login extends Controller_BaseBlankTemplate
 {
     public function before()
     {
@@ -56,8 +55,8 @@ class Controller_Login extends Controller_Base_Template_Blank_Public
             }
         }
 
-        $username = Input::post('username', false);
+        $username = Input::post('username', '');
 
-        Theme::instance()->set_partial('content', 'core/login/index')->set('fieldset', $fieldset, false)->set('username', $username);
+        $this->_get_content_partial()->set('fieldset', $fieldset, false)->set('username', $username);
     }
 }

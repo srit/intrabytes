@@ -6,9 +6,9 @@
 
 namespace Core;
 
-use Srit\Controller_Base_Template_Blank_Public;
+use Srit\Controller_BaseBlankTemplate;
 
-class Controller_404 extends Controller_Base_Template_Blank_Public {
+class Controller_404 extends Controller_BaseBlankTemplate {
     public function action_index() {
 
     }

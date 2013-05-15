@@ -38,24 +38,26 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                 return false;
             }
             foreach ($this->_roles as $role) {
-                $acl_array[$role->name] = array();
-                if (!empty($role->acls)) {
+                $acl_array[$role->get_name()] = array();
+                if ($role->get_acls()) {
                     $i = 0;
-                    foreach ($role->acls as $acl) {
-                        if((bool)$acl->is_global) {
-                            $acl_array[$role->name] = ($acl->right == 'true' || (int)$acl->right == 1) ? true : false;
+                    foreach ($role->get_acls() as $acl) {
+                        if((bool)$acl->get_is_global()) {
+                            $acl_array[$role->get_name()] = ($acl->get_right() == 'true' || (int)$acl->get_right() == 1) ? true : false;
                             continue;
                         }
 
                         //wildcard areas
-                        if(!empty($acl->area)) {
-                            $area = $acl->area;
+                        if($acl->get_area() != NULL) {
+                            $acl_area = $acl->get_area();
+                        } else {
+                            $acl_area = $area;
                         }
 
-                        if (!isset($acl_array[$role->name][$area])) {
-                            $acl_array[$role->name][$area] = array();
+                        if (!isset($acl_array[$role->get_name()][$acl_area])) {
+                            $acl_array[$role->get_name()][$acl_area] = array();
                         }
-                        $acl_array[$role->name][$area][] = $acl->right;
+                        $acl_array[$role->get_name()][$acl_area][] = $acl->get_right();
 
                     }
                 }
@@ -63,11 +65,10 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
 
             //Logger::forge('acl')->addDebug('ACL Array: ', array($acl_array));
             foreach ($current_roles as $r_role) {
-
-                if (!array_key_exists($r_role->name, $acl_array)) {
+                if (!array_key_exists($r_role->get_name(), $acl_array)) {
                     continue;
                 }
-                $r_rights = $acl_array[$r_role->name];
+                $r_rights = $acl_array[$r_role->get_name()];
 
                 // if one of the roles has a negative or positive wildcard return it
                 if (is_bool($r_rights)) {
@@ -75,9 +76,11 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                 } elseif (array_key_exists($area, $r_rights)) {
                     $current_rights = array_unique(array_merge($current_rights, $r_rights[$area]));
                 }
+
             }
 
         }
+
 
         foreach ($rights as $right)
         {

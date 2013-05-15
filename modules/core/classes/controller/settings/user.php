@@ -6,12 +6,11 @@
 
 namespace Core;
 
-use Srit\Controller_Base_User;
-use Srit\Theme;
+use Srit\Controller_BaseBigTemplate;
 
-class Controller_Settings_User extends Controller_Base_User {
+class Controller_Settings_User extends Controller_BaseBigTemplate {
 
     public function action_dashboard() {
-        Theme::instance()->set_partial('content', 'core/settings/user/dashboard');
+
     }
 }

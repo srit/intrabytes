@@ -1,222 +1,15 @@
 <?php
+/**
+ * @created 13.05.13 - 13:04
+ * @author stefanriedel
+ */
 
 namespace Srit;
 
-use Auth\Auth;
 use Fuel\Core\Config;
-use Fuel\Core\Fuel;
-use Srit\HttpNotFoundException;
 use Fuel\Core\Input;
-use Srit\Pagination;
-use Srit\Request;
-use Fuel\Core\Response;
-use Fuel\Core\Security;
-use Srit\Inflector;
-use Srit\Locale;
-use Srit\Logger;
-use Srit\Navigation;
 
-class Controller_Base_Template extends \Controller_Template
-{
-
-    protected $_controller_acl = '';
-
-    protected $_controller_namespace = '';
-
-    protected $_controller_namespace_lowercased = '';
-
-    protected $_controller_without_controller_prefix = '';
-
-    protected $_controller_without_controller_prefix_lowercased = '';
-
-    protected $_controller_action = '';
-
-    protected $_controller_path = '/';
-
-    protected $_controller_path_prefix = '';
-
-    protected $_page_title = null;
-
-    protected $_named_params = array();
-
-    public $template = 'templates/layout';
-
-    protected $_navigation_template = 'templates/navbar';
-
-    protected $_breadcrumb_template = 'templates/breadcrumb';
-
-    protected $_last_pages_template = 'templates/last_pages';
-
-    protected $_locale_prefix = null;
-
-    /**
-     * @var \Theme
-     */
-    protected $_theme_instance = null;
-    public $date_format = 'de';
-    public $navbars = array();
-
-    /**
-     *
-     * @var Logger
-     */
-    protected $_logger = null;
-
-    public function set_page_title($page_title)
-    {
-        $this->_page_title = $page_title;
-    }
-
-    public function before()
-    {
-        if (Input::is_ajax()) {
-            return parent::before();
-        }
-
-        $this->_init_logger();
-
-        /**
-         * CSRF Token ist falsch, POST Variablen löschen!
-         */
-        if (Fuel::$env == Fuel::PRODUCTION && Request::active()->get_method() == 'POST' && false == Security::check_token()) {
-            Messages::error(__('validation.form.invalid'));
-            foreach ($_POST as $key => $value) {
-                unset($_POST[$key]);
-            }
-        }
-
-        Theme::instance()->set_template($this->template)->set_global('theme', Theme::instance(), false);
-        $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;
-        if (!empty($this->request->module) && is_dir($additional_view_dir)) {
-            /**
-             * @todo dynamischer machen das aktuell aktivierte theme sollte unterstützt werden können
-             */
-            Theme::instance()->add_paths(
-                array(
-                    ROOT . 'modules' . DS . $this->request->module . DS
-                )
-            );
-        }
-
-        $this->_init_controller_vars();
-        $this->_init_controller_template_vars();
-
-        if (!empty($this->_crud_objects)) {
-            $this->_init_crud_objects();
-        }
-        $this->_log_controller_data();
-
-        $additional_js = array();
-        $controller_main_js_path = 'modules/' . strtolower($this->_controller_namespace) . '/main.js';
-
-        if (Theme::instance()->asset->find_file($controller_main_js_path, 'js')) {
-            $additional_js[] = $controller_main_js_path;
-        }
-        Theme::instance()->get_template($this->template)->set_global('additional_js', $additional_js);
-        $this->_last_pages();
-    }
-
-    protected function _init_navigation()
-    {
-        Theme::instance()->set_partial('navigation', $this->_navigation_template);
-        Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_left', Navigation::forge('top_left'), false);
-        Theme::instance()->get_partial('navigation', $this->_navigation_template)->set('top_right', Navigation::forge('top_right'), false);
-        Theme::instance()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', Navigation::instance(), false);
-    }
-
-    public function after($response)
-    {
-        if (!Input::is_ajax()) {
-            $this->_init_title();
-            $this->_init_navigation();
-            // If nothing was returned set the theme instance as the response
-            if (empty($response)) {
-                $response = Response::forge(Theme::instance());
-            }
-
-            if (!$response instanceof Response) {
-                $response = Response::forge($response);
-            }
-
-            Theme::clear();
-            return $response;
-        }
-
-        return parent::after($response);
-    }
-
-    /**
-     * @todo to navigation?
-     */
-    protected function _last_pages()
-    {
-
-        Last_Pages::setActivePageTitle($this->_page_title);
-        Last_Pages::set();
-        Theme::instance()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', Last_Pages::get());
-
-    }
-
-    protected function _init_title()
-    {
-        Theme::instance()->get_template($this->template)->set_global('title', $this->_page_title);
-    }
-
-    protected function _init_controller_vars()
-    {
-        $this->_controller_namespace = preg_replace('/(\\\.*)/', '', $this->request->controller);
-        $this->_controller_namespace_lowercased = strtolower($this->_controller_namespace);
-        $this->_controller_without_controller_prefix = str_replace($this->_controller_namespace . '\Controller_', '', $this->request->controller);
-        $this->_controller_without_controller_prefix_lowercased = strtolower($this->_controller_without_controller_prefix);
-        $this->_controller_action = $this->request->action;
-
-        $this->_controller_path_prefix = strtolower($this->_controller_namespace . '/');
-        $this->_controller_path = strtolower($this->_controller_path_prefix . str_replace('_', '/', $this->_controller_without_controller_prefix) . '/' . $this->_controller_action);
-        $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
-
-        Locale::instance()->setLocalePrefix($this->_locale_prefix);
-        $this->_named_params = Request::forge()->named_params;
-
-        $this->_controller_acl = $this->_controller_namespace . '\\' . $this->_controller_without_controller_prefix . '.' . $this->_controller_action;
-
-        $this->_logger->addDebug('acl allowed', array(Auth::has_access($this->_controller_acl)));
-        $this->_logger->addDebug('controller template path', array($this->_controller_path));
-        $this->_logger->debug('Controller Data', array($this->_controller_namespace, $this->_controller_without_controller_prefix, $this->_controller_action, $this->_controller_path, $this->_named_params, $this->_locale_prefix));
-    }
-
-    /**
-     * @return \Fuel\Core\View
-     * @throws \Exception
-     */
-    protected function _get_content_template()
-    {
-        if (empty($this->_controller_path)) {
-            throw new Exception(__(extend_locale('exception.controller_path_undefined')));
-        }
-        return Theme::instance()->get_partial('content', $this->_controller_path);
-    }
-
-    private function _init_logger()
-    {
-        $this->_logger = Logger::forge('controller');
-    }
-
-    private function _log_controller_data()
-    {
-        $this->_logger->debug('controller', array($this->_controller_without_controller_prefix));
-        return;
-        $reflector = new \ReflectionClass(get_called_class());
-        $namespace = $reflector->getNamespaceName();
-        $this->_logger->addDebug('Controller Namespace: ', array($namespace));
-        $this->_logger->addDebug('Module: ', array($this->request->module));
-        $this->_logger->addDebug('Controller: ', array($this->request->controller));
-        $this->_logger->addDebug('Action: ', array($this->request->action));
-    }
-
-
-    /*******************
-     ******************* CRUD
-     *******************/
+class Controller_CrudBigTemplate extends Controller_BaseBigTemplate {
 
     protected $_crud_last_controller_part = '';
 
@@ -231,6 +24,12 @@ class Controller_Base_Template extends \Controller_Template
     protected $_crud_pagination_config = array();
 
     protected $_crud_pagination = array();
+
+    public function init()
+    {
+        parent::init();
+        $this->_init_crud_objects();
+    }
 
     protected function _init_crud_objects()
     {
@@ -248,7 +47,7 @@ class Controller_Base_Template extends \Controller_Template
             $this->_iterate_crud_objects();
 
 
-            $this->_get_content_template()
+            $this->_get_content_partial()
                 ->set('crud_objects', $this->_crud_objects, false)
                 ->set('pagination', $this->_crud_pagination, false);
 
@@ -273,11 +72,9 @@ class Controller_Base_Template extends \Controller_Template
             $this->_crud_redirect_uri = Uri::create($route_prefix . '/' . implode('/', $this->_named_params));
         }
 
-        $this->_get_content_template()
+        $this->_get_content_partial()
             ->set('last_controller_part', $this->_crud_last_controller_part)
             ->set('crud_action', $this->_crud_action);
-
-        $this->_logger->debug('Crud Controller Data', array($this->_crud_last_controller_part, $this->_crud_action, $this->_crud_redirect_uri));
     }
 
 
@@ -507,24 +304,6 @@ class Controller_Base_Template extends \Controller_Template
                 $this->_crud_objects[$this->_crud_actual_object]['options']['order_by'][] = array($order_field, strtoupper($order_type));
             }
         }
-    }
-
-    protected function _init_controller_template_vars()
-    {
-        Theme::instance()->set_templates_path_prefix($this->_controller_path_prefix)
-            ->set_partial('content', $this->_controller_path)
-            ->set('controller_namespace', $this->_controller_namespace)
-            ->set('controller_without_controller_prefix', $this->_controller_without_controller_prefix)
-            ->set('controller_action', $this->_controller_action)
-            ->set('controller_path', $this->_controller_path)
-            ->set('locale_prefix', $this->_locale_prefix);
-        if (!empty($this->_named_params)) {
-            foreach ($this->_named_params as $name => $value) {
-                Theme::instance()->get_partial('content', $this->_controller_path)->set($name, $value);
-            }
-        }
-
-        $this->set_page_title(__(extend_locale('title')));
     }
 
 }

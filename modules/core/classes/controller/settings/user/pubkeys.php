@@ -6,9 +6,9 @@
 
 namespace Core;
 use Auth\Auth;
-use Srit\Controller_Base_User;
+use Srit\Controller_CrudBigTemplate;
 
-class Controller_Settings_User_Pubkeys extends Controller_Base_User {
+class Controller_Settings_User_Pubkeys extends Controller_CrudBigTemplate {
 
     protected $_crud_objects = array(
         'srit:user_public_key' => array()

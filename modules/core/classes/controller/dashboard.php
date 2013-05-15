@@ -6,12 +6,11 @@
 
 namespace Core;
 
+use Srit\Controller_BaseBigTemplate;
 use Srit\Model_Navigation;
 use Srit\Request;
-use Srit\Theme;
-use Srit\Controller_Base_User;
 
-class Controller_Dashboard extends Controller_Base_User {
+class Controller_Dashboard extends Controller_BaseBigTemplate {
 
     public function action_index() {
         $dashboard_items = Model_Dashboard_Item::find_my();
@@ -22,8 +21,7 @@ class Controller_Dashboard extends Controller_Base_User {
                 try
                 {
                     $request = Request::forge($item->route, false);
-                    //$data[] = $key . ' - ' . $item->route;
-                    //$data[] = $request->execute()->response()->body;
+                    $data[] = $request->execute()->response()->body;
                 }
                 catch (\Exception $e)
                 {
@@ -31,7 +29,7 @@ class Controller_Dashboard extends Controller_Base_User {
                 }
             }
         }
-        Theme::instance()->set_partial('content', 'core/dashboard/index')->set('dashboard_items', $data, false);
+        $this->_get_content_partial()->set('dashboard_items', $data, false);
     }
 
 

@@ -7,12 +7,13 @@
 namespace Core;
 
 use Fuel\Core\Input;
+use Srit\Controller_BaseBlankTemplate;
 use Srit\Messages;
 use Srit\Model_User;
 use Srit\Theme;
 use Srit\Controller_Base_Template_Blank_Public;
 
-class Controller_Password extends Controller_Base_Template_Blank_Public
+class Controller_Password extends Controller_BaseBlankTemplate
 {
     public function action_forget()
     {
@@ -49,7 +50,7 @@ class Controller_Password extends Controller_Base_Template_Blank_Public
                 $password_changed = true;
             }
         }
-        $this->_get_content_template()
+        $this->_get_content_partial()
                             ->set('hash', $hash)
                             ->set('hash_true', $hash_true)
                             ->set('password_changed', $password_changed);

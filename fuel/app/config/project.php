@@ -5,5 +5,15 @@
  */
 
 return array(
-    'name' => 'IntraBytes'
+    'name' => 'IntraBytes',
+    'max_last_pages' => 5,
+    'locked_mode' => 1,
+    'locked_exceptions' => array(
+        'Core\\Login.index',
+        'Core\\403.index',
+        'Core\\404.index',
+        'Core\\500.index',
+        'Core\\Password.forget',
+        'Core\\Password.confirmed_email'
+    )
 );

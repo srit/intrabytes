@@ -7,12 +7,13 @@
 namespace Core;
 
 use Srit\Controller_Base_Template;
+use Srit\Controller_BaseBigTemplate;
 use Srit\Model_Navigation;
 
-class Controller_Navigation extends Controller_Base_Template {
+class Controller_Navigation extends Controller_BaseBigTemplate {
 
     public function action_index() {
-        $this->_get_content_template()->set('trees', Model_Navigation::find_trees());
+        $this->_get_content_partial()->set('trees', Model_Navigation::find_trees());
 
     }
 

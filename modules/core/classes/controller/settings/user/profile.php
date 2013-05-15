@@ -6,16 +6,14 @@
 namespace Core;
 
 use Auth\Auth;
-use Core\Theme;
 use Fuel\Core\Input;
 use Fuel\Core\Uri;
-use Srit\Controller_Base_User;
-use Srit\Logger;
+use Srit\Controller_BaseBigTemplate;
 use Srit\Messages;
 use Srit\Model_User;
 use Srit\Model_User_Profile;
 
-class Controller_Settings_User_Profile extends Controller_Base_User {
+class Controller_Settings_User_Profile extends Controller_BaseBigTemplate {
 
     /*protected $_crud_objects = array(
         'user_profile' => array(),
@@ -53,6 +51,6 @@ class Controller_Settings_User_Profile extends Controller_Base_User {
             Messages::redirect(Uri::current() . '#password');
         }
 
-        $this->_get_content_template()->set('profile', $profile);
+        $this->_get_content_partial()->set('profile', $profile);
     }
 }
