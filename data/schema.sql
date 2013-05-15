@@ -1,13 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 3.5.5
+-- version 4.0.0
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 10. Mai 2013 um 13:02
--- Server Version: 5.5.29-0ubuntu0.12.04.2
+-- Erstellungszeit: 15. Mai 2013 um 16:36
+-- Server Version: 5.5.31-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `intrabytes`
+-- Datenbank: `alphabytes`
 --
 
 -- --------------------------------------------------------
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `right` varchar(50) DEFAULT NULL,
   `is_global` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `intrabytes_acls`
@@ -45,7 +45,10 @@ INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`) VALUES
 (5, NULL, 'show', 0),
 (6, NULL, 'delete', 0),
 (7, NULL, 'true', 1),
-(8, NULL, 'index', 0);
+(8, NULL, 'index', 0),
+(9, 'Core\\Login', 'index', 0),
+(10, 'Core\\Password', 'forget', 0),
+(11, 'Core\\Password', 'confirmed_email', 0);
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,10 @@ INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
 (1, 4),
 (1, 5),
 (1, 8),
-(3, 7);
+(3, 7),
+(4, 9),
+(4, 10),
+(4, 11);
 
 -- --------------------------------------------------------
 
@@ -137,7 +143,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -146,7 +152,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
 (2, '2013-02-11 12:58:58', '2013-04-17 10:19:56', 'info@info.de', 'Hans Hans GmbH & Co. KG', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606'),
-(4, '2013-04-17 10:20:39', '2013-04-17 10:20:39', 'sr@alphabytes.de', 'Hans GBR', 'Stefan', 'Riedel', 1, '0381456987', '', 'Hans Hans Staße', '10', '9631');
+(4, '2013-04-17 10:20:39', '2013-05-02 16:39:02', 'sr@alphabytes.de', 'Hans GBR1', 'Stefan', 'Riedel', 1, '0381456987', '', 'Hans Hans Staße', '10', '9631'),
+(5, '2013-05-03 08:23:41', '2013-05-03 08:23:41', 'sr@alphabytes.de', 'hans', 'Hansi', 'Hinterseer', 1, '0381658987', '', 'Spelbergsfeld', '19', '9631');
 
 -- --------------------------------------------------------
 
@@ -190,22 +197,21 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
   `name` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `url` varchar(255) DEFAULT NULL,
-  `redmine_project_label` varchar(50) DEFAULT NULL,
   `customer_id` int(11) NOT NULL,
-  `redmine_id` int(11) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Daten für Tabelle `intrabytes_customer_projects`
 --
 
-INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `redmine_project_label`, `customer_id`, `redmine_id`, `created_at`, `updated_at`) VALUES
-(1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 'www-sonatex-de', 1, 10, '2013-02-12 20:52:08', '2013-03-05 12:59:35'),
-(10, 'Sonnenschein Website', '', 'http://sonnenschein.de', 'easyshop-sonatex-de', 1, 10, '2013-02-25 19:05:00', '2013-03-05 12:58:48'),
-(11, 'intrabytes', '', '', 'alphabytes', 2, 10, '2013-03-04 13:28:06', '2013-03-04 13:28:05');
+INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `customer_id`, `created_at`, `updated_at`) VALUES
+(1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 1, '2013-02-12 20:52:08', '2013-05-02 15:28:02'),
+(11, 'intrabytes', '', '', 2, '2013-03-04 13:28:06', '2013-03-04 13:28:05'),
+(12, 'hsakjdhajk', 'askjdhaskjdh', 'http://www.bing.de', 1, '2013-05-02 16:38:05', '2013-05-02 16:38:05'),
+(15, 'asdasd', 'asdsadasdasdasd', 'http://www.sonatex.de', 5, '2013-05-03 08:25:03', '2013-05-03 08:25:14');
 
 -- --------------------------------------------------------
 
@@ -227,7 +233,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items` (
 --
 
 INSERT INTO `intrabytes_dashboard_items` (`id`, `name`, `route`, `created_at`, `updated_at`) VALUES
-(1, 'my tasks', 'tasks/dashboard/list', '2013-05-05 21:03:46', '2013-05-05 21:03:46');
+(1, 'tasks', 'tasks/dashboard/list', '2013-05-14 09:52:40', '2013-05-14 09:52:40');
 
 -- --------------------------------------------------------
 
@@ -294,7 +300,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_groups_roles` (
 
 INSERT INTO `intrabytes_groups_roles` (`role_id`, `group_id`) VALUES
 (1, 1),
-(3, 2);
+(3, 2),
+(4, 3);
 
 -- --------------------------------------------------------
 
@@ -365,7 +372,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (21, 'settings.language.label', 'nav', 'Spracheinstellungen'),
 (22, 'settings_language.index.title', 'core', 'Spracheinstellungen'),
 (23, 'board.index.title', 'core', 'Dashboard'),
-(24, 'settings.dashboard.title', 'users', 'Dashboard konfigurieren'),
+(24, 'settings.user.dashboard.title', 'core', 'Dashboard konfigurieren'),
 (25, 'settings_language.index.id.label', 'core', '#'),
 (26, 'settings_language.index.locale.label', 'core', 'Locale'),
 (27, 'settings_language.index.language.label', 'core', 'Sprache'),
@@ -717,7 +724,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (378, 'user_settings.anchor.label', 'navigation', '<i class="icon-user"></i> <b class="caret"></b>'),
 (379, 'user_logout.anchor.label', 'navigation', '<i class="icon-off"></i> Logout'),
 (380, 'user_pubkey_settings.anchor.label', 'navigation', '<i class="icon-fire"></i> Public Key Verwaltung'),
-(381, 'core_settings_user.anchor.label', 'navigation', '<i class="icon-cog"></i> Dashboard konfigurieren'),
+(381, 'core_settings_user_dashboard.anchor.label', 'navigation', '<i class="icon-cog"></i> Dashboard konfigurieren'),
 (382, 'settings.pubkeys.list.value.label', 'users', 'Public Key'),
 (383, 'prefix.label', 'breadcrumb', 'Du befindest dich hier:'),
 (384, 'settings.anchor.label', 'breadcrumb', 'Einstellungen'),
@@ -757,7 +764,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (418, 'settings.locales.list.filter_like.button.label', 'core', 'Like Filter anwenden'),
 (419, 'settings.user.index.title', 'core', 'Dashboard konfigurieren'),
 (420, 'user_settings.anchor.label', 'breadcrumb', 'Nutzereinstellungen'),
-(421, 'core_settings_user.anchor.label', 'breadcrumb', 'Dashboardkonfiguration'),
+(421, 'core_settings_user_dashboard.anchor.label', 'breadcrumb', 'Dashboardkonfiguration'),
 (422, 'home.anchor.label', 'breadcrumb', 'Dashboard'),
 (423, 'user_pubkey_settings.anchor.label', 'breadcrumb', 'Public Key Verwaltung'),
 (424, 'srit.observer_translated.property.not.exists', 'exception', 'Das Property :property existiert nicht!'),
@@ -26915,7 +26922,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `intrabytes_roles`
@@ -26924,7 +26931,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_roles` (
 INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'admin', '2013-03-11 21:40:21', '2013-03-11 21:40:21'),
 (2, '#', '2013-03-12 22:04:41', '2013-03-12 22:04:41'),
-(3, 'super_admin', '2013-03-14 08:26:20', '2013-03-14 08:26:20');
+(3, 'super_admin', '2013-03-14 08:26:20', '2013-03-14 08:26:20'),
+(4, 'guest', '2013-05-13 14:34:30', '2013-05-13 14:34:30');
 
 -- --------------------------------------------------------
 
@@ -26962,14 +26970,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_tasks` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`,`task_category_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_tasks`
 --
 
 INSERT INTO `intrabytes_tasks` (`id`, `title`, `due_date`, `task_category_id`, `user_id`, `global`, `created_at`, `updated_at`) VALUES
-(1, 'test title', '2013-05-07 00:00:00', 1, 1, 0, '2013-05-05 21:02:21', '2013-05-05 21:02:21');
+(1, 'Nochmal test', '2013-05-16 00:00:00', 1, 1, 0, '2013-05-13 09:42:25', '2013-05-13 09:42:25'),
+(2, 'Nochmal test die zweite', '2013-05-17 00:00:00', 1, 1, 0, '2013-05-13 09:42:25', '2013-05-13 09:42:25');
 
 -- --------------------------------------------------------
 
@@ -26993,7 +27002,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_task_categories` (
 --
 
 INSERT INTO `intrabytes_task_categories` (`id`, `name`, `color`, `background_color`, `client_id`, `created_at`, `updated_at`) VALUES
-(1, 'test', '#333333', '#FFFFFF', 0, '2013-05-05 21:01:40', '2013-05-05 21:01:40');
+(1, 'test', '#333333', '#FFFFFF', 0, '2013-05-13 09:41:38', '2013-05-13 09:41:38');
 
 -- --------------------------------------------------------
 
@@ -27027,7 +27036,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', '936231cefd0559618bff2a083e0f7052', '$2y$10$7b0b3a9131e69122b066ceDuylconEuFBIpooYE3jX/ke16JbzaHe', 'admin@blogshocker.com', 1368035382, 'e46e0255504c682c571658ba132ce1473b8cde4c', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1367609352, 'XqUJ9bokFhSpFCOBOI4U0Gvkyg9qgs3XPxN8uqRyONI=');
+(1, 0, 1, 'sr', 'dea49412a3bbe0cebd8c9169f93be762', '$2y$10$7b0b3a9131e69122b066cePLBDn2Bx45APOHC4JO9TKCXzKioWNB.', 'sr@alphabytes.de', 1368628319, '97f366459b664dc9e4f35cd4d19564c8e971fe9a', 'a:0:{}', '0000-00-00 00:00:00', '2013-05-02 12:59:26', 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -27052,7 +27061,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 --
 
 INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-04-16 08:32:30');
+(1, 1, 'StefanAB', 'Riedel', '1983-01-01', 'm', '2013-02-05 11:19:47', '2013-05-14 11:19:35');
 
 -- --------------------------------------------------------
 
@@ -27068,14 +27077,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Daten für Tabelle `intrabytes_user_public_keys`
 --
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
-(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46');
+(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46'),
+(3, 1, 'asdasd', 'asdsadasd', '2013-05-14 11:20:12', '2013-05-14 11:20:12');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
