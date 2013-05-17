@@ -25,7 +25,7 @@ class Controller_Dashboard extends Controller_BaseBigTemplate {
                 }
                 catch (\Exception $e)
                 {
-                    echo $e->xdebug_message;
+                    echo $e->getMessage();
                 }
             }
         }
