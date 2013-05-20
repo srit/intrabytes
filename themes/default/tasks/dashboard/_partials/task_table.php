@@ -5,5 +5,5 @@
  */
 
 foreach ($tasks as $i => $task) {
-    echo $theme->view('tasks/dashboard/_partials/task_row', array('i' => $i, 'task' => $task));
+    echo $theme->view($theme->get_templates_path_prefix() . 'dashboard/_partials/task_row', array('i' => $i, 'task' => $task), false);
 }

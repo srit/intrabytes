@@ -549,7 +549,6 @@ function h6($value, $attr = array())
 
 function named_route($route_name, $route_params = array(), $route_must_exists = true)
 {
-
     if ($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
         throw new \FuelException(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
     } elseif (!isset(\Fuel\Core\Router::$routes[$route_name])) {

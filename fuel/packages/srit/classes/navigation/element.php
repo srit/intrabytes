@@ -20,6 +20,8 @@ class Navigation_Element implements \ArrayAccess{
 
     protected $_active = false;
 
+    protected $_activated = null;
+
     protected $_allowed = false;
 
     protected $_show = true;
@@ -69,17 +71,18 @@ class Navigation_Element implements \ArrayAccess{
         }
     }
 
-    public function setActive($active, $with_parent = true) {
+    public function setActive($active, $with_parent = true, $activated = null) {
         $this->_active = (bool)$active;
+        $this->_activated = $activated;
         if($with_parent == true && $this->hasParent()) {
-            $this->getParent()->setActive($this->_active);
+            $this->getParent()->setActive($this->_active, true, $this);
         }
     }
 
     public function setShow($show, $with_parent = true) {
         $this->_show = (bool)$show;
         if($with_parent == true && $this->hasParent() && $this->_show == true) {
-            $this->getParent()->setActive($this->_show);
+            $this->getParent()->setShow($this->_show);
         }
     }
 
@@ -116,11 +119,11 @@ class Navigation_Element implements \ArrayAccess{
     }
 
     public function init() {
-        $this->_chck_is_active();
         $this->_chck_of_children();
         $this->_chck_allowed();
         $this->_chck_show();
         $this->_chck_has_named_params();
+        $this->_chck_is_active();
     }
 
     protected function _chck_show() {
@@ -133,6 +136,9 @@ class Navigation_Element implements \ArrayAccess{
     {
         $this->_has_children = (isset($this->_data['links']));
         if ($this->_has_children == true) {
+            if(is_array($this->_data['links'])) {
+                $this->_data['links'] = new Navigation_Elements($this->_data['links'], $this);
+            }
             $this->_children = $this->_data['links'];
         }
     }
@@ -140,10 +146,11 @@ class Navigation_Element implements \ArrayAccess{
     protected function _chck_is_active() {
 
         $request = Request::active();
+
         if($this->__isset('action') && $request->action == $this->get('action')
             && $this->__isset('controller_name') && $request->controller_name == $this->get('controller_name')
             && $this->__isset('module') && $request->module == $this->get('module')) {
-            $this->setActive(true);
+            $this->setActive(true, true, $this);
         }
     }
 
@@ -155,8 +162,8 @@ class Navigation_Element implements \ArrayAccess{
     }
 
     protected function _chck_has_named_params() {
-        if($this->__isset('named_params')) {
-            $named_params = $this->get('named_params');
+        if($this->__isset('named_params') && ($named_params = $this->get('named_params') AND !empty($named_params))) {
+            //$named_params = $this->get('named_params');
             $tmp_named_params = array();
             foreach($named_params as $name => $named_param) {
                 if(is_int($name)) {

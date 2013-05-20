@@ -5,5 +5,6 @@
  */
 
 return array(
-    'max_last_pages' => 5
+    'max_last_pages' => 5,
+    'locked_mode' => 1
 );

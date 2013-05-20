@@ -19,7 +19,9 @@ class Navigation
      */
     protected static $_instance = null;
 
-    protected $_nav_data_array = array();
+    protected static $_nav_data_array = array();
+
+    protected static $_navigation_namespaces = null;
 
     /**
      * @var Navigation_Elements
@@ -56,25 +58,44 @@ class Navigation
 
     public function __construct($name = null)
     {
-        if ($this->_nav_data_array == array()) {
-            if ($name == null) {
-                $this->_nav_data_array = Config::load('navigation', true);
+        if (static::$_nav_data_array == array()) {
+
+
+            static::$_navigation_namespaces = Model_Navigation::find_namespaces();
+            if(static::$_navigation_namespaces != null) {
+                static::$_nav_data_array = Model_Navigation::find_trees();
+            }
+
+            /**if ($name == null) {
+                static::$_nav_data_array = Config::load('navigation', true);
             } else {
                 Config::load('navigation', true);
-                $this->_nav_data_array[$name] = Config::get('navigation.' . $name);
+                static::$_nav_data_array[$name] = Config::get('navigation.' . $name);
                 $this->_name = $name;
-            }
-            $this->_initNavigationElements();
+            }**/
+
         }
+
+        if($name != null) {
+            /**if($name == 'top_right') {
+                var_dump(static::$_nav_data_array[$name]);
+            }**/
+            $this->_name = $name;
+        }
+        $this->_initNavigationElements();
     }
+
+
 
 
     public function find_active()
     {
-        foreach ($this->_elements as $elements) {
-            $this->_active_elements = $this->_find_active_elements($elements);
-            if($this->_active_elements != array()) {
-                break;
+        if (!empty($this->_elements)) {
+            foreach ($this->_elements as $elements) {
+                $this->_active_elements = $this->_find_active_elements($elements);
+                if ($this->_active_elements != array()) {
+                    break;
+                }
             }
         }
         return $this->_active_elements;
@@ -86,7 +107,7 @@ class Navigation
         foreach ($elements as $element) {
             if ($element->active == true) {
                 $active_elements[] = $element;
-                if($element->hasChildren()) {
+                if ($element->hasChildren()) {
                     $active_elements = array_merge($active_elements, $this->_find_active_elements($element->getChildren()));
                 }
             }
@@ -113,8 +134,12 @@ class Navigation
 
     protected function _initNavigationElements()
     {
-        foreach ($this->_nav_data_array as $level => $elements) {
-            $this->_elements[$level] = new Navigation_Elements($elements);
+        if($this->_name != null) {
+            $this->_elements[$this->_name] = new Navigation_Elements(static::$_nav_data_array[$this->_name]);
+        } else {
+            foreach (static::$_nav_data_array as $level => $elements) {
+                $this->_elements[$level] = new Navigation_Elements($elements);
+            }
         }
     }
 
@@ -136,15 +161,16 @@ class Navigation
         return $this->_rendered;
     }
 
-    public function render_breadcrumb() {
-        if(empty($this->_active_elements)) {
+    public function render_breadcrumb()
+    {
+        if (empty($this->_active_elements)) {
             $this->find_active();
         }
 
         $base_route = base_route();
         $null_element = isset($this->_active_elements[0]) ? $this->_active_elements[0] : null;
 
-        if(!empty($this->_active_elements) AND $null_element != null AND $null_element->get_route() != $base_route AND (isset(Router::$routes['_root_']) AND Uri::create(Router::$routes['_root_']->translation) != $null_element->get_route())) {
+        if (!empty($this->_active_elements) AND $null_element != null AND $null_element->get_route() != $base_route AND (isset(Router::$routes['_root_']) AND Uri::create(Router::$routes['_root_']->translation) != $null_element->get_route())) {
             $startseite = new Navigation_Element(array(
                 'route' => base_route(),
                 //'acl' => 'Customers\\Show.index',
@@ -182,6 +208,10 @@ class Navigation
     public function __toString()
     {
         return $this->render();
+    }
+
+    public function get_tree($name) {
+
     }
 
     public function get($property)

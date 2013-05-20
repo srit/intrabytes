@@ -1,0 +1,27 @@
+- Projektabhängige Konfiguration in die DB, wie zum Beispiel SMTP
+--- Config Driver -> DB (Fallback)
+
+- Theme::view erweitern um before und after events, so sollte es möglich sein, vor und nach einem template daten einzufügen
+
+- SuperClass in das SRIT Package
+
+- Navigation nur einmal innitialisieren
+--- neue Methode getNaviBaum($name)
+
+
+- Controller Struktur überdenken
+
+--- Wir haben einen Controller, der sich um die Authentifizierungsklamotten kümmert und einen weiteren, der sich um das Instantiieren des
+    Templates kümmert (inkl. des Action Templates -> 'content')
+        --- sämtliches anderes Gedlhns, wie Navigation etc. wird in den entsprechenden untergeordneten Controllern, falls benötiugt
+            untergebracht. Zum Beispiel brauchen wir in einem Blank Template keine Navigation etc.
+
+--- Desweiteren schleifen wir eine $theme Variable mit -> diese sollte überall (wäre ja nur im Controller und Template?) verfügbar sein.
+    --- im Controller würde sich eine getter -> getTheme() Methode anbieten. - protected $_theme
+    --- es ist darauf zu achten, das diese klamotten nur im controller unter dem base controller stattfindet, auch wenn dieser
+        von Controller_Template erbt.
+
+- PHPDocs erweitern
+- wir steigen im Model komplett auf getter Methoden um, das heißt es sind soll nicht mehr möglich sein folgendes zu tun
+  $model->name, sondern nur noch $model->getName() resp. $model->get_name(), das hat den Vorteil, das in bestimmten Fällen
+  wo die Daten vor dem ausgeben/zurückgeben noch mal geändert werden können.

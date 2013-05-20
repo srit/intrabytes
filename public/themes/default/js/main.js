@@ -40,4 +40,10 @@ $(document).ready(function () {
         $(this).tab('show');
     });
 
+    $(".accordion").collapse(
+        {
+            open:false
+        }
+    );
+
 });

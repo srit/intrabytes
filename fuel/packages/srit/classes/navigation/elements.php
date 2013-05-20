@@ -55,7 +55,12 @@ class Navigation_Elements implements \Iterator, \Countable
         foreach ($this->_elements as $name => $element) {
             $this->_elements[$name] = new Navigation_Element($element, $name, $this->getParent());
             if ($this->_elements[$name]->hasChildren()) {
-                $this->_elements[$name]['links'] = new self($this->_elements[$name]->getChildren(), $this->_elements[$name]);
+                $childrens = $this->_elements[$name]->getChildren();
+                if(!$childrens instanceof Navigation_Elements) {
+                    $this->_elements[$name]['links'] = new self($this->_elements[$name]->getChildren(), $this->_elements[$name]);
+                } else {
+                    $this->_elements[$name]['links'] = $childrens;
+                }
                 //$this->_elements[$name]['links'] = $this->_initNavigationElement($this->_elements[$name]->getChildren());
             }
         }

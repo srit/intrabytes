@@ -190,7 +190,7 @@ abstract class Cache_Storage_Driver
 			// cleanup to only allow alphanum chars, dashes, dots & underscores
 			if (preg_match('/^([a-z0-9_\.\-]*)$/iuD', $identifier) === 0)
 			{
-				throw new \FuelException('Cache identifier can only contain alphanumeric characters, underscores, dashes & dots.');
+				throw new \FuelException('Cache identifier can only contain alphanumeric characters, underscores, dashes & dots. But not: ' . $identifier);
 			}
 
 			return (string) $identifier;

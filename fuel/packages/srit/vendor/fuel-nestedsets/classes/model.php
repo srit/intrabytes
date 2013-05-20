@@ -15,17 +15,12 @@
 
 namespace Nestedsets;
 
-/*
- * Make sure the ORM package is loaded
- */
-\Package::load('orm');
-
 /**
  * Model class.
  *
  * @package nestedsets
  */
-class Model extends \Orm\Model {
+class Model extends \Srit\Model {
 
 	/* ---------------------------------------------------------------------------
 	 * Static usage
