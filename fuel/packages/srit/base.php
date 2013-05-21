@@ -137,8 +137,8 @@ function extend_locale($locale)
     return \Srit\Locale::instance()->getLocalePrefix() . '.' . $locale;
 }
 
-function __ext ($locale) {
-    return __(extend_locale($locale));
+function __ext ($locale, array $params = array()) {
+    return __(extend_locale($locale), $params);
 }
 
 function error_text($value)

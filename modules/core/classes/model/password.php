@@ -38,7 +38,7 @@ class Model_Password extends Model_User
     {
         Auth::instance()->change_password_without_old($password, $user->username);
         static::send_new_password_success($user);
-        Messages::success(__('Sie haben Ihr Passwort erfolgreich geändert.'));
+        Messages::success(__ext('change_password.success.label'));
     }
 
     public static function validate_password_forget()
@@ -107,17 +107,17 @@ class Model_Password extends Model_User
          * @todo E-Mail Model bauen, wir verlegen E-Mail Templates ins theme oder in die DB
          */
         if (empty($user->email)) {
-            throw new \Model_PasswordExceptions(__('Keine E-Mail Adresse vorhanden.'));
+            throw new \Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.no.user_email'));
         }
 
         try {
             $mail = Model_PasswordMail::forge();
             $mail->send_password_hash_mail($user, $hash);
         } catch (\EmailValidationFailedException $e) {
-            throw new Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: ' . $e->getMessage()));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.no.valid.email'));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: ' . $e->getMessage()));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.cant.send.email'));
         }
     }
 
@@ -127,23 +127,23 @@ class Model_Password extends Model_User
          * @todo E-Mail Model bauen, wir verlegen E-Mail Templates ins theme oder in die DB
          */
         if (empty($user->email)) {
-            throw new \Model_PasswordExceptions(__('Keine E-Mail Adresse vorhanden.'));
+            throw new \Model_PasswordExceptions(__('exception.model.password.send_new_password_success.no.user_email'));
         }
 
         try {
             $mail = Model_PasswordMail::forge();
             $mail->send_new_password_success($user);
         } catch (\EmailValidationFailedException $e) {
-            throw new Model_PasswordExceptions(__('Die E-Mail-Adresse ist nicht korrekt: ' . $e->getMessage()));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.no.valid.email'));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new Model_PasswordExceptions(__('E-Mail konnte nicht gesendet werden: ' . $e->getMessage()));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.cant.send.email'));
         }
     }
 
     public static function _validation_user_exists($val)
     {
-        Validation::active()->set_message('user_exists', __('Nutzername oder E-Mail nicht bekannt.'));
+        Validation::active()->set_message('user_exists', __ext('cant.find.user.error'));
         /**
          * @todo fixit!! Das ist so schlecht gelöst
          */

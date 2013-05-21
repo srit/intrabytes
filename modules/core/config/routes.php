@@ -54,6 +54,7 @@ return array(
 
     'core/settings/locales/list' => array('core/settings/locales/list', 'name' => 'core_settings_locales_list'),
     'core/settings/locales/add' => array('core/settings/locales/add' , 'name' => 'core_settings_locales_add'),
+    'core/settings/locales/copy/(:id)' => array('core/settings/locales/copy' , 'name' => 'core_settings_locales_copy'),
     'core/settings/locales/edit/(:id)' => array('core/settings/locales/edit', 'name' => 'core_settings_locales_edit'),
     'core/settings/locales/delete/(:id)' => array('core/settings/locales/delete', 'name' => 'core_settings_locales_delete'),
     'core/settings/locales/deletes' => array('core/settings/locales/deletes', 'name' => 'core_settings_locales_deletes'),

@@ -58,6 +58,7 @@ Autoloader::add_classes(array(
     'Srit\\Uri' => __DIR__ . '/classes/uri.php',
     'Srit\\Pagination' => __DIR__ . '/classes/pagination.php',
     'Srit\\Cache_Storage_File' => __DIR__ . '/classes/cache/storage/file.php',
+    'Srit\\Cache_Storage_Memcached' => __DIR__ . '/classes/cache/storage/memcached.php',
 
     'Srit\\Model_Group' => __DIR__ . '/classes/model/group.php',
     'Srit\\Model_User' => __DIR__ . '/classes/model/user.php',

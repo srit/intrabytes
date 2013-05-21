@@ -100,7 +100,7 @@ class Model_User extends Model
     public function validate_new_password($input = array())
     {
         $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
-        $this->_fieldset->field('password')->add_rule('required')->add_rule('is_repeatet', 'password_repeat');
+        $this->_fieldset->field('password')->add_rule('required')->add_rule('max_length', 255)->add_rule('min_length', 8)->add_rule('is_repeatet', 'password_repeat');
         $this->_fieldset->add('password_repeat')->add_rule('required');
         return parent::validate($input);
     }

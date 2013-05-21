@@ -29,3 +29,7 @@
 - Dynamische HTML Elemente, wie Formelemente etc. werden in eigene Templates verpackt, so kann man Themeunabhängig, die Funktionen wie html_input_text verwenden.
 
 - Cache Backend, es kann entschieden werden, welches Cache Backend (File, Memcached etc.) wir verwenden wollen.
+
+- Email Texte übersetzen
+
+- Assets können bis runter auf Controller - Action Ebene dynamisch hinzugefügt werden

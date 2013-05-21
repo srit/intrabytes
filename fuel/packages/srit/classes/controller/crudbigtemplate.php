@@ -151,7 +151,8 @@ class Controller_CrudBigTemplate extends Controller_BaseBigTemplate {
     protected function _action_modfiy()
     {
         $this->_crud_objects[$this->_crud_actual_object]['data'] = forward_static_call_array(array($this->_crud_objects[$this->_crud_actual_object]['model_object_name'], 'find'), array('first', $this->_crud_objects[$this->_crud_actual_object]['options']));
-        $this->set_page_title(__(extend_locale('title'), array('extend' => $this->_crud_objects[$this->_crud_actual_object]['data']->__toString())));
+        $extend = (false != $this->_crud_objects[$this->_crud_actual_object]['data']) ? $this->_crud_objects[$this->_crud_actual_object]['data']->__toString() : null;
+        $this->set_page_title(__ext('title', array(':extend' => $extend)));
     }
 
     protected function _save() {

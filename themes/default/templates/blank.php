@@ -1,6 +1,6 @@
 <?php
 // page header
-echo $theme->view('templates/header');
+echo $theme->view('templates/header', array('title' => $title, 'additional_js' => $additional_js), false);
 echo $theme->view('templates/_partials/body/start');
 ?>
 <div class="container">
@@ -25,4 +25,4 @@ echo $theme->view('templates/_partials/body/start');
         </section>
     </div>
 </div>
-<?php echo $theme->view('templates/_partials/body/end') ?>
+<?php echo $theme->view('templates/_partials/body/end', array('additional_js' => $additional_js), false) ?>

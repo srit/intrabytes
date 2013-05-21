@@ -13,7 +13,7 @@ return array(
      */
 
     // default storage driver
-    'driver'      => 'file',
+    'driver'      => 'memcached',
 
     // default expiration (null = no expiration)
     'expiration'  => null,

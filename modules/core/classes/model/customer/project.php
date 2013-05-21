@@ -69,4 +69,11 @@ class Model_Customer_Project extends Model {
         $this->_fieldset->field('url')->add_rule('valid_url');
         return parent::validate($input);
     }
+
+    public function __toString()
+    {
+        return $this->get_customer()->__toString() . ' -- ' . $this->get_name();
+    }
+
+
 }

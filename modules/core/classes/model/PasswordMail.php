@@ -37,8 +37,8 @@ class Model_PasswordMail
 
     public function send_new_password_success(Model_User $user)
     {
-        $theme = Theme::instance();
-        $this->_email->subject(__('Dein Passwort wurde geändert.'));
+        $theme = get_theme_instance();
+        $this->_email->subject(__ext('password.change.success'));
         $this->_email->to($user->email, $user);
         $body = $theme->view($theme->get_templates_path_prefix() . 'emails/new_password_success', array('user' => $user, 'link' => named_route('forget_password')));
         $this->_email->body($body);
@@ -48,7 +48,7 @@ class Model_PasswordMail
     public function send_password_hash_mail(Model_User $user, $hash)
     {
         $theme = get_theme_instance();
-        $this->_email->subject(__('Neues Passwort angefordert'));
+        $this->_email->subject(__ext('new.password.requested'));
         $this->_email->to($user->email, $user);
         $body = $theme->view($theme->get_templates_path_prefix() . 'emails/password_hash_mail', array('user' => $user, 'link' => named_route('confirmed_email', array('hash' => $hash))));
         $this->_email->body($body);

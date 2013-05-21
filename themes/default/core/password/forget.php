@@ -27,4 +27,4 @@
     array('class' => 'btn btn-block btn-info', 'value' => 'submit')
 ) ?>
 </form>
-<?php echo html_anchor(login_route(), __(extend_locale('back_to_login.label'))) ?>
+<?php echo html_anchor(login_route(), __ext('back_to_login.label')) ?>

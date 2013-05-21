@@ -56,6 +56,7 @@ class Controller_BaseTemplate extends Controller_Base
     public function set_page_title($page_title)
     {
         $this->_page_title = $page_title;
+        $this->_get_template()->set('title', $this->_get_page_title());
     }
 
     protected function _init_controller_template_vars()
@@ -72,8 +73,7 @@ class Controller_BaseTemplate extends Controller_Base
                 $this->_get_content_partial()->set($name, $value);
             }
         }
-        $this->set_page_title(__(extend_locale('title')));
-        $this->_get_template()->set_global('title', $this->_get_page_title());
+        $this->set_page_title(__ext('title'));
 
         $additional_js = array();
         $controller_main_js_path = 'modules/' . strtolower($this->_controller_namespace) . '/main.js';
@@ -81,7 +81,7 @@ class Controller_BaseTemplate extends Controller_Base
         if ($this->_theme->asset->find_file($controller_main_js_path, 'js')) {
             $additional_js[] = $controller_main_js_path;
         }
-        $this->_get_template()->set_global('additional_js', $additional_js);
+        $this->_get_template()->set('additional_js', $additional_js);
 
     }
 

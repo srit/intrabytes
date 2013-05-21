@@ -4,4 +4,4 @@
  * @author stefanriedel
  */
 ?>
-<?php echo $theme->view('templates/_partials/head'); ?>
+<?php echo $theme->view('templates/_partials/head', array('title' => $title, 'additional_js' => $additional_js), false); ?>

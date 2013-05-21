@@ -39,17 +39,19 @@
             <td>
                 <?php
                     $action_links = array(
-                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_show', array('id' => $customer->id)), '<i class="icon-list"></i> ' . __(extend_locale('actions.show.label')))),
-                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_edit', array('id' => $customer->id)), '<i class="icon-edit"></i> ' . __(extend_locale('actions.edit.label')))),
-                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_delete', array('id' => $customer->id)), '<i class="icon-trash"></i> ' . __(extend_locale('actions.delete.label')))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_show', array('id' => $customer->id)), __ext('actions.show.label'))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_edit', array('id' => $customer->id)), __ext('actions.edit.label'))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_delete', array('id' => $customer->id)), __ext('actions.delete.label'))),
                         array('is_divider' => true),
-                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_projects_add', array('customer_id' => $customer->id)), __(extend_locale('actions.add.project.label')))),
-                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_contacts_add', array('customer_id' => $customer->id)), __(extend_locale('actions.add.contact_persons.label')))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_projects_list', array('customer_id' => $customer->id)), __ext('actions.list.project.label'))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_projects_add', array('customer_id' => $customer->id)), __ext('actions.add.project.label'))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_contacts_list', array('customer_id' => $customer->id)), __ext('actions.list.contact_persons.label'))),
+                        array('attr' => array(), 'value' => html_anchor(named_route('core_customers_contacts_add', array('customer_id' => $customer->id)), __ext('actions.add.contact_persons.label'))),
                     );
                     if($customer->customer_projects > 0) {
                         $action_links[] = array('is_divider' => true);
                         foreach($customer->customer_projects as $project) {
-                            $action_links[] = array('attr' => array(), 'value' => html_anchor(named_route('core_customers_projects_show', array('id' => $project->id, 'customer_id' => $customer->id)), '' . __(extend_locale('show.project.label'), array('name' => $project->name))));
+                            $action_links[] = array('attr' => array(), 'value' => html_anchor(named_route('core_customers_projects_show', array('id' => $project->id, 'customer_id' => $customer->id)), '' . __ext('show.project.label', array(':extend' => $project->__toString()))));
 
                         }
                     }
