@@ -25,3 +25,7 @@
 - wir steigen im Model komplett auf getter Methoden um, das heißt es sind soll nicht mehr möglich sein folgendes zu tun
   $model->name, sondern nur noch $model->getName() resp. $model->get_name(), das hat den Vorteil, das in bestimmten Fällen
   wo die Daten vor dem ausgeben/zurückgeben noch mal geändert werden können.
+
+- Dynamische HTML Elemente, wie Formelemente etc. werden in eigene Templates verpackt, so kann man Themeunabhängig, die Funktionen wie html_input_text verwenden.
+
+- Cache Backend, es kann entschieden werden, welches Cache Backend (File, Memcached etc.) wir verwenden wollen.

@@ -17,7 +17,7 @@ class Controller_Logout extends Controller_BaseBigTemplate
     public function action_index()
     {
         Auth::logout();
-        Messages::success(__('Sie haben sich erfolgreich ausgeloggt.'));
+        Messages::success(__ext('validation.login.success'));
         Messages::redirect(Uri::create('login'));
     }
 

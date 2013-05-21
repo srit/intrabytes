@@ -47,7 +47,7 @@ class Model_PasswordMail
 
     public function send_password_hash_mail(Model_User $user, $hash)
     {
-        $theme = Theme::instance();
+        $theme = get_theme_instance();
         $this->_email->subject(__('Neues Passwort angefordert'));
         $this->_email->to($user->email, $user);
         $body = $theme->view($theme->get_templates_path_prefix() . 'emails/password_hash_mail', array('user' => $user, 'link' => named_route('confirmed_email', array('hash' => $hash))));

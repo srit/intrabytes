@@ -94,6 +94,7 @@ class Controller_BaseTemplate extends Controller_Base
     protected function _init_theme()
     {
         $this->_set_theme(Theme::instance($this->template));
+        set_theme_instance($this->_get_theme());
         $this->_get_theme()->set_template($this->template);
         $this->_get_template()->set_global('theme', $this->_theme, false);
 

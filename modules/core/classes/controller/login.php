@@ -42,15 +42,15 @@ class Controller_Login extends Controller_BaseBlankTemplate
             if (!$fieldset->validation()->run()) {
                 foreach ($fieldset->validation()->error() as $error) {
 
-                    Messages::error($error);
+                    Messages::error(__ext($error));
                 }
             } else {
                 $auth = Auth::instance();
                 if ($auth->login(\Input::param('username'), \Input::param('password'))) {
-                    Messages::success(__('messages.login.success'));
+                    Messages::success(__ext('validation.login.success'));
                     Messages::redirect(\Input::post('redirect_to', '/'));
                 } else {
-                    Messages::error(__('messages.login.failed'));
+                    Messages::error(__ext('validation.login.failed'));
                 }
             }
         }

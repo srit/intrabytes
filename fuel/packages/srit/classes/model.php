@@ -219,7 +219,7 @@ class Model extends \Orm\Model
 
         if ($this->_fieldset->validation()->run($input) == false) {
             foreach ($this->_fieldset->validation()->error() as $error) {
-                Messages::error(__(extend_locale($error)));
+                Messages::error(__ext($error));
             }
             return false;
         }

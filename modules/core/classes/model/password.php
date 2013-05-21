@@ -49,7 +49,7 @@ class Model_Password extends Model_User
             ->add_rule('user_exists');
         if (!$val->run()) {
             foreach ($val->error() as $error) {
-                Messages::error($error);
+                Messages::error(__ext($error));
             }
             $ret = false;
         } else {
@@ -93,7 +93,7 @@ class Model_Password extends Model_User
             $user->username
         );
         static::send_prepare_new_password_mail($user, $hash);
-        Messages::success(__('messages.prepare_new_password.success'));
+        Messages::success(__ext('messages.prepare_new_password.success'));
     }
 
     /**

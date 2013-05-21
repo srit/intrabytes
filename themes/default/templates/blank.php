@@ -1,6 +1,7 @@
 <?php
 // page header
 echo $theme->view('templates/header');
+echo $theme->view('templates/_partials/body/start');
 ?>
 <div class="container">
     <div id="content">
@@ -24,7 +25,4 @@ echo $theme->view('templates/header');
         </section>
     </div>
 </div>
-<?php
-// page footer
-echo $theme->view('templates/footer');
-?>
+<?php echo $theme->view('templates/_partials/body/end') ?>

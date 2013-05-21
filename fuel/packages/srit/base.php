@@ -17,6 +17,24 @@
  * @todo Hilfsfunktion form_start und form_end
  */
 
+$theme_instance = null;
+
+/**
+ * @param $new_theme_instance \Srit\Theme
+ */
+function set_theme_instance($new_theme_instance) {
+    global $theme_instance;
+    $theme_instance = $new_theme_instance;
+}
+
+/**
+ * @return \Srit\Theme
+ */
+function get_theme_instance() {
+    global $theme_instance;
+    return $theme_instance;
+}
+
 function concat($separator = ' ')
 {
     $args = func_get_args();
@@ -117,6 +135,10 @@ function getYearArray($current = null, $before = 5, $after = 5)
 function extend_locale($locale)
 {
     return \Srit\Locale::instance()->getLocalePrefix() . '.' . $locale;
+}
+
+function __ext ($locale) {
+    return __(extend_locale($locale));
 }
 
 function error_text($value)
@@ -384,7 +406,7 @@ function html_button($value, array $attr = array())
 
 function security_field()
 {
-    return html_hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());
+    return html_hidden(\Fuel\Core\Config::get('security.csrf_token_key'), \Fuel\Core\Security::fetch_token());
 }
 
 /**

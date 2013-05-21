@@ -75,7 +75,7 @@ class Controller_Base extends Controller
         if (Config::get('project.locked_mode') == 1
             && !in_array($this->_controller_acl_condition, Config::get('project.locked_exceptions'))
             && !Auth::check()) {
-            Messages::error(__('login.access.denied.login.first.label'));
+            Messages::error(__('access.denied.login.first.label'));
             Messages::redirect(login_route());
         }
 
