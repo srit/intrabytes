@@ -135,6 +135,38 @@ return array(
         'settings' => array(
             'route' => 'javascript: void(0)',
             'links' => array(
+                'core_settings_locales_list' => array(
+                    'acl' => 'Core\\Settings_Locales.list',
+                    'module' => 'core',
+                    'controller_name' => 'settings_locales',
+                    'action' => 'list',
+                    'links' => array(
+                        'core_settings_locales_add' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_locales',
+                            'action' => 'add',
+                            'show' => false,
+                        ),
+                        'core_settings_locales_edit' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_locales',
+                            'action' => 'edit',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        ),
+                        'core_settings_locales_delete' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_locales',
+                            'action' => 'delete',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        )
+                    )
+                ),
                 'core_settings_languages_list' => array(
                     'acl' => 'Core\\Settings_Languages.list',
                     'module' => 'core',
@@ -182,46 +214,6 @@ return array(
                             'action' => 'add',
                             'show' => false
                         ),
-                    )
-                ),
-                'core_settings_locales_list' => array(
-                    'module' => 'core',
-                    'controller_name' => 'settings_locales',
-                    'action' => 'list',
-                    'show' => false,
-                    'named_params' => array(
-                        'language_id'
-                    ),
-                    'links' => array(
-                        'core_settings_locales_add' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'add',
-                            'show' => false,
-                            'named_params' => array(
-                                'language_id'
-                            ),
-                        ),
-                        'core_settings_locales_edit' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'edit',
-                            'show' => false,
-                            'named_params' => array(
-                                'language_id',
-                                'id'
-                            ),
-                        ),
-                        'core_settings_locales_delete' => array(
-                            'module' => 'core',
-                            'controller_name' => 'settings_locales',
-                            'action' => 'delete',
-                            'show' => false,
-                            'named_params' => array(
-                                'language_id',
-                                'id'
-                            ),
-                        )
                     )
                 ),
             )

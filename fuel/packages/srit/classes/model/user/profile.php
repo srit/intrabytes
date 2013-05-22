@@ -9,7 +9,7 @@ namespace Srit;
 use Auth\Auth;
 use Srit\Model;
 
-class Model_User_Profile extends Model
+class Model_User_Profile extends CachedModel
 {
     protected static $_observers = array(
         'Orm\Observer_CreatedAt' => array(

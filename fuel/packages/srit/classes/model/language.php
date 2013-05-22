@@ -8,7 +8,7 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Language extends Model
+class Model_Language extends CachedModel
 {
 
     public function validate($input = array()) {

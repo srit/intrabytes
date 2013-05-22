@@ -123,6 +123,7 @@ class Controller_CrudBigTemplate extends Controller_BaseBigTemplate {
         $this->_crud_order();
         $this->_paginate();
         $this->_crud_objects[$this->_crud_actual_object]['data'] = forward_static_call_array(array($this->_crud_objects[$this->_crud_actual_object]['model_object_name'], 'find'), array('all', $this->_crud_objects[$this->_crud_actual_object]['options']));
+        $this->_set_extended_title();
     }
 
     protected function _action_add()
@@ -151,8 +152,7 @@ class Controller_CrudBigTemplate extends Controller_BaseBigTemplate {
     protected function _action_modfiy()
     {
         $this->_crud_objects[$this->_crud_actual_object]['data'] = forward_static_call_array(array($this->_crud_objects[$this->_crud_actual_object]['model_object_name'], 'find'), array('first', $this->_crud_objects[$this->_crud_actual_object]['options']));
-        $extend = (false != $this->_crud_objects[$this->_crud_actual_object]['data']) ? $this->_crud_objects[$this->_crud_actual_object]['data']->__toString() : null;
-        $this->set_page_title(__ext('title', array(':extend' => $extend)));
+        $this->_set_extended_title();
     }
 
     protected function _save() {
@@ -305,6 +305,12 @@ class Controller_CrudBigTemplate extends Controller_BaseBigTemplate {
                 $this->_crud_objects[$this->_crud_actual_object]['options']['order_by'][] = array($order_field, strtoupper($order_type));
             }
         }
+    }
+
+    protected function _set_extended_title()
+    {
+        $extend = (false != $this->_crud_objects[$this->_crud_actual_object]['data']) ? $this->_crud_objects[$this->_crud_actual_object]['data']->__toString() : null;
+        $this->set_page_title(__ext('title', array(':extend' => $extend)));
     }
 
 }

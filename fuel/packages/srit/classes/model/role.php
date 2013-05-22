@@ -8,7 +8,7 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Role extends Model {
+class Model_Role extends CachedModel {
     protected static $_properties = array(
         'id',
         'name',

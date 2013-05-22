@@ -6,9 +6,9 @@
 
 namespace Tasks;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Task_Category extends Model
+class Model_Task_Category extends CachedModel
 {
 
     protected static $_has_many = array(

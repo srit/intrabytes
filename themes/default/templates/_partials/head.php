@@ -14,4 +14,5 @@
         'jquery-2.0.0.min.js',
         'bootstrap.min.js',
         'main.js')) ?>
+    <?php echo $theme->asset->js($additional_js) ?>
 </head>

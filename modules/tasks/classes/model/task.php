@@ -7,9 +7,9 @@ namespace Tasks;
 
 use Auth\Auth;
 use Srit\Exception;
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Task extends Model
+class Model_Task extends CachedModel
 {
 
 

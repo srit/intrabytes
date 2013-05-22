@@ -6,6 +6,7 @@
 
 namespace Srit;
 
+use Fuel\Core\Fuel;
 use Fuel\Core\Response;
 use Fuel\Core\View;
 
@@ -49,7 +50,7 @@ class Controller_BaseTemplate extends Controller_Base
         return $response;
         /**if (empty($response))
         {
-            $response = $this->_get_template();
+        $response = $this->_get_template();
         }**/
     }
 
@@ -76,11 +77,26 @@ class Controller_BaseTemplate extends Controller_Base
         $this->set_page_title(__ext('title'));
 
         $additional_js = array();
-        $controller_main_js_path = 'modules/' . strtolower($this->_controller_namespace) . '/main.js';
+        $module_js_path = 'modules/' . $this->_controller_namespace_lowercased . '.js';
+        $controller_js_path = 'modules/' . $this->_controller_namespace_lowercased . '/' . $this->_controller_without_controller_prefix_lowercased . '.js';
+        $action_js_path = 'modules/' . $this->_controller_namespace_lowercased . '/' . $this->_controller_without_controller_prefix_lowercased . '/' . $this->_controller_action . '.js';
 
-        if ($this->_theme->asset->find_file($controller_main_js_path, 'js')) {
-            $additional_js[] = $controller_main_js_path;
+        if ($this->_theme->asset->find_file($module_js_path, 'js')) {
+            $additional_js[] = $module_js_path;
         }
+
+        if ($this->_theme->asset->find_file($controller_js_path, 'js')) {
+            $additional_js[] = $controller_js_path;
+        }
+
+        if ($this->_theme->asset->find_file($action_js_path, 'js')) {
+            $additional_js[] = $action_js_path;
+        }
+
+        if ($this->_theme->asset->find_file(Fuel::$env . '.js', 'js')) {
+            $additional_js[] = Fuel::$env . '.js';
+        }
+
         $this->_get_template()->set('additional_js', $additional_js);
 
     }
@@ -130,7 +146,7 @@ class Controller_BaseTemplate extends Controller_Base
     /**
      * @return string
      */
-    protected function _get_page_title()
+    protected function & _get_page_title()
     {
         return $this->_page_title;
     }
@@ -146,7 +162,8 @@ class Controller_BaseTemplate extends Controller_Base
     /**
      * @param $theme Theme
      */
-    protected function _set_theme($theme) {
+    protected function _set_theme($theme)
+    {
         $this->_theme = $theme;
     }
 

@@ -6,9 +6,9 @@
 
 namespace Core;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Module extends Model {
+class Model_Module extends CachedModel {
 
     protected static $_observers = array(
         'Orm\Observer_CreatedAt' => array(

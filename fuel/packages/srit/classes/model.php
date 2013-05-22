@@ -9,7 +9,6 @@ namespace Srit;
 use Fuel\Core\Cache;
 use Fuel\Core\CacheNotFoundException;
 use Fuel\Core\Config;
-use Fuel\Core\FuelException;
 use Oil\Exception;
 
 class Model extends \Orm\Model
@@ -36,136 +35,63 @@ class Model extends \Orm\Model
         return parent::__construct($data, $new, $view);
     }
 
-    public static function build_cache_identifier_from_array(array $params, $separator = '_', $rtrim = true)
-    {
-        $identifier = '';
-        foreach ($params as $k => $v) {
-            if (is_array($v)) {
-                $identifier .= trim($k) . $separator;
-                $identifier .= static::build_cache_identifier_from_array($v, $separator, $rtrim);
-            } else {
-                $identifier .= $k . '_' . $v . $separator;
-            }
-        }
-
-        if ($rtrim == true) {
-            $identifier = rtrim($identifier, $separator);
-        }
-
-        $patterns = array(
-            '/[\\\ %@\/\+]/',
-            '/[!]/',
-            '/[=]/'
-        );
-
-        $placement = array(
-            $separator,
-            'not',
-            'same'
-        );
-
-        $identifier = preg_replace($patterns, $placement, $identifier);
-
-        return $identifier;
-    }
-
-    public static function max($key = null) {
-        return static::_cached('max', array($key));
-    }
-
-    public static function min($key = null) {
-        return static::_cached('min', array($key));
-    }
-
-    public static function count(array $options = array())
-    {
-        return static::_cached('count', array($options));
-
-    }
-
     public static function find($id = null, array $options = array())
     {
         if (!isset($options['order_by'])) {
             $options['order_by'] = array('id' => 'DESC');
         }
 
-        return static::_cached('find', array($id, $options));
-
-        /**$identifier = static::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
-        $identifier .= static::build_cache_identifier_from_array(array($id, $options));
-
-        try {
-            $data = Cache::get($identifier);
-        } catch (CacheNotFoundException $e) {
-            $data = parent::find($id, $options);
-            if (Config::get('caching') == true) {
-                Cache::set($identifier, $data);
+        // Return Query object
+        if (is_null($id)) {
+            if (func_num_args() === 1) {
+                throw new Exception(__('exception.srit.model.find.invalid.method.call'), 0);
             }
-        }
-        return $data;**/
-        //Logger::forge('model')->debug('Find Function Args MODEL:', array($id, $options));
-
-    }
-
-    protected static function _cached($function, array $args) {
-        $identifier = static::build_cache_identifier_from_array(array(get_called_class(), $function), '.', false);
-        $identifier .= static::build_cache_identifier_from_array($args);
-
-        try {
-            $data = Cache::get($identifier);
-        } catch (CacheNotFoundException $e) {
-            $data = forward_static_call_array(array(get_parent_class(), $function), $args);
-
-
-                //parent::find($id, $options);
-            if (Config::get('caching') == true) {
-                Cache::set($identifier, $data);
+            return static::query($options);
+        } // Return all that match $options array
+        elseif ($id === 'all') {
+            $data = static::query($options)->get();
+            $model_list_name = get_called_class() . 'List';
+            if(class_exists($model_list_name)) {
+                $data_object = new $model_list_name($data);
+            } else {
+                $data_object = new ModelList($data);
             }
+            unset($data);
+            return $data_object;
+
+        } // Return first or last row that matches $options array
+        elseif ($id === 'first' or $id === 'last') {
+            $query = static::query($options);
+
+            foreach (static::primary_key() as $pk) {
+                $query->order_by($pk, $id == 'first' ? 'ASC' : 'DESC');
+            }
+
+            return $query->get_one();
+        } // Return specific request row by ID
+        else {
+            $cache_pk = $where = array();
+            $id = (array)$id;
+            foreach (static::primary_key() as $pk) {
+                $where[] = array($pk, '=', current($id));
+                $cache_pk[$pk] = current($id);
+                next($id);
+            }
+
+            if (array_key_exists(get_called_class(), static::$_cached_objects)
+                and array_key_exists(static::implode_pk($cache_pk), static::$_cached_objects[get_called_class()])
+            ) {
+                return static::$_cached_objects[get_called_class()][static::implode_pk($cache_pk)];
+            }
+
+            array_key_exists('where', $options) and $where = array_merge($options['where'], $where);
+            $options['where'] = $where;
+            return static::query($options)->get_one();
         }
 
-        return $data;
+//        return parent::find($id, $options);
 
-    }
 
-    protected function _rm_cache($function, $args) {
-        try {
-            $return = call_user_func_array(array(get_parent_class(), $function), $args);
-            $identifier = static::build_cache_identifier_from_array(array(get_called_class()), '.');
-            Cache::delete_all($identifier);
-        } catch (\Fuel\Core\Exception $e) {
-            throw new Exception(__('exception.srit.model.' . $function));
-        }
-
-        return $return;
-    }
-
-    public function delete($cascade = null, $use_transaction = false)
-    {
-        /**try {
-            $return = parent::delete($cascade, $use_transaction);
-            $identifier = static::build_cache_identifier_from_array(array(get_called_class()), '.');
-            Cache::delete_all($identifier);
-        } catch (\Fuel\Core\Exception $e) {
-            throw new Exception(__('exception.srit.model.delete'));
-        }
-
-        return $return; */
-
-        return $this->_rm_cache('delete', array($cascade, $use_transaction));
-    }
-
-    public function save($cascade = null, $use_transaction = false)
-    {
-        /**try {
-            $return = parent::save($cascade, $use_transaction);
-            $identifier = static::build_cache_identifier_from_array(array(get_called_class()), '.');
-            Cache::delete_all($identifier);
-        } catch (\Fuel\Core\Exception $e) {
-            throw new Exception(__('exception.srit.model.save'));
-        }
-
-        return $return; **/
-        return $this->_rm_cache('save', array($cascade, $use_transaction));
     }
 
     public static function _init()
@@ -303,7 +229,7 @@ class Model extends \Orm\Model
                 $properties = \DB::list_columns($table_name, null, static::connection());
             } catch (\Exception $e) {
                 throw new \FuelException('Listing columns failed, you have to set the model properties with a ' .
-                    'static $_properties setting in the model. Original exception: ' . $e->getMessage());
+                'static $_properties setting in the model. Original exception: ' . $e->getMessage());
             }
         }
 

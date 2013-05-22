@@ -5,9 +5,9 @@
  */
 namespace Core;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Country extends Model {
+class Model_Country extends CachedModel {
     /**protected static $_properties = array(
         'id',
         'iso_code',

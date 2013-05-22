@@ -18,8 +18,14 @@ class Controller_BaseBigTemplate extends Controller_BaseTemplate {
     {
         parent::init();
         $this->_init_navigation();
-        $this->_init_last_pages();
     }
+
+    public function after($response)
+    {
+        $this->_last_pages();
+        return parent::after($response);
+    }
+
 
     protected function _init_navigation()
     {
@@ -29,10 +35,9 @@ class Controller_BaseBigTemplate extends Controller_BaseTemplate {
         $this->_get_theme()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', Navigation::instance(), false);
     }
 
-    protected function _init_last_pages()
+    protected function _last_pages()
     {
-
-        Last_Pages::setActivePageTitle($this->_page_title);
+        Last_Pages::setActivePageTitle($this->_get_page_title());
         Last_Pages::set();
         $this->_get_theme()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', Last_Pages::get());
 

@@ -7,7 +7,7 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_User_Public_Key extends Model {
+class Model_User_Public_Key extends CachedModel {
     protected static $_belongs_to = array(
         'user',
     );

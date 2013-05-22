@@ -6,9 +6,9 @@
 
 namespace Core;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Dashboard_Items_User extends Model
+class Model_Dashboard_Items_User extends CachedModel
 {
 
     protected static $_properties = array(

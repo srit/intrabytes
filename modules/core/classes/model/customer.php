@@ -7,25 +7,9 @@
 namespace Core;
 
 use Fuel\Core\Fieldset;
-use Fuel\Core\Module;
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Customer extends Model {
-    protected static $_properties = array(
-        'id',
-        'created_at',
-        'updated_at',
-        'email',
-        'company_name',
-        'firstname',
-        'lastname',
-        'phone',
-        'fax',
-        'street',
-        'housenumber',
-        'postalcode_id',
-        'salutation_id'
-    );
+class Model_Customer extends CachedModel {
 
     protected static $_has_many = array(
         'customer_contacts' => array(

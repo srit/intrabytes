@@ -5,7 +5,7 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Locale extends Model
+class Model_Locale extends CachedModel
 {
     /**protected static $_properties = array(
         'id',

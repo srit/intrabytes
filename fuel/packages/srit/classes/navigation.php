@@ -65,15 +65,6 @@ class Navigation
             if(static::$_navigation_namespaces != null) {
                 static::$_nav_data_array = Model_Navigation::find_trees();
             }
-
-            /**if ($name == null) {
-                static::$_nav_data_array = Config::load('navigation', true);
-            } else {
-                Config::load('navigation', true);
-                static::$_nav_data_array[$name] = Config::get('navigation.' . $name);
-                $this->_name = $name;
-            }**/
-
         }
 
         if($name != null) {
@@ -155,7 +146,7 @@ class Navigation
     {
 
         if (!empty($this->_name) && isset($this->_elements[$this->_name]) && $this->_elements[$this->_name] instanceof Navigation_Elements) {
-            $this->_rendered = Theme::instance()->view('templates/_partials/navigation/' . $this->_name)->set('elements', $this->_elements[$this->_name], false);
+            $this->_rendered = get_theme_instance()->view('templates/_partials/navigation/' . $this->_name)->set('elements', $this->_elements[$this->_name], false);
         }
 
         return $this->_rendered;

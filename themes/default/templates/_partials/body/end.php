@@ -4,6 +4,6 @@
  * @author stefanriedel
  */
 ?>
-<?php echo $theme->asset->js($additional_js) ?>
+
 </body>
 </html>

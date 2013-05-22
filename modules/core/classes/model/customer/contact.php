@@ -6,9 +6,9 @@
 
 namespace Core;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Customer_Contact extends Model {
+class Model_Customer_Contact extends CachedModel {
 
     //protected static $_table_name = 'customer_contact_persons';
 

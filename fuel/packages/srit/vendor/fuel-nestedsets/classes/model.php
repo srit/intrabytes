@@ -20,7 +20,7 @@ namespace Nestedsets;
  *
  * @package nestedsets
  */
-class Model extends \Srit\Model {
+class Model extends \Srit\CachedModel {
 
 	/* ---------------------------------------------------------------------------
 	 * Static usage

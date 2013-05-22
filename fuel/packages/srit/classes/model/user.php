@@ -6,7 +6,7 @@ use Fuel\Core\Fieldset;
 use \Srit\Model;
 use Srit\Validation;
 
-class Model_User extends Model
+class Model_User extends CachedModel
 {
 
     protected static $_belongs_to = array(

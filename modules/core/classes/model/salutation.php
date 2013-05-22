@@ -8,9 +8,9 @@ namespace Core;
 
 use Fuel\Core\Arr;
 use Srit\Locale;
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Salutation extends Model
+class Model_Salutation extends CachedModel
 {
     /**protected static $_properties = array(
         'id',

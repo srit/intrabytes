@@ -8,6 +8,8 @@ Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
+    'Srit\\CachedModel' => __DIR__ . '/classes/cachedmodel.php',
+    'Srit\\ModelList' => __DIR__ . '/classes/modellist.php',
     'Srit\\Exception' => __DIR__ . '/classes/exception.php',
     'Srit\\Date' => __DIR__ . '/classes/date.php',
     'Srit\\Request' => __DIR__ . '/classes/request.php',

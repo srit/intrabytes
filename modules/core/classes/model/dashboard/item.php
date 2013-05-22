@@ -7,9 +7,9 @@
 namespace Core;
 
 use Auth\Auth;
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Dashboard_Item extends Model {
+class Model_Dashboard_Item extends CachedModel {
 
     protected static $_has_many = array(
         'dashboard_items_user' => array(

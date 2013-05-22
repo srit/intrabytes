@@ -7,10 +7,9 @@
 
 namespace Core;
 
-use Srit\Logger;
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Customer_Project extends Model {
+class Model_Customer_Project extends CachedModel {
 
     protected static $_belongs_to = array(
         'customer'

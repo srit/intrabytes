@@ -5,9 +5,9 @@
  */
 namespace Core;
 
-use Srit\Model;
+use Srit\CachedModel;
 
-class Model_Postalcode extends Model {
+class Model_Postalcode extends CachedModel {
     protected static $_properties = array(
         'id',
         'postalcode',

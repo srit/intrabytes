@@ -31,16 +31,14 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
         $current_rights = array();
         $acl_array = array();
         if (is_array($current_roles)) {
-            if($this->_roles == null) {
-                $this->_roles = Model_Role::find_all();
-            }
+            $this->_roles = Model_Role::find_all();
             if (empty($this->_roles)) {
                 return false;
             }
+
             foreach ($this->_roles as $role) {
                 $acl_array[$role->get_name()] = array();
                 if ($role->get_acls()) {
-                    $i = 0;
                     foreach ($role->get_acls() as $acl) {
                         if((bool)$acl->get_is_global()) {
                             $acl_array[$role->get_name()] = ($acl->get_right() == 'true' || (int)$acl->get_right() == 1) ? true : false;
@@ -69,7 +67,6 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
                     continue;
                 }
                 $r_rights = $acl_array[$r_role->get_name()];
-
                 // if one of the roles has a negative or positive wildcard return it
                 if (is_bool($r_rights)) {
                     return $r_rights;
@@ -80,7 +77,6 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
             }
 
         }
-
 
         foreach ($rights as $right)
         {
