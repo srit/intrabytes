@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 21. Mai 2013 um 18:44
+-- Erstellungszeit: 26. Mai 2013 um 14:31
 -- Server Version: 5.5.31-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
-(2, '2013-02-11 12:58:58', '2013-05-21 16:26:26', 'info@info.de', 'Hans Hans GmbH & Co. KG', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606'),
+(2, '2013-02-11 12:58:58', '2013-05-22 14:29:22', 'info@info.de', 'Hans Hans GmbH & Co. KG2', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606'),
 (6, '2013-05-21 16:27:14', '2013-05-21 16:27:14', 'ich@web.de', 'Falk & Ross', 'Edgard', 'Gerhards', 1, '038168', '038165', 'Klausenstraße', '10', '7797');
 
 -- --------------------------------------------------------
@@ -213,10 +213,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customer_projects` (
 
 INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, `customer_id`, `created_at`, `updated_at`) VALUES
 (1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 1, '2013-02-12 20:52:08', '2013-05-02 15:28:02'),
-(11, 'intrabytes', '', '', 2, '2013-03-04 13:28:06', '2013-05-21 16:26:26'),
+(11, 'intrabytes', '', '', 2, '2013-03-04 13:28:06', '2013-05-22 14:29:58'),
 (12, 'hsakjdhajk', 'askjdhaskjdh', 'http://www.bing.de', 1, '2013-05-02 16:38:05', '2013-05-02 16:38:05'),
 (16, 'Mein Projekt1', 'Ist das Besrte', 'http://www.google.de', 6, '2013-05-21 16:28:45', '2013-05-21 16:30:07'),
-(17, 'Zweites Projekt', '', 'http://www.fischkopf.de', 6, '2013-05-21 16:30:30', '2013-05-21 16:30:30');
+(17, 'Zweites Projekt1', '', 'http://www.fischkopf.de', 6, '2013-05-21 16:30:30', '2013-05-22 14:02:41');
 
 -- --------------------------------------------------------
 
@@ -349,7 +349,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=156 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=184 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -452,7 +452,7 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (98, 'customers.edit.index.title', 'core', 'Kunde (:extend) ändern'),
 (100, 'customers.show.index.title', 'core', 'Kunde (:extend) anzeigen'),
 (101, 'core_customers_show.anchor.label', 'breadcrumb', 'Kunde anzeigen'),
-(102, 'customers.projects.list.index.title', 'core', 'Projekt Übersicht'),
+(102, 'customers.projects.list.index.title', 'core', 'Projekte für :extend'),
 (103, 'core_customers_projects_list.anchor.label', 'breadcrumb', 'Projekt Übersicht'),
 (104, 'customers.projects.list.index.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Projekt hinzufügen'),
 (105, 'customers.projects.list.index.name.label', 'core', 'Name'),
@@ -505,7 +505,35 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (152, 'core_customers_projects_delete.anchor.label', 'breadcrumb', 'Projekt löschen'),
 (153, 'core_customers_delete.anchor.label', 'breadcrumb', 'Kunden löschen'),
 (154, 'customers.projects.show.index.title', 'core', 'Projekt (:extend) '),
-(155, 'core_customers_projects_show.anchor.label', 'breadcrumb', 'Projekt Ansicht');
+(155, 'core_customers_projects_show.anchor.label', 'breadcrumb', 'Projekt Ansicht'),
+(156, 'customers.projects.add.index.validation.name.required.error', 'core', 'Bitte gebe einen Projektnamen an.'),
+(157, 'customers.projects.add.index.validation.url.valid_url.error', 'core', 'Die URL scheint nicht korrekt zu sein, bitte beachte, das diese inkl. http:// eingegeben werden muss.'),
+(158, 'customers.projects.delete.index.success', 'core', 'Das Projekt wurde gelöscht.'),
+(159, 'core_settings_locales_list.anchor.label', 'navigation', 'Übersetzungen'),
+(160, 'settings.user.profile.edit.title', 'core', 'Mein Profil'),
+(161, 'user_settings.anchor.label', 'breadcrumb', 'Nutzereinstellungen'),
+(162, 'core_settings_user_profile_edit.anchor.label', 'breadcrumb', 'Mein Profil'),
+(163, 'settings.user.profile.edit.user_profile[firstname].label', 'core', 'Vorname'),
+(164, 'settings.user.profile.edit.user_profile[lastname].label', 'core', 'Nachname'),
+(165, 'settings.user.profile.edit.user_profile[birthday].label', 'core', 'Geburtstag'),
+(166, 'settings.user.profile.edit.profile.tab.label', 'core', 'Profil'),
+(167, 'settings.user.profile.edit.password.tab.label', 'core', 'Passwort ändern'),
+(168, 'settings.user.profile.edit.save_next.button.label', 'core', 'Profil speichern'),
+(169, 'settings.user.profile.edit.user[password].label', 'core', 'Dein neues Passwort'),
+(170, 'settings.user.profile.edit.user[password_repeat].label', 'core', 'Wiederhole dein neues Passwort'),
+(171, 'settings.user.profile.edit.change_password.success', 'core', 'Profil gespeichert'),
+(172, 'settings.user.profile.edit.validation.password.min_length.error', 'core', 'Dein Passwort muss min. 8 Zeichen lang sein.'),
+(173, 'settings.user.profile.edit.validation.password.is_repeatet.error', 'core', 'Die beiden Passwörter stimmen nicht überein.'),
+(174, 'core_settings_user_pubkeys_list.anchor.label', 'breadcrumb', 'Meine Public Keys'),
+(175, 'settings.user.pubkeys.list.title', 'core', 'Meine Public Keys'),
+(176, 'settings.user.pubkeys.list.name.label', 'core', 'Bezeichnung'),
+(177, 'settings.user.pubkeys.list.value.label', 'core', 'Wert'),
+(178, 'settings.user.pubkeys.list.created_at.label', 'core', 'Erstellt'),
+(179, 'settings.user.pubkeys.list.actions.label', 'core', 'Aktionen'),
+(180, 'settings.user.pubkeys.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Public Key hinzufügen'),
+(181, 'settings.user.pubkeys.delete.title', 'core', 'Den Key :extend wirklich löschen?'),
+(182, 'core_settings_user_pubkeys_delete.anchor.label', 'breadcrumb', 'Public Key löschen'),
+(183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message''');
 
 -- --------------------------------------------------------
 
@@ -593,7 +621,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
   KEY `left_id` (`left_id`),
   KEY `right_id` (`right_id`),
   KEY `symlink_id` (`symlink_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=30 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
 
 --
 -- Daten für Tabelle `intrabytes_navigation`
@@ -611,24 +639,25 @@ INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `sy
 (9, 10, 11, 1, NULL, 'core_customers_projects_edit', 'Core\\Customers_Projects_Edit.index', NULL, 'core', 'customers_projects_edit', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
 (10, 8, 9, 1, NULL, 'core_customers_projects_delete', 'Core\\Customers_Projects_Delete.index', NULL, 'core', 'customers_projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
 (11, 6, 7, 1, NULL, 'core_customers_projects_add', 'Core\\Customers_Projects_Add.index', NULL, 'core', 'customers_projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
-(12, 2, 3, 1, NULL, 'core_dashboard', 'Dashboard\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
-(13, 1, 34, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
-(14, 32, 33, 2, NULL, 'core_user_logout', 'Core\\Logout.index', 'logout', 'core', 'logout', 'index', 1, NULL, NULL),
-(15, 12, 31, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(16, 21, 30, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
-(17, 28, 29, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(18, 26, 27, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(19, 24, 25, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(20, 22, 23, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
-(21, 13, 20, 2, NULL, 'core_settings_locales_list', NULL, NULL, 'core', 'settings_locales', 'list', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(22, 18, 19, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, 'a:1:{i:0;s:11:\\"language_id\\";}', NULL),
-(23, 16, 17, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(24, 14, 15, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:2:{i:0;s:11:\\"language_id\\";i:1;s:2:\\"id\\";}', NULL),
-(25, 2, 11, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(26, 7, 10, 2, NULL, 'core_settings_user_pubkeys_list', 'Core\\Settings_User_Pubkeys.list', NULL, 'core', 'settings_user_pubkeys', 'list', 1, NULL, NULL),
-(27, 8, 9, 2, NULL, 'core_settings_user_pubkeys_edit', NULL, NULL, 'core', 'settings_user_pubkeys', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(28, 5, 6, 2, NULL, 'core_settings_user_profile_edit', 'Core\\Settings_User_Profile.edit', NULL, 'core', 'settings_user_profile', 'edit', 1, NULL, NULL),
-(29, 3, 4, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL);
+(12, 2, 3, 1, NULL, 'core_dashboard', 'Core\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
+(13, 1, 36, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
+(14, 34, 35, 2, NULL, 'core_user_logout', 'Core\\Logout.index', 'logout', 'core', 'logout', 'index', 1, NULL, NULL),
+(15, 14, 33, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(16, 25, 32, 2, NULL, 'core_settings_locales_list', 'Core\\Settings_Locales.list', NULL, 'core', 'settings_locales', 'list', 1, NULL, NULL),
+(17, 30, 31, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, NULL, NULL),
+(18, 28, 29, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(19, 26, 27, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(20, 15, 24, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
+(21, 22, 23, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(22, 20, 21, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(23, 18, 19, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(24, 16, 17, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
+(25, 2, 13, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(26, 7, 12, 2, NULL, 'core_settings_user_pubkeys_list', 'Core\\Settings_User_Pubkeys.list', NULL, 'core', 'settings_user_pubkeys', 'list', 1, NULL, NULL),
+(27, 10, 11, 2, NULL, 'core_settings_user_pubkeys_edit', NULL, NULL, 'core', 'settings_user_pubkeys', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(28, 8, 9, 2, NULL, 'core_settings_user_pubkeys_delete', NULL, NULL, 'core', 'settings_user_pubkeys', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(29, 5, 6, 2, NULL, 'core_settings_user_profile_edit', 'Core\\Settings_User_Profile.edit', NULL, 'core', 'settings_user_profile', 'edit', 1, NULL, NULL),
+(30, 3, 4, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26755,7 +26784,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'd9c6a4c59034f7f8135c829eb007d63b', '$2y$10$7b0b3a9131e69122b066ceOzZiOA4sNsvHOl2gNClEnOc26sMJ3Ve', 'sr@alphabytes.de', 1369144334, '9b0b63ffd884cd01428ec02a3b68307e1b45c10b', 'a:0:{}', '0000-00-00 00:00:00', '2013-05-21 09:44:56', 0, 0, '');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1369299802, 'dd00149a4cf4cca03e92af86e15605a745a8cf6b', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 
@@ -26780,7 +26809,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 --
 
 INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'StefanAB', 'Riedel', '1983-01-01', 'm', '2013-02-05 11:19:47', '2013-05-14 11:19:35');
+(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-05-23 09:07:06');
 
 -- --------------------------------------------------------
 
@@ -26804,7 +26833,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
 (2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46'),
-(3, 1, 'asdasd', 'asdsadasd', '2013-05-14 11:20:12', '2013-05-14 11:20:12');
+(3, 1, 'asdasd', 'asdsadasd', '2013-05-14 11:20:12', '2013-05-22 14:03:38');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

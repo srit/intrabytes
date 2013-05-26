@@ -25,7 +25,7 @@
 
                 <?php echo twitter_button_group(array(
                 array('attr' => array(), 'value' => html_anchor(named_route('core_settings_user_pubkeys_edit', array('id' => $pub_key->id)), __(extend_locale('actions.edit.label')))),
-                array('attr' => array(), 'value' => html_anchor(named_route('core_settings_user_pubkeys_edit', array('id' => $pub_key->id)), __(extend_locale('actions.delete.label')))),
+                array('attr' => array(), 'value' => html_anchor(named_route('core_settings_user_pubkeys_delete', array('id' => $pub_key->id)), __(extend_locale('actions.delete.label')))),
             ), extend_locale('actions.label'), array()); ?>
 
             </td>

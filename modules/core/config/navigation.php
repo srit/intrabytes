@@ -236,6 +236,15 @@ return array(
                                 'id'
                             ),
                         ),
+                        'core_settings_user_pubkeys_delete' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_user_pubkeys',
+                            'action' => 'delete',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        ),
                     )
                 ),
                 'core_settings_user_profile_edit' => array(

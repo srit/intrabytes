@@ -8,7 +8,6 @@ namespace Core;
 
 use Email\Email;
 use Srit\Model_User;
-use Srit\Theme;
 
 class Model_PasswordMail
 {

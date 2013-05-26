@@ -114,10 +114,10 @@ class Model_Password extends Model_User
             $mail = Model_PasswordMail::forge();
             $mail->send_password_hash_mail($user, $hash);
         } catch (\EmailValidationFailedException $e) {
-            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.no.valid.email'));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.no.valid.email', array(':message' => $e->getMessage())));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.cant.send.email'));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_prepare_new_password_mail.cant.send.email', array(':message' => $e->getMessage())));
         }
     }
 
@@ -134,10 +134,10 @@ class Model_Password extends Model_User
             $mail = Model_PasswordMail::forge();
             $mail->send_new_password_success($user);
         } catch (\EmailValidationFailedException $e) {
-            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.no.valid.email'));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.no.valid.email', array(':message' => $e->getMessage())));
         }
         catch (\EmailSendingFailedException $e) {
-            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.cant.send.email'));
+            throw new Model_PasswordExceptions(__('exception.model.password.send_new_password_success.cant.send.email', array(':message' => $e->getMessage())));
         }
     }
 

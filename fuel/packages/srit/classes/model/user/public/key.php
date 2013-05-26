@@ -5,7 +5,7 @@
  */
 namespace Srit;
 
-use Srit\Model;
+use Srit\CachedModel;
 
 class Model_User_Public_Key extends CachedModel {
     protected static $_belongs_to = array(
@@ -52,4 +52,11 @@ class Model_User_Public_Key extends CachedModel {
         $this->_fieldset->field('value')->add_rule('required');
         return parent::validate($input);
     }
+
+    public function __toString()
+    {
+        return (string)$this->get_name();
+    }
+
+
 }
