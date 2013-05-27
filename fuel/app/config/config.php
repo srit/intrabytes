@@ -242,13 +242,7 @@ return array(
          *
          * A path must be set in module_paths for this to work.
          */
-        'modules' => array(
-            array('core'),
-            //array('users'),
-            //array('dashboard'),
-            array('tasks'),
-            //array('customers')
-        ),
+        'modules' => array(),
 
         /**
          * Classes to autoload & initialize even when not used

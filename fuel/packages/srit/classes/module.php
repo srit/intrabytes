@@ -6,6 +6,10 @@
 
 namespace Srit;
 
+use Fuel\Core\Config;
+use Fuel\Core\Finder;
+use Fuel\Core\Fuel;
+
 class Module extends \Fuel\Core\Module
 {
     /**
@@ -19,7 +23,7 @@ class Module extends \Fuel\Core\Module
         $parent_load = parent::load($module, $path);
         if ($parent_load == true) {
             if ($path === null) {
-                $paths = \Config::get('module_paths', array());
+                $paths = Config::get('module_paths', array());
 
                 if (!empty($paths)) {
                     foreach ($paths as $modpath) {
@@ -31,12 +35,12 @@ class Module extends \Fuel\Core\Module
 
             }
             if (!is_dir($path)) {
-                throw new \Fuel\Core\FuelException(__('exception.srit.module.load.path.not_exists', array('path' => $path)));
+                throw new Exception(__('exception.srit.module.load.path.not_exists', array('path' => $path)));
             }
-            \Finder::instance()->add_path($path, 1);
-            $base =\Fuel\Core\Finder::instance()->locate('', $path . '/base.php');
+            Finder::instance()->add_path($path, 1);
+            $base =Finder::instance()->locate('', $path . '/base.php');
             if($base == true) {
-                \Fuel\Core\Fuel::load($base);
+                Fuel::load($base);
             }
             return true;
         }

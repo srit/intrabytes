@@ -7,7 +7,7 @@ return array(
 
     'system' => array(
         'from'		=> array(
-            'email'		=> 'sr@alphabytes.de',
+            'email'		=> 'info@alphabytes.de',
             'name'		=> 'Stefan Riedel - alphaBytes',
         ),
     ),

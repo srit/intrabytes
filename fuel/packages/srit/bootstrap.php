@@ -6,6 +6,7 @@
 
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
+    'Srit\\Srit' => __DIR__ . '/classes/srit.php',
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\CachedModel' => __DIR__ . '/classes/cachedmodel.php',
@@ -18,6 +19,7 @@ Autoloader::add_classes(array(
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
     'Srit\\Observer_I18n' => __DIR__ . '/classes/observer/i18n.php',
     'Srit\\Observer_Localized' => __DIR__ . '/classes/observer/localized.php',
+    'Srit\\Observer_Serialized' => __DIR__ . '/classes/observer/serialized.php',
     'Srit\\Observer_Translated' => __DIR__ . '/classes/observer/translated.php',
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
@@ -62,6 +64,7 @@ Autoloader::add_classes(array(
     'Srit\\Cache_Storage_File' => __DIR__ . '/classes/cache/storage/file.php',
     'Srit\\Cache_Storage_Memcached' => __DIR__ . '/classes/cache/storage/memcached.php',
 
+    'Srit\\Model_Module' => __DIR__ . '/classes/model/module.php',
     'Srit\\Model_Group' => __DIR__ . '/classes/model/group.php',
     'Srit\\Model_User' => __DIR__ . '/classes/model/user.php',
     'Srit\\Model_Client' => __DIR__ . '/classes/model/client.php',
