@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 26. Mai 2013 um 14:31
+-- Erstellungszeit: 28. Mai 2013 um 12:20
 -- Server Version: 5.5.31-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `area` varchar(50) DEFAULT NULL,
   `right` varchar(50) DEFAULT NULL,
   `is_global` tinyint(1) NOT NULL,
+  `test` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
@@ -38,19 +39,19 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
 -- Daten für Tabelle `intrabytes_acls`
 --
 
-INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`) VALUES
-(2, NULL, 'add', 0),
-(3, NULL, 'edit', 0),
-(4, NULL, 'list', 0),
-(5, NULL, 'show', 0),
-(6, NULL, 'delete', 0),
-(7, NULL, 'true', 1),
-(8, NULL, 'index', 0),
-(9, 'Core\\Login', 'index', 0),
-(10, 'Core\\Password', 'forget', 0),
-(11, 'Core\\Password', 'confirmed_email', 0),
-(12, 'Core\\403', 'index', 0),
-(13, NULL, 'copy', 0);
+INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`, `test`) VALUES
+(2, NULL, 'add', 0, 0),
+(3, NULL, 'edit', 0, 0),
+(4, NULL, 'list', 0, 0),
+(5, NULL, 'show', 0, 0),
+(6, NULL, 'delete', 0, 0),
+(7, NULL, 'true', 1, 0),
+(8, NULL, 'index', 0, 0),
+(9, 'Core\\Login', 'index', 0, 0),
+(10, 'Core\\Password', 'forget', 0, 0),
+(11, 'Core\\Password', 'confirmed_email', 0, 0),
+(12, 'Core\\403', 'index', 0, 0),
+(13, NULL, 'copy', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -349,7 +350,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=184 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=186 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -533,7 +534,9 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (180, 'settings.user.pubkeys.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Public Key hinzufügen'),
 (181, 'settings.user.pubkeys.delete.title', 'core', 'Den Key :extend wirklich löschen?'),
 (182, 'core_settings_user_pubkeys_delete.anchor.label', 'breadcrumb', 'Public Key löschen'),
-(183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message''');
+(183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message'''),
+(184, 'srit.srit.init_modules.runtime_error', 'exception', 'Es ist ein Fehler aufgetreten: '':message'''),
+(185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!');
 
 -- --------------------------------------------------------
 
@@ -590,11 +593,23 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
   `name` varchar(50) NOT NULL,
   `path` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL,
-  `installed` tinyint(1) NOT NULL,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `title_de` varchar(255) NOT NULL,
+  `description_de` varchar(255) NOT NULL,
+  `author` varchar(255) NOT NULL,
+  `version` varchar(10) NOT NULL,
+  `config` text NOT NULL,
+  `activated_at` datetime DEFAULT NULL,
+  `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+
+--
+-- Daten für Tabelle `intrabytes_modules`
+--
+
+INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`) VALUES
+(7, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', '2013-05-27 00:00:00', 99),
+(8, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:0:{}s:4:\\"name\\";s:5:\\"tasks\\";}', '2013-05-27 00:00:00', 99);
 
 -- --------------------------------------------------------
 
@@ -26784,7 +26799,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1369299802, 'dd00149a4cf4cca03e92af86e15605a745a8cf6b', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1369724013, '648d0a7f4308f186afbca4be224b9b2fcf7fc36b', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 

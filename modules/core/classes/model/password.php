@@ -13,14 +13,13 @@ use Fuel\Core\Str;
 use Fuel\Core\Theme;
 use PHPSecLib\Crypt_Hash;
 use Srit\Messages;
-use Srit\Model_User;
 use Srit\Validation;
 
 class Model_PasswordExceptions extends \Fuel\Core\FuelException
 {
 }
 
-class Model_Password extends Model_User
+class Model_Password extends \Model_User
 {
 
     protected static $_table_name = 'users';
@@ -34,7 +33,7 @@ class Model_Password extends Model_User
 
     }
 
-    public static function change_password(Model_User $user, $password)
+    public static function change_password(\Model_User $user, $password)
     {
         Auth::instance()->change_password_without_old($password, $user->username);
         static::send_new_password_success($user);
@@ -69,7 +68,7 @@ class Model_Password extends Model_User
         return $user ? : false;
     }
 
-    public static function send_new_password(Model_User $user)
+    public static function send_new_password(\Model_User $user)
     {
         try {
             $new_password = Auth::instance()->reset_password($user->username);
@@ -81,7 +80,7 @@ class Model_Password extends Model_User
 
     }
 
-    public static function prepare_new_password(Model_User $user)
+    public static function prepare_new_password(\Model_User $user)
     {
         $hasher = new Crypt_Hash();
         $hash = base64_encode($hasher->pbkdf2(Str::random('alnum', 8), Config::get('auth.salt'), 10000, 32));
@@ -101,7 +100,7 @@ class Model_Password extends Model_User
      * @param $hash
      * @throws \Model_PasswordExceptions
      */
-    public static function send_prepare_new_password_mail(Model_User $user, $hash)
+    public static function send_prepare_new_password_mail(\Model_User $user, $hash)
     {
         /**
          * @todo E-Mail Model bauen, wir verlegen E-Mail Templates ins theme oder in die DB
@@ -121,7 +120,7 @@ class Model_Password extends Model_User
         }
     }
 
-    public static function send_new_password_success(Model_User $user)
+    public static function send_new_password_success(\Model_User $user)
     {
         /**
          * @todo E-Mail Model bauen, wir verlegen E-Mail Templates ins theme oder in die DB
@@ -147,7 +146,7 @@ class Model_Password extends Model_User
         /**
          * @todo fixit!! Das ist so schlecht gelöst
          */
-        $ret = Model_User::get_user($val) != false;
+        $ret = \Model_User::get_user($val) != false;
         return ($ret);
     }
 

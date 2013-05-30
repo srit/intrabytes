@@ -493,7 +493,7 @@ class Model implements \ArrayAccess, \Iterator
 	 */
 	public static function find($id = null, array $options = array())
 	{
-		// Return Query object
+        // Return Query object
 		if (is_null($id))
 		{
 			if (func_num_args() === 1)

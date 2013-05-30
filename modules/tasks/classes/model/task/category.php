@@ -17,7 +17,7 @@ class Model_Task_Category extends CachedModel
 
     protected static $_belongs_to = array(
         'client' => array(
-            'model_to' => 'Users\Model_Client'
+            'model_to' => '\Model_Client'
         )
     );
 

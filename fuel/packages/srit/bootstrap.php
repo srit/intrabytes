@@ -7,6 +7,8 @@
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Srit' => __DIR__ . '/classes/srit.php',
+    'Srit\\Autoloader' => __DIR__ . '/classes/autoloader.php',
+    'Srit\\File' => __DIR__ . '/classes/file.php',
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
     'Srit\\CachedModel' => __DIR__ . '/classes/cachedmodel.php',
@@ -73,30 +75,6 @@ Autoloader::add_classes(array(
     'Srit\\Model_User_Profile' => __DIR__ . '/classes/model/user/profile.php',
     'Srit\\Model_User_Public_Key' => __DIR__ . '/classes/model/user/public/key.php',
     'Srit\\Model_Userexception' => __DIR__ . '/classes/model/userexception.php',
-
-    /**
-     * https://github.com/kbsali/php-redmine-api
-     */
-    'Redmine\\Client' => __DIR__ . '/vendor/Redmine/Client.php',
-    'Redmine\\Api\\AbstractApi' => __DIR__ . '/vendor/Redmine/Api/AbstractApi.php',
-    'Redmine\\Api\\Attachment' => __DIR__ . '/vendor/Redmine/Api/Attachment.php',
-    'Redmine\\Api\\Group' => __DIR__ . '/vendor/Redmine/Api/Group.php',
-    'Redmine\\Api\\Issue' => __DIR__ . '/vendor/Redmine/Api/Issue.php',
-    'Redmine\\Api\\IssueCategory' => __DIR__ . '/vendor/Redmine/Api/IssueCategory.php',
-    'Redmine\\Api\\IssuePriority' => __DIR__ . '/vendor/Redmine/Api/IssuePriority.php',
-    'Redmine\\Api\\IssueRelation' => __DIR__ . '/vendor/Redmine/Api/IssueRelation.php',
-    'Redmine\\Api\\IssueStatus' => __DIR__ . '/vendor/Redmine/Api/IssueStatus.php',
-    'Redmine\\Api\\Membership' => __DIR__ . '/vendor/Redmine/Api/Membership.php',
-    'Redmine\\Api\\News' => __DIR__ . '/vendor/Redmine/Api/News.php',
-    'Redmine\\Api\\Project' => __DIR__ . '/vendor/Redmine/Api/Project.php',
-    'Redmine\\Api\\Query' => __DIR__ . '/vendor/Redmine/Api/Query.php',
-    'Redmine\\Api\\Role' => __DIR__ . '/vendor/Redmine/Api/Role.php',
-    'Redmine\\Api\\TimeEntry' => __DIR__ . '/vendor/Redmine/Api/TimeEntry.php',
-    'Redmine\\Api\\TimeEntryActivity' => __DIR__ . '/vendor/Redmine/Api/TimeEntryAcivity.php',
-    'Redmine\\Api\\Tracker' => __DIR__ . '/vendor/Redmine/Api/Tracker.php',
-    'Redmine\\Api\\User' => __DIR__ . '/vendor/Redmine/Api/User.php',
-    'Redmine\\Api\\Version' => __DIR__ . '/vendor/Redmine/Api/Version.php',
-    'Redmine\\Api\\Wiki' => __DIR__ . '/vendor/Redmine/Api/Wiki.php',
 
     /**
      * https://github.com/WanWizard/fuel-nestedsets

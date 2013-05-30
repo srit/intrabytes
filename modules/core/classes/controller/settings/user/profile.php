@@ -10,7 +10,6 @@ use Fuel\Core\Input;
 use Fuel\Core\Uri;
 use Srit\Controller_BaseBigTemplate;
 use Srit\Messages;
-use Srit\Model_User;
 use Srit\Model_User_Profile;
 
 class Controller_Settings_User_Profile extends Controller_BaseBigTemplate {
@@ -32,7 +31,7 @@ class Controller_Settings_User_Profile extends Controller_BaseBigTemplate {
 
     public function action_edit() {
         $profile = Model_User_Profile::find_my();
-        $user = Model_User::find_my();
+        $user = \Model_User::find_my();
 
         if($user_profile = Input::post('user_profile', false)) {
             $profile->set($user_profile);

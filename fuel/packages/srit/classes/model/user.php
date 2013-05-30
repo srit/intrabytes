@@ -10,23 +10,32 @@ class Model_User extends CachedModel
 {
 
     protected static $_belongs_to = array(
-        'client',
-        'group'
+        'client' => array(
+            'model_to' => '\Model_Client'
+        ),
+        'group' => array(
+            'model_to' => '\Model_Group'
+        )
     );
 
     protected static $_has_one = array(
         'user_profile' => array(
+            'model_to' => '\Model_User_Profile',
             'cascade_save' => true,
             'cascade_delete' => true,
         )
     );
 
     protected static $_many_many = array(
-        'groups'
+        'groups' => array(
+            'model_to' => '\Model_Group'
+        )
     );
 
     protected static $_has_many = array(
-        'user_public_keys'
+        'user_public_keys' => array(
+            'model_to' => '\Model_User_Public_Key'
+        )
     );
 
     protected static $_observers = array(

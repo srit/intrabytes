@@ -7,7 +7,6 @@
 $version = '0.1';
 
 $module = array(
-    'name' => 'core',
     'title' => array(
         'de' => 'Core',
         'en' => 'core'

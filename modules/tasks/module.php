@@ -7,7 +7,6 @@
 $version = '0.1';
 
 $module = array(
-    'name' => 'task',
     'title' => array(
         'de' => 'Tasks',
         'en' => 'tasks'
@@ -18,5 +17,7 @@ $module = array(
     ),
     'author' => 'Stefan Riedel',
     'version' => '0.1',
-    'extend' => array(),
+    'extend' => array(
+        'Srit\\Model_User' => 'tasks/classes/model/user.php'
+    ),
 );

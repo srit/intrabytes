@@ -14,7 +14,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
 {
 
     /**
-     * @var \Users\Model_User
+     * @var \Model_User
      */
     protected $_user = null;
 
@@ -315,7 +315,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
 
     public function get_user() {
         if(null == $this->_user) {
-            $this->_user = Model_User::get_user($this->get_email());
+            $this->_user = \Model_User::get_user($this->get_email());
         }
         return $this->_user;
     }

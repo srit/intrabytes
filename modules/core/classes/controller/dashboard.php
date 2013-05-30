@@ -13,6 +13,9 @@ use Srit\Request;
 class Controller_Dashboard extends Controller_BaseBigTemplate {
 
     public function action_index() {
+
+        var_dump(\Model_User::find(1));
+
         $dashboard_items = Model_Dashboard_Item::find_my();
         $data = array();
 

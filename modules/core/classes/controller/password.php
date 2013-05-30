@@ -9,7 +9,6 @@ namespace Core;
 use Fuel\Core\Input;
 use Srit\Controller_BaseBlankTemplate;
 use Srit\Messages;
-use Srit\Model_User;
 use Srit\Theme;
 use Srit\Controller_Base_Template_Blank_Public;
 
@@ -20,7 +19,7 @@ class Controller_Password extends Controller_BaseBlankTemplate
         if (Input::post('submit', false)) {
             $validate_forget = Model_Password::validate_password_forget();
             if ($validate_forget) {
-                $user = Model_User::get_user(Input::param('username'));
+                $user = \Model_User::get_user(Input::param('username'));
                 Model_Password::prepare_new_password($user);
             }
         }
@@ -45,7 +44,7 @@ class Controller_Password extends Controller_BaseBlankTemplate
             $validate_new_password = $user->validate_new_password($input);
 
             if($validate_new_password) {
-                $user = Model_User::get_user($user->username);
+                $user = \Model_User::get_user($user->username);
                 Model_Password::change_password($user, $input['password']);
                 $password_changed = true;
             }

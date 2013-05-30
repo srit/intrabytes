@@ -7,7 +7,6 @@
 namespace Core;
 
 use Email\Email;
-use Srit\Model_User;
 
 class Model_PasswordMail
 {
@@ -34,7 +33,7 @@ class Model_PasswordMail
 
     }
 
-    public function send_new_password_success(Model_User $user)
+    public function send_new_password_success(\Model_User $user)
     {
         $theme = get_theme_instance();
         $this->_email->subject(__ext('password.change.success'));
@@ -44,7 +43,7 @@ class Model_PasswordMail
         $this->_email->send();
     }
 
-    public function send_password_hash_mail(Model_User $user, $hash)
+    public function send_password_hash_mail(\Model_User $user, $hash)
     {
         $theme = get_theme_instance();
         $this->_email->subject(__ext('new.password.requested'));
