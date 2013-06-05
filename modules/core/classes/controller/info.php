@@ -6,8 +6,6 @@
 
 namespace Core;
 
-use Srit\Controller_BaseBigTemplate;
-
-class Controller_Info extends Controller_BaseBigTemplate {
+class Controller_Info extends \Controller_BaseBigTemplate {
     public function action_php() {}
 }

@@ -6,5 +6,5 @@
 
 <p>
     <?php echo __(extend_locale('server_error')) ?>
-    <?php echo html_anchor(base_route(), __(extend_locale('back_to_dashboard'))) ?>
+    <?php echo back_button(__ext('back_to_dashboard'), array(), 0);?>
 </p>

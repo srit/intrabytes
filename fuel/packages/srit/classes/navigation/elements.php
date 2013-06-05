@@ -6,7 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\FuelException;
 
 class Navigation_Elements implements \Iterator, \Countable
 {
@@ -39,10 +38,10 @@ class Navigation_Elements implements \Iterator, \Countable
     }
 
     public function hasParent() {
-        return ($this->_parent instanceof Navigation_Element);
+        return ($this->_parent instanceof \Navigation_Element);
     }
 
-    public function setParent(Navigation_Element $parent) {
+    public function setParent(\Navigation_Element $parent) {
         $this->_parent = $parent;
     }
 
@@ -53,10 +52,10 @@ class Navigation_Elements implements \Iterator, \Countable
     protected function _initNavigationElement()
     {
         foreach ($this->_elements as $name => $element) {
-            $this->_elements[$name] = new Navigation_Element($element, $name, $this->getParent());
+            $this->_elements[$name] = new \Navigation_Element($element, $name, $this->getParent());
             if ($this->_elements[$name]->hasChildren()) {
                 $childrens = $this->_elements[$name]->getChildren();
-                if(!$childrens instanceof Navigation_Elements) {
+                if(!$childrens instanceof \Navigation_Elements) {
                     $this->_elements[$name]['links'] = new self($this->_elements[$name]->getChildren(), $this->_elements[$name]);
                 } else {
                     $this->_elements[$name]['links'] = $childrens;
@@ -83,9 +82,9 @@ class Navigation_Elements implements \Iterator, \Countable
 
     public function addElement($name, array $data) {
         if(isset($this->_elements[$name])) {
-            throw new FuelException(__('exception.srit.navigation_elements.addelement.element.exists'));
+            throw new \Exception(__('exception.srit.navigation_elements.addelement.element.exists'));
         }
-        $this->_elements[$name] = new Navigation_Element($data, $name, $this->getParent());
+        $this->_elements[$name] = new \Navigation_Element($data, $name, $this->getParent());
     }
 
     /***************************************************************************

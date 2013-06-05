@@ -20,7 +20,7 @@ class Controller_Settings_Locales_Rest extends \Controller_Rest {
     }
 
     protected function _fetch_group($group) {
-        $groups = \Srit\Model_Locale::find_groups_like_group($group);
+        $groups = \Model_Locale::find_groups_like_group($group);
         $ret_array = array('options' => array());
         if(!empty($groups)) {
             foreach($groups as $gr) {

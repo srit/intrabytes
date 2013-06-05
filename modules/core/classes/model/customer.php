@@ -6,33 +6,36 @@
 
 namespace Core;
 
-use Fuel\Core\Fieldset;
-use Srit\CachedModel;
-
-class Model_Customer extends CachedModel {
+class Model_Customer extends \CachedModel {
 
     protected static $_has_many = array(
         'customer_contacts' => array(
+            'model_to' => '\Model_Customer_Contact',
             'cascade_delete' => true,
         ),
         'customer_projects' => array(
+            'model_to' => '\Model_Customer_Project',
             'cascade_delete' => true
         ),
     );
 
     protected static $_belongs_to = array(
-        'postalcode',
-        'salutation'
+        'postalcode' => array(
+            'model_to' => '\Model_Postalcode'
+        ),
+        'salutation' => array(
+            'model_to' => '\Model_Salutation'
+        )
     );
 
 
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
@@ -116,7 +119,7 @@ class Model_Customer extends CachedModel {
         /**
          * @todo Telefonnummern Validierung
          */
-        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('email')->add_rule('required')->add_rule('valid_email');
         $this->_fieldset->field('company_name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('firstname')->add_rule('required')->add_rule('min_length', 2);
@@ -135,9 +138,9 @@ class Model_Customer extends CachedModel {
      */
     public function save($cascade = null, $use_transaction = false) {
        if(empty($this->postalcode_id) && !empty($this->postalcode_text) && !empty($this->country_id)) {
-            $postalcode = Model_Postalcode::find_by_postalcode($this->postalcode_text, $this->country_id);
+            $postalcode = \Model_Postalcode::find_by_postalcode($this->postalcode_text, $this->country_id);
             if($postalcode == false) {
-                $postalcode = Model_Postalcode::forge(array('postalcode' => $this->postalcode_text, 'city' => $this->city_text, 'country_id' => $this->country_id));
+                $postalcode = \Model_Postalcode::forge(array('postalcode' => $this->postalcode_text, 'city' => $this->city_text, 'country_id' => $this->country_id));
                 $postalcode->save();
             }
             $this->postalcode_id = $postalcode->id;

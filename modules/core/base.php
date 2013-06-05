@@ -12,7 +12,7 @@
 
 
 function base_route() {
-    return \Fuel\Core\Uri::create('/');
+    return \Uri::create('/');
 }
 
 function logout_route() {
@@ -106,7 +106,7 @@ function core_settings_locales_deletes_route() {
 }
 
 function twitter_translate_textareas($name, $model) {
-    $languages = \Srit\Model_Language::find_all_active();
+    $languages = \Model_Language::find_all_active();
     $textareas = array();
     if($languages) {
         foreach($languages as $language) {
@@ -118,7 +118,7 @@ function twitter_translate_textareas($name, $model) {
             );
         }
     }
-    return \Srit\Theme::instance()->view('templates/_partials/form/translate_textareas.php', array('textareas' => $textareas, 'tab_id' => 'tab_' . $name), false);
+    return get_theme_instance()->view('templates/_partials/form/translate_textareas.php', array('textareas' => $textareas, 'tab_id' => 'tab_' . $name), false);
 }
 
 function core_users_settings_pubkeys_named_route($name, $route_params = array()) {

@@ -7,23 +7,25 @@ namespace Srit;
 
 use Srit\CachedModel;
 
-class Model_User_Public_Key extends CachedModel {
+class Model_User_Public_Key extends \CachedModel {
     protected static $_belongs_to = array(
-        'user',
+        'user' => array(
+            'model_to' => '\Model_User'
+        ),
     );
 
 
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
-        'Srit\\Observer_Localized' => array(
+        '\Observer_Localized' => array(
             'properties' => array(
                 'created_at' =>array(
                     'type' => 'datetime'
@@ -47,7 +49,7 @@ class Model_User_Public_Key extends CachedModel {
     }*/
 
     public function validate($input = array()) {
-        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('name')->add_rule('required')->add_rule('min_length', 3);
         $this->_fieldset->field('value')->add_rule('required');
         return parent::validate($input);

@@ -3,9 +3,6 @@
  * @created 12.02.13 - 10:48
  * @author stefanriedel
  */
-
-$user_public_key = $crud_objects['srit:user_public_key']['data'];
-
 ?>
 <form method="post" accept-charset="utf-8">
 

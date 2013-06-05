@@ -6,11 +6,11 @@
 
 namespace Srit;
 
-class Locale
+class Loc
 {
 
     /**
-     * @var Locale
+     * @var Loc
      */
     protected static $_instance = null;
 
@@ -29,7 +29,7 @@ class Locale
      */
     public function loadLanguageModel($language)
     {
-        $this->_language_model = Model_Language::find_by_language_key($language);
+        $this->_language_model = \Model_Language::find_by_language_key($language);
     }
 
     /**

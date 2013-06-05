@@ -9,18 +9,18 @@ namespace Srit;
 use Auth\Auth;
 use Srit\Model;
 
-class Model_User_Profile extends CachedModel
+class Model_User_Profile extends \CachedModel
 {
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
-        'Srit\\Observer_Localized' => array(
+        '\Observer_Localized' => array(
             'properties' => array(
                 'birthday' =>array(
                     'type' => 'date'
@@ -30,12 +30,14 @@ class Model_User_Profile extends CachedModel
     );
 
     protected static $_belongs_to = array(
-        'user'
+        'user' => array(
+            'model_to' => '\Model_User'
+        )
     );
 
     public static function find_my() {
         return static::find('first', array('where' => array(
-            'user_id' =>  Auth::get_user()->id
+            'user_id' =>  \Auth::get_user()->id
         )));
     }
 }

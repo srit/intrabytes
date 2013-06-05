@@ -5,14 +5,8 @@
  */
 namespace Core;
 
-use Auth\Auth;
-use Fuel\Core\Input;
-use Fuel\Core\Uri;
-use Srit\Controller_BaseBigTemplate;
-use Srit\Messages;
-use Srit\Model_User_Profile;
 
-class Controller_Settings_User_Profile extends Controller_BaseBigTemplate {
+class Controller_Settings_User_Profile extends \Controller_BaseBigTemplate {
 
     /*protected $_crud_objects = array(
         'user_profile' => array(),
@@ -30,24 +24,24 @@ class Controller_Settings_User_Profile extends Controller_BaseBigTemplate {
     }**/
 
     public function action_edit() {
-        $profile = Model_User_Profile::find_my();
+        $profile = \Model_User_Profile::find_my();
         $user = \Model_User::find_my();
 
-        if($user_profile = Input::post('user_profile', false)) {
+        if($user_profile = \Input::post('user_profile', false)) {
             $profile->set($user_profile);
             if($profile->validate($user_profile)) {
                 $profile->save();
-                Messages::instance()->success(__(extend_locale('change_password.success')));
+                \Messages::instance()->success(__(extend_locale('change_password.success')));
             }
-            Messages::redirect(Uri::current() . '#profile');
+            \Messages::redirect(\Uri::current() . '#profile');
         }
 
-        if($password_data = Input::post('user', false)) {
+        if($password_data = \Input::post('user', false)) {
             if($user->validate_new_password($password_data)) {
-                Auth::instance()->change_password_without_old($password_data['password'], $user->username);
-                Messages::success(__(extend_locale('change_password.success')));
+                \Auth::instance()->change_password_without_old($password_data['password'], $user->username);
+                \Messages::success(__(extend_locale('change_password.success')));
             }
-            Messages::redirect(Uri::current() . '#password');
+            \Messages::redirect(\Uri::current() . '#password');
         }
 
         $this->_get_content_partial()->set('profile', $profile);

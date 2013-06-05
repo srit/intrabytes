@@ -6,24 +6,19 @@
 
 namespace Core;
 
-use Srit\Controller_BaseBigTemplate;
-use Srit\Model_Navigation;
-use Srit\Request;
+use Srit\Autoloader;
 
-class Controller_Dashboard extends Controller_BaseBigTemplate {
+class Controller_Dashboard extends \Controller_BaseBigTemplate {
 
     public function action_index() {
-
-        var_dump(\Model_User::find(1));
-
-        $dashboard_items = Model_Dashboard_Item::find_my();
+        $dashboard_items = \Model_Dashboard_Item::find_my();
         $data = array();
 
         if(count($dashboard_items) > 0) {
             foreach($dashboard_items as $key => $item) {
                 try
                 {
-                    $request = Request::forge($item->route, false);
+                    $request = \Request::forge($item->route, false);
                     $data[] = $request->execute()->response()->body;
                 }
                 catch (\Exception $e)

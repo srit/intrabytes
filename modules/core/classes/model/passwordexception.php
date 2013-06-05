@@ -5,4 +5,4 @@
  */
 
 namespace Core;
-class Model_PasswordExceptions extends Model_UserException {}
+class Model_PasswordExceptions extends \Model_UserException {}

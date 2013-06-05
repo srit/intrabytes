@@ -6,7 +6,7 @@
 
 namespace Srit;
 
-class Controller_BaseBigTemplate extends Controller_BaseTemplate {
+class Controller_BaseBigTemplate extends \Controller_BaseTemplate {
 
     protected $_navigation_template = 'templates/navbar';
 
@@ -30,16 +30,16 @@ class Controller_BaseBigTemplate extends Controller_BaseTemplate {
     protected function _init_navigation()
     {
         $this->_get_theme()->set_partial('navigation', $this->_navigation_template);
-        $this->_get_theme()->get_partial('navigation', $this->_navigation_template)->set('top_left', Navigation::forge('top_left'), false);
-        $this->_get_theme()->get_partial('navigation', $this->_navigation_template)->set('top_right', Navigation::forge('top_right'), false);
-        $this->_get_theme()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', Navigation::instance(), false);
+        $this->_get_theme()->get_partial('navigation', $this->_navigation_template)->set('top_left', \Navigation::forge('top_left'), false);
+        $this->_get_theme()->get_partial('navigation', $this->_navigation_template)->set('top_right', \Navigation::forge('top_right'), false);
+        $this->_get_theme()->set_partial('breadcrumb', $this->_breadcrumb_template)->set('navigation', \Navigation::instance(), false);
     }
 
     protected function _last_pages()
     {
-        Last_Pages::setActivePageTitle($this->_get_page_title());
-        Last_Pages::set();
-        $this->_get_theme()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', Last_Pages::get());
+        \Last_Pages::set_active_page_title($this->_get_page_title());
+        \Last_Pages::set();
+        $this->_get_theme()->set_partial('last_pages', $this->_last_pages_template)->set('last_pages', \Last_Pages::get());
 
     }
 

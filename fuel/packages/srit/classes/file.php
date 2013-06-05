@@ -6,8 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Str;
-
 class File extends \Fuel\Core\File
 {
 
@@ -18,7 +16,7 @@ class File extends \Fuel\Core\File
     public static function get_content($path)
     {
         $md5_path = md5($path);
-        if(!isset(static::$_php_code_cache[$md5_path])) {
+        if (!isset(static::$_php_code_cache[$md5_path])) {
             static::$_php_code_cache[$md5_path] = file_get_contents($path);
         }
         return static::$_php_code_cache[$md5_path];
@@ -31,19 +29,21 @@ class File extends \Fuel\Core\File
     public static function get_token($php_code)
     {
         $md5_php_code = md5($php_code);
-        if(!isset(static::$_php_token_cache[$md5_php_code])) {
+        if (!isset(static::$_php_token_cache[$md5_php_code])) {
             static::$_php_token_cache[$md5_php_code] = token_get_all($php_code);
         }
         return static::$_php_token_cache[$md5_php_code];
     }
 
-    public static function get_token_and_count($php_code) {
+    public static function get_token_and_count($php_code)
+    {
         $token = static::get_token($php_code);
         $cnt = count($token);
         return array($token, $cnt);
     }
 
-    public static function get_php_namespace_classes_extends($php_code) {
+    public static function get_php_namespace_classes_extends($php_code)
+    {
         $namespace = '';
         $classes = array();
         $last_class_name = null;
@@ -55,10 +55,15 @@ class File extends \Fuel\Core\File
             $token_value = isset($tokens[$i][1]) ? $tokens[$i][1] : '';
 
 
-            if($tokens[$i - 1][0] == T_WHITESPACE
-                && $tokens[$i][0] == T_STRING) {
+            if (($tokens[$i - 1][0] == T_WHITESPACE
+                    && $tokens[$i][0] == T_STRING) ||
+                (isset($tokens[$i + 1])
+                    && $tokens[$i + 1][0] == T_STRING
+                    && isset($tokens[$i - 1])
+                    && $tokens[$i - 1][0] == T_WHITESPACE)
+            ) {
 
-                switch($token_identifier) {
+                switch ($token_identifier) {
                     case T_NAMESPACE:
                         $namespace = $token_value;
                         break;
@@ -67,6 +72,13 @@ class File extends \Fuel\Core\File
                         $last_class_name = $token_value;
                         break;
                     case T_EXTENDS:
+                        if (isset($tokens[$i + 1])
+                            && $tokens[$i + 1][0] == T_STRING
+                            && isset($tokens[$i - 1])
+                            && $tokens[$i - 1][0] == T_WHITESPACE
+                        ) {
+                            $token_value = $tokens[$i][1] . $tokens[$i + 1][1];
+                        }
                         $classes[$last_class_name] = $token_value;
                         break;
                 }
@@ -152,6 +164,21 @@ class File extends \Fuel\Core\File
         return static::get_php_classes_extends($php_code);
     }
 
+    public static function find_classes_for_autoloader($files)
+    {
+        $classes = array();
+        if (is_array($files)) {
+            foreach ($files as $d => $f) {
+                if (is_array($f)) {
+                    $classes = array_merge($classes, static::find_classes_for_autoloader($f));
+                } else {
+                    $file_classes = static::get_namespace_classes_extends_from_file($f);
+                    $classes = array_merge($classes, array($file_classes[0] . '\\' . key($file_classes[1]) => $f));
+                }
+            }
+        }
+        return $classes;
+    }
 
 
 }

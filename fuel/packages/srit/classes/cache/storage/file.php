@@ -5,9 +5,6 @@
  */
 
 namespace Srit;
-
-use Fuel\Core\File;
-
 class Cache_Storage_File extends \Fuel\Core\Cache_Storage_File
 {
     public function delete_all($section)
@@ -28,7 +25,7 @@ class Cache_Storage_File extends \Fuel\Core\Cache_Storage_File
                 $this->_delete_all_files($file, $path . $dir);
                 rmdir($path.$dir);
             } else {
-                File::delete($path.$file);
+                \File::delete($path.$file);
             }
         }
         return true;

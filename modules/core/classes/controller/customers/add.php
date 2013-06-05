@@ -6,7 +6,7 @@
 
 namespace Core;
 
-class Controller_Customers_Add extends Controller_Customers_Customers
+class Controller_Customers_Add extends \Controller_Customers_Customers
 {
 
     public function action_index()

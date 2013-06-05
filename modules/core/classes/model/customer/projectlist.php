@@ -6,9 +6,7 @@
 
 namespace Core;
 
-use Srit\ModelList;
-
-class Model_Customer_ProjectList extends ModelList {
+class Model_Customer_ProjectList extends \ModelList {
     public function __toString() {
         $ret = '';
         if(!empty($this->_elements)) {

@@ -6,24 +6,21 @@
 
 namespace Srit;
 
-
-use Orm\Observer;
-
-class Observer_Translated extends Observer
+class Observer_Translated extends \Observer
 {
 
     protected $_properties = array();
 
     public function __construct($model)
     {
-        $props = $model::observers(get_class($this));
+        $props = $model::observers('\\Observer_Translated');
         $this->_properties = isset($props['properties']) ? $props['properties'] : array();
 
         if (empty($this->_properties)) {
-            throw new Exception(__('exception.srit.observer_translated.properties.empty'));
+            throw new \Exception(__('exception.srit.observer_translated.properties.empty'));
         }
 
-        $language = Locale::instance()->getLanguage();
+        $language = \Loc::instance()->getLanguage();
         $model_properties = $model::properties();
 
         foreach ($this->_properties as $name => $property) {
@@ -33,7 +30,7 @@ class Observer_Translated extends Observer
                 $property_name = $name . '_' . $language;
             }
             if (!isset($model_properties[$property_name])) {
-                throw new Exception(__('exception.srit.observer_translated.property.not.exists', array('property' => $property_name)));
+                throw new \Exception(__('exception.srit.observer_translated.property.not.exists', array('property' => $property_name)));
             }
         }
 
@@ -64,7 +61,7 @@ class Observer_Translated extends Observer
     protected function _prepare_value(Model $model)
     {
         $properties = $this->_properties;
-        $language = Locale::instance()->getLanguage();
+        $language = \Loc::instance()->getLanguage();
         foreach ($properties as $property) {
             $property_name = $property . '_' . $language;
             $ac_value = $model->get($property_name);

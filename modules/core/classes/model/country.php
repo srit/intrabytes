@@ -5,9 +5,7 @@
  */
 namespace Core;
 
-use Srit\CachedModel;
-
-class Model_Country extends CachedModel {
+class Model_Country extends \CachedModel {
     /**protected static $_properties = array(
         'id',
         'iso_code',
@@ -18,17 +16,19 @@ class Model_Country extends CachedModel {
     );**/
 
     protected static $_has_many = array(
-        'postalcodes'
+        'postalcodes' => array(
+            'model_to' => '\Model_Postalcode'
+        )
     );
 
     protected static $_belongs_to = array(
         'language' => array(
-            'model_to' => '\Srit\Model_Language'
+            'model_to' => '\Model_Language'
         )
     );
 
     protected static $_observers = array(
-        'Srit\\Observer_Translated' => array(
+        '\Observer_Translated' => array(
             'properties' => array('name')
         )
     );
@@ -42,7 +42,7 @@ class Model_Country extends CachedModel {
 
     public static function find_all_for_html_select(array $options = array()) {
         $items = static::find_all($options);
-        $ret_items = \Fuel\Core\Arr::assoc_to_keyval($items, 'id', 'name');
+        $ret_items = \Arr::assoc_to_keyval($items, 'id', 'name');
         return $ret_items;
     }
     

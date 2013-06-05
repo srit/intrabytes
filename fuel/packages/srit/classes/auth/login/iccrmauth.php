@@ -5,6 +5,7 @@
  */
 
 namespace Srit;
+
 use Auth\Auth_Login_SimpleAuth;
 
 /**
@@ -19,7 +20,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
     protected $_user = null;
 
     protected $config = array(
-        'drivers' => array('group' => array('Srit\\ICCRMGroup')),
+        'drivers' => array('group' => array('\ICCRMGroup')),
         'additional_fields' => array('profile_fields'),
     );
 
@@ -217,17 +218,17 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
     public function hash($password, $pepper)
     {
         $password = $password . '.' . $pepper;
-        return Password::password_hash($password, PASSWORD_BCRYPT, array("cost" => 10, 'salt' => \Config::get('auth.salt')));
+        return \Password::password_hash($password, PASSWORD_BCRYPT, array("cost" => 10, 'salt' => \Config::get('auth.salt')));
     }
 
     public function verify_password($password, $pepper, $hash, $username) {
         $password = $password . '.' . $pepper;
-        if(Password::password_verify($password, $hash)) {
+        if(\Password::password_verify($password, $hash)) {
 
             /**
              * Hash musserneuert werden
              */
-            if(true === Password::password_needs_rehash($hash, PASSWORD_BCRYPT, array('cost' => 10, 'salt' => \Config::get('auth.salt')))) {
+            if(true === \Password::password_needs_rehash($hash, PASSWORD_BCRYPT, array('cost' => 10, 'salt' => \Config::get('auth.salt')))) {
                 $this->change_password_without_old($password, $username);
             }
             return true;
@@ -330,7 +331,7 @@ class Auth_Login_ICCRMAuth extends Auth_Login_SimpleAuth
         //Logger::forge('Iccrmauth')->debug('user', array($this->user));
 
         if($this->user['id'] == 0 && $this->user['username'] == 'guest') {
-            $gr = Model_Group::find_guest();
+            $gr = \Model_Group::find_guest();
         } else {
             $gr = $this->get_user()->group;
         }

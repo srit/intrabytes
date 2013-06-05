@@ -4,4 +4,4 @@
  * @author stefanriedel
  */
 
-echo $theme->view('core/settings/locales/_partials/locales_form', array('locale' => $crud_objects['srit:locale']['data']));
+echo $theme->view('core/settings/locales/_partials/locales_form', array('locale' => $locale));

@@ -6,11 +6,8 @@
 
 namespace Core;
 
-use Fuel\Core\Arr;
-use Srit\Locale;
-use Srit\CachedModel;
 
-class Model_Salutation extends CachedModel
+class Model_Salutation extends \CachedModel
 {
     /**protected static $_properties = array(
         'id',
@@ -20,12 +17,16 @@ class Model_Salutation extends CachedModel
     );**/
 
     protected static $_has_many = array(
-        'customers',
-        'customer_projects',
+        'customers' => array(
+            'model_to' => '\Model_Customer'
+        ),
+        'customer_projects' => array(
+            'model_to' => '\Model_Customer_Project'
+        ),
     );
 
     protected static $_observers = array(
-        'Srit\\Observer_Translated' => array(
+        '\\Observer_Translated' => array(
             'properties' => array('salutation')
         )
     );
@@ -33,7 +34,7 @@ class Model_Salutation extends CachedModel
     public static function find_all_for_html_select(array $options = array())
     {
         $items = static::find_all($options);
-        $ret_items = Arr::assoc_to_keyval($items, 'id', 'salutation');
+        $ret_items = \Arr::assoc_to_keyval($items, 'id', 'salutation');
         return $ret_items;
     }
 }

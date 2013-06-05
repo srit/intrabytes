@@ -19,7 +19,7 @@ class Typo
         }
 
         $sorted = array();
-        foreach (HTML::$attribute_order as $key) {
+        foreach (\HTML::$attribute_order as $key) {
             if (isset($attributes[$key])) {
                 // Add the attribute to the sorted list
                 $sorted[$key] = $attributes[$key];

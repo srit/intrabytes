@@ -178,7 +178,7 @@ class Messages_Instance implements \ArrayAccess, \Iterator
         foreach ($message as $msg)
         {
             // deal with validation errors passed as-is
-            if ($msg instanceOf Validation_Error)
+            if ($msg instanceOf \Validation_Error)
             {
                 $msg = $msg->get_message();
             }

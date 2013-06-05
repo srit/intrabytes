@@ -74,7 +74,7 @@ class Messages
             return $exists;
         }
 
-        static::$_instances[$name] = new Messages_Instance($name);
+        static::$_instances[$name] = new \Messages_Instance($name);
 
         if ($name == 'messages')
         {

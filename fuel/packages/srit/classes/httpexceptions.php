@@ -7,43 +7,38 @@
 namespace Srit;
 
 
-use Fuel\Core\Config;
-use Fuel\Core\HttpException;
-use Srit\Request;
-use Fuel\Core\Router;
-
-class HttpNotFoundException extends HttpException
+class HttpNotFoundException extends \HttpException
 {
     public function response()
     {
-        $route = array_key_exists('_404_', Router::$routes) ? Router::$routes['_404_']->translation : Config::get(
+        $route = array_key_exists('_404_', \Router::$routes) ? \Router::$routes['_404_']->translation : \Config::get(
             'routes._404_'
         );
-        $response = Request::forge($route, false)->execute()->response();
+        $response = \Request::forge($route, false)->execute()->response();
         return $response;
         //return new \Response(\View::forge('404'), 404);
     }
 }
 
-class HttpServerErrorException extends HttpException
+class HttpServerErrorException extends \HttpException
 {
     public function response()
     {
-        $route = array_key_exists('_500_', Router::$routes) ? Router::$routes['_500_']->translation : Config::get(
+        $route = array_key_exists('_500_', \Router::$routes) ? \Router::$routes['_500_']->translation : \Config::get(
             'routes._500_'
         );
-        $response = Request::forge($route, false)->execute()->response();
+        $response = \Request::forge($route, false)->execute()->response();
         return $response;
     }
 }
 
-class HttpPermissionDeniedException extends HttpException {
+class HttpPermissionDeniedException extends \HttpException {
     public function response()
     {
-        $route = array_key_exists('_403_', Router::$routes) ? Router::$routes['_403_']->translation : Config::get(
+        $route = array_key_exists('_403_', \Router::$routes) ? \Router::$routes['_403_']->translation : \Config::get(
             'routes._403_'
         );
-        $response = Request::forge($route, false)->execute()->response();
+        $response = \Request::forge($route, false)->execute()->response();
         return $response;
     }
 }

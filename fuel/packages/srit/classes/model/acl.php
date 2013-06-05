@@ -8,16 +8,12 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Acl extends CachedModel {
-    protected static $_properties = array(
-        'id',
-        'area',
-        'right',
-        'is_global'
-    );
+class Model_Acl extends \CachedModel {
 
     protected static $_many_many = array(
-        'roles'
+        'roles' => array(
+            'model_to' => '\Model_Role',
+        ),
     );
 
     public static function find($id = null, array $options = array()) {

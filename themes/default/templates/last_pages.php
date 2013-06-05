@@ -20,8 +20,10 @@ if (!empty($last_pages)) {
 
 ?>
 <div class="breadcrumb">
-    <?php if (!empty($last_pages) && isset($last_pages[1]) && isset($last_pages[1]['uri'])): ?>
-        <?php echo html_anchor($last_pages[1]['uri'], __('back.button.label'), array('class' => 'btn btn-small')) ?>
+    <?php
+
+    if (!empty($last_pages) && isset($last_pages[1]) && isset($last_pages[1]['uri'])): ?>
+        <?php echo back_button(__('back.button.label'), array('class' => 'btn btn-small')) ?>
     <?php endif; ?>
     <?php echo twitter_button_group($action_links, 'last_pages.actions.label', array()); ?>
 </div>

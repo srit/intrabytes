@@ -15,7 +15,7 @@ echo $partials['navigation'];
         <div class="row-fluid show-grid">
             <div class="span12 content">
                 <?php
-                if (\Srit\Messages::instance()) {
+                if (\Messages::instance()) {
                     $messages = false;
                     foreach (array('error', 'warning', 'success', 'info') as $type) {
                         foreach (\Srit\Messages::instance()->get($type) as $message) {
@@ -24,7 +24,7 @@ echo $partials['navigation'];
                         }
                     }
                 }
-                \Srit\Messages::reset();
+                \Messages::reset();
                 if ($messages == true) {
                     echo html_tag('div', array('class' => 'clearfix'));
                 }

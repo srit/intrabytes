@@ -6,7 +6,7 @@
 
 namespace Core;
 
-class Controller_Customers_Projects_Delete extends Controller_Customers_Projects {
+class Controller_Customers_Projects_Delete extends \Controller_Customers_Projects {
     
     public function action_index() {
 

@@ -22,7 +22,8 @@ $theme_instance = null;
 /**
  * @param $new_theme_instance \Srit\Theme
  */
-function set_theme_instance($new_theme_instance) {
+function set_theme_instance($new_theme_instance)
+{
     global $theme_instance;
     $theme_instance = $new_theme_instance;
 }
@@ -30,7 +31,8 @@ function set_theme_instance($new_theme_instance) {
 /**
  * @return \Srit\Theme
  */
-function get_theme_instance() {
+function get_theme_instance()
+{
     global $theme_instance;
     return $theme_instance;
 }
@@ -134,10 +136,11 @@ function getYearArray($current = null, $before = 5, $after = 5)
  */
 function extend_locale($locale)
 {
-    return \Srit\Locale::instance()->getLocalePrefix() . '.' . $locale;
+    return \Loc::instance()->getLocalePrefix() . '.' . $locale;
 }
 
-function __ext ($locale, array $params = array()) {
+function __ext($locale, array $params = array())
+{
     return __(extend_locale($locale), $params);
 }
 
@@ -249,7 +252,9 @@ function twitter_html_input_checkbox($name, $value, $placeholder_locale = null, 
 {
     $label_attr['class'] = 'control-label';
     $placeholder_locale = (!empty($placeholder_locale)) ? $placeholder_locale : __(extend_locale($name . '.label', $placeholder_locale_params));
-    return html_label($label_attr, $name, html_checkbox($name, $value, $checked, $attr) . ' ' . __($placeholder_locale, $placeholder_locale_params));
+    $html = html_hidden($name, 0);
+    $html .= html_label($label_attr, $name, html_checkbox($name, $value, $checked, $attr) . ' ' . __($placeholder_locale, $placeholder_locale_params));
+    return $html;
 }
 
 /**
@@ -364,7 +369,8 @@ function twitter_html_input_textarea($name, $value, $label_locale = null, array 
 }
 
 
-function twitter_html_input_textarea_wo_label($name, $value, $label_locale = null, array $label_locale_params = array()) {
+function twitter_html_input_textarea_wo_label($name, $value, $label_locale = null, array $label_locale_params = array())
+{
     $attr['placeholder'] = empty($label_locale) ? __(extend_locale($name . '.label'), $label_locale_params) : __($label_locale, $label_locale_params);
     $html = html_tag('div', array('class' => 'controls'), html_input_textarea_wo_label($name, $value, $attr));
     return $html;
@@ -406,7 +412,7 @@ function html_button($value, array $attr = array())
 
 function security_field()
 {
-    return html_hidden(\Fuel\Core\Config::get('security.csrf_token_key'), \Fuel\Core\Security::fetch_token());
+    return html_hidden(\Config::get('security.csrf_token_key'), \Security::fetch_token());
 }
 
 /**
@@ -457,6 +463,13 @@ function boolean_icon($value)
     return $html;
 }
 
+/**
+ * @return string
+ */
+function back_button($text, array $attr = array(), $offset = 1)
+{
+    return html_anchor(\Last_Pages::get_last_logic_page($offset), $text, $attr);
+}
 
 function html_anchor($href, $value = null, $attr = array(), $secure = null)
 {
@@ -466,7 +479,7 @@ function html_anchor($href, $value = null, $attr = array(), $secure = null)
 
     if (!preg_match('#^(\w+://|javascript:|\#)# i', $href)) {
         $urlparts = explode('?', $href, 2);
-        $href = \Srit\Uri::create($urlparts[0], array(), isset($urlparts[1]) ? $urlparts[1] : array(), $secure);
+        $href = \Uri::create($urlparts[0], array(), isset($urlparts[1]) ? $urlparts[1] : array(), $secure);
     } elseif (!preg_match('#^(javascript:|\#)# i', $href) and  is_bool($secure)) {
         $href = http_build_url($href, array('scheme' => $secure ? 'https' : 'http'));
     }
@@ -572,26 +585,26 @@ function h6($value, $attr = array())
 function named_route($route_name, $route_params = array(), $route_must_exists = true)
 {
     if ($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
-        throw new \FuelException(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
-    } elseif (!isset(\Fuel\Core\Router::$routes[$route_name])) {
+        throw new \Exception(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
+    } elseif (!isset(\Router::$routes[$route_name])) {
         return null;
     }
 
-    $route = \Fuel\Core\Router::$routes[$route_name]->path;
+    $route = \Router::$routes[$route_name]->path;
     /**
      * um zu prüfen ob alle erforderlichen parameter mit übergeben wurden
      */
     if (preg_match_all('/(?<=:)[\w_]{1,}/', $route, $params)) {
         if (empty($route_params)) {
-            throw new \FuelException(__('exception.function.named_route.no_route_params'));
+            throw new \Exception(__('exception.function.named_route.no_route_params'));
         }
         foreach ($params[0] as $p) {
             if (!isset($route_params[$p])) {
-                throw new \FuelException(__('exception.function.named_route.missing_route_param', array('param', $p)));
+                throw new \Exception(__('exception.function.named_route.missing_route_param', array('param', $p)));
             }
         }
     }
-    return \Fuel\Core\Router::get($route_name, $route_params);
+    return \Router::get($route_name, $route_params);
 }
 
 function twitter_anchor($route, $label, array $attr = array(), $secure = false)
@@ -613,13 +626,13 @@ function unserializer($value)
 
 function current_uri()
 {
-    return \Srit\Uri::current();
+    return \Uri::current();
 }
 
 function order_anchor($name, $label, $model_name = null)
 {
-    $params = \Fuel\Core\Input::get();
-    $uri = \Srit\Request::active()->uri;
+    $params = \Input::get();
+    $uri = \Request::active()->uri;
     if ((isset($params['order']) || isset($params[$model_name]['order']))
         && ((isset($params['order_field']) && $params['order_field'] == $name) || (isset($params[$model_name]) && isset($params[$model_name]['order_field']) && $params[$model_name]['order_field'] == $name))
     ) {
@@ -662,7 +675,7 @@ function order_anchor($name, $label, $model_name = null)
         $get_params = array_merge($params, $get_params);
         $anchor_params = array();
     }
-    $uri = \Srit\Uri::create($uri, array(), $get_params);
+    $uri = \Uri::create($uri, array(), $get_params);
     return html_anchor($uri, $label, $anchor_params);
 }
 
@@ -671,4 +684,23 @@ function html_js_void_anchor($value, $id, $attr = array())
 {
     $attr['id'] = $id;
     return html_anchor('javascript: void(0)', $value, $attr);
+}
+
+function globr($pattern = '*', $flags = 0, $path = false, $depth = 0, $level = 0)
+{
+    $tree = array();
+
+    $files = glob($path . $pattern, $flags);
+    $paths = glob($path . '*', GLOB_ONLYDIR | GLOB_NOSORT);
+
+    if (!empty($paths) && ($level < $depth || $depth == -1)) {
+        $level++;
+        foreach ($paths as $sub_path) {
+            $tree[$sub_path] = globr($pattern, $flags, $sub_path . DIRECTORY_SEPARATOR, $depth, $level);
+        }
+    }
+
+    $tree = array_merge($tree, $files);
+
+    return $tree;
 }

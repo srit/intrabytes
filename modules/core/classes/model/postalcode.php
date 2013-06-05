@@ -5,18 +5,12 @@
  */
 namespace Core;
 
-use Srit\CachedModel;
-
-class Model_Postalcode extends CachedModel {
-    protected static $_properties = array(
-        'id',
-        'postalcode',
-        'city',
-        'country_id'
-    );
+class Model_Postalcode extends \CachedModel {
 
     protected static $_belongs_to = array(
-        'country'
+        'country' => array(
+            'model_to' => '\Model_Country'
+        )
     );
     
     public static function find_by_postalcode($postalcode, $country_id, array $options = array()) {

@@ -6,20 +6,14 @@
 
 namespace Core;
 
-use Srit\CachedModel;
 
-class Model_Dashboard_Items_User extends CachedModel
+class Model_Dashboard_Items_User extends \CachedModel
 {
 
-    protected static $_properties = array(
-        'id',
-        'dashboard_item_id',
-        'user_id',
-        'order',
-    );
-
     protected static $_belongs_to = array(
-        'dashboard_item',
+        'dashboard_item' => array(
+            'model_to' => '\Model_Dashboard_Item'
+        ),
         'user' => array(
             'model_to' => '\Model_User'
         )

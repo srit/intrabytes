@@ -6,8 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Arr;
-use Fuel\Core\Cookie;
 
 class Last_Pages
 {
@@ -18,11 +16,12 @@ class Last_Pages
 
     protected static $_last_pages = array();
 
-    public static function get_last_logic_page() {
-
+    public static function get_last_logic_page($offset = 1) {
+        static::get();
+        return static::$_last_pages[$offset]['uri'];
     }
 
-    public static function setActivePageTitle($active_page_title)
+    public static function set_active_page_title($active_page_title)
     {
         self::$_active_page_title = $active_page_title;
     }
@@ -30,8 +29,8 @@ class Last_Pages
     public static function get()
     {
         if (empty(static::$_last_pages)) {
-            $last_pages_serialized = Cookie::get('last_pages', serializer(array()));
-            $last_pages = unserializer($last_pages_serialized);
+            $last_pages_serialized = \Cookie::get('last_pages', serialize(array()));
+            $last_pages = unserialize($last_pages_serialized);
             static::$_last_pages = $last_pages;
         }
 
@@ -41,9 +40,9 @@ class Last_Pages
     public static function set()
     {
         $last_pages = static::get();
-        if ($uri = Uri::current() AND (!isset($last_pages[0]) OR $last_pages[0]['title'] != static::$_active_page_title) AND ($uri != login_route() AND $uri != logout_route())) {
+        if ($uri = \Uri::current() AND (!isset($last_pages[0]) OR $last_pages[0]['title'] != static::$_active_page_title) AND ($uri != login_route() AND $uri != logout_route())) {
 
-            if (Arr::in_array_recursive(static::$_active_page_title, $last_pages)) {
+            if (\Arr::in_array_recursive(static::$_active_page_title, $last_pages)) {
                 foreach ($last_pages as $i => $page) {
                     if ($page['title'] == static::$_active_page_title) {
                         unset($last_pages[$i]);
@@ -55,7 +54,7 @@ class Last_Pages
                 'uri' => $uri,
                 'title' => static::$_active_page_title,
                 'time' => time(),
-                'is_post' => (Request::active()->get_method() === 'POST')
+                'is_post' => (\Request::active()->get_method() === 'POST')
             );
             array_unshift($last_pages, $last_page);
 
@@ -66,8 +65,11 @@ class Last_Pages
             }
 
             static::$_last_pages = $last_pages;
-            Cookie::set('last_pages', serializer($last_pages));
+            \Cookie::set('last_pages', serialize($last_pages));
         }
 
     }
+
+
+
 }

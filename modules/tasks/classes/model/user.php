@@ -6,6 +6,10 @@
 
 namespace Tasks;
 
-class Model_User extends Model_UserParent {
+class Model_User extends \Model_UserParent {
+
+    public function get_name() {
+
+    }
 
 }

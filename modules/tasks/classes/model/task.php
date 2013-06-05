@@ -5,28 +5,27 @@
  */
 namespace Tasks;
 
-use Auth\Auth;
-use Srit\Exception;
-use Srit\CachedModel;
 
-class Model_Task extends CachedModel
+class Model_Task extends \CachedModel
 {
 
 
     protected static $_belongs_to = array(
-        'task_category'
+        'task_category' => array(
+            'model_to' => '\Model_Task_Category'
+        )
     );
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
-        'Srit\\Observer_Localized' => array(
+        '\Observer_Localized' => array(
             'properties' => array(
                 'due_date' =>array(
                     'type' => 'datetime'
@@ -47,14 +46,14 @@ class Model_Task extends CachedModel
     }
 
     public static function find_my() {
-        return static::find_by_user(Auth::instance()->get_user_id());
+        return static::find_by_user(\Auth::instance()->get_user_id());
     }
 
     public static function find_by_user($id)
     {
 
         if(empty($id)) {
-            throw new Exception(__('exception.tasks.task.find_by_user.id.empty'));
+            throw new \Exception(__('exception.tasks.task.find_by_user.id.empty'));
         }
 
         $options = array(

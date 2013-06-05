@@ -18,7 +18,7 @@ class L10n
     protected static $_instance = null;
 
     /**
-     * @var Locale
+     * @var Loc
      */
     protected $_locale = null;
 
@@ -35,7 +35,7 @@ class L10n
     public function __construct($locale = null)
     {
 
-        $this->_locale = Locale::instance();
+        $this->_locale = \Loc::instance();
 
         if (is_string($locale)) {
             $this->_locale->setLocale($locale);
@@ -81,7 +81,7 @@ class L10n
     {
         $nf = new \NumberFormatter($this->_locale->getLocale(), \NumberFormatter::CURRENCY);
 
-        return $nf->formatCurrency($value, Locale::instance()->getLanguageModel()->currency);
+        return $nf->formatCurrency($value, \Loc::instance()->getLanguageModel()->currency);
         //return $this->_format_numbers($value, $decimals, \NumberFormatter::CURRENCY);
 
 
@@ -90,7 +90,11 @@ class L10n
     public function format_date($value, $pattern = 'mysql_date')
     {
 
-        return Date::create_from_string($value, $pattern)->format($this->_locale->getLanguage());
+        if(is_int($value)) {
+            $value = date('Y-m-d', $value);
+        }
+
+        return \Date::create_from_string($value, $pattern)->format($this->_locale->getLanguage());
 
         /**$time = strtotime($value);
 
@@ -107,7 +111,11 @@ class L10n
     {
         $language = $this->_locale->getLanguage();
 
-        return Date::create_from_string($value, $pattern)->format($language . '_full');
+        if(is_int($value)) {
+            $value = date('Y-m-d H:i:s', $value);
+        }
+
+        return \Date::create_from_string($value, $pattern)->format($language . '_full');
 
         /**$time = strtotime($value);
 

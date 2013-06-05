@@ -7,21 +7,14 @@
 
 namespace Srit;
 
-class Model_Client extends CachedModel
+class Model_Client extends \CachedModel
 {
-    protected static $_properties = array(
-        'id',
-        'name',
-        'created_at',
-        'updated_at',
-    );
-
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
@@ -29,6 +22,7 @@ class Model_Client extends CachedModel
 
     protected static $_has_many = array(
         'users' => array(
+            'model_to' => '\Moder_User',
             'cascade_save' => true,
             'cascade_delete' => true,
         ));
@@ -43,7 +37,7 @@ class Model_Client extends CachedModel
 
     public function __toString()
     {
-        return $this->name;
+        return $this->get_name();
     }
 
 }

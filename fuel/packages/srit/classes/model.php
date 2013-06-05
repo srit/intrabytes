@@ -44,7 +44,7 @@ class Model extends \Orm\Model
         // Return Query object
         if (is_null($id)) {
             if (func_num_args() === 1) {
-                throw new Exception(__('exception.srit.model.find.invalid.method.call'), 0);
+                throw new \Exception(__('exception.srit.model.find.invalid.method.call'), 0);
             }
             return static::query($options);
         } // Return all that match $options array
@@ -54,7 +54,7 @@ class Model extends \Orm\Model
             if(class_exists($model_list_name)) {
                 $data_object = new $model_list_name($data);
             } else {
-                $data_object = new ModelList($data);
+                $data_object = new \ModelList($data);
             }
             unset($data);
             return $data_object;
@@ -139,13 +139,13 @@ class Model extends \Orm\Model
     public function validate($input = array())
     {
 
-        if (!$this->_fieldset instanceof \Fuel\Core\Fieldset) {
-            $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        if (!$this->_fieldset instanceof \Fieldset) {
+            $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());
         }
 
         if ($this->_fieldset->validation()->run($input) == false) {
             foreach ($this->_fieldset->validation()->error() as $error) {
-                Messages::error(__ext($error));
+                \Messages::error(__ext($error));
             }
             return false;
         }
@@ -160,13 +160,13 @@ class Model extends \Orm\Model
         if (!empty($value) && isset($properties[$property]['type'])) {
             switch ($properties[$property]['type']) {
                 case 'currency':
-                    $value = L10n::instance()->format_currency($value);
+                    $value = \L10n::instance()->format_currency($value);
                     break;
                 case 'date':
-                    $value = L10n::instance()->format_date($value);
+                    $value = \L10n::instance()->format_date($value);
                     break;
                 case 'datetime':
-                    $value = L10n::instance()->format_datetime($value);
+                    $value = \L10n::instance()->format_datetime($value);
                     break;
             }
         }
@@ -221,9 +221,9 @@ class Model extends \Orm\Model
             /**
              * with table_prefix
              */
-            Config::load('db', true);
-            $active_db_connection = Config::get('db.active');
-            $table_name = Config::get('db.' . $active_db_connection . '.table_prefix') . static::table();
+            \Config::load('db', true);
+            $active_db_connection = \Config::get('db.active');
+            $table_name = \Config::get('db.' . $active_db_connection . '.table_prefix') . static::table();
 
             try {
                 $properties = \DB::list_columns($table_name, null, static::connection());

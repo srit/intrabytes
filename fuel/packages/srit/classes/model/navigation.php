@@ -10,10 +10,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Cache;
-use Fuel\Core\CacheNotFoundException;
-use Fuel\Core\Config;
-
 class Model_Navigation extends \Nestedsets\Model
 {
 
@@ -45,13 +41,13 @@ class Model_Navigation extends \Nestedsets\Model
     public static function find_namespaced_tree($namespace)
     {
 
-        $identifier = static::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
-        $identifier .= static::build_cache_identifier_from_array(array($namespace->tree_id));
+        $identifier = \Cache::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
+        $identifier .= \Cache::build_cache_identifier_from_array(array($namespace->tree_id));
 
 
         try {
-            $data = Cache::get($identifier);
-        } catch (CacheNotFoundException $e) {
+            $data = \Cache::get($identifier);
+        } catch (\CacheNotFoundException $e) {
             $navigation = static::forge();
             $navigation->tree_select($namespace->tree_id);
             $root = $navigation->tree_get_root();
@@ -59,8 +55,8 @@ class Model_Navigation extends \Nestedsets\Model
                 $data = static::_iterate_navigation_tree($root, self::IS_ROOT_TRUE);
             }
 
-            if (Config::get('caching') == true) {
-                Cache::set($identifier, $data);
+            if (\Config::get('caching') == true) {
+                \Cache::set($identifier, $data);
             }
         }
         return $data;
@@ -69,19 +65,19 @@ class Model_Navigation extends \Nestedsets\Model
     public static function find_trees()
     {
 
-        $identifier = static::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
-        $identifier .= static::build_cache_identifier_from_array(array('trees'));
+        $identifier = \Cache::build_cache_identifier_from_array(array(get_called_class(), __FUNCTION__), '.', false);
+        $identifier .= \Cache::build_cache_identifier_from_array(array('trees'));
 
         try {
-            $data = Cache::get($identifier);
-        } catch (CacheNotFoundException $e) {
+            $data = \Cache::get($identifier);
+        } catch (\CacheNotFoundException $e) {
             $namspaces = static::find_namespaces();
             $data = array();
             foreach ($namspaces as $namespace) {
                 $data[$namespace->namespace] = static::find_namespaced_tree($namespace);
             }
-            if (Config::get('caching') == true) {
-                Cache::set($identifier, $data);
+            if (\Config::get('caching') == true) {
+                \Cache::set($identifier, $data);
             }
         }
 

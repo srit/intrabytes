@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 28. Mai 2013 um 12:20
+-- Erstellungszeit: 31. Mai 2013 um 16:38
 -- Server Version: 5.5.31-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -601,15 +601,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
   `activated_at` datetime DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
 
 --
 -- Daten für Tabelle `intrabytes_modules`
 --
 
 INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`) VALUES
-(7, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', '2013-05-27 00:00:00', 99),
-(8, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:0:{}s:4:\\"name\\";s:5:\\"tasks\\";}', '2013-05-27 00:00:00', 99);
+(3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', NULL, 1),
+(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}s:4:\\"name\\";s:5:\\"tasks\\";}', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -26799,7 +26799,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1369724013, '648d0a7f4308f186afbca4be224b9b2fcf7fc36b', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1370009957, '5689e2a4d0ce6091cedbb20fe15b4cff1e61bcda', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 

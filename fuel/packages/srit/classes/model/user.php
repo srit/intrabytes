@@ -1,12 +1,8 @@
 <?php
 
 namespace Srit;
-use Auth\Auth;
-use Fuel\Core\Fieldset;
-use \Srit\Model;
-use Srit\Validation;
 
-class Model_User extends CachedModel
+class Model_User extends \CachedModel
 {
 
     protected static $_belongs_to = array(
@@ -28,7 +24,7 @@ class Model_User extends CachedModel
 
     protected static $_many_many = array(
         'groups' => array(
-            'model_to' => '\Model_Group'
+            'model_to' => '\Model_Group',
         )
     );
 
@@ -39,11 +35,11 @@ class Model_User extends CachedModel
     );
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
@@ -108,7 +104,7 @@ class Model_User extends CachedModel
 
     public function validate_new_password($input = array())
     {
-        $this->_fieldset = Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('password')->add_rule('required')->add_rule('max_length', 255)->add_rule('min_length', 8)->add_rule('is_repeatet', 'password_repeat');
         $this->_fieldset->add('password_repeat')->add_rule('required');
         return parent::validate($input);
@@ -116,9 +112,9 @@ class Model_User extends CachedModel
 
     public function __toString()
     {
-        $ret = $this->username;
-        if (isset($this->user_profile)) {
-            $ret = $this->user_profile->firstname . ' ' . $this->user_profile->lastname;
+        $ret = $this->get_username();
+        if ($this->get_user_profile()) {
+            $ret = $this->get_user_profile()->get_firstname() . ' ' . $this->get_user_profile()->get_lastname();
         }
         return $ret;
     }
@@ -126,7 +122,7 @@ class Model_User extends CachedModel
     public static function find_my()
     {
         return static::find('first', array('where' => array(
-            'id' => Auth::get_user()->id
+            'id' => \Auth::get_user()->get_id()
         )));
     }
 

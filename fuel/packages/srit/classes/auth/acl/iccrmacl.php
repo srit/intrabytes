@@ -6,7 +6,7 @@
 
 namespace Srit;
 
-use Auth\Auth;
+
 use Auth\Auth_Acl_Driver;
 
 class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
@@ -19,7 +19,7 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
 
     public function has_access($condition, array $entity)
     {
-        $group = Auth::group();
+        $group = \Auth::group();
         $condition = self::_parse_conditions($condition);
         if (!is_array($condition) || empty($group) || !is_callable(array($group, 'get_roles'))) {
             return false;
@@ -31,7 +31,7 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
         $current_rights = array();
         $acl_array = array();
         if (is_array($current_roles)) {
-            $this->_roles = Model_Role::find_all();
+            $this->_roles = \Model_Role::find_all();
             if (empty($this->_roles)) {
                 return false;
             }

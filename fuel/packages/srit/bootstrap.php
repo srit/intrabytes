@@ -7,7 +7,9 @@
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Srit' => __DIR__ . '/classes/srit.php',
+    'Srit\\Cache' => __DIR__ . '/classes/cache.php',
     'Srit\\Autoloader' => __DIR__ . '/classes/autoloader.php',
+    'Srit\\Observer' => __DIR__ . '/classes/observer.php',
     'Srit\\File' => __DIR__ . '/classes/file.php',
     'Srit\\Last_Pages' => __DIR__. '/classes/last_pages.php',
     'Srit\\Model' => __DIR__ . '/classes/model.php',
@@ -19,13 +21,23 @@ Autoloader::add_classes(array(
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Navigation' => __DIR__ . '/classes/model/navigation.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
+
+    'Srit\\Observer_Typing'      => __DIR__.'/classes/observer/typing.php',
     'Srit\\Observer_I18n' => __DIR__ . '/classes/observer/i18n.php',
     'Srit\\Observer_Localized' => __DIR__ . '/classes/observer/localized.php',
     'Srit\\Observer_Serialized' => __DIR__ . '/classes/observer/serialized.php',
     'Srit\\Observer_Translated' => __DIR__ . '/classes/observer/translated.php',
+    'Srit\\Observer_CreatedAt'   => __DIR__.'/classes/observer/createdat.php',
+    'Srit\\Observer_UpdatedAt'   => __DIR__.'/classes/observer/updatedat.php',
+    'Srit\\Observer_Validation'  => __DIR__.'/classes/observer/validation.php',
+    'Srit\\Observer_Self'        => __DIR__.'/classes/observer/self.php',
+    'Srit\\Observer_Slug'        => __DIR__.'/classes/observer/slug.php',
+
+
+
     'Srit\\Lang' => __DIR__ . '/classes/lang.php',
     'Srit\\Helper' => __DIR__ . '/classes/helper.php',
-    'Srit\\Locale' => __DIR__ . '/classes/locale.php',
+    'Srit\\Loc' => __DIR__ . '/classes/loc.php',
     'Srit\\L10n' => __DIR__ . '/classes/l10n.php',
     'Srit\\Validation_Error' => __DIR__ . '/classes/validation/error.php',
     'Srit\\Inflector' => __DIR__ . '/classes/inflector.php',

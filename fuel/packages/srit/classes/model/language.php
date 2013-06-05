@@ -8,11 +8,11 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Language extends CachedModel
+class Model_Language extends \CachedModel
 {
 
     public function validate($input = array()) {
-        $this->_fieldset = \Fuel\Core\Fieldset::forge()->add_model(get_called_class());
+        $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());
         $this->_fieldset->field('locale')->add_rule('required')->add_rule('min_length', 5);
         $this->_fieldset->field('language')->add_rule('required')->add_rule('min_length', 2);
         $this->_fieldset->field('plain')->add_rule('required')->add_rule('min_length', 5);

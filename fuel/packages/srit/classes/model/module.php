@@ -2,13 +2,13 @@
 
 namespace Srit;
 
-class Model_Module extends CachedModel
+class Model_Module extends \CachedModel
 {
     protected static $_observers = array(
-        'Srit\\Observer_Translated' => array(
+        '\Observer_Translated' => array(
             'properties' => array('title', 'description')
         ),
-        'Srit\\Observer_Serialized' => array(
+        '\Observer_Serialized' => array(
             'properties' => array(
                 'config'
             )

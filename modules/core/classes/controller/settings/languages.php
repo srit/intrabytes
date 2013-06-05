@@ -6,12 +6,11 @@
 
 namespace Core;
 
-use Srit\Controller_CrudBigTemplate;
 
-class Controller_Settings_Languages extends Controller_CrudBigTemplate {
+class Controller_Settings_Languages extends \Controller_CrudBigTemplate {
 
     protected $_crud_objects = array(
-        'srit:language' => array()
+        '\Model_Language' => array()
     );
 
     public function action_list() {
@@ -24,7 +23,7 @@ class Controller_Settings_Languages extends Controller_CrudBigTemplate {
 
     public function action_add() {
         if($add_plain = \Input::post('add_plain', false)) {
-            $this->_crud_objects['srit:language']['data']->set('plain', xss_clean($add_plain));
+            $this->_crud_objects['\Model_Language']['data']->set('plain', xss_clean($add_plain));
         }
     }
 

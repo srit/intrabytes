@@ -6,7 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Input;
 
 class Uri extends \Fuel\Core\Uri {
 
@@ -16,6 +15,6 @@ class Uri extends \Fuel\Core\Uri {
      */
     public static function current()
     {
-        return static::create(null, array(), Input::get());
+        return static::create(null, array(), \Input::get());
     }
 }

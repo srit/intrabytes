@@ -6,8 +6,6 @@
 
 namespace Core;
 
-use Email\Email;
-
 class Model_PasswordMail
 {
 
@@ -29,7 +27,7 @@ class Model_PasswordMail
     {
 
         $this->_name = $name;
-        $this->_email = Email::forge($setup, $config);
+        $this->_email = \Email::forge($setup, $config);
 
     }
 
@@ -39,7 +37,7 @@ class Model_PasswordMail
         $this->_email->subject(__ext('password.change.success'));
         $this->_email->to($user->email, $user);
         $body = $theme->view($theme->get_templates_path_prefix() . 'emails/new_password_success', array('user' => $user, 'link' => named_route('forget_password')));
-        $this->_email->body($body);
+        $this->_email->html_body($body);
         $this->_email->send();
     }
 
@@ -49,7 +47,7 @@ class Model_PasswordMail
         $this->_email->subject(__ext('new.password.requested'));
         $this->_email->to($user->email, $user);
         $body = $theme->view($theme->get_templates_path_prefix() . 'emails/password_hash_mail', array('user' => $user, 'link' => named_route('confirmed_email', array('hash' => $hash))));
-        $this->_email->body($body);
+        $this->_email->html_body($body);
         $this->_email->send();
     }
 

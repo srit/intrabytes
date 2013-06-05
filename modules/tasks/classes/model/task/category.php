@@ -6,13 +6,13 @@
 
 namespace Tasks;
 
-use Srit\CachedModel;
-
-class Model_Task_Category extends CachedModel
+class Model_Task_Category extends \CachedModel
 {
 
     protected static $_has_many = array(
-        'task'
+        'task' => array(
+            'model_to' => '\Model_Task'
+        )
     );
 
     protected static $_belongs_to = array(
@@ -22,11 +22,11 @@ class Model_Task_Category extends CachedModel
     );
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),

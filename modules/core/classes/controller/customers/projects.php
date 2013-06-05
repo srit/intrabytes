@@ -6,12 +6,11 @@
 
 namespace Core;
 
-use Srit\Controller_CrudBigTemplate;
 
-class Controller_Customers_Projects extends Controller_CrudBigTemplate {
+class Controller_Customers_Projects extends \Controller_CrudBigTemplate {
 
     protected $_crud_objects = array(
-        'customer_project' => array()
+        '\Model_Customer_Project' => array()
     );
 
 }

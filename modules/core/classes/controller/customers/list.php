@@ -6,9 +6,8 @@
 
 namespace Core;
 
-use Srit\Request;
 
-class Controller_Customers_List extends Controller_Customers_Customers {
+class Controller_Customers_List extends \Controller_Customers_Customers {
 
     public function action_index() {
     }

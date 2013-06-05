@@ -5,18 +5,16 @@
  */
 
 namespace Srit;
-use Orm\Observer;
-
-class Observer_Serialized extends Observer
+class Observer_Serialized extends \Observer
 {
 
     public function __construct($model)
     {
-        $props = $model::observers(get_class($this));
+        $props = $model::observers('\\Observer_Serialized');
         $this->_properties = isset($props['properties']) ? $props['properties'] : array();
 
         if (empty($this->_properties)) {
-            throw new Exception(__('exception.srit.observer_serialized.properties.empty', array('model' => $model)));
+            throw new \Exception(__('exception.srit.observer_serialized.properties.empty', array('model' => $model)));
         }
 
         $model_properties = $model::properties();
@@ -27,7 +25,7 @@ class Observer_Serialized extends Observer
                 $property_name = $name;
             }
             if (!isset($model_properties[$property_name])) {
-                throw new Exception(__('exception.srit.observer_serialized.property.not.exists', array('property' => $property_name)));
+                throw new \Exception(__('exception.srit.observer_serialized.property.not.exists', array('property' => $property_name)));
             }
         }
 

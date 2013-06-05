@@ -6,6 +6,6 @@
 
 namespace Srit;
 
-class Controller_BaseRawTemplate extends Controller_BaseTemplate {
+class Controller_BaseRawTemplate extends \Controller_BaseTemplate {
     public $template = 'templates/raw.php';
 }

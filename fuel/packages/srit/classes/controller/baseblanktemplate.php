@@ -6,6 +6,6 @@
 
 namespace Srit;
 
-class Controller_BaseBlankTemplate extends Controller_BaseTemplate {
+class Controller_BaseBlankTemplate extends \Controller_BaseTemplate {
     public $template = 'templates/blank.php';
 }

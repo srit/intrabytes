@@ -34,14 +34,14 @@ return array(
      *
      * Set this to an empty string if no suffix is used
      */
-    'url_suffix' => '.html5',
+    'url_suffix' => '.html',
 
     /**
      * index_file - The name of the main bootstrap file.
      *
      * Set this to false or remove if you using mod_rewrite.
      */
-    'index_file' => 'index.php',
+    'index_file' => NULL,
 
     'profiling' => false,
 

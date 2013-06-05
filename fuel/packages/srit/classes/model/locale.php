@@ -2,13 +2,17 @@
 
 namespace Srit;
 
-class Model_Locale extends CachedModel
+class Model_Locale extends \CachedModel
 {
     protected static $_observers = array(
-        'Srit\\Observer_Translated' => array(
+        '\Observer_Translated' => array(
             'properties' => array('value')
         )
     );
+
+    public function save($cascade = null, $use_transaction = false) {
+        var_dump($this->to_array());exit;
+    }
 
     public static function find_all_by_locale($locale = null)
     {

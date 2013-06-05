@@ -7,4 +7,4 @@
 /**
  * @todo controller_template_path
  */
-echo $theme->view('core/settings/user/pubkeys/_partials/public_key_form', array('crud_objects' => $crud_objects));
+echo $theme->view('core/settings/user/pubkeys/_partials/public_key_form', array('user_public_key' => $user_public_key));

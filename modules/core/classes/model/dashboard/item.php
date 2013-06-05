@@ -6,38 +6,37 @@
 
 namespace Core;
 
-use Auth\Auth;
-use Srit\CachedModel;
 
-class Model_Dashboard_Item extends CachedModel {
+class Model_Dashboard_Item extends \CachedModel {
 
     protected static $_has_many = array(
         'dashboard_items_user' => array(
+            'model_to' => '\Model_Dashboard_Items_User',
             'cascade_save' => true,
             'cascade_delete' => true,
         )
     );
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),
     );
 
     public static function find_my() {
-        return static::find_by_user(Auth::instance()->get_user_id());
+        return static::find_by_user(\Auth::instance()->get_user_id());
     }
 
     public static function find_by_user($id)
     {
 
         if(empty($id)) {
-            throw new Exception(__('exception.tasks.task.find_by_user.id.empty'));
+            throw new \Exception(__('exception.tasks.task.find_by_user.id.empty'));
         }
 
         $options = array(

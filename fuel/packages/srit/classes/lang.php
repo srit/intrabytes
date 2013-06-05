@@ -22,7 +22,7 @@ class Lang extends \Fuel\Core\Lang {
             $locale = \Config::get('locale');
         }
 
-        $items = Model_Locale::find_all_by_locale($locale);
+        $items = \Model_Locale::find_all_by_locale($locale);
 
         if($items != false) {
             foreach($items as $locale) {

@@ -8,25 +8,21 @@ namespace Srit;
 
 use Srit\Model;
 
-class Model_Group extends CachedModel {
-    protected static $_properties = array(
-        'id',
-        'name',
-        'points',
-        'created_at',
-        'updated_at'
-    );
+class Model_Group extends \CachedModel {
 
     protected static $_many_many = array(
-        'roles'
+        'roles' => array(
+            'model_to' => '\Model_Role',
+        ),
+
     );
 
     protected static $_observers = array(
-        'Orm\Observer_CreatedAt' => array(
+        '\Observer_CreatedAt' => array(
             'events' => array('before_insert'),
             'mysql_timestamp' => true,
         ),
-        'Orm\Observer_UpdatedAt' => array(
+        '\Observer_UpdatedAt' => array(
             'events' => array('before_save'),
             'mysql_timestamp' => true,
         ),

@@ -6,8 +6,6 @@
 
 namespace Srit;
 
-use Auth\Auth;
-
 class Navigation_Element implements \ArrayAccess{
 
     protected $_data = array();
@@ -86,12 +84,12 @@ class Navigation_Element implements \ArrayAccess{
         }
     }
 
-    public function setParent(Navigation_Element $parent) {
+    public function setParent(\Navigation_Element $parent) {
         $this->_parent = $parent;
     }
 
     public function hasParent() {
-        return ($this->_parent instanceof Navigation_Element);
+        return ($this->_parent instanceof \Navigation_Element);
     }
 
     public function getParent() {
@@ -137,7 +135,7 @@ class Navigation_Element implements \ArrayAccess{
         $this->_has_children = (isset($this->_data['links']));
         if ($this->_has_children == true) {
             if(is_array($this->_data['links'])) {
-                $this->_data['links'] = new Navigation_Elements($this->_data['links'], $this);
+                $this->_data['links'] = new \Navigation_Elements($this->_data['links'], $this);
             }
             $this->_children = $this->_data['links'];
         }
@@ -145,7 +143,7 @@ class Navigation_Element implements \ArrayAccess{
 
     protected function _chck_is_active() {
 
-        $request = Request::active();
+        $request = \Request::active();
 
         if($this->__isset('action') && $request->action == $this->get('action')
             && $this->__isset('controller_name') && $request->controller_name == $this->get('controller_name')
@@ -156,7 +154,7 @@ class Navigation_Element implements \ArrayAccess{
 
     protected function _chck_allowed() {
         if($this->__isset('acl')) {
-            $allowed = Auth::has_access($this->get('acl'));
+            $allowed = \Auth::has_access($this->get('acl'));
             $this->setAllowed($allowed);
         }
     }
@@ -172,12 +170,12 @@ class Navigation_Element implements \ArrayAccess{
                     /**
                      * @todo very bad!!
                      */
-                    if(!isset(Request::active()->named_params[$named_param])) {
+                    if(!isset(\Request::active()->named_params[$named_param])) {
                         $this->_not_linkable = true;
                         $this->_show = false;
                         $tmp_named_params[$named_param] = 0;
                     } else {
-                        $tmp_named_params[$named_param] = Request::active()->named_params[$named_param];
+                        $tmp_named_params[$named_param] = \Request::active()->named_params[$named_param];
                     }
                 } else {
                     $tmp_named_params[$name] = $named_param;
@@ -200,7 +198,7 @@ class Navigation_Element implements \ArrayAccess{
     public function addChildren($name, array $data) {
         if(!isset($this->_data['links'])) {
             $_tmp_data = array($name => $data);
-            $this->_data['links'] = new Navigation_Elements($_tmp_data, $this);
+            $this->_data['links'] = new \Navigation_Elements($_tmp_data, $this);
 
         } else {
             $this->_data['links']->addElement($name, $data);

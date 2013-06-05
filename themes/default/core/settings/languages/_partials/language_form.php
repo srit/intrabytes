@@ -12,17 +12,32 @@
     </div>
     <div class="span6">
         <div class="control-group">
-            <?php echo twitter_html_input_text('locale', xss_clean($language->locale)) ?>
+            <?php echo twitter_html_input_text('locale', xss_clean($language->get_locale())) ?>
         </div>
         <div class="control-group">
-            <?php echo twitter_html_input_text('language', xss_clean($language->language)) ?>
+            <?php echo twitter_html_input_text('language', xss_clean($language->get_language())) ?>
         </div>
 
         <div class="control-group">
-            <?php echo twitter_html_input_text('plain', xss_clean($language->plain)) ?>
+            <?php echo twitter_html_input_text('plain', xss_clean($language->get_plain())) ?>
         </div>
         <div class="control-group">
-            <?php echo twitter_html_input_checkbox('default', 1, null, array(), xss_clean($language->default)) ?>
+            <?php echo twitter_html_select('currency', array('EUR' => '€', 'USD' => '$') , xss_clean($language->get_currency())) ?>
+        </div>
+        <div class="control-group">
+            <?php echo twitter_html_select('thousand_separator', array(',' => ',', '.' => '.') , xss_clean($language->get_thousand_separator())) ?>
+        </div>
+        <div class="control-group">
+            <?php echo twitter_html_select('dec_point', array(',' => ',', '.' => '.') , xss_clean($language->get_dec_point())) ?>
+        </div>
+        <div class="control-group">
+            <?php echo twitter_html_input_text('date_format', xss_clean($language->get_date_format())) ?>
+        </div>
+        <div class="control-group">
+            <?php echo twitter_html_input_checkbox('active', 1, null, array(), xss_clean($language->get_active())) ?>
+        </div>
+        <div class="control-group">
+            <?php echo twitter_html_input_checkbox('default', 1, null, array(), xss_clean($language->get_default())) ?>
         </div>
         <?php echo twitter_submit_group() ?>
     </div>

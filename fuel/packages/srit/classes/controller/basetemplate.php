@@ -10,7 +10,7 @@ use Fuel\Core\Fuel;
 use Fuel\Core\Response;
 use Fuel\Core\View;
 
-class Controller_BaseTemplate extends Controller_Base
+class Controller_BaseTemplate extends \Controller_Base
 {
 
     public $template = 'templates/layout';
@@ -39,14 +39,14 @@ class Controller_BaseTemplate extends Controller_Base
     public function after($response)
     {
         if (empty($response)) {
-            $response = Response::forge($this->_theme);
+            $response = \Response::forge($this->_theme);
         }
 
-        if (!$response instanceof Response) {
-            $response = Response::forge($response);
+        if (!$response instanceof \Response) {
+            $response = \Response::forge($response);
         }
 
-        Theme::clear($this->template);
+        \Theme::clear($this->template);
         return $response;
         /**if (empty($response))
         {
@@ -94,7 +94,7 @@ class Controller_BaseTemplate extends Controller_Base
         }
 
         if ($this->_theme->asset->find_file(Fuel::$env . '.js', 'js')) {
-            $additional_js[] = Fuel::$env . '.js';
+            $additional_js[] = \Fuel::$env . '.js';
         }
 
         $this->_get_template()->set('additional_js', $additional_js);
@@ -104,19 +104,19 @@ class Controller_BaseTemplate extends Controller_Base
     protected function _init_locale()
     {
         $this->_locale_prefix = str_replace('/', '.', $this->_controller_path);
-        Locale::instance()->setLocalePrefix($this->_locale_prefix);
+        \Loc::instance()->setLocalePrefix($this->_locale_prefix);
     }
 
     protected function _init_theme()
     {
-        $this->_set_theme(Theme::instance($this->template));
+        $this->_set_theme(\Theme::instance($this->template));
         set_theme_instance($this->_get_theme());
         $this->_get_theme()->set_template($this->template);
         $this->_get_template()->set_global('theme', $this->_theme, false);
 
-        $additional_view_dir = ROOT . DS . 'modules' . DS . $this->request->module . DS;
+        $additional_view_dir = ROOT . 'modules' . DS . $this->request->module . DS;
         if (!empty($this->request->module) && is_dir($additional_view_dir)) {
-            $this->_theme->add_paths(array(ROOT . 'modules' . DS . $this->request->module . DS));
+            $this->_theme->prepend_path($additional_view_dir);
         }
     }
 

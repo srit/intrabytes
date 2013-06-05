@@ -12,8 +12,6 @@
 
 namespace Srit;
 
-
-use Auth\Auth;
 use Auth\Auth_Group_Driver;
 
 class Auth_Group_ICCRMGroup extends Auth_Group_Driver
@@ -23,20 +21,20 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
 
     public static function _init()
     {
-        $groups = Model_Group::find_all();
+        $groups = \Model_Group::find_all();
         foreach ($groups as $gr) {
             static::$_valid_groups[] = $gr->name;
         }
     }
 
     protected $config = array(
-        'drivers' => array('acl' => array('Srit\\ICCRMAcl')),
+        'drivers' => array('acl' => array('\ICCRMAcl')),
     );
 
     public function get_name($group = null) {
         if ($group === null)
         {
-            if ( !$login = Auth::instance() or !is_array($groups = $login->get_groups()))
+            if ( !$login = \Auth::instance() or !is_array($groups = $login->get_groups()))
             {
                 return false;
             }
@@ -44,7 +42,7 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
             $group = isset($groups[0]) ? array_pop($groups[0]) : false;
         }
 
-        return $group->name;
+        return $group->get_name();
     }
 
     /**
@@ -58,9 +56,9 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
     public function member($group, $user = null)
     {
         if ($user === null) {
-            $groups = Auth::instance()->get_groups();
+            $groups = \Auth::instance()->get_groups();
         } else {
-            $groups = Auth::instance($user[0])->get_groups();
+            $groups = \Auth::instance($user[0])->get_groups();
         }
 
         if (!$groups || !in_array($group, static::$_valid_groups)) {
@@ -72,7 +70,7 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
 
     public function get_roles($group = null)
     {
-        if (!$login = Auth::instance() or !is_array($groups = $login->get_groups()) or !isset($groups[0])) {
+        if (!$login = \Auth::instance() or !is_array($groups = $login->get_groups()) or !isset($groups[0])) {
             return array();
         }
         // When group is empty, attempt to get groups from a current login
@@ -84,7 +82,7 @@ class Auth_Group_ICCRMGroup extends Auth_Group_Driver
             $group = array_pop($groups[0]);
         }
 
-        return $group->roles;
+        return $group->get_roles();
 
     }
 }

@@ -5,10 +5,8 @@
  */
 
 namespace Srit;
-use Auth\Auth;
-use Fuel\Core\Config;
-use Fuel\Core\Controller;
 
+use Fuel\Core\Controller;
 
 class Controller_Base extends Controller
 {
@@ -43,7 +41,7 @@ class Controller_Base extends Controller
             /**
              * Ajax weitesgehend mittels REST abfackeln
              */
-            throw new Exception(__('exception.srit.controller_base.before.not_ajax_allowed_here'));
+            throw new \Exception(__('exception.srit.controller_base.before.not_ajax_allowed_here'));
         }
         $this->init();
         parent::before();
@@ -67,20 +65,20 @@ class Controller_Base extends Controller
     protected function _check_permissions()
     {
 
-        Config::load('project', true);
+        \Config::load('project', true);
         $this->_controller_acl_condition = (!empty($this->_controller_namespace)) ? $this->_controller_namespace . '\\' : '';
         $this->_controller_acl_condition .= $this->_controller_without_controller_prefix . '.' . $this->_controller_action;
 
 
-        if (Config::get('project.locked_mode') == 1
-            && !in_array($this->_controller_acl_condition, Config::get('project.locked_exceptions'))
-            && !Auth::check()) {
-            Messages::error(__('access.denied.login.first.label'));
-            Messages::redirect(login_route());
+        if (\Config::get('project.locked_mode') == 1
+            && !in_array($this->_controller_acl_condition, \Config::get('project.locked_exceptions'))
+            && !\Auth::check()) {
+            \Messages::error(__('access.denied.login.first.label'));
+            \Messages::redirect(login_route());
         }
 
-        if (!Auth::has_access($this->_controller_acl_condition)) {
-            throw new HttpPermissionDeniedException;
+        if (!\Auth::has_access($this->_controller_acl_condition)) {
+            throw new \HttpPermissionDeniedException;
         }
     }
 }

@@ -61,9 +61,9 @@ class Navigation
         if (static::$_nav_data_array == array()) {
 
 
-            static::$_navigation_namespaces = Model_Navigation::find_namespaces();
+            static::$_navigation_namespaces = \Model_Navigation::find_namespaces();
             if(static::$_navigation_namespaces != null) {
-                static::$_nav_data_array = Model_Navigation::find_trees();
+                static::$_nav_data_array = \Model_Navigation::find_trees();
             }
         }
 
@@ -126,10 +126,10 @@ class Navigation
     protected function _initNavigationElements()
     {
         if($this->_name != null) {
-            $this->_elements[$this->_name] = new Navigation_Elements(static::$_nav_data_array[$this->_name]);
+            $this->_elements[$this->_name] = new \Navigation_Elements(static::$_nav_data_array[$this->_name]);
         } else {
             foreach (static::$_nav_data_array as $level => $elements) {
-                $this->_elements[$level] = new Navigation_Elements($elements);
+                $this->_elements[$level] = new \Navigation_Elements($elements);
             }
         }
     }
@@ -145,7 +145,7 @@ class Navigation
     public function render($max_depth = null, $force = false)
     {
 
-        if (!empty($this->_name) && isset($this->_elements[$this->_name]) && $this->_elements[$this->_name] instanceof Navigation_Elements) {
+        if (!empty($this->_name) && isset($this->_elements[$this->_name]) && $this->_elements[$this->_name] instanceof \Navigation_Elements) {
             $this->_rendered = get_theme_instance()->view('templates/_partials/navigation/' . $this->_name)->set('elements', $this->_elements[$this->_name], false);
         }
 
@@ -161,8 +161,8 @@ class Navigation
         $base_route = base_route();
         $null_element = isset($this->_active_elements[0]) ? $this->_active_elements[0] : null;
 
-        if (!empty($this->_active_elements) AND $null_element != null AND $null_element->get_route() != $base_route AND (isset(Router::$routes['_root_']) AND Uri::create(Router::$routes['_root_']->translation) != $null_element->get_route())) {
-            $startseite = new Navigation_Element(array(
+        if (!empty($this->_active_elements) AND $null_element != null AND $null_element->get_route() != $base_route AND (isset(\Router::$routes['_root_']) AND \Uri::create(\Router::$routes['_root_']->translation) != $null_element->get_route())) {
+            $startseite = new \Navigation_Element(array(
                 'route' => base_route(),
                 //'acl' => 'Customers\\Show.index',
                 'show' => false
@@ -171,7 +171,7 @@ class Navigation
 
         }
 
-        $this->_rendered_breadcrumb = Theme::instance()->view('templates/_partials/navigation/breadcrumb')->set('breadcrumb_elements', $this->_active_elements, false);
+        $this->_rendered_breadcrumb = \Theme::instance()->view('templates/_partials/navigation/breadcrumb')->set('breadcrumb_elements', $this->_active_elements, false);
         return $this->_rendered_breadcrumb;
     }
 
@@ -179,7 +179,7 @@ class Navigation
      * @param Navigation_Elements $elements
      * @param int $depth
      */
-    protected function _render_elements(Navigation_Elements $elements, $depth = 0)
+    protected function _render_elements(\Navigation_Elements $elements, $depth = 0)
     {
         //var_dump($elements);
 
