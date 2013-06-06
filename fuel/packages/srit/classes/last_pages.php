@@ -30,7 +30,7 @@ class Last_Pages
     {
         if (empty(static::$_last_pages)) {
             $last_pages_serialized = \Cookie::get('last_pages', serialize(array()));
-            $last_pages = unserialize($last_pages_serialized);
+            $last_pages = unserializer($last_pages_serialized);
             static::$_last_pages = $last_pages;
         }
 
