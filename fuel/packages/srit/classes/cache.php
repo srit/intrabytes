@@ -25,7 +25,7 @@ class Cache extends \Fuel\Core\Cache
         }
 
         $patterns = array(
-            '/[\\\ %@\/\+]/',
+            '/[\\\ %@\/\+:]/',
             '/[!]/',
             '/[=]/'
         );

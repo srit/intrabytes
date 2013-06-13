@@ -6,7 +6,7 @@
 
 namespace Srit;
 
-use Fuel\Core\Profiler;
+use Fuel\Core\Fuel;
 
 class Srit
 {

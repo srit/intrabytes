@@ -17,3 +17,5 @@ fuel/packages/*/config/development/*
 fuel/app/config/staging
 fuel/app/config/test
 nbproject
+/modules/core/autoloader.php
+/modules/tasks/autoloader.php

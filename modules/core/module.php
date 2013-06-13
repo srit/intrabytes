@@ -18,6 +18,6 @@ $module = array(
     'author' => 'Stefan Riedel',
     'version' => '0.1',
     'extend' => array(
-        'Srit\\Model_User' => 'core/classes/model/password.php'
+        'Srit\\Model_User' => 'core/classes/model/user.php'
     ),
 );

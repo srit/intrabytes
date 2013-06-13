@@ -10,11 +10,17 @@ class Controller_Password extends \Controller_BaseBlankTemplate
 {
     public function action_forget()
     {
+
+        var_dump(\Model_User::forge());
+
         if (\Input::post('submit', false)) {
-            $validate_forget = \Model_Password::validate_password_forget();
+            $validate_forget = \Model_User::validate_password_forget();
             if ($validate_forget) {
+                /**
+                 * @todo refaktorieren
+                 */
                 $user = \Model_User::get_user(\Input::param('username'));
-                \Model_Password::prepare_new_password($user);
+                \Model_User::prepare_new_password($user);
             }
         }
     }
@@ -22,7 +28,7 @@ class Controller_Password extends \Controller_BaseBlankTemplate
     public function action_confirmed_email()
     {
         $hash = $this->param('hash');
-        $user = \Model_Password::get_user_by_password_hash($this->param('hash'));
+        $user = \Model_User::get_user_by_password_hash($this->param('hash'));
         $hash_true = true;
         $password_changed = false;
         if(false == $user) {
@@ -38,8 +44,11 @@ class Controller_Password extends \Controller_BaseBlankTemplate
             $validate_new_password = $user->validate_new_password($input);
 
             if($validate_new_password) {
+                /**
+                 *@todo refaktorieren
+                 */
                 $user = \Model_User::get_user($user->username);
-                \Model_Password::change_password($user, $input['password']);
+                \Model_User::change_password($user, $input['password']);
                 $password_changed = true;
             }
         }

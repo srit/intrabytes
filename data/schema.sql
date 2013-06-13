@@ -1,9 +1,9 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.0
+-- version 4.0.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 31. Mai 2013 um 16:38
+-- Erstellungszeit: 12. Jun 2013 um 22:09
 -- Server Version: 5.5.31-0ubuntu0.12.04.1
 -- PHP-Version: 5.3.10-1ubuntu3.6
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Datenbank: `alphabytes`
+-- Datenbank: `intrabytes`
 --
 
 -- --------------------------------------------------------
@@ -149,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
   `housenumber` varchar(5) DEFAULT NULL,
   `postalcode_id` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Daten für Tabelle `intrabytes_customers`
@@ -158,7 +158,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_customers` (
 INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `company_name`, `firstname`, `lastname`, `salutation_id`, `phone`, `fax`, `street`, `housenumber`, `postalcode_id`) VALUES
 (1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
 (2, '2013-02-11 12:58:58', '2013-05-22 14:29:22', 'info@info.de', 'Hans Hans GmbH & Co. KG2', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606'),
-(6, '2013-05-21 16:27:14', '2013-05-21 16:27:14', 'ich@web.de', 'Falk & Ross', 'Edgard', 'Gerhards', 1, '038168', '038165', 'Klausenstraße', '10', '7797');
+(6, '2013-05-21 16:27:14', '0000-00-00 00:00:00', 'ich@web.de', 'Falk & Ross', 'Edgard', 'Gerhards', 1, '0381684593', '038165', 'Klausenstraße', '10', '6573'),
+(7, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ich@web.de', 'dasdas', 'asdasd', 'asdasd', 2, 'sadasd', 'sadasd', 'asdasd', '1', '25938');
 
 -- --------------------------------------------------------
 
@@ -216,8 +217,8 @@ INSERT INTO `intrabytes_customer_projects` (`id`, `name`, `description`, `url`, 
 (1, 'Sonnenschein Hauptshop', '<span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed<b> diam nonumy eirmod</b> tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea <i><u>rebum</u></i>. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</span><br>', 'http://www.google.de', 1, '2013-02-12 20:52:08', '2013-05-02 15:28:02'),
 (11, 'intrabytes', '', '', 2, '2013-03-04 13:28:06', '2013-05-22 14:29:58'),
 (12, 'hsakjdhajk', 'askjdhaskjdh', 'http://www.bing.de', 1, '2013-05-02 16:38:05', '2013-05-02 16:38:05'),
-(16, 'Mein Projekt1', 'Ist das Besrte', 'http://www.google.de', 6, '2013-05-21 16:28:45', '2013-05-21 16:30:07'),
-(17, 'Zweites Projekt1', '', 'http://www.fischkopf.de', 6, '2013-05-21 16:30:30', '2013-05-22 14:02:41');
+(16, 'Mein Projekt1', 'Ist das Besrte', 'http://www.google.de', 6, '2013-05-21 16:28:45', '1970-01-01 01:00:00'),
+(17, 'Zweites Projekt1', '', 'http://www.fischkopf.de', 6, '2013-05-21 16:30:30', '1970-01-01 01:00:00');
 
 -- --------------------------------------------------------
 
@@ -350,7 +351,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=186 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=188 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -536,7 +537,9 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (182, 'core_settings_user_pubkeys_delete.anchor.label', 'breadcrumb', 'Public Key löschen'),
 (183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message'''),
 (184, 'srit.srit.init_modules.runtime_error', 'exception', 'Es ist ein Fehler aufgetreten: '':message'''),
-(185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!');
+(185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!'),
+(186, 'srit.observer_localized.properties.empty', 'exception', 'Properties sind leer in: :model'),
+(187, 'srit.model.save', 'exception', 'Datensatz konnte nicht gespeichert werden :message');
 
 -- --------------------------------------------------------
 
@@ -601,15 +604,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
   `activated_at` datetime DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Daten für Tabelle `intrabytes_modules`
 --
 
 INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`) VALUES
-(3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', NULL, 1),
-(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}s:4:\\"name\\";s:5:\\"tasks\\";}', NULL, 2);
+(1, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:31:\\"core/classes/model/password.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', NULL, 1),
+(2, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}s:4:\\"name\\";s:5:\\"tasks\\";}', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -686,7 +689,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_postalcodes` (
   `city` varchar(25) NOT NULL,
   `country_id` int(11) NOT NULL,
   PRIMARY KEY (`id`,`country_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25938 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25939 ;
 
 --
 -- Daten für Tabelle `intrabytes_postalcodes`
@@ -26646,7 +26649,8 @@ INSERT INTO `intrabytes_postalcodes` (`id`, `postalcode`, `city`, `country_id`) 
 (25934, '3335', 'Weyer', 3),
 (25935, '4464', 'Weyer', 3),
 (25936, '8862', 'St. Ruprecht-Falkendorf', 3),
-(25937, '8934', 'Weyer', 3);
+(25937, '8934', 'Weyer', 3),
+(25938, '12345', 'sadasdas', 1);
 
 -- --------------------------------------------------------
 
@@ -26799,7 +26803,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1370009957, '5689e2a4d0ce6091cedbb20fe15b4cff1e61bcda', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1371067621, '5ade76043ea13c48f3847fb8b99d100eee88d72f', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 
@@ -26824,7 +26828,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 --
 
 INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-05-23 09:07:06');
+(1, 1, 'Stefan', 'Riedel', '1983-01-01', 'm', '2013-02-05 11:19:47', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -26840,7 +26844,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Daten für Tabelle `intrabytes_user_public_keys`
@@ -26848,7 +26852,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
 (2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46'),
-(3, 1, 'asdasd', 'asdsadasd', '2013-05-14 11:20:12', '2013-05-22 14:03:38');
+(3, 1, 'asdasdasdasdasd', 'asdsadasd', '2013-05-14 11:20:12', '1970-01-01 01:00:00'),
+(12, 1, 'asdasdas', 'asdasdasd', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

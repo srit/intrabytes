@@ -79,6 +79,7 @@ Autoloader::add_classes(array(
     'Srit\\Cache_Storage_Memcached' => __DIR__ . '/classes/cache/storage/memcached.php',
 
     'Srit\\Model_Module' => __DIR__ . '/classes/model/module.php',
+    'Srit\\Model_ModuleList' => __DIR__ . '/classes/model/modulelist.php',
     'Srit\\Model_Group' => __DIR__ . '/classes/model/group.php',
     'Srit\\Model_User' => __DIR__ . '/classes/model/user.php',
     'Srit\\Model_Client' => __DIR__ . '/classes/model/client.php',

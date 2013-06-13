@@ -26,4 +26,8 @@ class Model_Module extends \CachedModel
         return static::find_all($options);
     }
 
+    public function __toString() {
+        return $this->get_name();
+    }
+
 }

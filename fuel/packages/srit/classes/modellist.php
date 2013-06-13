@@ -10,12 +10,23 @@ class ModelList implements \ArrayAccess, \Iterator {
 
     protected $_elements = array();
 
+    protected $_list_array = array();
+
     public function __construct(array $data) {
         $this->_elements = $data;
     }
 
     public function __toString() {
         return '';
+    }
+
+    public function to_array() {
+        if(empty($this->_list_array)) {
+            foreach($this->_elements as $pkey => $row) {
+                $this->_list_array[$pkey] = $row->to_array();
+            }
+        }
+        return $this->_list_array;
     }
 
 
@@ -43,7 +54,7 @@ class ModelList implements \ArrayAccess, \Iterator {
 
     public function rewind()
     {
-        return $this;
+        return reset($this->_elements);
     }
 
     public function current()

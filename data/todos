@@ -27,4 +27,8 @@
 
 - module manage like oxid
 
+  - Module Initialisierer
+    - Wenn die Module Config sich geändert hat, das Modul neu initialisieren
+
+
 - CRUD Funktionalität -> crud objects core

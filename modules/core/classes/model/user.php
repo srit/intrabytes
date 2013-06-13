@@ -8,7 +8,7 @@ namespace Core;
 
 use PHPSecLib\Crypt_Hash;
 
-class Model_Password extends Model_PasswordParent
+class Model_User extends Model_PasswordParent
 {
 
     protected static $_table_name = 'users';
