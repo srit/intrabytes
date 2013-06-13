@@ -26,6 +26,18 @@ class Module extends \Fuel\Core\Module
     protected $_module_name = null;
 
     /**
+     * @param $path
+     */
+    protected static function _load_module_file($file, $path)
+    {
+        \Logger::forge()->addInfo('Load File', array($file, $path));
+        $file_found = \Finder::instance()->locate('', $path . '/' . $file);
+        if ($file_found == true) {
+            \Fuel::load($file_found);
+        }
+    }
+
+    /**
      * @param null $module_name
      */
     public function set_module_name($module_name)
@@ -44,6 +56,7 @@ class Module extends \Fuel\Core\Module
 
     public static function load($module, $path = null)
     {
+        \Logger::forge()->addInfo('Load Module', array($module, $path));
         $parent_load = parent::load($module, $path);
         if (!empty($module) && $parent_load == true) {
             static::_init_autoloader($module);
@@ -56,14 +69,10 @@ class Module extends \Fuel\Core\Module
             }
 
             \Finder::instance()->add_path($path);
-            $autoloader = \Finder::instance()->locate('', $path . '/autoloader.php');
-            $base = \Finder::instance()->locate('', $path . '/base.php');
-            if ($autoloader == true) {
-                \Fuel::load($autoloader);
-            }
-            if ($base == true) {
-                \Fuel::load($base);
-            }
+            self::_load_module_file('autoloader.php', $path);
+            self::_load_module_file('base.php', $path);
+            self::_load_module_file('bootstrap.php', $path);
+
         }
         return $parent_load;
     }
@@ -92,8 +101,11 @@ class Module extends \Fuel\Core\Module
 
             try {
                 static::$_extended_graph = \Cache::get($class_graph_cache_identifier);
+                \Logger::forge()->addInfo('Modules Cached');
             } catch (\CacheNotFoundException $e) {
+                \Logger::forge()->addInfo('Modules Not Cached');
                 foreach (static::$_active_modules as $module) {
+                    \Logger::forge()->addInfo('Iterate in Module', array($module->get_name()));
                     $module_config = $module->get_config();
                     if (isset($module_config['extend'])) {
                         static::extending_classes($module_config['extend']);
@@ -122,6 +134,7 @@ class Module extends \Fuel\Core\Module
 
     public static function extending_classes(array $extends)
     {
+        \Logger::forge()->addInfo('Extending Classes');
         foreach ($extends as $clss => $path) {
             static::extending_class($clss, $path);
         }
@@ -129,6 +142,9 @@ class Module extends \Fuel\Core\Module
 
     public static function extending_class($clss, $path) {
         $abs_path = static::$_module_search_path . $path;
+
+        \Logger::forge()->addInfo('Extending Class', array($clss, $abs_path));
+
         list($namespace, $classes) = \File::get_namespace_classes_extends_from_file($abs_path);
         if (empty($classes)) {
             throw new \Exception(__('exception.srit.srit.init_modules.no_classes_defined', array('file' => $file)));
@@ -208,6 +224,7 @@ PHP;
         $modules_diff = array_diff($modules_in_dir, $modules_in_rdb->get_module_names_array());
 
         if (!empty($modules_diff)) {
+            \Logger::forge()->addInfo('Register new Modules', array(count($modules_diff)));
             foreach ($modules_diff as $module_name) {
                 static::add_new_module($module_name);
             }
@@ -217,6 +234,7 @@ PHP;
 
     public static function add_new_module($module_name)
     {
+        \Logger::forge()->addInfo('Add new Module', array($module_name));
         $module_finder = static::$_module_finder;
         if (($module_file = $module_finder->locate($module_name, 'module')) == false) {
             return false;
@@ -285,6 +303,7 @@ PHP;
 
     protected static function _init_autoloader($module, $module_finder = null)
     {
+        \Logger::forge()->addInfo('Init Autoloader', array($module));
         if($module_finder == null) {
             $module_finder = \Finder::forge(static::$_module_search_path);
         }
@@ -294,10 +313,12 @@ PHP;
             AND $module_classes_files = globr('*.php', 0, $module_classes_path, 10)
         ) {
 
-
             $date_time = date('d.m.Y H:i');
             $namespace = ucfirst($module);
             $files_to_autoloader = var_export(\File::find_classes_for_autoloader($module_classes_files), true);
+
+            \Logger::forge()->addInfo('Create Autoloader', array($namespace, $files_to_autoloader));
+
             $content_autoloader = <<<PHP
 <?php
 /**

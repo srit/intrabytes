@@ -24,6 +24,7 @@ class Logger extends \Monolog\Logger {
             $instance = new static($name);
             $config = \Config::get('logger');
             $log_level = isset($config['level']) ? $config['level'] : static::ERROR;
+
             if(isset($config['handler'])) {
                 foreach($config['handler'] as $handler) {
                     if(class_exists($handler)) {

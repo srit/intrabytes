@@ -15,4 +15,8 @@ class Srit
         \Module::init_modules();
     }
 
+    public static function init_logger() {
+        \Logger::forge();
+    }
+
 }

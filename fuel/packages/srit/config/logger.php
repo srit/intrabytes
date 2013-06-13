@@ -5,5 +5,5 @@
  * @author stefanriedel
  */
 return array(
-    'level' => \Monolog\Logger::ERROR
+    'level' => \Monolog\Logger::ERROR,
 );
