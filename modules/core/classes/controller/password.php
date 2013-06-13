@@ -10,10 +10,7 @@ class Controller_Password extends \Controller_BaseBlankTemplate
 {
     public function action_forget()
     {
-
-        var_dump(\Model_User::forge());
-
-        if (\Input::post('submit', false)) {
+       if (\Input::post('submit', false)) {
             $validate_forget = \Model_User::validate_password_forget();
             if ($validate_forget) {
                 /**
