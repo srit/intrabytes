@@ -24,14 +24,20 @@ class Model extends \Orm\Model
     protected static $_has_one = array();
     protected static $_has_many = array();
 
+    protected static $_instances = array();
+
     /**
      * @var \Fuel\Core\Fieldset
      */
     protected $_fieldset = null;
 
+    public static function forge($data = array(), $new = true, $view = null)
+    {
+        return new static($data, $new, $view);
+    }
+
     public function __construct(array $data = array(), $new = true, $view = null)
     {
-        $this->observe('before_load');
         return parent::__construct($data, $new, $view);
     }
 
@@ -224,7 +230,6 @@ class Model extends \Orm\Model
             \Config::load('db', true);
             $active_db_connection = \Config::get('db.active');
             $table_name = \Config::get('db.' . $active_db_connection . '.table_prefix') . static::table();
-
             try {
                 $properties = \DB::list_columns($table_name, null, static::connection());
             } catch (\Exception $e) {

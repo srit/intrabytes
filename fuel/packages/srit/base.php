@@ -582,12 +582,20 @@ function h6($value, $attr = array())
     return h(6, $value, $attr);
 }
 
-function named_route($route_name, $route_params = array(), $route_must_exists = true)
+function named_route($route_name, $route_params = array(), $route_must_exists = false)
 {
-    if ($route_must_exists == true && !isset(\Fuel\Core\Router::$routes[$route_name])) {
+    if ($route_must_exists == true && !\Router::get_route($route_name)) {
         throw new \Exception(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
-    } elseif (!isset(\Router::$routes[$route_name])) {
-        return null;
+    } elseif (!\Router::get_route($route_name)) {
+        $route_path = $route_path_wo_params = str_replace('_', '/', $route_name);
+        if(!empty($route_params)) {
+            foreach($route_params as $pa_key => $p) {
+                $route_path .= '/(:' . $pa_key . ')';
+            }
+        }
+        $route_options = array($route_path_wo_params, 'name' => $route_name);
+        \Router::add($route_path, $route_options);
+        //return null;
     }
 
     $route = \Router::$routes[$route_name]->path;

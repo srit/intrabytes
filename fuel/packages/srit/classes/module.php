@@ -23,6 +23,8 @@ class Module extends \Fuel\Core\Module
 
     protected static $_extended_graph = array();
 
+    protected static $_initialized = false;
+
     protected $_module_name = null;
 
     /**
@@ -47,6 +49,16 @@ class Module extends \Fuel\Core\Module
     }
 
     /**
+     * @return string
+     */
+    protected static function _get_graph_identifier()
+    {
+        $class_graph_cache_identifier = \Cache::build_cache_identifier_from_array(array(get_called_class(), __METHOD__), '.', false);
+        $class_graph_cache_identifier .= \Cache::build_cache_identifier_from_array(array('class_graph'));
+        return $class_graph_cache_identifier;
+    }
+
+    /**
      * @return null
      */
     public function get_module_name()
@@ -54,8 +66,29 @@ class Module extends \Fuel\Core\Module
         return $this->_module_name;
     }
 
+    public static function is_active($module) {
+        return \Model_Module::is_active($module);
+    }
+
     public static function load($module, $path = null)
     {
+        if(empty($module)) {
+            return;
+        }
+        if(is_array($module)) {
+            foreach($module as $mod) {
+                static::load($mod, $path);
+            }
+        }
+
+        if (static::$_active_modules == null) {
+            static::init_modules();
+        }
+
+        if (static::$_active_modules->count() == 0 || !static::is_active($module)) {
+            throw new \Exception(__('exception.srit.load.module_not_activated', array('module' => $module)));
+        }
+
         \Logger::forge()->addInfo('Load Module', array($module, $path));
         $parent_load = parent::load($module, $path);
         if (!empty($module) && $parent_load == true) {
@@ -77,27 +110,33 @@ class Module extends \Fuel\Core\Module
         return $parent_load;
     }
 
-    public static function init_modules()
+    public static function init_modules($force = false)
     {
-        $conf_module_paths = \Config::get('module_paths', array());
-        static::$_module_search_path = $conf_module_paths[0];
-        static::$_module_finder = \Finder::forge(static::$_module_search_path);
-        static::register_modules();
-        static::load_activated_modules();
-        static::_fuel();
+        if ($force == true || static::$_initialized == false) {
+            $conf_module_paths = \Config::get('module_paths', array());
+            static::$_module_search_path = $conf_module_paths[0];
+            static::$_module_finder = \Finder::forge(static::$_module_search_path);
+            static::register_modules();
+            static::load_activated_modules();
+            static::_fuel();
+            static::$_initialized = true;
+        }
     }
 
-    protected static function _fuel() {
+    protected static function _fuel()
+    {
         \Config::load('routes', true, true, true);
         \Router::add(\Config::get('routes'));
     }
 
+
     public static function load_activated_modules()
     {
+        static::$_active_modules = \Model_Module::find_active();
+        \Logger::forge()->addInfo('Count active Modules', array(count(static::$_active_modules), static::$_active_modules->count()));
 
-        if (static::$_active_modules = \Model_Module::find_active()) {
-            $class_graph_cache_identifier = \Cache::build_cache_identifier_from_array(array(get_called_class(), __METHOD__), '.', false);
-            $class_graph_cache_identifier .= \Cache::build_cache_identifier_from_array(array('class_graph'));
+        if (static::$_active_modules->count() > 0) {
+            $class_graph_cache_identifier = self::_get_graph_identifier();
 
             try {
                 static::$_extended_graph = \Cache::get($class_graph_cache_identifier);
@@ -114,10 +153,10 @@ class Module extends \Fuel\Core\Module
                 \Cache::set($class_graph_cache_identifier, static::$_extended_graph);
             }
 
-            if(!empty(static::$_extended_graph)) {
-                foreach(static::$_extended_graph as $clss) {
-                    foreach($clss as $extended) {
-                        if(isset($extended['autoloader'])) {
+            if (!empty(static::$_extended_graph)) {
+                foreach (static::$_extended_graph as $clss) {
+                    foreach ($clss as $extended) {
+                        if (isset($extended['autoloader'])) {
                             Autoloader::add_classes($extended['autoloader']);
                         }
                     }
@@ -125,7 +164,8 @@ class Module extends \Fuel\Core\Module
             }
 
 
-            foreach(static::$_active_modules as $module) {
+            foreach (static::$_active_modules as $module) {
+                \Logger::forge()->addInfo('Before load Module', array((string)$module));
                 static::load((string)$module);
             }
 
@@ -140,14 +180,15 @@ class Module extends \Fuel\Core\Module
         }
     }
 
-    public static function extending_class($clss, $path) {
+    public static function extending_class($clss, $path)
+    {
         $abs_path = static::$_module_search_path . $path;
 
         \Logger::forge()->addInfo('Extending Class', array($clss, $abs_path));
 
         list($namespace, $classes) = \File::get_namespace_classes_extends_from_file($abs_path);
         if (empty($classes)) {
-            throw new \Exception(__('exception.srit.srit.init_modules.no_classes_defined', array('file' => $file)));
+            throw new \Exception(__('exception.srit.srit.init_modules.no_classes_defined'));
         }
 
         if (!isset(static::$_extended_graph[$clss])) {
@@ -168,7 +209,6 @@ class Module extends \Fuel\Core\Module
                 $cnt_class_graph = count(static::$_extended_graph[$clss]);
                 $parent_extends = static::$_extended_graph[$clss][$cnt_class_graph - 1]['class'];
             }
-
 
 
             $class_dir_path = TMPPATH . 'classes' . DS;
@@ -229,7 +269,6 @@ PHP;
                 static::add_new_module($module_name);
             }
         }
-
     }
 
     public static function add_new_module($module_name)
@@ -304,7 +343,7 @@ PHP;
     protected static function _init_autoloader($module, $module_finder = null)
     {
         \Logger::forge()->addInfo('Init Autoloader', array($module));
-        if($module_finder == null) {
+        if ($module_finder == null) {
             $module_finder = \Finder::forge(static::$_module_search_path);
         }
         if ($module_classes_path = static::$_module_search_path . $module . '/classes'

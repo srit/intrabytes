@@ -27,7 +27,9 @@ class Logger extends \Monolog\Logger {
 
             if(isset($config['handler'])) {
                 foreach($config['handler'] as $handler) {
-                    if(class_exists($handler)) {
+                    if($handler instanceof \Monolog\Handler\AbstractHandler) {
+                        $instance->pushHandler($handler);
+                    } elseif(class_exists($handler)) {
                         $instance->pushHandler(new $handler($log_level));
                     }
                 }

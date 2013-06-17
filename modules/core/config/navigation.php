@@ -135,6 +135,38 @@ return array(
         'settings' => array(
             'route' => 'javascript: void(0)',
             'links' => array(
+                'core_settings_modules_list' => array(
+                    'acl' => 'Core\\Settings_Modules.list',
+                    'module' => 'core',
+                    'controller_name' => 'settings_modules',
+                    'action' => 'list',
+                    'links' => array(
+                        'core_settings_modules_add' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_modules',
+                            'action' => 'add',
+                            'show' => false,
+                        ),
+                        'core_settings_modules_edit' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_modules',
+                            'action' => 'edit',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        ),
+                        'core_settings_modules_delete' => array(
+                            'module' => 'core',
+                            'controller_name' => 'settings_modules',
+                            'action' => 'delete',
+                            'show' => false,
+                            'named_params' => array(
+                                'id'
+                            ),
+                        )
+                    )
+                ),
                 'core_settings_locales_list' => array(
                     'acl' => 'Core\\Settings_Locales.list',
                     'module' => 'core',

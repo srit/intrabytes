@@ -16,9 +16,10 @@ class Last_Pages
 
     protected static $_last_pages = array();
 
-    public static function get_last_logic_page($offset = 1) {
+    public static function get_last_logic_page($offset = 1)
+    {
         static::get();
-        return static::$_last_pages[$offset]['uri'];
+        return (isset(static::$_last_pages[$offset])) ? static::$_last_pages[$offset]['uri'] : null;
     }
 
     public static function set_active_page_title($active_page_title)
@@ -69,7 +70,6 @@ class Last_Pages
         }
 
     }
-
 
 
 }

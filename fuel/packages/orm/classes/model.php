@@ -726,7 +726,7 @@ class Model implements \ArrayAccess, \Iterator
 	{
 		// This is to deal with PHP's native hydration from that happens before constructor is called
 		// for example using the DB's as_object() function
-		if( ! empty($this->_data))
+        if( ! empty($this->_data))
 		{
 			$this->_original = $this->_data;
 			$new = false;

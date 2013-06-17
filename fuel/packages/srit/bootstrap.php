@@ -7,6 +7,7 @@
 Autoloader::add_core_namespace('Srit');
 Autoloader::add_classes(array(
     'Srit\\Srit' => __DIR__ . '/classes/srit.php',
+    'Srit\\Router' => __DIR__ . '/classes/router.php',
     'Srit\\Cache' => __DIR__ . '/classes/cache.php',
     'Srit\\Autoloader' => __DIR__ . '/classes/autoloader.php',
     'Srit\\Observer' => __DIR__ . '/classes/observer.php',
@@ -97,5 +98,3 @@ Autoloader::add_classes(array(
 
 require_once 'base.php';
 require_once __DIR__ . '/vendor/password_combat/password.php';
-\Srit\Lang::init();
-\Fuel\Core\Config::load('logger', true);

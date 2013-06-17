@@ -29,6 +29,7 @@ class Controller_CrudBigTemplate extends \Controller_BaseBigTemplate {
 
     public function init()
     {
+        \Logger::forge()->addInfo('Called Controller', array(get_called_class()));
         parent::init();
         $this->_init_crud_objects();
     }

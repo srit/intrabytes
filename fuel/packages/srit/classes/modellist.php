@@ -29,7 +29,6 @@ class ModelList implements \ArrayAccess, \Iterator {
         return $this->_list_array;
     }
 
-
     /**
      * Interfaces
      *

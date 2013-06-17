@@ -10,7 +10,7 @@ namespace Core;
 class Controller_Settings_Modules extends \Controller_CrudBigTemplate {
 
     protected $_crud_objects = array(
-        'module' => array()
+        '\Model_Module' => array()
     );
 
     public function action_list() {

@@ -8,10 +8,19 @@ namespace Srit;
 
 use Fuel\Core\Fuel;
 
-class Srit
+class Srit extends \Fuel\Core\Fuel
 {
-    public static function init()
+    public static function init($config)
     {
+        parent::init($config);
+        \Lang::init();
+        \Config::load('logger', true);
+        //\Module::init_modules();
+    }
+
+    public static function always_load($array = null)
+    {
+        parent::always_load($array);
         \Module::init_modules();
     }
 

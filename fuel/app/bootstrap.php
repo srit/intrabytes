@@ -6,7 +6,7 @@ class_alias('Fuel\\Core\\Autoloader', 'Autoloader');
 
 // Bootstrap the framework DO NOT edit this
 require COREPATH.'bootstrap.php';
-
+require PKGPATH .'srit/bootstrap.php';
 // Register the autoloader
 Autoloader::register();
 
@@ -19,8 +19,7 @@ Autoloader::register();
  * Fuel::PRODUCTION
  */
 Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
-
 // Initialize the framework with the config file.
-Fuel::init('config.php');
-\Srit\Srit::init();
-Session::instance()->create();
+//Fuel::init('config.php');
+\Srit::init('config.php');
+\Session::instance()->create();

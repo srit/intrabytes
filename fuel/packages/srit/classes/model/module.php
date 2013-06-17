@@ -15,6 +15,17 @@ class Model_Module extends \CachedModel
         ),
     );
 
+    public static function is_active($module_name) {
+        $options = array(
+            'where' => array(
+                'active' => 1,
+                'name' => (string)$module_name
+            )
+        );
+        $data = static::find('first', $options);
+        return $data ? : false;
+    }
+
     public static function find_active() {
         $options = array(
             'where' => array(
