@@ -41,4 +41,9 @@ class Model_Module extends \CachedModel
         return $this->get_name();
     }
 
+
+    public function get_config() {
+        return unserializer($this->get('config'));
+    }
+
 }

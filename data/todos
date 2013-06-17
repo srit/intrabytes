@@ -34,3 +34,5 @@
 - CRUD Funktionalität -> crud objects core
 
 - Partials nicht mehr in den Controllern defineren.
+
+- Caching bug observer

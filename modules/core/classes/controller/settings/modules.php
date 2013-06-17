@@ -17,4 +17,8 @@ class Controller_Settings_Modules extends \Controller_CrudBigTemplate {
 
     }
 
+    public function action_activate() {
+        
+    }
+
 }
