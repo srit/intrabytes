@@ -19,3 +19,4 @@ fuel/app/config/test
 nbproject
 /modules/core/autoloader.php
 /modules/tasks/autoloader.php
+/deploy/deploy.sh

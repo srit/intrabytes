@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.1
+-- version 4.0.0
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 12. Jun 2013 um 22:09
--- Server Version: 5.5.31-0ubuntu0.12.04.1
--- PHP-Version: 5.3.10-1ubuntu3.6
+-- Erstellungszeit: 18. Jun 2013 um 21:41
+-- Server Version: 5.5.31-0ubuntu0.13.04.1
+-- PHP-Version: 5.4.9-4ubuntu2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_acls` (
   `is_global` tinyint(1) NOT NULL,
   `test` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 --
 -- Daten für Tabelle `intrabytes_acls`
@@ -51,7 +51,9 @@ INSERT INTO `intrabytes_acls` (`id`, `area`, `right`, `is_global`, `test`) VALUE
 (10, 'Core\\Password', 'forget', 0, 0),
 (11, 'Core\\Password', 'confirmed_email', 0, 0),
 (12, 'Core\\403', 'index', 0, 0),
-(13, NULL, 'copy', 0, 0);
+(13, NULL, 'copy', 0, 0),
+(14, 'Core\\Settings_Modules', 'activate', 0, 0),
+(15, 'Core\\Settings_Modules', 'deactivate', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -77,6 +79,8 @@ INSERT INTO `intrabytes_acls_roles` (`role_id`, `acl_id`) VALUES
 (1, 6),
 (1, 8),
 (1, 13),
+(1, 14),
+(1, 15),
 (3, 7),
 (4, 9),
 (4, 10),
@@ -351,7 +355,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=188 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=189 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -539,7 +543,8 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
 (184, 'srit.srit.init_modules.runtime_error', 'exception', 'Es ist ein Fehler aufgetreten: '':message'''),
 (185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!'),
 (186, 'srit.observer_localized.properties.empty', 'exception', 'Properties sind leer in: :model'),
-(187, 'srit.model.save', 'exception', 'Datensatz konnte nicht gespeichert werden :message');
+(187, 'srit.model.save', 'exception', 'Datensatz konnte nicht gespeichert werden :message'),
+(188, 'srit.load.module_not_activated', 'excception', 'Modul ist nicht aktiv: :module');
 
 -- --------------------------------------------------------
 
@@ -604,15 +609,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
   `activated_at` datetime DEFAULT NULL,
   `sort` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Daten für Tabelle `intrabytes_modules`
 --
 
 INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`) VALUES
-(1, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:31:\\"core/classes/model/password.php\\";}s:4:\\"name\\";s:4:\\"core\\";}', NULL, 1),
-(2, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:6:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}s:4:\\"name\\";s:5:\\"tasks\\";}', NULL, 2);
+(3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}}', NULL, 2),
+(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}}', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -639,7 +644,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_navigation` (
   KEY `left_id` (`left_id`),
   KEY `right_id` (`right_id`),
   KEY `symlink_id` (`symlink_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=31 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=35 ;
 
 --
 -- Daten für Tabelle `intrabytes_navigation`
@@ -658,24 +663,28 @@ INSERT INTO `intrabytes_navigation` (`id`, `left_id`, `right_id`, `tree_id`, `sy
 (10, 8, 9, 1, NULL, 'core_customers_projects_delete', 'Core\\Customers_Projects_Delete.index', NULL, 'core', 'customers_projects_delete', 'index', 0, 'a:2:{i:0;s:11:\\"customer_id\\";i:1;s:2:\\"id\\";}', NULL),
 (11, 6, 7, 1, NULL, 'core_customers_projects_add', 'Core\\Customers_Projects_Add.index', NULL, 'core', 'customers_projects_add', 'index', 0, 'a:1:{i:0;s:11:\\"customer_id\\";}', NULL),
 (12, 2, 3, 1, NULL, 'core_dashboard', 'Core\\Dashboard.index', NULL, 'core', 'dashboard', 'index', 1, NULL, NULL),
-(13, 1, 36, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
-(14, 34, 35, 2, NULL, 'core_user_logout', 'Core\\Logout.index', 'logout', 'core', 'logout', 'index', 1, NULL, NULL),
-(15, 14, 33, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(16, 25, 32, 2, NULL, 'core_settings_locales_list', 'Core\\Settings_Locales.list', NULL, 'core', 'settings_locales', 'list', 1, NULL, NULL),
-(17, 30, 31, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, NULL, NULL),
-(18, 28, 29, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(19, 26, 27, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(20, 15, 24, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
-(21, 22, 23, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(22, 20, 21, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(23, 18, 19, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(24, 16, 17, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
-(25, 2, 13, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
-(26, 7, 12, 2, NULL, 'core_settings_user_pubkeys_list', 'Core\\Settings_User_Pubkeys.list', NULL, 'core', 'settings_user_pubkeys', 'list', 1, NULL, NULL),
-(27, 10, 11, 2, NULL, 'core_settings_user_pubkeys_edit', NULL, NULL, 'core', 'settings_user_pubkeys', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(28, 8, 9, 2, NULL, 'core_settings_user_pubkeys_delete', NULL, NULL, 'core', 'settings_user_pubkeys', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
-(29, 5, 6, 2, NULL, 'core_settings_user_profile_edit', 'Core\\Settings_User_Profile.edit', NULL, 'core', 'settings_user_profile', 'edit', 1, NULL, NULL),
-(30, 3, 4, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL);
+(13, 1, 44, 2, NULL, 'top_right', NULL, NULL, NULL, NULL, NULL, 1, NULL, 'top_right'),
+(14, 42, 43, 2, NULL, 'core_user_logout', 'Core\\Logout.index', 'logout', 'core', 'logout', 'index', 1, NULL, NULL),
+(15, 14, 41, 2, NULL, 'settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(16, 33, 40, 2, NULL, 'core_settings_modules_list', 'Core\\Settings_Modules.list', NULL, 'core', 'settings_modules', 'list', 1, NULL, NULL),
+(17, 38, 39, 2, NULL, 'core_settings_modules_add', NULL, NULL, 'core', 'settings_modules', 'add', 0, NULL, NULL),
+(18, 36, 37, 2, NULL, 'core_settings_modules_edit', NULL, NULL, 'core', 'settings_modules', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(19, 34, 35, 2, NULL, 'core_settings_modules_delete', NULL, NULL, 'core', 'settings_modules', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(20, 25, 32, 2, NULL, 'core_settings_locales_list', 'Core\\Settings_Locales.list', NULL, 'core', 'settings_locales', 'list', 1, NULL, NULL),
+(21, 30, 31, 2, NULL, 'core_settings_locales_add', NULL, NULL, 'core', 'settings_locales', 'add', 0, NULL, NULL),
+(22, 28, 29, 2, NULL, 'core_settings_locales_edit', NULL, NULL, 'core', 'settings_locales', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(23, 26, 27, 2, NULL, 'core_settings_locales_delete', NULL, NULL, 'core', 'settings_locales', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(24, 15, 24, 2, NULL, 'core_settings_languages_list', 'Core\\Settings_Languages.list', NULL, 'core', 'settings_languages', 'list', 1, NULL, NULL),
+(25, 22, 23, 2, NULL, 'core_settings_languages_show', NULL, NULL, 'core', 'settings_languages', 'show', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(26, 20, 21, 2, NULL, 'core_settings_languages_edit', NULL, NULL, 'core', 'settings_languages', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(27, 18, 19, 2, NULL, 'core_settings_languages_delete', NULL, NULL, 'core', 'settings_languages', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(28, 16, 17, 2, NULL, 'core_settings_languages_add', NULL, NULL, 'core', 'settings_languages', 'add', 0, NULL, NULL),
+(29, 2, 13, 2, NULL, 'user_settings', NULL, 'javascript: void(0)', NULL, NULL, NULL, 1, NULL, NULL),
+(30, 7, 12, 2, NULL, 'core_settings_user_pubkeys_list', 'Core\\Settings_User_Pubkeys.list', NULL, 'core', 'settings_user_pubkeys', 'list', 1, NULL, NULL),
+(31, 10, 11, 2, NULL, 'core_settings_user_pubkeys_edit', NULL, NULL, 'core', 'settings_user_pubkeys', 'edit', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(32, 8, 9, 2, NULL, 'core_settings_user_pubkeys_delete', NULL, NULL, 'core', 'settings_user_pubkeys', 'delete', 0, 'a:1:{i:0;s:2:\\"id\\";}', NULL),
+(33, 5, 6, 2, NULL, 'core_settings_user_profile_edit', 'Core\\Settings_User_Profile.edit', NULL, 'core', 'settings_user_profile', 'edit', 1, NULL, NULL),
+(34, 3, 4, 2, NULL, 'core_settings_user_dashboard', 'Core\\Settings_User.dashboard', NULL, 'core', 'settings_user', 'dashboard', 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -26803,7 +26812,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1371067621, '5ade76043ea13c48f3847fb8b99d100eee88d72f', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1371584276, '8a0d2c66275fa74b9d2f9e891c96eca0f8e7f7a3', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 
