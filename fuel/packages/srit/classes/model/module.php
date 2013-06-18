@@ -42,8 +42,16 @@ class Model_Module extends \CachedModel
     }
 
 
+    /**
+     * @return array|mixed
+     * @todo observer für cached verfügbar machen!
+     */
     public function get_config() {
-        return unserializer($this->get('config'));
+        $config = $this->get('config');
+        if(!is_array($config)) {
+            $config = unserializer($config);
+        }
+        return $config;
     }
 
 }
