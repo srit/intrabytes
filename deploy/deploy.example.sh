@@ -29,7 +29,7 @@ rm -rf ${DEPLOYPATH}/cache/*
 chmod 777 ${DEPLOYPATH}/cache/
 
 echo "set chmod to log"
-chmod 777 ${DEPLOYPATH}/log/
+chmod 777 ${DEPLOYPATH}/logs/
 
 echo "deploy done!"
 
