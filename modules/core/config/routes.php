@@ -24,6 +24,7 @@ return array(
     'core/customers/contacts/delete/(:customer_id)/(:id)' => array('core/customers/contacts/delete', 'name' => 'core_customers_contacts_delete'),
     'core/customers/contacts/show/(:customer_id)/(:id)' => array('core/customers/contacts/show', 'name' => 'core_customers_contacts_show'),
 
+    'core/settings/modules/rest/sort' => array('core/settings/modules/rest/sort', 'name' => 'core_settings_modules_rest_sort'),
     'core/settings/modules/activate/(:module)' => array('core/settings/modules/activate', 'name' => 'core_settings_modules_activate'),
     'core/settings/modules/deactivate/(:module)' => array('core/settings/modules/deactivate', 'name' => 'core_settings_modules_deactivate'),
 

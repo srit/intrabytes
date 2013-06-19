@@ -394,4 +394,16 @@ PHP;
         throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
     }
 
+    public static function sort(array $module_ids, array $module_sort) {
+        foreach($module_ids as $i => $id) {
+            if ($module_model = \Model_Module::find($id) AND isset($module_sort[$i]) AND $sort = $module_sort[$i]) {
+                $module_model->set_sort($sort);
+                $module_model->save();
+            }
+        }
+        $graph_identifier = static::_get_graph_identifier();
+        \Cache::delete($graph_identifier);
+        static::init_modules(true);
+    }
+
 }

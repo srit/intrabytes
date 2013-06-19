@@ -81,6 +81,8 @@ class Controller_BaseTemplate extends \Controller_Base
         $controller_js_path = 'modules/' . $this->_controller_namespace_lowercased . '/' . $this->_controller_without_controller_prefix_lowercased . '.js';
         $action_js_path = 'modules/' . $this->_controller_namespace_lowercased . '/' . $this->_controller_without_controller_prefix_lowercased . '/' . $this->_controller_action . '.js';
 
+        \Logger::forge()->addDebug('JS Path', array($module_js_path, $controller_js_path, $action_js_path));
+
         if ($this->_theme->asset->find_file($module_js_path, 'js')) {
             $additional_js[] = $module_js_path;
         }

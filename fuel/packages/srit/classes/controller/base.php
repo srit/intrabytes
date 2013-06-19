@@ -38,6 +38,7 @@ class Controller_Base extends Controller
     public function before()
     {
         if (\Input::is_ajax()) {
+            var_dump(get_called_class());exit;
             /**
              * Ajax weitesgehend mittels REST abfackeln
              */

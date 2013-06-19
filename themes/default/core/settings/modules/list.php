@@ -15,31 +15,37 @@
 <div class="row-fluid">
     <div class="span12">
         <?php if (!empty($module)): ?>
-            <table class="table table-striped table-condensed table-bordered">
+            <table id="modules" class="table table-striped table-condensed table-bordered">
+                <thead>
                 <tr>
                     <th><?php echo __ext('name.label') ?></th>
                     <th><?php echo __ext('description.label') ?></th>
                     <th><?php echo __ext('sort.label') ?></th>
                     <th><?php echo __ext('actions.label') ?></th>
                 </tr>
+                </thead>
+                <tbody>
                 <?php foreach ($module as $md): ?>
-                    <tr>
+                    <tr id="mod-<?php echo $md->get_id() ?>">
                         <td><?php echo xss_clean($md->get_name()) ?></td>
                         <td><?php echo xss_clean($md->get_description()) ?></td>
-                        <td><?php echo xss_clean($md->get_sort()) ?></td>
+                        <td class="sort"><span class="sort"><?php echo xss_clean($md->get_sort())?></span>
+                        <?php echo html_hidden('sort', xss_clean($md->get_sort())) ?>
+
+                        </td>
                         <td><?php
-                            if((bool)$md->get_fixed() == false) :
+                            if ((bool)$md->get_fixed() == false) :
                                 $route_name = 'core_settings_modules_';
                                 $route_name .= $prefix = (bool)$md->get_active() == true ? 'deactivate' : 'activate';
                                 $route = named_route($route_name, array('module' => $md->get_name()));
                                 $btn_extra_class = $prefix == 'activate' ? 'btn-success' : 'btn-warning';
-                                echo twitter_anchor($route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini ' . $btn_extra_class));
-                            else:
+                                echo twitter_anchor($route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini ' . $btn_extra_class)); else:
                                 echo html_tag('span', array(), __ext('fixed.module.label'));
                             endif;
                             ?></td>
                     </tr>
                 <?php endforeach; ?>
+                </tbody>
             </table>
             <?php echo $pagination['module']->render(); ?>
         <?php endif; ?>
