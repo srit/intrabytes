@@ -23,15 +23,20 @@
                     <th><?php echo __ext('actions.label') ?></th>
                 </tr>
                 <?php foreach ($module as $md): ?>
-                    <tr class="<?php echo (bool)$md->get_active() == true ? 'success' : 'warning'?>">
+                    <tr>
                         <td><?php echo xss_clean($md->get_name()) ?></td>
                         <td><?php echo xss_clean($md->get_description()) ?></td>
                         <td><?php echo xss_clean($md->get_sort()) ?></td>
                         <td><?php
-                            $route_name = 'core_settings_modules_';
-                            $route_name .= $prefix = (bool)$md->get_active() == true ? 'deactivate' : 'activate';
-                            $route = named_route($route_name, array('module' => $md->get_name()));
-                            echo twitter_anchor($route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini'));
+                            if((bool)$md->get_fixed() == false) :
+                                $route_name = 'core_settings_modules_';
+                                $route_name .= $prefix = (bool)$md->get_active() == true ? 'deactivate' : 'activate';
+                                $route = named_route($route_name, array('module' => $md->get_name()));
+                                $btn_extra_class = $prefix == 'activate' ? 'btn-success' : 'btn-warning';
+                                echo twitter_anchor($route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini ' . $btn_extra_class));
+                            else:
+                                echo html_tag('span', array(), __ext('fixed.module.label'));
+                            endif;
                             ?></td>
                     </tr>
                 <?php endforeach; ?>

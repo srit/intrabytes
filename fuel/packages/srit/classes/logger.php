@@ -5,9 +5,6 @@
  */
 
 namespace Srit;
-
-
-use Fuel\Core\Config;
 use Monolog\Handler\ChromePHPHandler;
 
 class Logger extends \Monolog\Logger {

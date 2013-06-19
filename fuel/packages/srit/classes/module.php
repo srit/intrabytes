@@ -65,17 +65,18 @@ class Module extends \Fuel\Core\Module
         return $this->_module_name;
     }
 
-    public static function is_active($module) {
+    public static function is_active($module)
+    {
         return \Model_Module::is_active($module);
     }
 
     public static function load($module, $path = null)
     {
-        if(empty($module)) {
+        if (empty($module)) {
             return;
         }
-        if(is_array($module)) {
-            foreach($module as $mod) {
+        if (is_array($module)) {
+            foreach ($module as $mod) {
                 static::load($mod, $path);
             }
         }
@@ -110,11 +111,11 @@ class Module extends \Fuel\Core\Module
 
     public static function init_modules($force = false)
     {
+        if (\Fuel::$profiling) {
+            \Profiler::mark(__METHOD__ . ' Start');
+        }
         if ($force == true || static::$_initialized == false) {
-            if (\Fuel::$profiling)
-            {
-                \Profiler::mark(__METHOD__.' Start');
-            }
+
             $conf_module_paths = \Config::get('module_paths', array());
             static::$_module_search_path = $conf_module_paths[0];
             static::$_module_finder = \Finder::forge(static::$_module_search_path);
@@ -122,10 +123,10 @@ class Module extends \Fuel\Core\Module
             static::load_activated_modules();
             static::_fuel();
             static::$_initialized = true;
-            if (\Fuel::$profiling)
-            {
-                \Profiler::mark(__METHOD__.' Start');
-            }
+
+        }
+        if (\Fuel::$profiling) {
+            \Profiler::mark(__METHOD__ . ' Start');
         }
     }
 
@@ -367,8 +368,9 @@ PHP;
         };
     }
 
-    public static function deactivate($module_name) {
-        if($module_model = \Model_Module::find_by_name($module_name)) {
+    public static function deactivate($module_name)
+    {
+        if ($module_model = \Model_Module::find_by_name($module_name)) {
             $module_model->set_active(false);
             $module_model->save();
             $graph_identifier = static::_get_graph_identifier();
@@ -379,8 +381,9 @@ PHP;
         throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
     }
 
-    public static function activate($module_name) {
-        if($module_model = \Model_Module::find_by_name($module_name)) {
+    public static function activate($module_name)
+    {
+        if ($module_model = \Model_Module::find_by_name($module_name)) {
             $module_model->set_active(true);
             $module_model->save();
             $graph_identifier = static::_get_graph_identifier();
