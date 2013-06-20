@@ -11,6 +11,11 @@
         </div>
     <?php endif; ?>
 </div>
+<div class="row-fluid">
+    <div class="span10">
+        <?php echo twitter_anchor('javascript:void()', __ext('register_modules.anchor.label'), array('class' => 'btn btn-mini', 'id' => 'register_modules')) ?>
+    </div>
+</div>
 
 <div class="row-fluid">
     <div class="span12">

@@ -119,7 +119,7 @@ class Module extends \Fuel\Core\Module
             $conf_module_paths = \Config::get('module_paths', array());
             static::$_module_search_path = $conf_module_paths[0];
             static::$_module_finder = \Finder::forge(static::$_module_search_path);
-            static::register_modules();
+            //static::register_modules();
             static::load_activated_modules();
             static::_fuel();
             static::$_initialized = true;
@@ -267,6 +267,7 @@ PHP;
                 static::add_new_module($module_name);
             }
         }
+        return count($modules_diff);
     }
 
     public static function add_new_module($module_name)
@@ -275,7 +276,7 @@ PHP;
         if (($module_file = $module_finder->locate($module_name, 'module')) == false) {
             return false;
         }
-        require_once $module_file;
+        $module = \Fuel::load($module_file);
         $module_object = \Model_Module::forge();
         $module_object_data = $module;
         $module_object_properties = \Model_Module::properties();
@@ -295,10 +296,10 @@ PHP;
         $module_object_data['active'] = 0;
         $module_object_data['config'] = $module;
         $module_object_data['sort'] = (int)$max_sort + 1;
+        $module_object_data['fixed'] = 0;
         $module_object->set($module_object_data);
         $module_object->save();
         return $module_object;
-
     }
 
     public static function get_module_paths()
@@ -394,13 +395,15 @@ PHP;
         throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
     }
 
-    public static function sort(array $module_ids, array $module_sort) {
-        foreach($module_ids as $i => $id) {
-            if ($module_model = \Model_Module::find($id) AND isset($module_sort[$i]) AND $sort = $module_sort[$i]) {
-                $module_model->set_sort($sort);
+    public static function sort(array $sort) {
+
+        foreach($sort as $id => $s) {
+            if ($module_model = \Model_Module::find($id)) {
+                $module_model->set_sort($s);
                 $module_model->save();
             }
         }
+        
         $graph_identifier = static::_get_graph_identifier();
         \Cache::delete($graph_identifier);
         static::init_modules(true);

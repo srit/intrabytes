@@ -32,9 +32,16 @@ class Model_Module extends \CachedModel
                 'active' => 1,
 
             ),
-            'order_by' => 'sort'
+            'order_by' => array('sort' => 'DESC')
         );
         return static::find_all($options);
+    }
+
+    public static function find($id = null, array $options = array()) {
+        if(!isset($options['order_by'])) {
+            $options = array_merge($options, array('order_by' => 'sort'));
+        }
+        return parent::find($id, $options);
     }
 
     public function __toString() {

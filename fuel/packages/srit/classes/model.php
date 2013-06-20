@@ -31,16 +31,6 @@ class Model extends \Orm\Model
      */
     protected $_fieldset = null;
 
-    public static function forge($data = array(), $new = true, $view = null)
-    {
-        return new static($data, $new, $view);
-    }
-
-    public function __construct(array $data = array(), $new = true, $view = null)
-    {
-        return parent::__construct($data, $new, $view);
-    }
-
     public static function find($id = null, array $options = array())
     {
         if (!isset($options['order_by'])) {

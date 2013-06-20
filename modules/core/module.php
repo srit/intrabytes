@@ -4,9 +4,7 @@
  * @author stefanriedel
  */
 
-$version = '0.1';
-
-$module = array(
+return array(
     'title' => array(
         'de' => 'Core',
         'en' => 'core'

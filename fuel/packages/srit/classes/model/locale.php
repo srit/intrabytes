@@ -10,10 +10,6 @@ class Model_Locale extends \CachedModel
         )
     );
 
-    public function save($cascade = null, $use_transaction = false) {
-        var_dump($this->to_array());exit;
-    }
-
     public static function find_all_by_locale($locale = null)
     {
         return static::find_all();
