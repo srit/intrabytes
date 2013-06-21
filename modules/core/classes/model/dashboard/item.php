@@ -28,6 +28,16 @@ class Model_Dashboard_Item extends \CachedModel {
         ),
     );
 
+    public static function find_by_name($name) {
+        $options = array(
+            'where' => array(
+                'name' => $name
+            ),
+        );
+
+        return static::find('first', $options);
+    }
+
     public static function find_my() {
         return static::find_by_user(\Auth::instance()->get_user_id());
     }

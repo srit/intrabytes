@@ -6,9 +6,6 @@
 
 namespace Srit;
 
-use Fuel\Core\Config;
-use Fuel\Core\Router;
-
 class Navigation
 {
 

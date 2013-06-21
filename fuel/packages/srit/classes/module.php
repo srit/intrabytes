@@ -374,6 +374,12 @@ PHP;
         if ($module_model = \Model_Module::find_by_name($module_name)) {
             $module_model->set_active(false);
             $module_model->save();
+            if($migration_file = static::$_module_finder->locate($module_model->get_path(), 'plugins')) {
+                \Fuel::load($migration_file);
+            }
+            if(\Event::has_events('module_deactivate')) {
+                \Event::trigger('module_deactivate');
+            }
             $graph_identifier = static::_get_graph_identifier();
             \Cache::delete($graph_identifier);
             static::init_modules(true);
@@ -387,6 +393,12 @@ PHP;
         if ($module_model = \Model_Module::find_by_name($module_name)) {
             $module_model->set_active(true);
             $module_model->save();
+            if($migration_file = static::$_module_finder->locate($module_model->get_path(), 'plugins')) {
+                \Fuel::load($migration_file);
+            }
+            if(\Event::has_events('module_activate')) {
+                \Event::trigger('module_activate');
+            }
             $graph_identifier = static::_get_graph_identifier();
             \Cache::delete($graph_identifier);
             static::init_modules(true);
