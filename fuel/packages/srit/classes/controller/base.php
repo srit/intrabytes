@@ -6,9 +6,7 @@
 
 namespace Srit;
 
-use Fuel\Core\Controller;
-
-class Controller_Base extends Controller
+class Controller_Base extends \Controller
 {
 
     protected $_controller_namespace = null;

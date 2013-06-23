@@ -385,7 +385,7 @@ PHP;
             static::init_modules(true);
             return true;
         }
-        throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
+        throw new \Exception(__('exception.srit.module_not_exists', array('module' => $module_name)));
     }
 
     public static function activate($module_name)
@@ -404,7 +404,20 @@ PHP;
             static::init_modules(true);
             return true;
         }
-        throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
+        throw new \Exception(__('exception.srit.module_not_exists', array('module' => $module_name)));
+    }
+
+    public static function delete($module_name) {
+        if ($module_model = \Model_Module::find_by_name($module_name)) {
+            $module_handler = \File_Handler_Directory::forge(static::$_module_finder->paths()[0] . $module_model->get_path(), array(), \File_Area::forge());
+            $module_handler->delete();
+            $module_model->delete();
+            $graph_identifier = static::_get_graph_identifier();
+            \Cache::delete($graph_identifier);
+            static::init_modules(true);
+            return true;
+        }
+        throw new \Exception(__('exception.srit.module_not_exists', array('module' => $module_name)));
     }
 
     public static function sort(array $sort) {

@@ -34,17 +34,32 @@
                     <tr id="mod-<?php echo $md->get_id() ?>">
                         <td><?php echo xss_clean($md->get_name()) ?></td>
                         <td><?php echo xss_clean($md->get_description()) ?></td>
-                        <td class="sort"><span class="sort"><?php echo xss_clean($md->get_sort())?></span>
-                        <?php echo html_hidden('sort', xss_clean($md->get_sort())) ?>
+                        <td class="sort"><span class="sort"><?php echo xss_clean($md->get_sort()) ?></span>
+                            <?php echo html_hidden('sort', xss_clean($md->get_sort())) ?>
 
                         </td>
-                        <td><?php
+                        <td>
+
+                            <?php
                             if ((bool)$md->get_fixed() == false) :
-                                $route_name = 'core_settings_modules_';
-                                $route_name .= $prefix = (bool)$md->get_active() == true ? 'deactivate' : 'activate';
-                                $route = named_route($route_name, array('module' => $md->get_name()));
-                                $btn_extra_class = $prefix == 'activate' ? 'btn-success' : 'btn-warning';
-                                echo twitter_anchor($route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini ' . $btn_extra_class)); else:
+                                $activate_route_name = 'core_settings_modules_';
+                                $activate_route_name .= $prefix = (bool)$md->get_active() == true ? 'deactivate' : 'activate';
+                                $activate_route = named_route($activate_route_name, array('module' => $md->get_name()));
+
+                                $activate_extra_class = $prefix == 'activate' ? 'success' : 'warning';
+
+                                $actions = array(
+                                    array('attr' => array(), 'value' => html_anchor($activate_route, __ext($prefix . '.label'), array('class' => $activate_extra_class)))
+                                );
+
+                                if ((bool)$md->get_active() == false) {
+                                    $actions[] = array('attr' => array(), 'value' => html_anchor(named_route('core_settings_modules_delete', array('module' => $md->get_name())), __ext('actions.delete.label')));
+                                }
+
+                                echo twitter_button_group($actions, extend_locale('actions.label'), array());
+
+                                //$btn_extra_class = $prefix == 'activate' ? 'btn-success' : 'btn-warning'; //echo twitter_anchor($activate_route, __ext($prefix . '.anchor.label'), array('class' => 'btn btn-mini ' . $btn_extra_class));
+                            else:
                                 echo html_tag('span', array(), __ext('fixed.module.label'));
                             endif;
                             ?></td>
