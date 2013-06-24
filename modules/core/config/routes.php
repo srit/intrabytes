@@ -27,6 +27,7 @@ return array(
     'core/settings/modules/rest/sort' => array('core/settings/modules/rest/sort', 'name' => 'core_settings_modules_rest_sort'),
     'core/settings/modules/activate/(:module)' => array('core/settings/modules/activate', 'name' => 'core_settings_modules_activate'),
     'core/settings/modules/deactivate/(:module)' => array('core/settings/modules/deactivate', 'name' => 'core_settings_modules_deactivate'),
+    'core/settings/modules/delete/(:module)' => array('core/settings/modules/delete', 'name' => 'core_settings_modules_delete'),
 
     /**
      * Projects

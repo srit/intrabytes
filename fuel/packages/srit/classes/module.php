@@ -38,6 +38,13 @@ class Module extends \Fuel\Core\Module
         }
     }
 
+    protected static function _clear_cache_and_init()
+    {
+        $graph_identifier = static::_get_graph_identifier();
+        \Cache::delete($graph_identifier);
+        static::init_modules(true);
+    }
+
     /**
      * @param null $module_name
      */
@@ -142,7 +149,7 @@ class Module extends \Fuel\Core\Module
         static::$_active_modules = \Model_Module::find_active();
 
         if (static::$_active_modules->count() > 0) {
-            $class_graph_cache_identifier = self::_get_graph_identifier();
+            $class_graph_cache_identifier = static::_get_graph_identifier();
 
             try {
                 static::$_extended_graph = \Cache::get($class_graph_cache_identifier);
@@ -281,12 +288,12 @@ PHP;
         $module_object_data = $module;
         $module_object_properties = \Model_Module::properties();
         if (isset($module_object_data['title']) && is_array($module_object_data['title'])) {
-            $module_object_data = self::_declare_translated($module_object_data, $module_object_properties, 'title');
+            $module_object_data = static::_declare_translated($module_object_data, $module_object_properties, 'title');
             unset($module_object_data['title']);
         }
 
         if (isset($module_object_data['description']) && is_array($module_object_data['description'])) {
-            $module_object_data = self::_declare_translated($module_object_data, $module_object_properties, 'description');
+            $module_object_data = static::_declare_translated($module_object_data, $module_object_properties, 'description');
             unset($module_object_data['description']);
         }
 
@@ -369,30 +376,42 @@ PHP;
         };
     }
 
-    public static function deactivate($module_name)
-    {
+    protected static function _change_status($module_name, $status) {
         if ($module_model = \Model_Module::find_by_name($module_name)) {
-            $module_model->set_active(false);
+            $module_model->set_active((bool)$status);
             $module_model->save();
-            $graph_identifier = static::_get_graph_identifier();
-            \Cache::delete($graph_identifier);
-            static::init_modules(true);
+            if($plugin_file = static::$_module_finder->locate($module_model->get_path(), 'plugins')) {
+                \Fuel::load($plugin_file);
+            }
+            $trigger_event = (bool)$status == true ? 'activate' : 'deactivate';
+            if(\Event::has_events('module_' . $trigger_event)) {
+                \Event::trigger('module_' . $trigger_event);
+            }
+            static::_clear_cache_and_init();
             return true;
         }
-        throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
+        throw new \Exception(__('exception.srit.module_not_exists', array('module' => $module_name)));
+    }
+
+    public static function deactivate($module_name)
+    {
+        return static::_change_status($module_name, false);
     }
 
     public static function activate($module_name)
     {
+        return static::_change_status($module_name, true);
+    }
+
+    public static function delete($module_name) {
         if ($module_model = \Model_Module::find_by_name($module_name)) {
-            $module_model->set_active(true);
-            $module_model->save();
-            $graph_identifier = static::_get_graph_identifier();
-            \Cache::delete($graph_identifier);
-            static::init_modules(true);
+            $module_handler = \File_Handler_Directory::forge(static::$_module_finder->paths()[0] . $module_model->get_path(), array(), \File_Area::forge());
+            $module_handler->delete();
+            $module_model->delete();
+            static::_clear_cache_and_init();
             return true;
         }
-        throw new \Exception(__('exception.srit.activate.module_not_exists', array('module' => $module_name)));
+        throw new \Exception(__('exception.srit.module_not_exists', array('module' => $module_name)));
     }
 
     public static function sort(array $sort) {
@@ -403,10 +422,8 @@ PHP;
                 $module_model->save();
             }
         }
-        
-        $graph_identifier = static::_get_graph_identifier();
-        \Cache::delete($graph_identifier);
-        static::init_modules(true);
+
+        static::_clear_cache_and_init();
     }
 
 }

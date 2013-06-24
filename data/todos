@@ -37,3 +37,7 @@
 
 - Caching bug observer
     - modify observers werden wieder entfernt und wir nutzen die getter und setter methoden
+
+- Module werden eigene Objekte
+
+- XCache Backend

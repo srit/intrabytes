@@ -20,7 +20,7 @@ class Auth_Acl_ICCRMAcl extends Auth_Acl_Driver
     public function has_access($condition, array $entity)
     {
         $group = \Auth::group();
-        $condition = self::_parse_conditions($condition);
+        $condition = static::_parse_conditions($condition);
         if (!is_array($condition) || empty($group) || !is_callable(array($group, 'get_roles'))) {
             return false;
         }

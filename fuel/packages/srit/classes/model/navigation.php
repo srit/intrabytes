@@ -52,7 +52,7 @@ class Model_Navigation extends \Nestedsets\Model
             $navigation->tree_select($namespace->tree_id);
             $root = $navigation->tree_get_root();
             if ($root != null) {
-                $data = static::_iterate_navigation_tree($root, self::IS_ROOT_TRUE);
+                $data = static::_iterate_navigation_tree($root, static::IS_ROOT_TRUE);
             }
 
             if (\Config::get('caching') == true) {
