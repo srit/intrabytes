@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 24. Jun 2013 um 16:01
+-- Erstellungszeit: 24. Jun 2013 um 16:36
 -- Server Version: 5.5.31-0ubuntu0.13.04.1
 -- PHP-Version: 5.4.9-4ubuntu2.1
 
@@ -240,13 +240,6 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
---
--- Daten für Tabelle `intrabytes_dashboard_items`
---
-
-INSERT INTO `intrabytes_dashboard_items` (`id`, `name`, `route`, `created_at`, `updated_at`) VALUES
-(9, 'tasks', 'tasks/dashboard/list', '2013-06-24 10:51:52', '2013-06-24 10:51:52');
-
 -- --------------------------------------------------------
 
 --
@@ -351,7 +344,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=272 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=281 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -619,7 +612,16 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`, `value_en`) 
 (266, 'settings.locales.add.tab.en.label', 'core', '<span class="flag flag-us"></span> Englisch', '<span class="flag flag-us"></span> English'),
 (269, 'settings.locales.add.value_en.label', 'core', 'Englisch', 'English'),
 (270, 'settings.locales.edit.value_en.label', 'core', 'Englisch', 'English'),
-(271, 'settings.locales.edit.value_de.label', 'core', 'Deutsch', 'German');
+(271, 'settings.locales.edit.value_de.label', 'core', 'Deutsch', 'German'),
+(272, 'settings.locales.edit.title', 'core', 'Übersetzungen', 'Locales'),
+(273, 'core_settings_modules_list.anchor.label', 'breadcrumb', 'Module', 'Extensions'),
+(274, 'settings.modules.list.title', 'core', 'Module', 'Extensions'),
+(275, 'settings.modules.list.name.label', 'core', 'Name', 'Name'),
+(276, 'settings.modules.list.description.label', 'core', 'Beschreibung', 'Description'),
+(277, 'settings.modules.list.sort.label', 'core', 'Sortierung', 'Sort'),
+(278, 'settings.modules.list.actions.label', 'core', 'Funktionen', 'Actions'),
+(279, 'settings.modules.list.fixed.module.label', 'core', '<i class="icon icon-warning-sign"></i> Dieses Modul ist fix und kann nicht deaktiviert oder gelöscht werden.', '<i class="icon icon-warning-sign"></i> This extension is fixed and can''t deactivate or delete.'),
+(280, 'settings.modules.list.deactivate.label', 'core', 'Deaktivieren', 'Deactivate');
 
 -- --------------------------------------------------------
 
@@ -743,7 +745,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
 
 INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`, `fixed`, `description_en`, `title_en`) VALUES
 (3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}}', NULL, 1, 1, '', ''),
-(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}}', NULL, 2, 0, '', '');
+(4, 'tasks', 'tasks', 0, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}}', NULL, 2, 0, '', '');
 
 -- --------------------------------------------------------
 
