@@ -24,7 +24,7 @@ class Last_Pages
 
     public static function set_active_page_title($active_page_title)
     {
-        self::$_active_page_title = $active_page_title;
+        static::$_active_page_title = $active_page_title;
     }
 
     public static function get()
@@ -60,7 +60,7 @@ class Last_Pages
             array_unshift($last_pages, $last_page);
 
             foreach ($last_pages as $i => $last_page) {
-                if ($i >= self::MAX_STATIC_PAGES) {
+                if ($i >= static::MAX_STATIC_PAGES) {
                     unset($last_pages[$i]);
                 }
             }
