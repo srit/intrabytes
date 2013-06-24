@@ -9,6 +9,7 @@ Autoloader::add_classes(array(
     'Srit\\Srit' => __DIR__ . '/classes/srit.php',
     'Srit\\Router' => __DIR__ . '/classes/router.php',
     'Srit\\Cache' => __DIR__ . '/classes/cache.php',
+    'Srit\\Cache_Storage_Xcache' => __DIR__ . '/classes/cache/storage/xcache.php',
     'Srit\\Autoloader' => __DIR__ . '/classes/autoloader.php',
     'Srit\\Observer' => __DIR__ . '/classes/observer.php',
     'Srit\\File' => __DIR__ . '/classes/file.php',
@@ -79,7 +80,10 @@ Autoloader::add_classes(array(
     'Srit\\Cache_Storage_File' => __DIR__ . '/classes/cache/storage/file.php',
     'Srit\\Cache_Storage_Memcached' => __DIR__ . '/classes/cache/storage/memcached.php',
 
+
     'Srit\\Model_Module' => __DIR__ . '/classes/model/module.php',
+    'Srit\\Model_Localized_Table_Column' => __DIR__ . '/classes/model/localized/table/column.php',
+    'Srit\\Model_Localized_Table' => __DIR__ . '/classes/model/localized/table.php',
     'Srit\\Model_ModuleList' => __DIR__ . '/classes/model/modulelist.php',
     'Srit\\Model_Group' => __DIR__ . '/classes/model/group.php',
     'Srit\\Model_User' => __DIR__ . '/classes/model/user.php',

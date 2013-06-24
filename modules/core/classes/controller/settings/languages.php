@@ -14,7 +14,6 @@ class Controller_Settings_Languages extends \Controller_CrudBigTemplate {
     );
 
     public function action_list() {
-
     }
 
     public function action_edit() {

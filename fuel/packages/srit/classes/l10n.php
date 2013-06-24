@@ -50,7 +50,7 @@ class L10n
         return $nf->parse($value, \NumberFormatter::TYPE_DOUBLE);
     }
 
-    public function reformat_date($value, $format = static::FORMAT_ISO_8601)
+    public function reformat_date($value, $format = self::FORMAT_ISO_8601)
     {
 
         $timestamp = strtotime($value);
@@ -64,7 +64,7 @@ class L10n
         return $dateFormatter->parse($value);**/
     }
 
-    public function reformat_datetime($value, $format = static::FORMAT_ISO_8601)
+    public function reformat_datetime($value, $format = self::FORMAT_ISO_8601)
     {
         $timestamp = strtotime($value);
         return date('Y-m-d H:i:s', $timestamp);

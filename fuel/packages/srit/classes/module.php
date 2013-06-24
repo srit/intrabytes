@@ -111,7 +111,7 @@ class Module extends \Fuel\Core\Module
             static::_load_module_file('autoloader.php', $path);
             static::_load_module_file('base.php', $path);
             static::_load_module_file('bootstrap.php', $path);
-
+            static::_load_module_file('plugins.php', $path);
         }
         return $parent_load;
     }

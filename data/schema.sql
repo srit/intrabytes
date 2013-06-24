@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 18. Jun 2013 um 21:41
+-- Erstellungszeit: 24. Jun 2013 um 16:01
 -- Server Version: 5.5.31-0ubuntu0.13.04.1
 -- PHP-Version: 5.4.9-4ubuntu2.1
 
@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_countries` (
   `name_de` varchar(100) NOT NULL,
   `sort` int(11) NOT NULL,
   `language_id` int(11) NOT NULL,
+  `name_en` varchar(100) NOT NULL,
   PRIMARY KEY (`id`,`language_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
@@ -127,10 +128,10 @@ CREATE TABLE IF NOT EXISTS `intrabytes_countries` (
 -- Daten für Tabelle `intrabytes_countries`
 --
 
-INSERT INTO `intrabytes_countries` (`id`, `iso_code`, `name_de`, `sort`, `language_id`) VALUES
-(1, 'de', 'Deutschland', 1, 1),
-(2, 'ch', 'Schweiz', 10, 1),
-(3, 'at', 'Österreich', 5, 1);
+INSERT INTO `intrabytes_countries` (`id`, `iso_code`, `name_de`, `sort`, `language_id`, `name_en`) VALUES
+(1, 'de', 'Deutschland', 1, 1, ''),
+(2, 'ch', 'Schweiz', 10, 1, ''),
+(3, 'at', 'Österreich', 5, 1, '');
 
 -- --------------------------------------------------------
 
@@ -163,7 +164,7 @@ INSERT INTO `intrabytes_customers` (`id`, `created_at`, `updated_at`, `email`, `
 (1, '2013-02-06 09:29:23', '2013-03-05 12:56:11', 'ich@och.de', 'Sonnenschein GmbH', 'Hans', 'Wurst', 1, '023565789', '023546898', 'Foo Bar Weg', '109', '9631'),
 (2, '2013-02-11 12:58:58', '2013-05-22 14:29:22', 'info@info.de', 'Hans Hans GmbH & Co. KG2', 'Stefan', 'Riedel', 1, '04408803357', '', 'Von-der-Recke-Straße', '80', '6606'),
 (6, '2013-05-21 16:27:14', '0000-00-00 00:00:00', 'ich@web.de', 'Falk & Ross', 'Edgard', 'Gerhards', 1, '0381684593', '038165', 'Klausenstraße', '10', '6573'),
-(7, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 'ich@web.de', 'dasdas', 'asdasd', 'asdasd', 2, 'sadasd', 'sadasd', 'asdasd', '1', '25938');
+(7, '0000-00-00 00:00:00', '2013-06-19 12:25:41', 'ich@web.de', 'dasdasasdasdas', 'asdasd', 'asdasdasdas11', 2, 'sadasd', 'sadasd', 'asdasd', '1', '25938');
 
 -- --------------------------------------------------------
 
@@ -237,14 +238,14 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Daten für Tabelle `intrabytes_dashboard_items`
 --
 
 INSERT INTO `intrabytes_dashboard_items` (`id`, `name`, `route`, `created_at`, `updated_at`) VALUES
-(1, 'tasks', 'tasks/dashboard/list', '2013-05-14 09:52:40', '2013-05-14 09:52:40');
+(9, 'tasks', 'tasks/dashboard/list', '2013-06-24 10:51:52', '2013-06-24 10:51:52');
 
 -- --------------------------------------------------------
 
@@ -258,14 +259,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_dashboard_items_users` (
   `user_id` int(11) NOT NULL,
   `order` int(5) NOT NULL,
   PRIMARY KEY (`id`,`dashboard_item_id`,`user_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
-
---
--- Daten für Tabelle `intrabytes_dashboard_items_users`
---
-
-INSERT INTO `intrabytes_dashboard_items_users` (`id`, `dashboard_item_id`, `user_id`, `order`) VALUES
-(1, 1, 1, 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -332,14 +326,15 @@ CREATE TABLE IF NOT EXISTS `intrabytes_languages` (
   `dec_point` varchar(1) NOT NULL,
   `date_format` varchar(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `intrabytes_languages`
 --
 
 INSERT INTO `intrabytes_languages` (`id`, `locale`, `language`, `plain`, `default`, `active`, `currency`, `thousand_separator`, `dec_point`, `date_format`) VALUES
-(1, 'de_DE', 'de', 'Deutsch', 1, 1, 'EUR', '.', ',', 'dd.mm.yyyy');
+(1, 'de_DE', 'de', 'Deutsch', 1, 1, 'EUR', '.', ',', 'dd.mm.yyyy'),
+(11, 'en_US', 'en', 'Englisch', 0, 1, 'USD', ',', ',', 'yyyy/mm/dd');
 
 -- --------------------------------------------------------
 
@@ -352,199 +347,327 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   `key` varchar(255) NOT NULL,
   `group` varchar(255) NOT NULL,
   `value_de` text NOT NULL,
+  `value_en` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=189 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=272 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
 --
 
-INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`) VALUES
-(1, 'login.index.title', 'core', 'Login'),
-(2, 'login.index.username.label', 'core', 'Nutzername/E-Mail-Adresse'),
-(3, 'login.index.password.label', 'core', 'Passwort'),
-(4, 'login.index.login.button.label', 'core', 'Login'),
-(5, 'login.index.forgetpassword.label', 'core', 'Passwort vergessen'),
-(6, '403.index.title', 'core', 'Oooops! 403'),
-(7, '403.index.permission_denied', 'core', '<h4>Da ist wohl ein Problem aufgetreten.</h4>\r\n<p>Du hast nicht die Berechtigung diese Seite zu sehen.</p>'),
-(8, '403.index.back_to_dashboard', 'core', '<i class="icon-chevron-left"></i> Zurück'),
-(9, 'denied.login.first.label', 'access', 'Bitte logge dich erst ein!'),
-(10, 'password.forget.title', 'core', 'Passwort vergessen'),
-(11, 'password.forget.back_to_login.label', 'core', '<i class="icon  icon-chevron-left"></i> Zurück zum Login'),
-(12, 'password.forget.send.label', 'core', 'Neues Passwort anfordern'),
-(13, 'password.forget.username.label', 'core', 'Nutzername/E-Mail-Adresse'),
-(17, 'login.index.validation.username.required.error', 'core', 'Bitte gebe deinen Nutzernamen oder deine E-Mail-Adresse an.'),
-(18, 'login.index.validation.password.required.error', 'core', 'Bitte gebe dein Passwort an.'),
-(19, 'login.index.validation.login.failed', 'core', 'Login fehlgeschlagen.'),
-(20, 'password.forget.validation.username.required.error', 'core', 'Bitte gebe deinen Nutzernamen oder deine E-Mail-Adresse an.'),
-(21, 'login.index.validation.password.min_length.error', 'core', 'Das Passwort muss min. 8 Zeichen lang sein. '),
-(22, 'password.forget.validation.username.user_exists.error', 'core', 'Der Nutzer existiert leider nicht in unserem System.'),
-(23, 'password.forget.messages.prepare_new_password.success', 'core', 'Es wurde eine E-Mail mit weiteren Informationen an deine E-Mail-Adresse gesendet.'),
-(24, 'password.confirmed_email.title', 'core', 'Neues Passwort vergeben'),
-(25, 'password.confirmed_email.password.label', 'core', 'Neues Passwort'),
-(26, 'password.confirmed_email.password_repeat.label', 'core', 'Passwort wiederholen'),
-(27, 'password.confirmed_email.login.button.label', 'core', 'Passwort speichern'),
-(28, 'password.confirmed_email.forgetpassword.cancel_button.label', 'core', 'Abbrechen'),
-(29, 'password.confirmed_email.validation.password.min_length.error', 'core', 'Das neue Passwort muss min. 8 Zeichen lang sein.'),
-(30, 'password.confirmed_email.validation.password.max_length.error', 'core', 'Das neue Passwort darf max. 255 Zeichen lang sein.'),
-(31, 'password.confirmed_email.validation.password.is_repeatet.error', 'core', 'Die beiden Passwörter stimmen leider nicht überein.'),
-(32, 'password.confirmed_email.change_password.success.label', 'core', 'Passwort erfolgreich geändert.'),
-(33, 'password.confirmed_email.password.change.success', 'core', 'Dein Passwort wurde erfolgreich geändert.'),
-(34, 'password.confirmed_email.back_to_login.label', 'core', '<i class="icon icon-chevron-left"></i> Zurück zum Login'),
-(35, 'login.index.validation.login.success', 'core', 'Login erfolgreich'),
-(36, 'prefix.label', 'breadcrumb', 'Du befindest dich hier:'),
-(37, 'core_dashboard.anchor.label', 'breadcrumb', 'Dashboard'),
-(38, 'logout.index.validation.login.success', 'core', 'Logout erfolgreich'),
-(39, 'button.label', 'back', '<i class="icon icon-chevron-left"></i>  Zurück'),
-(40, 'actions.label', 'last_pages', 'History'),
-(41, 'core_dashboard.anchor.label', 'navigation', 'Dashboard'),
-(42, 'core_customers_list.anchor.label', 'navigation', 'Kunden'),
-(43, 'user_settings.anchor.label', 'navigation', 'Nutzereinstellungen'),
-(44, 'core_settings_user_profile_edit.anchor.label', 'navigation', 'Profileinstellungen'),
-(45, 'core_settings_user_pubkeys_list.anchor.label', 'navigation', 'Public Key Verwaltung'),
-(46, 'settings.anchor.label', 'navigation', 'Systemeinstellungen'),
-(47, 'core_settings_languages_list.anchor.label', 'navigation', 'Spracheinstellungen'),
-(48, 'core_user_logout.anchor.label', 'navigation', 'Logout'),
-(49, 'dashboard.index.title', 'core', 'Dashboard'),
-(50, 'customers.list.index.title', 'core', 'Kundenübersicht'),
-(51, 'home.anchor.label', 'breadcrumb', 'Dashboard'),
-(52, 'core_customers_list.anchor.label', 'breadcrumb', 'Kundenübersicht'),
-(53, 'customers.list.index.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Kunden hinzufügen'),
-(54, 'customers.list.index.address.label', 'core', 'Adresse'),
-(55, 'customers.list.index.references.label', 'core', 'Referenzen'),
-(56, 'customers.list.index.actions.label', 'core', 'Aktionen'),
-(57, 'customers.list.index.count.contacts.label', 'core', 'Kontakte (:amount)'),
-(58, 'customers.list.index.count.projects.label', 'core', 'Projekte (:amount)'),
-(59, 'customers.add.index.title', 'core', 'Kunden hinzufügen'),
-(60, 'core_customers_add.anchor.label', 'breadcrumb', 'Kunden hinzufügen'),
-(61, 'customers.add.index.legend', 'core', 'Kunden Daten'),
-(62, 'customers.add.index.company_name.label', 'core', 'Firmenname'),
-(63, 'customers.add.index.phone.label', 'core', 'Telefon'),
-(64, 'customers.add.index.salutation.label', 'core', 'Anrede'),
-(65, 'customers.add.index.fax.label', 'core', 'Faxnummer'),
-(66, 'customers.add.index.firstname.label', 'core', 'Vorname'),
-(67, 'customers.add.index.lastname.label', 'core', 'Nachname'),
-(68, 'customers.add.index.street.label', 'core', 'Straße'),
-(69, 'customers.add.index.housenumber.label', 'core', 'Hausnummer'),
-(70, 'customers.add.index.postalcode_text.label', 'core', 'Postleitahl'),
-(71, 'customers.add.index.city_text.label', 'core', 'Ort'),
-(72, 'customers.add.index.country.label', 'core', 'Land'),
-(73, 'customers.add.index.email.label', 'core', 'E-Mail-Adresse'),
-(74, 'customers.add.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern'),
-(75, 'customers.add.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter'),
-(76, 'customers.add.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen'),
-(77, '404.index.title', 'core', 'Ooops! 404'),
-(78, '404.index.page_not_found', 'core', '<h4>Da ist wohl ein Problem aufgetreten.</h4>\r\n<p>Die Seite konnte nicht gefunden werden.</p>'),
-(79, '404.index.back_to_dashboard', 'core', '<i class="icon icon-chevron-left"></i> Zurück'),
-(81, 'customers.edit.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen'),
-(82, 'customers.edit.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter'),
-(83, 'customers.edit.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern'),
-(84, 'customers.edit.index.email.label', 'core', 'E-Mail-Adresse'),
-(85, 'customers.edit.index.country.label', 'core', 'Land'),
-(86, 'customers.edit.index.city_text.label', 'core', 'Ort'),
-(87, 'customers.edit.index.postalcode_text.label', 'core', 'Postleitahl'),
-(88, 'customers.edit.index.housenumber.label', 'core', 'Hausnummer'),
-(89, 'customers.edit.index.street.label', 'core', 'Straße'),
-(90, 'customers.edit.index.lastname.label', 'core', 'Nachname'),
-(91, 'customers.edit.index.firstname.label', 'core', 'Vorname'),
-(92, 'customers.edit.index.fax.label', 'core', 'Faxnummer'),
-(93, 'customers.edit.index.salutation.label', 'core', 'Anrede'),
-(94, 'customers.edit.index.phone.label', 'core', 'Telefon'),
-(95, 'customers.edit.index.company_name.label', 'core', 'Firmenname'),
-(96, 'customers.edit.index.legend', 'core', 'Kunden Daten'),
-(97, 'core_customers_edit.anchor.label', 'breadcrumb', 'Kunde ändern'),
-(98, 'customers.edit.index.title', 'core', 'Kunde (:extend) ändern'),
-(100, 'customers.show.index.title', 'core', 'Kunde (:extend) anzeigen'),
-(101, 'core_customers_show.anchor.label', 'breadcrumb', 'Kunde anzeigen'),
-(102, 'customers.projects.list.index.title', 'core', 'Projekte für :extend'),
-(103, 'core_customers_projects_list.anchor.label', 'breadcrumb', 'Projekt Übersicht'),
-(104, 'customers.projects.list.index.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Projekt hinzufügen'),
-(105, 'customers.projects.list.index.name.label', 'core', 'Name'),
-(106, 'customers.projects.list.index.url.label', 'core', 'Webseite'),
-(107, 'customers.projects.list.index.created_at.label', 'core', 'Erstellt'),
-(108, 'customers.projects.list.index.actions.label', 'core', 'Aktionen'),
-(109, 'customers.projects.list.index.actions.show.label', 'core', '<i class="icon-list"></i> Anzeigen'),
-(110, 'customers.projects.list.index.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten'),
-(111, 'customers.projects.list.index.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen'),
-(112, 'customers.projects.add.index.title', 'core', 'Projekt hinzufügen'),
-(113, 'customers.projects.add.index.legend', 'core', 'Projekt Daten'),
-(114, 'customers.projects.add.index.name.label', 'core', 'Projektname'),
-(115, 'customers.projects.add.index.description.label', 'core', 'Beschreibung'),
-(116, 'customers.projects.add.index.url.label', 'core', 'Website (inkl. http://)'),
-(117, 'customers.projects.add.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern'),
-(118, 'customers.projects.add.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter'),
-(119, 'customers.projects.add.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen'),
-(120, 'core_customers_projects_add.anchor.label', 'breadcrumb', 'Projekt hinzufügen'),
-(121, 'customers.projects.edit.index.title', 'core', 'Projekt (:extend) bearbeiten'),
-(122, 'customers.projects.edit.index.legend', 'core', 'Projekt Daten'),
-(123, 'customers.projects.edit.index.name.label', 'core', 'Projektname'),
-(124, 'customers.projects.edit.index.description.label', 'core', 'Beschreibung'),
-(125, 'customers.projects.edit.index.url.label', 'core', 'Website (inkl. http://)'),
-(126, 'customers.projects.edit.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern'),
-(127, 'customers.projects.edit.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter'),
-(128, 'customers.projects.edit.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen'),
-(129, 'core_customers_projects_edit.anchor.label', 'breadcrumb', 'Projekt ändern'),
-(130, 'customers.list.index.actions.show.label', 'core', '<i class="icon-list"></i> Kunden anzeigen'),
-(131, 'customers.list.index.actions.edit.label', 'core', '<i class="icon-edit"></i> Kunden bearbeiten'),
-(132, 'customers.list.index.actions.delete.label', 'core', '<i class="icon-trash"></i> Kunden löschen'),
-(133, 'customers.list.index.actions.add.project.label', 'core', '<i class="icon-plus"></i> Projekt hinzufügen'),
-(134, 'customers.list.index.actions.add.contact_persons.label', 'core', '<i class="icon-plus"></i> Kontakt Person hinzufügen'),
-(135, 'customers.list.index.show.project.label', 'core', 'Projekt (:extend) anzeigen'),
-(136, 'customers.list.index.actions.list.contact_persons.label', 'core', '<i class="icon-list"></i> Kontakt Personen anzeigen'),
-(137, 'customers.list.index.actions.list.project.label', 'core', '<i class="icon-list"></i> Projekte anzeigen'),
-(138, 'customers.delete.index.legend', 'core', 'Kunden wirklich löschen?'),
-(139, 'customers.delete.index.title', 'core', 'Kunden (:extend) löschen?'),
-(140, 'customers.delete.index.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kunden unwiderruflich löschen.'),
-(141, 'customers.delete.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen'),
-(142, 'customers.delete.index.success', 'core', 'Kunden erfolgreich gelöscht'),
-(143, 'customers.edit.index.success', 'core', 'Kunde bearbeitet'),
-(144, 'customers.add.index.success', 'core', 'Kunde hinzugefügt'),
-(145, 'customers.projects.list.index.nodata', 'core', 'Es sind (noch) keine Projekte vorhanden.'),
-(146, 'customers.projects.add.index.success', 'core', 'Projekt hinzugefügt'),
-(147, 'customers.projects.edit.index.success', 'core', 'Projekt geändert'),
-(148, 'customers.projects.delete.index.title', 'core', 'Projekt (:extend) löschen'),
-(149, 'customers.projects.delete.index.legend', 'core', 'Projekt wirklich löschen?'),
-(150, 'customers.projects.delete.index.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, das Projekt unwiderruflich löschen.'),
-(151, 'customers.projects.delete.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen'),
-(152, 'core_customers_projects_delete.anchor.label', 'breadcrumb', 'Projekt löschen'),
-(153, 'core_customers_delete.anchor.label', 'breadcrumb', 'Kunden löschen'),
-(154, 'customers.projects.show.index.title', 'core', 'Projekt (:extend) '),
-(155, 'core_customers_projects_show.anchor.label', 'breadcrumb', 'Projekt Ansicht'),
-(156, 'customers.projects.add.index.validation.name.required.error', 'core', 'Bitte gebe einen Projektnamen an.'),
-(157, 'customers.projects.add.index.validation.url.valid_url.error', 'core', 'Die URL scheint nicht korrekt zu sein, bitte beachte, das diese inkl. http:// eingegeben werden muss.'),
-(158, 'customers.projects.delete.index.success', 'core', 'Das Projekt wurde gelöscht.'),
-(159, 'core_settings_locales_list.anchor.label', 'navigation', 'Übersetzungen'),
-(160, 'settings.user.profile.edit.title', 'core', 'Mein Profil'),
-(161, 'user_settings.anchor.label', 'breadcrumb', 'Nutzereinstellungen'),
-(162, 'core_settings_user_profile_edit.anchor.label', 'breadcrumb', 'Mein Profil'),
-(163, 'settings.user.profile.edit.user_profile[firstname].label', 'core', 'Vorname'),
-(164, 'settings.user.profile.edit.user_profile[lastname].label', 'core', 'Nachname'),
-(165, 'settings.user.profile.edit.user_profile[birthday].label', 'core', 'Geburtstag'),
-(166, 'settings.user.profile.edit.profile.tab.label', 'core', 'Profil'),
-(167, 'settings.user.profile.edit.password.tab.label', 'core', 'Passwort ändern'),
-(168, 'settings.user.profile.edit.save_next.button.label', 'core', 'Profil speichern'),
-(169, 'settings.user.profile.edit.user[password].label', 'core', 'Dein neues Passwort'),
-(170, 'settings.user.profile.edit.user[password_repeat].label', 'core', 'Wiederhole dein neues Passwort'),
-(171, 'settings.user.profile.edit.change_password.success', 'core', 'Profil gespeichert'),
-(172, 'settings.user.profile.edit.validation.password.min_length.error', 'core', 'Dein Passwort muss min. 8 Zeichen lang sein.'),
-(173, 'settings.user.profile.edit.validation.password.is_repeatet.error', 'core', 'Die beiden Passwörter stimmen nicht überein.'),
-(174, 'core_settings_user_pubkeys_list.anchor.label', 'breadcrumb', 'Meine Public Keys'),
-(175, 'settings.user.pubkeys.list.title', 'core', 'Meine Public Keys'),
-(176, 'settings.user.pubkeys.list.name.label', 'core', 'Bezeichnung'),
-(177, 'settings.user.pubkeys.list.value.label', 'core', 'Wert'),
-(178, 'settings.user.pubkeys.list.created_at.label', 'core', 'Erstellt'),
-(179, 'settings.user.pubkeys.list.actions.label', 'core', 'Aktionen'),
-(180, 'settings.user.pubkeys.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Public Key hinzufügen'),
-(181, 'settings.user.pubkeys.delete.title', 'core', 'Den Key :extend wirklich löschen?'),
-(182, 'core_settings_user_pubkeys_delete.anchor.label', 'breadcrumb', 'Public Key löschen'),
-(183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message'''),
-(184, 'srit.srit.init_modules.runtime_error', 'exception', 'Es ist ein Fehler aufgetreten: '':message'''),
-(185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!'),
-(186, 'srit.observer_localized.properties.empty', 'exception', 'Properties sind leer in: :model'),
-(187, 'srit.model.save', 'exception', 'Datensatz konnte nicht gespeichert werden :message'),
-(188, 'srit.load.module_not_activated', 'excception', 'Modul ist nicht aktiv: :module');
+INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`, `value_en`) VALUES
+(1, 'login.index.title', 'core', 'Login', ''),
+(2, 'login.index.username.label', 'core', 'Nutzername/E-Mail-Adresse', ''),
+(3, 'login.index.password.label', 'core', 'Passwort', ''),
+(4, 'login.index.login.button.label', 'core', 'Login', ''),
+(5, 'login.index.forgetpassword.label', 'core', 'Passwort vergessen', ''),
+(6, '403.index.title', 'core', 'Oooops! 403', ''),
+(7, '403.index.permission_denied', 'core', '<h4>Da ist wohl ein Problem aufgetreten.</h4>\r\n<p>Du hast nicht die Berechtigung diese Seite zu sehen.</p>', ''),
+(8, '403.index.back_to_dashboard', 'core', '<i class="icon-chevron-left"></i> Zurück', ''),
+(9, 'denied.login.first.label', 'access', 'Bitte logge dich erst ein!', ''),
+(10, 'password.forget.title', 'core', 'Passwort vergessen', ''),
+(11, 'password.forget.back_to_login.label', 'core', '<i class="icon  icon-chevron-left"></i> Zurück zum Login', ''),
+(12, 'password.forget.send.label', 'core', 'Neues Passwort anfordern', ''),
+(13, 'password.forget.username.label', 'core', 'Nutzername/E-Mail-Adresse', ''),
+(17, 'login.index.validation.username.required.error', 'core', 'Bitte gebe deinen Nutzernamen oder deine E-Mail-Adresse an.', ''),
+(18, 'login.index.validation.password.required.error', 'core', 'Bitte gebe dein Passwort an.', ''),
+(19, 'login.index.validation.login.failed', 'core', 'Login fehlgeschlagen.', ''),
+(20, 'password.forget.validation.username.required.error', 'core', 'Bitte gebe deinen Nutzernamen oder deine E-Mail-Adresse an.', ''),
+(21, 'login.index.validation.password.min_length.error', 'core', 'Das Passwort muss min. 8 Zeichen lang sein. ', ''),
+(22, 'password.forget.validation.username.user_exists.error', 'core', 'Der Nutzer existiert leider nicht in unserem System.', ''),
+(23, 'password.forget.messages.prepare_new_password.success', 'core', 'Es wurde eine E-Mail mit weiteren Informationen an deine E-Mail-Adresse gesendet.', ''),
+(24, 'password.confirmed_email.title', 'core', 'Neues Passwort vergeben', ''),
+(25, 'password.confirmed_email.password.label', 'core', 'Neues Passwort', ''),
+(26, 'password.confirmed_email.password_repeat.label', 'core', 'Passwort wiederholen', ''),
+(27, 'password.confirmed_email.login.button.label', 'core', 'Passwort speichern', ''),
+(28, 'password.confirmed_email.forgetpassword.cancel_button.label', 'core', 'Abbrechen', ''),
+(29, 'password.confirmed_email.validation.password.min_length.error', 'core', 'Das neue Passwort muss min. 8 Zeichen lang sein.', ''),
+(30, 'password.confirmed_email.validation.password.max_length.error', 'core', 'Das neue Passwort darf max. 255 Zeichen lang sein.', ''),
+(31, 'password.confirmed_email.validation.password.is_repeatet.error', 'core', 'Die beiden Passwörter stimmen leider nicht überein.', ''),
+(32, 'password.confirmed_email.change_password.success.label', 'core', 'Passwort erfolgreich geändert.', ''),
+(33, 'password.confirmed_email.password.change.success', 'core', 'Dein Passwort wurde erfolgreich geändert.', ''),
+(34, 'password.confirmed_email.back_to_login.label', 'core', '<i class="icon icon-chevron-left"></i> Zurück zum Login', ''),
+(35, 'login.index.validation.login.success', 'core', 'Login erfolgreich', ''),
+(36, 'prefix.label', 'breadcrumb', 'Du befindest dich hier:', ''),
+(37, 'core_dashboard.anchor.label', 'breadcrumb', 'Dashboard', ''),
+(38, 'logout.index.validation.login.success', 'core', 'Logout erfolgreich', ''),
+(39, 'button.label', 'back', '<i class="icon icon-chevron-left"></i>  Zurück', ''),
+(40, 'actions.label', 'last_pages', 'History', ''),
+(41, 'core_dashboard.anchor.label', 'navigation', 'Dashboard', ''),
+(42, 'core_customers_list.anchor.label', 'navigation', 'Kunden', ''),
+(43, 'user_settings.anchor.label', 'navigation', 'Nutzereinstellungen', ''),
+(44, 'core_settings_user_profile_edit.anchor.label', 'navigation', 'Profileinstellungen', ''),
+(45, 'core_settings_user_pubkeys_list.anchor.label', 'navigation', 'Public Key Verwaltung', ''),
+(46, 'settings.anchor.label', 'navigation', 'Systemeinstellungen', ''),
+(47, 'core_settings_languages_list.anchor.label', 'navigation', 'Spracheinstellungen', ''),
+(48, 'core_user_logout.anchor.label', 'navigation', 'Logout', ''),
+(49, 'dashboard.index.title', 'core', 'Dashboard', ''),
+(50, 'customers.list.index.title', 'core', 'Kundenübersicht', ''),
+(51, 'home.anchor.label', 'breadcrumb', 'Dashboard', ''),
+(52, 'core_customers_list.anchor.label', 'breadcrumb', 'Kundenübersicht', ''),
+(53, 'customers.list.index.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Kunden hinzufügen', ''),
+(54, 'customers.list.index.address.label', 'core', 'Adresse', ''),
+(55, 'customers.list.index.references.label', 'core', 'Referenzen', ''),
+(56, 'customers.list.index.actions.label', 'core', 'Aktionen', ''),
+(57, 'customers.list.index.count.contacts.label', 'core', 'Kontakte (:amount)', ''),
+(58, 'customers.list.index.count.projects.label', 'core', 'Projekte (:amount)', ''),
+(59, 'customers.add.index.title', 'core', 'Kunden hinzufügen', ''),
+(60, 'core_customers_add.anchor.label', 'breadcrumb', 'Kunden hinzufügen', ''),
+(61, 'customers.add.index.legend', 'core', 'Kunden Daten', ''),
+(62, 'customers.add.index.company_name.label', 'core', 'Firmenname', ''),
+(63, 'customers.add.index.phone.label', 'core', 'Telefon', ''),
+(64, 'customers.add.index.salutation.label', 'core', 'Anrede', ''),
+(65, 'customers.add.index.fax.label', 'core', 'Faxnummer', ''),
+(66, 'customers.add.index.firstname.label', 'core', 'Vorname', ''),
+(67, 'customers.add.index.lastname.label', 'core', 'Nachname', ''),
+(68, 'customers.add.index.street.label', 'core', 'Straße', ''),
+(69, 'customers.add.index.housenumber.label', 'core', 'Hausnummer', ''),
+(70, 'customers.add.index.postalcode_text.label', 'core', 'Postleitahl', ''),
+(71, 'customers.add.index.city_text.label', 'core', 'Ort', ''),
+(72, 'customers.add.index.country.label', 'core', 'Land', ''),
+(73, 'customers.add.index.email.label', 'core', 'E-Mail-Adresse', ''),
+(74, 'customers.add.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern', ''),
+(75, 'customers.add.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter', ''),
+(76, 'customers.add.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', ''),
+(77, '404.index.title', 'core', 'Ooops! 404', ''),
+(78, '404.index.page_not_found', 'core', '<h4>Da ist wohl ein Problem aufgetreten.</h4>\r\n<p>Die Seite konnte nicht gefunden werden.</p>', ''),
+(79, '404.index.back_to_dashboard', 'core', '<i class="icon icon-chevron-left"></i> Zurück', ''),
+(81, 'customers.edit.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', ''),
+(82, 'customers.edit.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter', ''),
+(83, 'customers.edit.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern', ''),
+(84, 'customers.edit.index.email.label', 'core', 'E-Mail-Adresse', ''),
+(85, 'customers.edit.index.country.label', 'core', 'Land', ''),
+(86, 'customers.edit.index.city_text.label', 'core', 'Ort', ''),
+(87, 'customers.edit.index.postalcode_text.label', 'core', 'Postleitahl', ''),
+(88, 'customers.edit.index.housenumber.label', 'core', 'Hausnummer', ''),
+(89, 'customers.edit.index.street.label', 'core', 'Straße', ''),
+(90, 'customers.edit.index.lastname.label', 'core', 'Nachname', ''),
+(91, 'customers.edit.index.firstname.label', 'core', 'Vorname', ''),
+(92, 'customers.edit.index.fax.label', 'core', 'Faxnummer', ''),
+(93, 'customers.edit.index.salutation.label', 'core', 'Anrede', ''),
+(94, 'customers.edit.index.phone.label', 'core', 'Telefon', ''),
+(95, 'customers.edit.index.company_name.label', 'core', 'Firmenname', ''),
+(96, 'customers.edit.index.legend', 'core', 'Kunden Daten', ''),
+(97, 'core_customers_edit.anchor.label', 'breadcrumb', 'Kunde ändern', ''),
+(98, 'customers.edit.index.title', 'core', 'Kunde (:extend) ändern', ''),
+(100, 'customers.show.index.title', 'core', 'Kunde (:extend) anzeigen', ''),
+(101, 'core_customers_show.anchor.label', 'breadcrumb', 'Kunde anzeigen', ''),
+(102, 'customers.projects.list.index.title', 'core', 'Projekte für :extend', ''),
+(103, 'core_customers_projects_list.anchor.label', 'breadcrumb', 'Projekt Übersicht', ''),
+(104, 'customers.projects.list.index.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Projekt hinzufügen', ''),
+(105, 'customers.projects.list.index.name.label', 'core', 'Name', ''),
+(106, 'customers.projects.list.index.url.label', 'core', 'Webseite', ''),
+(107, 'customers.projects.list.index.created_at.label', 'core', 'Erstellt', ''),
+(108, 'customers.projects.list.index.actions.label', 'core', 'Aktionen', ''),
+(109, 'customers.projects.list.index.actions.show.label', 'core', '<i class="icon-list"></i> Anzeigen', ''),
+(110, 'customers.projects.list.index.actions.edit.label', 'core', '<i class="icon-edit"></i> Bearbeiten', ''),
+(111, 'customers.projects.list.index.actions.delete.label', 'core', '<i class="icon-trash"></i> Löschen', ''),
+(112, 'customers.projects.add.index.title', 'core', 'Projekt hinzufügen', ''),
+(113, 'customers.projects.add.index.legend', 'core', 'Projekt Daten', ''),
+(114, 'customers.projects.add.index.name.label', 'core', 'Projektname', ''),
+(115, 'customers.projects.add.index.description.label', 'core', 'Beschreibung', ''),
+(116, 'customers.projects.add.index.url.label', 'core', 'Website (inkl. http://)', ''),
+(117, 'customers.projects.add.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern', ''),
+(118, 'customers.projects.add.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter', ''),
+(119, 'customers.projects.add.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', ''),
+(120, 'core_customers_projects_add.anchor.label', 'breadcrumb', 'Projekt hinzufügen', ''),
+(121, 'customers.projects.edit.index.title', 'core', 'Projekt (:extend) bearbeiten', ''),
+(122, 'customers.projects.edit.index.legend', 'core', 'Projekt Daten', ''),
+(123, 'customers.projects.edit.index.name.label', 'core', 'Projektname', ''),
+(124, 'customers.projects.edit.index.description.label', 'core', 'Beschreibung', ''),
+(125, 'customers.projects.edit.index.url.label', 'core', 'Website (inkl. http://)', ''),
+(126, 'customers.projects.edit.index.save.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern', ''),
+(127, 'customers.projects.edit.index.save_next.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Speichern und weiter', ''),
+(128, 'customers.projects.edit.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Abbrechen', ''),
+(129, 'core_customers_projects_edit.anchor.label', 'breadcrumb', 'Projekt ändern', ''),
+(130, 'customers.list.index.actions.show.label', 'core', '<i class="icon-list"></i> Kunden anzeigen', ''),
+(131, 'customers.list.index.actions.edit.label', 'core', '<i class="icon-edit"></i> Kunden bearbeiten', ''),
+(132, 'customers.list.index.actions.delete.label', 'core', '<i class="icon-trash"></i> Kunden löschen', ''),
+(133, 'customers.list.index.actions.add.project.label', 'core', '<i class="icon-plus"></i> Projekt hinzufügen', ''),
+(134, 'customers.list.index.actions.add.contact_persons.label', 'core', '<i class="icon-plus"></i> Kontakt Person hinzufügen', ''),
+(135, 'customers.list.index.show.project.label', 'core', 'Projekt (:extend) anzeigen', ''),
+(136, 'customers.list.index.actions.list.contact_persons.label', 'core', '<i class="icon-list"></i> Kontakt Personen anzeigen', ''),
+(137, 'customers.list.index.actions.list.project.label', 'core', '<i class="icon-list"></i> Projekte anzeigen', ''),
+(138, 'customers.delete.index.legend', 'core', 'Kunden wirklich löschen?', ''),
+(139, 'customers.delete.index.title', 'core', 'Kunden (:extend) löschen?', ''),
+(140, 'customers.delete.index.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, den Kunden unwiderruflich löschen.', ''),
+(141, 'customers.delete.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', ''),
+(142, 'customers.delete.index.success', 'core', 'Kunden erfolgreich gelöscht', ''),
+(143, 'customers.edit.index.success', 'core', 'Kunde bearbeitet', ''),
+(144, 'customers.add.index.success', 'core', 'Kunde hinzugefügt', ''),
+(145, 'customers.projects.list.index.nodata', 'core', 'Es sind (noch) keine Projekte vorhanden.', ''),
+(146, 'customers.projects.add.index.success', 'core', 'Projekt hinzugefügt', ''),
+(147, 'customers.projects.edit.index.success', 'core', 'Projekt geändert', ''),
+(148, 'customers.projects.delete.index.title', 'core', 'Projekt (:extend) löschen', ''),
+(149, 'customers.projects.delete.index.legend', 'core', 'Projekt wirklich löschen?', ''),
+(150, 'customers.projects.delete.index.delete.button.label', 'core', '<i class="icon-white icon-thumbs-up"></i> Ja, das Projekt unwiderruflich löschen.', ''),
+(151, 'customers.projects.delete.index.cancel.button.label', 'core', '<i class="icon-white icon-thumbs-down"></i> Nein, abbrechen', ''),
+(152, 'core_customers_projects_delete.anchor.label', 'breadcrumb', 'Projekt löschen', ''),
+(153, 'core_customers_delete.anchor.label', 'breadcrumb', 'Kunden löschen', ''),
+(154, 'customers.projects.show.index.title', 'core', 'Projekt (:extend) ', ''),
+(155, 'core_customers_projects_show.anchor.label', 'breadcrumb', 'Projekt Ansicht', ''),
+(156, 'customers.projects.add.index.validation.name.required.error', 'core', 'Bitte gebe einen Projektnamen an.', ''),
+(157, 'customers.projects.add.index.validation.url.valid_url.error', 'core', 'Die URL scheint nicht korrekt zu sein, bitte beachte, das diese inkl. http:// eingegeben werden muss.', ''),
+(158, 'customers.projects.delete.index.success', 'core', 'Das Projekt wurde gelöscht.', ''),
+(159, 'core_settings_locales_list.anchor.label', 'navigation', 'Übersetzungen', ''),
+(160, 'settings.user.profile.edit.title', 'core', 'Mein Profil', ''),
+(161, 'user_settings.anchor.label', 'breadcrumb', 'Nutzereinstellungen', ''),
+(162, 'core_settings_user_profile_edit.anchor.label', 'breadcrumb', 'Mein Profil', ''),
+(163, 'settings.user.profile.edit.user_profile[firstname].label', 'core', 'Vorname', ''),
+(164, 'settings.user.profile.edit.user_profile[lastname].label', 'core', 'Nachname', ''),
+(165, 'settings.user.profile.edit.user_profile[birthday].label', 'core', 'Geburtstag', ''),
+(166, 'settings.user.profile.edit.profile.tab.label', 'core', 'Profil', ''),
+(167, 'settings.user.profile.edit.password.tab.label', 'core', 'Passwort ändern', ''),
+(168, 'settings.user.profile.edit.save_next.button.label', 'core', 'Profil speichern', ''),
+(169, 'settings.user.profile.edit.user[password].label', 'core', 'Dein neues Passwort', ''),
+(170, 'settings.user.profile.edit.user[password_repeat].label', 'core', 'Wiederhole dein neues Passwort', ''),
+(171, 'settings.user.profile.edit.change_password.success', 'core', 'Profil gespeichert', ''),
+(172, 'settings.user.profile.edit.validation.password.min_length.error', 'core', 'Dein Passwort muss min. 8 Zeichen lang sein.', ''),
+(173, 'settings.user.profile.edit.validation.password.is_repeatet.error', 'core', 'Die beiden Passwörter stimmen nicht überein.', ''),
+(174, 'core_settings_user_pubkeys_list.anchor.label', 'breadcrumb', 'Meine Public Keys', ''),
+(175, 'settings.user.pubkeys.list.title', 'core', 'Meine Public Keys', ''),
+(176, 'settings.user.pubkeys.list.name.label', 'core', 'Bezeichnung', ''),
+(177, 'settings.user.pubkeys.list.value.label', 'core', 'Wert', ''),
+(178, 'settings.user.pubkeys.list.created_at.label', 'core', 'Erstellt', ''),
+(179, 'settings.user.pubkeys.list.actions.label', 'core', 'Aktionen', ''),
+(180, 'settings.user.pubkeys.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Public Key hinzufügen', ''),
+(181, 'settings.user.pubkeys.delete.title', 'core', 'Den Key :extend wirklich löschen?', ''),
+(182, 'core_settings_user_pubkeys_delete.anchor.label', 'breadcrumb', 'Public Key löschen', ''),
+(183, 'model.password.send_prepare_new_password_mail.cant.send.email', 'exception', 'Die E-Mail konnte nicht gesendet werden: '':message''', ''),
+(184, 'srit.srit.init_modules.runtime_error', 'exception', 'Es ist ein Fehler aufgetreten: '':message''', ''),
+(185, 'function.named_route.route_not_exists', 'exception', 'Route '':route_name'' existiert nicht!', ''),
+(186, 'srit.observer_localized.properties.empty', 'exception', 'Properties sind leer in: :model', ''),
+(187, 'srit.model.save', 'exception', 'Datensatz konnte nicht gespeichert werden :message', ''),
+(188, 'srit.load.module_not_activated', 'excception', 'Modul ist nicht aktiv: :module', ''),
+(189, 'srit.model.save', 'exception', 'Speichern fehlgeschlagen :message', ''),
+(190, 'settings.modules.list.register_modules.anchor.label', 'core', '<i class="icon-refresh"></i> Module Registrieren', ''),
+(191, 'core_settings_modules_list.anchor.label', 'navigation', 'Erweiterungen', ''),
+(192, 'settings.anchor.label', 'breadcrumb', 'Einstellungen', ''),
+(193, 'core_settings_locales_list.anchor.label', 'breadcrumb', 'Übersetzungen', ''),
+(194, 'core_settings_locales_add.anchor.label', 'breadcrumb', 'Übersetzung hinzufügen', ''),
+(195, 'settings.locales.add.legend', 'core', 'Neue Übersetzung', ''),
+(196, 'settings.locales.add.success', 'core', 'Übersetzung hinzugefügt', ''),
+(197, 'settings.locales.edit.legend', 'core', 'Übersetzung bearbeiten', ''),
+(198, 'settings.locales.add.key.label', 'core', 'Schlüssel', ''),
+(199, 'settings.locales.add.group.label', 'core', 'Gruppe', ''),
+(201, 'settings.locales.add.tab.de.label', 'core', '<span class="flag flag-de"></span> Deutsch ', ''),
+(202, 'settings.locales.add.value_de.label', 'core', 'Deutsch', 'German'),
+(203, 'settings.locales.add.save.button.label', 'core', 'Speichern', ''),
+(204, 'settings.locales.add.save_next.button.label', 'core', 'Speichern und Neu', ''),
+(205, 'settings.locales.add.cancel.button.label', 'core', 'Abbrechen', ''),
+(206, 'settings.locales.edit.cancel.button.label', 'core', 'Abbrechen', ''),
+(207, 'settings.locales.edit.save_next.button.label', 'core', 'Speichern und Zurück', ''),
+(208, 'settings.locales.edit.save.button.label', 'core', 'Speichern', ''),
+(209, 'settings.locales.edit.tab.de.label', 'core', '<span class="flag flag-de"></span> Deutsch ', ''),
+(210, 'settings.locales.edit.group.label', 'core', 'Gruppe', ''),
+(211, 'settings.locales.edit.key.label', 'core', 'Schlüssel', ''),
+(212, 'settings.locales.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i> Übersetzung', ''),
+(213, 'settings.locales.list.key.label', 'core', 'Schlüssel', ''),
+(214, 'settings.locales.list.group.label', 'core', 'Gruppe', ''),
+(215, 'settings.locales.list.value.label', 'core', 'Übersetzung', ''),
+(216, 'settings.locales.list.actions.label', 'core', 'Funktionen', ''),
+(217, 'settings.locales.list.actions.edit.label', 'core', '<i class="icon icon-pencil"></i> Bearbeiten', ''),
+(218, 'settings.locales.list.actions.copy.label', 'core', '<i class="icon icon-folder-close"></i> Kopieren', ''),
+(219, 'settings.locales.list.actions.delete.label', 'core', '<i class="icon icon-trash"></i> Löschen', ''),
+(220, 'settings.locales.edit.success', 'core', 'Übersetzung hinzugefügt', ''),
+(221, 'settings.locales.delete.success', 'core', 'Übersetzung gelöscht', ''),
+(223, 'settings.locales.delete.legend', 'core', 'Übersetzung wirklich löschen?', ''),
+(224, 'settings.locales.delete.delete.button.label', 'core', 'Ja, unwiderruflich löschen', ''),
+(225, 'settings.locales.delete.cancel.button.label', 'core', 'Nein, lieber abbrechen.', ''),
+(226, 'settings.locales.delete.title', 'core', 'Übersetzung löschen', ''),
+(227, 'settings.locales.list.deletes.button.label', 'core', 'Markierte löschen', ''),
+(228, 'settings.locales.list.filter.button.label', 'core', 'Filtern', ''),
+(229, 'settings.locales.list.filter_like.button.label', 'core', 'Like Filter', ''),
+(230, 'settings.locales.list.title', 'core', 'Übersetzungen', ''),
+(231, 'settings.user.pubkeys.list.actions.edit.label', 'core', '<i class="icon icon-pencil"></i> Bearbeiten', ''),
+(232, 'settings.user.pubkeys.list.actions.delete.label', 'core', '<i class="icon icon-trash"></i> Löschen', ''),
+(233, 'settings.user.pubkeys.delete.legend', 'core', 'Key Löschen?', ''),
+(234, 'settings.user.pubkeys.delete.delete.button.label', 'core', 'Ja, unwiderruflich löschen', ''),
+(235, 'settings.user.pubkeys.delete.cancel.button.label', 'core', 'Nein, abbrechen', ''),
+(236, 'settings.user.pubkeys.delete.success', 'core', 'Public Key gelöscht', ''),
+(237, 'settings.languages.list.title', 'core', 'Sprachen', ''),
+(238, 'core_settings_languages_list.anchor.label', 'breadcrumb', 'Sprachen', ''),
+(239, 'settings.languages.list.locale.label', 'core', 'Locale', ''),
+(240, 'settings.languages.list.language.label', 'core', 'Sprache', ''),
+(241, 'settings.languages.list.plain.label', 'core', 'Plain', ''),
+(242, 'settings.languages.list.actions.label', 'core', 'Funktionen', ''),
+(243, 'settings.languages.list.id.label', 'core', '#', ''),
+(244, 'settings.languages.list.default.label', 'core', 'Standardsprache', ''),
+(245, 'settings.languages.list.add.button.label', 'core', '<i class="icon-white icon-plus"></i>', ''),
+(246, 'settings.languages.list.add.plain.label', 'core', 'Plain (z.B. Deutsch)', ''),
+(247, 'settings.languages.list.actions.edit.label', 'core', '<i class="icon-pencil"></i> Bearbeiten', ''),
+(248, 'settings.languages.list.actions.delete.label', 'core', '<i class="icon icon-trash"></i> Löschen', ''),
+(249, 'settings.languages.list.actions.locales.label', 'core', '<i class="icon icon-share"></i> Übersetzungen', ''),
+(250, 'settings.languages.add.title', 'core', 'Sprache hinzufügen', ''),
+(251, 'core_settings_languages_add.anchor.label', 'breadcrumb', 'Neue Sprache', ''),
+(252, 'settings.languages.add.legend', 'core', 'Sprachdaten', ''),
+(253, 'settings.languages.add.locale.label', 'core', 'Locale', ''),
+(254, 'settings.languages.add.language.label', 'core', 'Sprachkürzel', ''),
+(255, 'settings.languages.add.plain.label', 'core', 'Plain', ''),
+(256, 'settings.languages.add.currency.label', 'core', 'Währungssymbol', ''),
+(257, 'settings.languages.add.thousand_separator.label', 'core', 'Tausendertrenner', ''),
+(258, 'settings.languages.add.dec_point.label', 'core', 'Dezimal Punkt', ''),
+(259, 'settings.languages.add.date_format.label', 'core', 'Datumsformat (z.B. dd.mm.yyyy)', ''),
+(260, 'settings.languages.add.active.label', 'core', 'Aktiv', ''),
+(261, 'settings.languages.add.default.label', 'core', 'Standard', ''),
+(262, 'settings.languages.add.save.button.label', 'core', 'Speichern', ''),
+(263, 'settings.languages.add.save_next.button.label', 'core', 'Speichern und Neu', ''),
+(264, 'settings.languages.add.cancel.button.label', 'core', 'Abbrechen', 'Cancel'),
+(265, 'settings.locales.edit.tab.en.label', 'core', '<span class="flag flag-us"></span> Englisch', '<span class="flag flag-us"></span> English'),
+(266, 'settings.locales.add.tab.en.label', 'core', '<span class="flag flag-us"></span> Englisch', '<span class="flag flag-us"></span> English'),
+(269, 'settings.locales.add.value_en.label', 'core', 'Englisch', 'English'),
+(270, 'settings.locales.edit.value_en.label', 'core', 'Englisch', 'English'),
+(271, 'settings.locales.edit.value_de.label', 'core', 'Deutsch', 'German');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_localized_tables`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_localized_tables` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `table_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Daten für Tabelle `intrabytes_localized_tables`
+--
+
+INSERT INTO `intrabytes_localized_tables` (`id`, `table_name`) VALUES
+(1, 'countries'),
+(2, 'locales'),
+(3, 'modules'),
+(4, 'salutations');
+
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `intrabytes_localized_table_columns`
+--
+
+CREATE TABLE IF NOT EXISTS `intrabytes_localized_table_columns` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `localized_table_id` int(11) NOT NULL,
+  `column_name` varchar(255) NOT NULL,
+  `size` int(11) NOT NULL,
+  `type` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`,`localized_table_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Daten für Tabelle `intrabytes_localized_table_columns`
+--
+
+INSERT INTO `intrabytes_localized_table_columns` (`id`, `localized_table_id`, `column_name`, `size`, `type`) VALUES
+(1, 1, 'name', 100, 'varchar'),
+(2, 2, 'value', 0, 'text'),
+(3, 3, 'title', 255, 'varchar'),
+(4, 3, 'description', 255, 'varchar'),
+(5, 4, 'salutation', 50, 'varchar');
 
 -- --------------------------------------------------------
 
@@ -608,16 +731,19 @@ CREATE TABLE IF NOT EXISTS `intrabytes_modules` (
   `config` text NOT NULL,
   `activated_at` datetime DEFAULT NULL,
   `sort` int(11) NOT NULL,
+  `fixed` tinyint(1) NOT NULL,
+  `description_en` varchar(255) NOT NULL,
+  `title_en` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Daten für Tabelle `intrabytes_modules`
 --
 
-INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`) VALUES
-(3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}}', NULL, 2),
-(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}}', NULL, 1);
+INSERT INTO `intrabytes_modules` (`id`, `name`, `path`, `active`, `title_de`, `description_de`, `author`, `version`, `config`, `activated_at`, `sort`, `fixed`, `description_en`, `title_en`) VALUES
+(3, 'core', 'core', 1, 'Core', 'Core Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:4:\\"Core\\";s:2:\\"en\\";s:4:\\"core\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Core Modul\\";s:2:\\"en\\";s:11:\\"core module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:27:\\"core/classes/model/user.php\\";}}', NULL, 1, 1, '', ''),
+(4, 'tasks', 'tasks', 1, 'Tasks', 'Task Modul', 'Stefan Riedel', '0.1', 'a:5:{s:5:\\"title\\";a:2:{s:2:\\"de\\";s:5:\\"Tasks\\";s:2:\\"en\\";s:5:\\"tasks\\";}s:11:\\"description\\";a:2:{s:2:\\"de\\";s:10:\\"Task Modul\\";s:2:\\"en\\";s:11:\\"task module\\";}s:6:\\"author\\";s:13:\\"Stefan Riedel\\";s:7:\\"version\\";s:3:\\"0.1\\";s:6:\\"extend\\";a:1:{s:15:\\"Srit\\\\Model_User\\";s:28:\\"tasks/classes/model/user.php\\";}}', NULL, 2, 0, '', '');
 
 -- --------------------------------------------------------
 
@@ -26718,6 +26844,7 @@ INSERT INTO `intrabytes_roles` (`id`, `name`, `created_at`, `updated_at`) VALUES
 CREATE TABLE IF NOT EXISTS `intrabytes_salutations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `salutation_de` varchar(50) NOT NULL,
+  `salutation_en` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -26725,9 +26852,9 @@ CREATE TABLE IF NOT EXISTS `intrabytes_salutations` (
 -- Daten für Tabelle `intrabytes_salutations`
 --
 
-INSERT INTO `intrabytes_salutations` (`id`, `salutation_de`) VALUES
-(1, 'Herr'),
-(2, 'Frau');
+INSERT INTO `intrabytes_salutations` (`id`, `salutation_de`, `salutation_en`) VALUES
+(1, 'Herr', ''),
+(2, 'Frau', '');
 
 -- --------------------------------------------------------
 
@@ -26812,7 +26939,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1371584276, '8a0d2c66275fa74b9d2f9e891c96eca0f8e7f7a3', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1372054523, 'd065ae1bdeb49f3a435c38c6d5707d35b75aea44', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 
@@ -26837,7 +26964,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 --
 
 INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-01-01', 'm', '2013-02-05 11:19:47', '0000-00-00 00:00:00');
+(1, 1, 'Stefan', 'Riedel', '1983-01-11', 'm', '2013-02-05 11:19:47', '2013-06-24 13:37:02');
 
 -- --------------------------------------------------------
 
@@ -26860,9 +26987,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_public_keys` (
 --
 
 INSERT INTO `intrabytes_user_public_keys` (`id`, `user_id`, `name`, `value`, `created_at`, `updated_at`) VALUES
-(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46'),
-(3, 1, 'asdasdasdasdasd', 'asdsadasd', '2013-05-14 11:20:12', '1970-01-01 01:00:00'),
-(12, 1, 'asdasdas', 'asdasdasd', '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+(2, 1, 'MacMini', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDUVA0OKvcIWyWrtN9q7uxlRqE7g447PdKM73t3TFDORwPbxcAuMT7nlqVLh/+jM+SACwAiBYx+WfdjJ8gGEloCp1B27Bz2l5ZcJh2Ab9OrADC11O3OHTGeNvwHnyDAA21BGgomG6fsUOUbQanlX1hbdln/X7pwz5UVM+6OW9yYQyFHFyI2ycW+ZaPE5ESyzxEDNnh6ddkgdtFZ933b/qYa6S5ARuklPk/J8wS/1IoTgt5xCjs4C5cn4ND+//CJg1OApfun76A8K7/QK3p8/MseWIzglJJi/bIhw6M7TgA2oRU9qzrV9Y/GnzzlGfnr8TNLpMFG6M8/vyvSX5t6lUo/ marcgrimm@localhost', '2013-02-12 12:52:49', '2013-02-28 15:21:46');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
