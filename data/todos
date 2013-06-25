@@ -41,3 +41,5 @@
 - Module werden eigene Objekte
 
 - XCache Backend
+
+- Translations and Internationalizations not in observers - user based caching is better

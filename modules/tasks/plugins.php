@@ -13,5 +13,7 @@
 
 
 \Event::register('module_deactivate', function(){
-    \Model_Dashboard_Item::find_by_name('tasks')->delete();
+    if($dashboard_item = \Model_Dashboard_Item::find_by_name('tasks')) {
+        $dashboard_item->delete();
+    }
 });

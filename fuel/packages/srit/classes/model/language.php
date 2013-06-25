@@ -11,6 +11,21 @@ use Srit\Model;
 class Model_Language extends \CachedModel
 {
 
+    public function get_missing_translations() {
+        return \Model_Locale::count(array(
+            'where' => array('value_' . $this->get_language() => '')
+        ));
+    }
+
+    public static function find_default() {
+        $options = array(
+            'where' => array(
+                'default' => true
+            )
+        );
+        return parent::find('first', $options);
+    }
+
     public function validate($input = array())
     {
         $this->_fieldset = \Fieldset::forge()->add_model(get_called_class());

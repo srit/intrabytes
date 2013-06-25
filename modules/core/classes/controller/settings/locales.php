@@ -12,6 +12,13 @@ class Controller_Settings_Locales extends \Controller_CrudBigTemplate {
         '\Model_Locale' => array()
     );
 
+    public function before() {
+        if($value = \Input::get('value') AND $value == 'empty' AND $value_field = \Input::get('value_field') AND !empty($value_field) AND $this->request->action == 'list') {
+            $this->_crud_objects['\Model_Locale']['fixed_named_params'] = array($value_field => '');
+        }
+        parent::before();
+    }
+
     public function action_list() {
 
     }

@@ -37,21 +37,34 @@ echo $theme->view('core/settings/languages/_partials/filter_form', array('crud_o
                     <th><?php echo __ext('language.label') ?></th>
                     <th><?php echo __ext('plain.label') ?></th>
                     <th><?php echo __ext('default.label') ?></th>
+                    <th><?php echo __ext('missing_translations.label') ?></th>
                     <th><?php echo __ext('actions.label') ?></th>
                 </tr>
-                <?php foreach ($language as $lang): ?>
+                <?php foreach ($language as $lang):
+
+                    $missing_translations = $lang->get_missing_translations()
+
+                    ?>
                     <tr>
                         <td><?php echo xss_clean($lang->get_id()) ?></td>
                         <td><?php echo xss_clean($lang->get_locale()) ?></td>
                         <td><?php echo xss_clean($lang->get_language()) ?></td>
                         <td><?php echo xss_clean($lang->get_plain()) ?></td>
                         <td><?php echo boolean_icon(xss_clean($lang->get_default())) ?></td>
+                        <td><?php echo xss_clean($missing_translations) ?></td>
                         <td>
-                            <?php echo twitter_button_group(array(
+                            <?php
+                            $goto_missing_translations = array();
+                            if ($missing_translations > 0) {
+                                $goto_missing_translations = array('attr' => array(), 'value' => html_anchor(named_route('core_settings_locales_list') . '?value=empty&value_field=value_' . $lang->get_language() . '&filter_type=filter', __ext('actions.missing_locales.label')));
+                            }
+
+                            echo twitter_button_group(array(
                                 array('attr' => array(), 'value' => html_anchor(core_settings_languages_edit_route($lang->get_id()), __ext('actions.edit.label'))),
                                 array('attr' => array(), 'value' => html_anchor(core_settings_languages_delete_route($lang->get_id()), __ext('actions.delete.label'))),
                                 array('is_divider' => true),
                                 array('attr' => array(), 'value' => html_anchor(core_settings_locales_list_route(), __ext('actions.locales.label'))),
+                                $goto_missing_translations
                             ), extend_locale('actions.label'), array()); ?>
 
 

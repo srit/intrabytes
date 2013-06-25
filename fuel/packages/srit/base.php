@@ -432,10 +432,12 @@ function twitter_button_group(array $list, $value_locale, array $value_locale_pa
 
     $list_elements = '';
     foreach ($list as $li) {
-        if (isset($li['is_divider']) && $li['is_divider'] == true) {
-            $list_elements .= html_tag('li', array('class' => 'divider'));
-        } else {
-            $list_elements .= html_tag('li', $li['attr'], $li['value']);
+        if (!empty($li)) {
+            if (isset($li['is_divider']) && $li['is_divider'] == true) {
+                $list_elements .= html_tag('li', array('class' => 'divider'));
+            } else {
+                $list_elements .= html_tag('li', $li['attr'], $li['value']);
+            }
         }
     }
 
@@ -588,8 +590,8 @@ function named_route($route_name, $route_params = array(), $route_must_exists = 
         throw new \Exception(__('exception.function.named_route.route_not_exists', array('route_name' => $route_name)));
     } elseif (!\Router::get_route($route_name)) {
         $route_path = $route_path_wo_params = str_replace('_', '/', $route_name);
-        if(!empty($route_params)) {
-            foreach($route_params as $pa_key => $p) {
+        if (!empty($route_params)) {
+            foreach ($route_params as $pa_key => $p) {
                 $route_path .= '/(:' . $pa_key . ')';
             }
         }

@@ -8,6 +8,20 @@ namespace Srit;
 
 class Lang extends \Fuel\Core\Lang {
 
+    protected static $_language = null;
+
+    protected static $_locale = null;
+
+    public static function get($line, array $params = array(), $default = null, $language = null)
+    {
+        if ($language === null)
+        {
+            $language = static::$_language;
+        }
+        $value = parent::get($line, $params, $default, $language);
+        return $value ?: $default;
+    }
+
     public static function init($language = null, $locale = null) {
 
         /**
@@ -21,6 +35,9 @@ class Lang extends \Fuel\Core\Lang {
         if(empty($locale)) {
             $locale = \Config::get('locale');
         }
+
+        static::$_language = $language;
+        static::$_locale = $locale;
 
         $items = \Model_Locale::find_all_by_locale($locale);
 

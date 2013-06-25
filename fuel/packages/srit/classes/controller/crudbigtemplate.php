@@ -158,7 +158,7 @@ class Controller_CrudBigTemplate extends \Controller_BaseBigTemplate {
                 $this->_crud_objects[$this->_crud_actual_object]['data']->save();
                 \Messages::instance()->success(__(extend_locale('success')));
                 if (\Input::post('save', false)) {
-                    $redirect_uri = $this->_crud_redirect_uri;
+                    $redirect_uri = \Last_Pages::get_last_logic_page(1);//$this->_crud_redirect_uri;
                 } else {
                     $redirect_uri = \Uri::current();
                 }

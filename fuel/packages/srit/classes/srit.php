@@ -13,7 +13,16 @@ class Srit extends \Fuel\Core\Fuel
     public static function init($config)
     {
         parent::init($config);
-        \Lang::init();
+        $default_language = \Model_Language::find_default();
+        $language = null;
+        $locale = null;
+        if($default_language) {
+            $language = $default_language->get_language();
+            $locale = $default_language->get_locale();
+        }
+        \Loc::instance()->setLanguage($language);
+        \Loc::instance()->setLocale($locale);
+        \Lang::init($language, $locale);
         \Config::load('logger', true);
         //\Module::init_modules();
     }
