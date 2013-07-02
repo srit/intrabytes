@@ -9,6 +9,29 @@ namespace Srit;
 class Date extends \Fuel\Core\Date
 {
 
+    public function format_by_pattern($pattern,$timezone = null) {
+        // determine the timezone to switch to
+        $timezone === true and $timezone = static::$display_timezone;
+        is_string($timezone) or $timezone = $this->timezone;
+
+        // Temporarily change timezone when different from default
+        if (\Fuel::$timezone != $timezone)
+        {
+            date_default_timezone_set($timezone);
+        }
+
+        // Create output
+        $output = strftime($pattern, $this->timestamp);
+
+        // Change timezone back to default if changed previously
+        if (\Fuel::$timezone != $timezone)
+        {
+            date_default_timezone_set(\Fuel::$timezone);
+        }
+
+        return $output;
+    }
+
     public static function create_from_string($input, $pattern_key = 'local')
     {
         \Config::load('date', 'date');

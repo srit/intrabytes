@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Erstellungszeit: 25. Jun 2013 um 14:50
+-- Erstellungszeit: 02. Jul 2013 um 17:05
 -- Server Version: 5.5.31-0ubuntu0.13.04.1
 -- PHP-Version: 5.4.9-4ubuntu2.1
 
@@ -318,6 +318,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_languages` (
   `thousand_separator` varchar(1) NOT NULL,
   `dec_point` varchar(1) NOT NULL,
   `date_format` varchar(10) NOT NULL,
+  `date_time_format` varchar(20) NOT NULL,
+  `encoding` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
@@ -325,9 +327,9 @@ CREATE TABLE IF NOT EXISTS `intrabytes_languages` (
 -- Daten für Tabelle `intrabytes_languages`
 --
 
-INSERT INTO `intrabytes_languages` (`id`, `locale`, `language`, `plain`, `default`, `active`, `currency`, `thousand_separator`, `dec_point`, `date_format`) VALUES
-(1, 'de_DE', 'de', 'Deutsch', 0, 1, 'EUR', '.', ',', 'dd.mm.yyyy'),
-(11, 'en_US', 'en', 'Englisch', 1, 1, 'USD', ',', ',', 'yyyy/mm/dd');
+INSERT INTO `intrabytes_languages` (`id`, `locale`, `language`, `plain`, `default`, `active`, `currency`, `thousand_separator`, `dec_point`, `date_format`, `date_time_format`, `encoding`) VALUES
+(1, 'de_DE', 'de', 'Deutsch', 0, 1, 'EUR', '.', ',', '%d.%m.%Y ', '%d.%m.%Y %H:%M:%S', 'UTF-8'),
+(11, 'en_US', 'en', 'Englisch', 1, 1, 'USD', ',', ',', '%m/%d/%Y', '%m/%d/%Y %H:%M:%S', 'UTF-8');
 
 -- --------------------------------------------------------
 
@@ -344,7 +346,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_locales` (
   PRIMARY KEY (`id`),
   KEY `key` (`key`),
   KEY `group` (`group`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=286 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=302 ;
 
 --
 -- Daten für Tabelle `intrabytes_locales`
@@ -626,7 +628,23 @@ INSERT INTO `intrabytes_locales` (`id`, `key`, `group`, `value_de`, `value_en`) 
 (282, 'settings.modules.list.actions.delete.label', 'core', 'Lösche Modul', 'Delete Extension'),
 (283, 'settings_modules_activate.index.module.activate.success.label', 'core', 'Modul wurde aktiviert', 'Extension activation success'),
 (284, 'settings_modules_deactivate.index.module.deactivate.success.label', 'core', 'Modul wurde deaktiviert', 'Extension deactivation success'),
-(285, 'settings.languages.list.missing_translations.label', 'core', 'Fehlende Übersetzungen', 'Missing translations');
+(285, 'settings.languages.list.missing_translations.label', 'core', 'Fehlende Übersetzungen', 'Missing translations'),
+(286, 'settings.languages.edit.legend', 'core', 'Sprach Daten', 'Language data'),
+(287, 'settings.languages.edit.title', 'core', 'Sprache ändern', 'Change language'),
+(288, 'settings.languages.edit.locale.label', 'core', 'Locale', 'Locale'),
+(289, 'settings.languages.edit.language.label', 'core', 'Sprache', 'Language'),
+(290, 'settings.languages.edit.plain.label', 'core', 'Text', 'Plain'),
+(291, 'settings.languages.edit.currency.label', 'core', 'Währung', 'Currency sign'),
+(292, 'settings.languages.edit.thousand_separator.label', 'core', 'Tausender Trennzeichen', 'Thousandseparator'),
+(293, 'settings.languages.edit.dec_point.label', 'core', 'Dezimal Zeichen', 'Decimal piont'),
+(294, 'settings.languages.edit.date_format.label', 'core', 'Datums Format', 'Date format'),
+(295, 'settings.languages.edit.date_time_format.label', 'core', 'Datum mit Zeit Format', 'Datetime format'),
+(296, 'settings.languages.edit.active.label', 'core', 'Aktiv', 'Active'),
+(297, 'settings.languages.edit.default.label', 'core', 'Standard', 'Default'),
+(298, 'settings.languages.edit.save.button.label', 'core', 'Speichern', 'Save'),
+(299, 'settings.languages.edit.save_next.button.label', 'core', 'Speichern und zurück', 'Save and back'),
+(300, 'settings.languages.edit.cancel.button.label', 'core', 'Abbrechen', 'Cancel'),
+(301, 'core_settings_languages_edit.anchor.label', 'breadcrumb', 'Sprache ändern', 'Change language');
 
 -- --------------------------------------------------------
 
@@ -26946,7 +26964,7 @@ CREATE TABLE IF NOT EXISTS `intrabytes_users` (
 --
 
 INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepper`, `password`, `email`, `last_login`, `login_hash`, `profile_fields`, `created_at`, `updated_at`, `password_resetted`, `password_resetted_at`, `new_password_hash`) VALUES
-(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1372164601, 'f044125471d6839362cc1e11a50543b493b8465f', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
+(1, 0, 1, 'sr', 'c6ca06df513d1bf1fe363e527cb48517', '$2y$10$7b0b3a9131e69122b066ceTzCtK15PkgM/Kc.2U0/G70mNunin3vu', 'sr@alphabytes.de', 1372663137, '3f26af0621f4e1aa4cf2c526551c9ebd5b59d86e', 'a:0:{}', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 1369299796, 'ttGHufPk41Mw3ZwofGxhfSapJ8roiE5IKcr9DqneX2U=');
 
 -- --------------------------------------------------------
 
@@ -26957,6 +26975,7 @@ INSERT INTO `intrabytes_users` (`id`, `client_id`, `group_id`, `username`, `pepp
 CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
+  `language_id` int(11) NOT NULL,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
   `birthday` date DEFAULT NULL,
@@ -26970,8 +26989,8 @@ CREATE TABLE IF NOT EXISTS `intrabytes_user_profiles` (
 -- Daten für Tabelle `intrabytes_user_profiles`
 --
 
-INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Stefan', 'Riedel', '1983-01-11', 'm', '2013-02-05 11:19:47', '2013-06-24 13:37:02');
+INSERT INTO `intrabytes_user_profiles` (`id`, `user_id`, `language_id`, `firstname`, `lastname`, `birthday`, `gender`, `created_at`, `updated_at`) VALUES
+(1, 1, 11, 'Stefan', 'Riedel', '1983-05-28', 'm', '2013-02-05 11:19:47', '2013-07-01 11:54:02');
 
 -- --------------------------------------------------------
 

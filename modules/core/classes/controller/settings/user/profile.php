@@ -27,6 +27,8 @@ class Controller_Settings_User_Profile extends \Controller_BaseBigTemplate {
         $profile = \Model_User_Profile::find_my();
         $user = \Model_User::find_my();
 
+        $languages = \Model_Language::find_all_for_html_select();
+
         if($user_profile = \Input::post('user_profile', false)) {
             $profile->set($user_profile);
             if($profile->validate($user_profile)) {
@@ -44,6 +46,7 @@ class Controller_Settings_User_Profile extends \Controller_BaseBigTemplate {
             \Messages::redirect(\Uri::current() . '#password');
         }
 
+        $this->_get_content_partial()->set('languages', $languages);
         $this->_get_content_partial()->set('profile', $profile);
     }
 }

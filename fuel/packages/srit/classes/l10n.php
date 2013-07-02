@@ -46,7 +46,7 @@ class L10n
 
     public function reformat_decimal($value)
     {
-        $nf = new \NumberFormatter($this->_locale->getLocale(), \NumberFormatter::DECIMAL);
+        $nf = new \NumberFormatter(\Loc::instance()->get_language_object()->get_locale(), \NumberFormatter::DECIMAL);
         return $nf->parse($value, \NumberFormatter::TYPE_DOUBLE);
     }
 
@@ -81,7 +81,7 @@ class L10n
     {
         $nf = new \NumberFormatter($this->_locale->getLocale(), \NumberFormatter::CURRENCY);
 
-        return $nf->formatCurrency($value, \Loc::instance()->getLanguageModel()->currency);
+        return $nf->formatCurrency($value, \Loc::instance()->get_language_object()->get_currency());
         //return $this->_format_numbers($value, $decimals, \NumberFormatter::CURRENCY);
 
 
@@ -94,7 +94,7 @@ class L10n
             $value = date('Y-m-d', $value);
         }
 
-        return \Date::create_from_string($value, $pattern)->format($this->_locale->getLanguage());
+        return \Date::create_from_string($value, $pattern)->format_by_pattern(\Loc::instance()->get_language_object()->get_date_format());
 
         /**$time = strtotime($value);
 
@@ -115,7 +115,7 @@ class L10n
             $value = date('Y-m-d H:i:s', $value);
         }
 
-        return \Date::create_from_string($value, $pattern)->format($language . '_full');
+        return \Date::create_from_string($value, $pattern)->format_by_pattern(\Loc::instance()->get_language_object()->get_date_time_format());
 
         /**$time = strtotime($value);
 
@@ -135,7 +135,7 @@ class L10n
 
     protected function _format_numbers($value, $decimals, $style)
     {
-        $nf = new \NumberFormatter($this->_locale->getLocale(), $style);
+        $nf = new \NumberFormatter(\Loc::instance()->get_language_object()->get_locale(), $style);
         $nf->setPattern(str_repeat('@', $decimals));
         return $nf->format($value);
     }

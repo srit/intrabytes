@@ -22,7 +22,7 @@ class Model_User_Profile extends \CachedModel
         ),
         '\Observer_Localized' => array(
             'properties' => array(
-                'birthday' =>array(
+                'birthday' => array(
                     'type' => 'date'
                 )
             )
@@ -31,13 +31,16 @@ class Model_User_Profile extends \CachedModel
 
     protected static $_belongs_to = array(
         'user' => array(
-            'model_to' => '\Model_User'
+            'model_to' => '\Model_User',
+            'cascade_save' => true,
+            'cascade_delete' => true,
         )
     );
 
-    public static function find_my() {
+    public static function find_my()
+    {
         return static::find('first', array('where' => array(
-            'user_id' =>  \Auth::get_user()->id
+            'user_id' => \Auth::get_user()->id
         )));
     }
 }

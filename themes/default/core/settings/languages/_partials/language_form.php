@@ -34,6 +34,9 @@
             <?php echo twitter_html_input_text('date_format', xss_clean($language->get_date_format())) ?>
         </div>
         <div class="control-group">
+            <?php echo twitter_html_input_text('date_time_format', xss_clean($language->get_date_time_format())) ?>
+        </div>
+        <div class="control-group">
             <?php echo twitter_html_input_checkbox('active', 1, null, array(), xss_clean($language->get_active())) ?>
         </div>
         <div class="control-group">

@@ -11,7 +11,7 @@
     </ul>
     <div class="tab-content">
         <div class="tab-pane" id="profile">
-            <?php echo $theme->view('core/settings/user/profile/_partials/profile_form', array('profile' => $profile)); ?>
+            <?php echo $theme->view('core/settings/user/profile/_partials/profile_form', array('profile' => $profile, 'languages' => $languages)); ?>
         </div>
         <div class="tab-pane" id="password">
             <?php echo $theme->view('core/settings/user/profile/_partials/password_form'); ?>

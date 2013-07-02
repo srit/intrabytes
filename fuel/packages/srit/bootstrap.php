@@ -23,6 +23,7 @@ Autoloader::add_classes(array(
     'Srit\\Model_Language' => __DIR__ . '/classes/model/language.php',
     'Srit\\Model_Navigation' => __DIR__ . '/classes/model/navigation.php',
     'Srit\\Model_Locale' => __DIR__ . '/classes/model/locale.php',
+    'Srit\\Model_LanguageList' => __DIR__ . '/classes/model/languagelist.php',
 
     'Srit\\Observer_Typing'      => __DIR__.'/classes/observer/typing.php',
     'Srit\\Observer_I18n' => __DIR__ . '/classes/observer/i18n.php',

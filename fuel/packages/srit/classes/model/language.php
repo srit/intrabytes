@@ -6,8 +6,6 @@
 
 namespace Srit;
 
-use Srit\Model;
-
 class Model_Language extends \CachedModel
 {
 
@@ -15,6 +13,13 @@ class Model_Language extends \CachedModel
         return \Model_Locale::count(array(
             'where' => array('value_' . $this->get_language() => '')
         ));
+    }
+
+    public static function find_all_for_html_select(array $options = array())
+    {
+        $items = static::find_all($options);
+        $ret_items = \Arr::assoc_to_keyval($items, 'id', 'plain');
+        return $ret_items;
     }
 
     public static function find_default() {

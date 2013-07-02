@@ -5,7 +5,6 @@
  */
 
 namespace Srit;
-
 class Loc
 {
 
@@ -18,31 +17,25 @@ class Loc
 
     protected $_locale = null;
     protected $_language = null;
-    /**
-     * @var Model_Language
-     */
-    protected $_language_model = null;
+    protected $_language_object = null;
     protected $_encoding = null;
-
-    /**
-     * @param \Srit\Model_Language $language_model
-     */
-    public function loadLanguageModel($language)
-    {
-        $this->_language_model = \Model_Language::find_by_language_key($language);
-    }
 
     /**
      * @return \Srit\Model_Language
      */
-    public function getLanguageModel()
+    public function get_language_object()
     {
-        return $this->_language_model;
+        return $this->_language_object;
     }
 
-    public function setEncoding($encoding = null)
+    public function set_language_object($language_object)
     {
-        $encoding = (empty($encoding)) ? \Config::get('encoding') : $encoding;
+        $this->_language_object = $language_object;
+    }
+
+    public function setEncoding($encoding)
+    {
+        //$encoding = (empty($encoding)) ? \Config::get('encoding') : $encoding;
         $this->_encoding = $encoding;
     }
 
@@ -51,9 +44,8 @@ class Loc
         return $this->_encoding;
     }
 
-    public function setLanguage($language = null)
+    public function setLanguage($language)
     {
-        $language = (empty($language)) ? \Config::get('language') : $language;
         $this->_language = $language;
     }
 
@@ -62,9 +54,8 @@ class Loc
         return $this->_language;
     }
 
-    public function setLocale($locale = null)
+    public function setLocale($locale)
     {
-        $locale = (empty($locale)) ? \Config::get('locale') : $locale;
         $this->_locale = $locale;
     }
 
@@ -96,18 +87,48 @@ class Loc
     public static function instance()
     {
         if (static::$_instance == null) {
-            static::$_instance = new self();
+            static::$_instance = new static();
         }
         return static::$_instance;
+    }
+
+    public function init_language() {
+        $language_object = null;
+        if (\Auth::check() && ($language_id = \Auth::get_user()->get_user_profile()->get_language_id()) != 0) {
+            \Logger::forge()->addDebug('Language from Auth', array());
+            $language_object = \Model_Language::find($language_id);
+        } else {
+
+            $languages = \Model_Language::find_all()->get_languages_array();
+            $agent_languages = \Agent::languages();
+            foreach ($agent_languages as $lang) {
+                if (in_array($lang, $languages)) {
+                    \Logger::forge()->addDebug('Language from Agent', array());
+                    $language_object = \Model_Language::find_by_language_key($lang);
+                    break;
+                }
+            }
+
+            if ($language_object == null) {
+                \Logger::forge()->addDebug('Default Language', array());
+                $language_object = \Model_Language::find_default();
+            }
+        }
+
+        $language = $language_object->get_language();
+        $locale = $language_object->get_locale();
+        $encoding = $language_object->get_encoding();
+        $this->set_language_object($language_object);
+        $this->setEncoding($encoding);
+        $this->setLanguage($language);
+        $this->setLocale($locale);
+
     }
 
     public function __construct()
     {
         $this->setLocalePrefix();
-        $this->setLanguage();
-        $this->setLocale();
-        $this->setEncoding();
-        $this->loadLanguageModel($this->_language);
+        $this->init_language();
     }
 
 }
